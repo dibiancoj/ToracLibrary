@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace ToracLibrary.Countries
             if (XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(xDoc, XMLSchemaValidation.LoadSchemaFromText(Properties.Resources.CountriesSchema, null)))
             {
                 //no schema errors...continue to query the xml..first create the dictionary
-                var ReturnObject = new Dictionary<int, CountryCodeInfo>();
+                var ReturnObject = new ConcurrentDictionary<int, CountryCodeInfo>();
 
                 //Loop Through The XML To Load The Dictionary
                 foreach (XElement thisNode in xDoc.Element("Countries").Elements("Country"))
@@ -50,7 +51,7 @@ namespace ToracLibrary.Countries
                                                             Convert.ToInt32(thisNode.Attribute("iso3digit").Value));
 
                     //add the country value
-                    ReturnObject.Add(CountryToAdd.CountryID, CountryToAdd);
+                    ReturnObject.TryAdd(CountryToAdd.CountryID, CountryToAdd);
                 }
 
                 //return the dictionary

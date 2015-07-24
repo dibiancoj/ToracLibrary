@@ -50,6 +50,9 @@
     <Compile Include="AccountingPeriod\Exceptions\AccountingPeriodYearOutOfRangeException.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryCodeInfo.cs" />
+    <Compile Include="DateTime\BusinessHours\BusinessHourHoliday.cs" />
+    <Compile Include="DateTime\BusinessHours\BusinessHoursCalculator.cs" />
+    <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,6 +89,7 @@
   <ItemGroup>
     <None Include="Resources\Provinces.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

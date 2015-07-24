@@ -34,10 +34,10 @@ namespace ToracLibrary.States
                 var ReturnObject = new Dictionary<string, string>();
 
                 //Loop Through The XML To Load The Dictionary
-                foreach (XElement thisNode in xDoc.Element("States").Elements("State"))
+                foreach (XElement StateToAdd in xDoc.Element("States").Elements("State"))
                 {
                     //add the state value
-                    ReturnObject.Add(thisNode.Attribute("id").Value, thisNode.Attribute("txt").Value);
+                    ReturnObject.Add(StateToAdd.Attribute("id").Value, StateToAdd.Attribute("txt").Value);
                 }
 
                 //return the dictionary
@@ -65,10 +65,10 @@ namespace ToracLibrary.States
                 var ReturnObject = new Dictionary<string, string>();
 
                 //Loop Through The XML To Load The Dictionary
-                foreach (XElement thisNode in xDoc.Element("Provinces").Elements("Province"))
+                foreach (XElement ProvinceToAdd in xDoc.Element("Provinces").Elements("Province"))
                 {
                     //add the province value
-                    ReturnObject.Add(thisNode.Attribute("id").Value, thisNode.Attribute("txt").Value);
+                    ReturnObject.Add(ProvinceToAdd.Attribute("id").Value, ProvinceToAdd.Attribute("txt").Value);
                 }
 
                 //return the dictionary

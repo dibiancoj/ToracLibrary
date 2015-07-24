@@ -26,6 +26,7 @@ namespace ToracLibrary.Countries
         /// <param name="IRS2CharCodeToSet">IRS 2 Character Code</param>
         /// <param name="ISO3CharCodeToSet">ISO 3 Character Code</param>
         /// <param name="ISO3DigitCodeToSet">ISO 3 Digit Code</param>
+        /// <remarks>Class is immutable</remarks>
         public CountryCodeInfo(int CountryIDToSet,
                                string ShortCountryNameToSet,
                                string LongCountryNameToSet,
