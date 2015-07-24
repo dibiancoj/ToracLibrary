@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Countries>
+  <Country id="1" shortname="Andorra" longname="The Principality Of Andorra" iso2="AD" irs2="AN" iso3char="AND" iso3digit="20" />
+  <Country id="2" shortname="United Arab Emir" longname="The United Arab Emirates" iso2="AE" irs2="AE" iso3char="ARE" iso3digit="784" />
+  <Country id="3" shortname="Afghanistan" longname="The Islamic Republic Of Afghanistan" iso2="AF" irs2="AF" iso3char="AFG" iso3digit="4" />
+  <Country id="4" shortname="Antigua &amp;Barbuda" longname="Antigua And Barbuda" iso2="AG" irs2="AC" iso3char="ATG" iso3digit="28" />
+  <Country id="5" shortname="Anguilla" longname="Anguilla" iso2="AI" irs2="AV" iso3char="AIA" iso3digit="660" />
+  <Country id="6" shortname="Albania" longname="The Republic Of Albania" iso2="AL" irs2="AL" iso3char="ALB" iso3digit="8" />
+  <Country id="7" shortname="Armenia" longname="The Republic Of Armenia" iso2="AM" irs2="AM" iso3char="ARM" iso3digit="51" />
+  <Country id="8" shortname="Netherlands Ant" longname="Netherlands Antilles" iso2="AN" irs2="NT" iso3char="ANT" iso3digit="530" />
+  <Country id="9" shortname="Angola" longname="The Republic Of Angola" iso2="AO" irs2="AO" iso3char="AGO" iso3digit="24" />
+  <Country id="10" shortname="Antarctica" longname="Antarctica" iso2="AQ" irs2="AY" iso3char="ATA" iso3digit="10" />
+  <Country id="11" shortname="Argentina" longname="The Argentine Republic" iso2="AR" irs2="AR" iso3char="ARG" iso3digit="32" />
+  <Country id="12" shortname="American Samoa" longname="American Samoa" iso2="AS" irs2="AQ" iso3char="ASM" iso3digit="16" />
+  <Country id="13" shortname="Austria" longname="The Republic Of Austria" iso2="AT" irs2="AU" iso3char="AUT" iso3digit="40" />
+  <Country id="14" shortname="Australia" longname="Australia" iso2="AU" irs2="AS" iso3char="AUS" iso3digit="36" />
+  <Country id="15" shortname="Aruba" longname="Aruba" iso2="AW" irs2="AA" iso3char="ABW" iso3digit="533" />
+  <Country id="16" shortname="Aland Islands" longname="Aland Islands" iso2="AX" irs2="AX" iso3char="ALA" iso3digit="248" />
+  <Country id="17" shortname="Azerbaijan" longname="The Republic Of Azerbaijan" iso2="AZ" irs2="AJ" iso3char="AZE" iso3digit="31" />
+  <Country id="18" shortname="Bosnia&amp;Herzegovi" longname="Bosnia And Herzegovina" iso2="BA" irs2="BK" iso3char="BIH" iso3digit="70" />
+  <Country id="19" shortname="Barbados" longname="Barbados" iso2="BB" irs2="BB" iso3char="BRB" iso3digit="52" />
+  <Country id="20" shortname="Bangladesh" longname="The People's Republic Of Bangladesh" iso2="BD" irs2="BG" iso3char="BGD" iso3digit="50" />
+  <Country id="21" shortname="Belgium" longname="The Kingdom Of Belgium" iso2="BE" irs2="BE" iso3char="BEL" iso3digit="56" />
+  <Country id="22" shortname="Burkina Faso" longname="Burkina Faso" iso2="BF" irs2="UV" iso3char="BFA" iso3digit="854" />
+  <Country id="23" shortname="Bulgaria" longname="The Republic Of Bulgaria" iso2="BG" irs2="BU" iso3char="BGR" iso3digit="100" />
+  <Country id="24" shortname="Bahrain" longname="The Kingdom Of Bahrain" iso2="BH" irs2="BA" iso3char="BHR" iso3digit="48" />
+  <Country id="25" shortname="Burundi" longname="The Republic Of Burundi" iso2="BI" irs2="BY" iso3char="BDI" iso3digit="108" />
+  <Country id="26" shortname="Benin" longname="The Republic Of Benin" iso2="BJ" irs2="BN" iso3char="BEN" iso3digit="204" />
+  <Country id="27" shortname="Bermuda" longname="Bermuda" iso2="BM" irs2="BD" iso3char="BMU" iso3digit="60" />
+  <Country id="28" shortname="Brunei Darussala" longname="Brunei Darussalam" iso2="BN" irs2="BX" iso3char="BRN" iso3digit="96" />
+  <Country id="29" shortname="Bolivia" longname="The Republic Of Bolivia" iso2="BO" irs2="BL" iso3char="BOL" iso3digit="68" />
+  <Country id="30" shortname="Brazil" longname="The Federative Republic Of Brazil" iso2="BR" irs2="BR" iso3char="BRA" iso3digit="76" />
+  <Country id="31" shortname="Bahamas" longname="The Commonwealth Of The Bahamas" iso2="BS" irs2="BF" iso3char="BHS" iso3digit="44" />
+  <Country id="32" shortname="Bhutan" longname="The Kingdom Of Bhutan" iso2="BT" irs2="BT" iso3char="BTN" iso3digit="64" />
+  <Country id="33" shortname="Bouvet Island" longname="Bouvet Island" iso2="BV" irs2="BV" iso3char="BVT" iso3digit="74" />
+  <Country id="34" shortname="Botswana" longname="The Republic Of Botswana" iso2="BW" irs2="BC" iso3char="BWA" iso3digit="72" />
+  <Country id="35" shortname="Belarus" longname="The Republic Of Belarus" iso2="BY" irs2="BO" iso3char="BLR" iso3digit="112" />
+  <Country id="36" shortname="Belize" longname="Belize" iso2="BZ" irs2="BH" iso3char="BLZ" iso3digit="84" />
+  <Country id="37" shortname="Canada" longname="Canada" iso2="CA" irs2="CA" iso3char="CAN" iso3digit="124" />
+  <Country id="38" shortname="Cocos Islands" longname="Cocos (Keeling) Islands" iso2="CC" irs2="CK" iso3char="CCK" iso3digit="166" />
+  <Country id="39" shortname="Congo Democratic" longname="The Democratic Republic Of The Congo" iso2="CD" irs2="CG" iso3char="COD" iso3digit="180" />
+  <Country id="40" shortname="Central Africa" longname="The Central African Republic" iso2="CF" irs2="CT" iso3char="CAF" iso3digit="140" />
+  <Country id="41" shortname="Congo" longname="The Republic Of The Congo" iso2="CG" irs2="CF" iso3char="COG" iso3digit="178" />
+  <Country id="42" shortname="Switzerland" longname="The Swiss Confederation" iso2="CH" irs2="SZ" iso3char="CHE" iso3digit="756" />
+  <Country id="43" shortname="Cote D'ivoire" longname="The Republic Of Cote D'ivoire" iso2="CI" irs2="IV" iso3char="CIV" iso3digit="384" />
+  <Country id="44" shortname="Cook Islands" longname="Cook Islands" iso2="CK" irs2="CW" iso3char="COK" iso3digit="184" />
+  <Country id="45" shortname="Chile" longname="The Republic Of Chile" iso2="CL" irs2="CI" iso3char="CHL" iso3digit="152" />
+  <Country id="46" shortname="Cameroon" longname="The Republic Of Cameroon" iso2="CM" irs2="CM" iso3char="CMR" iso3digit="120" />
+  <Country id="47" shortname="China" longname="The People's Republic Of China" iso2="CN" irs2="CH" iso3char="CHN" iso3digit="156" />
+  <Country id="48" shortname="Colombia" longname="The Republic Of Colombia" iso2="CO" irs2="CO" iso3char="COL" iso3digit="170" />
+  <Country id="49" shortname="Costa Rica" longname="The Republic Of Costa Rica" iso2="CR" irs2="CS" iso3char="CRI" iso3digit="188" />
+  <Country id="50" shortname="Cuba" longname="The Republic Of Cuba" iso2="CU" irs2="CU" iso3char="CUB" iso3digit="192" />
+  <Country id="51" shortname="Cape Verde" longname="The Republic Of Cape Verde" iso2="CV" irs2="CV" iso3char="CPV" iso3digit="132" />
+  <Country id="52" shortname="Christmas Island" longname="Christmas Island" iso2="CX" irs2="KT" iso3char="CXR" iso3digit="162" />
+  <Country id="53" shortname="Cyprus" longname="The Republic Of Cyprus" iso2="CY" irs2="CY" iso3char="CYP" iso3digit="196" />
+  <Country id="54" shortname="Czech Republic" longname="The Czech Republic" iso2="CZ" irs2="EZ" iso3char="CZE" iso3digit="203" />
+  <Country id="55" shortname="Germany" longname="The Federal Republic Of Germany" iso2="DE" irs2="GM" iso3char="DEU" iso3digit="276" />
+  <Country id="56" shortname="Djibouti" longname="The Republic Of Djibouti" iso2="DJ" irs2="DJ" iso3char="DJI" iso3digit="262" />
+  <Country id="57" shortname="Denmark" longname="The Kingdom Of Denmark" iso2="DK" irs2="DA" iso3char="DNK" iso3digit="208" />
+  <Country id="58" shortname="Dominica" longname="The Commonwealth Of Dominica" iso2="DM" irs2="DO" iso3char="DMA" iso3digit="212" />
+  <Country id="59" shortname="Dominican Republ" longname="The Dominican Republic" iso2="DO" irs2="DR" iso3char="DOM" iso3digit="214" />
+  <Country id="60" shortname="Algeria" longname="People's Democratic Republic Of Algeria" iso2="DZ" irs2="AG" iso3char="DZA" iso3digit="12" />
+  <Country id="61" shortname="Ecuador" longname="The Republic Of Ecuador" iso2="EC" irs2="EC" iso3char="ECU" iso3digit="218" />
+  <Country id="62" shortname="Estonia" longname="The Republic Of Estonia" iso2="EE" irs2="EN" iso3char="EST" iso3digit="233" />
+  <Country id="63" shortname="Egypt" longname="The Arab Republic Of Egypt" iso2="EG" irs2="EG" iso3char="EGY" iso3digit="818" />
+  <Country id="64" shortname="Western Sahara" longname="Western Sahara" iso2="EH" irs2="WI" iso3char="ESH" iso3digit="732" />
+  <Country id="65" shortname="Eritrea" longname="Eritrea" iso2="ER" irs2="ER" iso3char="ERI" iso3digit="232" />
+  <Country id="66" shortname="Spain" longname="The Kingdom Of Spain" iso2="ES" irs2="SP" iso3char="ESP" iso3digit="724" />
+  <Country id="67" shortname="Ethiopia" longname="Federal Democratic Republic Of Ethiopia" iso2="ET" irs2="ET" iso3char="ETH" iso3digit="231" />
+  <Country id="68" shortname="Finland" longname="The Republic Of Finland" iso2="FI" irs2="FI" iso3char="FIN" iso3digit="246" />
+  <Country id="69" shortname="Fiji" longname="The Republic Of The Fiji Islands" iso2="FJ" irs2="FJ" iso3char="FJI" iso3digit="242" />
+  <Country id="70" shortname="Falkland Islands" longname="Falkland Islands (Malvinas)" iso2="FK" irs2="FK" iso3char="FLK" iso3digit="238" />
+  <Country id="71" shortname="Micronesia" longname="The Federated States Of Micronesia" iso2="FM" irs2="FM" iso3char="FSM" iso3digit="583" />
+  <Country id="72" shortname="Faroe Islands" longname="Faroe Islands" iso2="FO" irs2="FO" iso3char="FRO" iso3digit="234" />
+  <Country id="73" shortname="France" longname="The French Republic" iso2="FR" irs2="FR" iso3char="FRA" iso3digit="250" />
+  <Country id="74" shortname="Gabon" longname="The Gabonese Republic" iso2="GA" irs2="GB" iso3char="GAB" iso3digit="266" />
+  <Country id="75" shortname="United Kingdom" longname="United Kingdom Great Britain&amp;Northern Ir" iso2="GB" irs2="UK" iso3char="GBR" iso3digit="826" />
+  <Country id="76" shortname="Grenada" longname="Grenada" iso2="GD" irs2="GJ" iso3char="GRD" iso3digit="308" />
+  <Country id="77" shortname="Georgia" longname="Georgia" iso2="GE" irs2="GG" iso3char="GEO" iso3digit="268" />
+  <Country id="78" shortname="French Guiana" longname="French Guiana" iso2="GF" irs2="FG" iso3char="GUF" iso3digit="254" />
+  <Country id="79" shortname="Guernsey" longname="Guernsey" iso2="GG" irs2="GK" iso3char="GGY" iso3digit="831" />
+  <Country id="80" shortname="Ghana" longname="The Republic Of Ghana" iso2="GH" irs2="GH" iso3char="GHA" iso3digit="288" />
+  <Country id="81" shortname="Gibraltar" longname="Gibraltar" iso2="GI" irs2="GI" iso3char="GIB" iso3digit="292" />
+  <Country id="82" shortname="Greenland" longname="Greenland" iso2="GL" irs2="GL" iso3char="GRL" iso3digit="304" />
+  <Country id="83" shortname="Gambia" longname="The Republic Of The Gambia" iso2="GM" irs2="GA" iso3char="GMB" iso3digit="270" />
+  <Country id="84" shortname="Guinea" longname="The Republic Of Guinea" iso2="GN" irs2="GV" iso3char="GIN" iso3digit="324" />
+  <Country id="85" shortname="Guadeloupe" longname="Guadeloupe" iso2="GP" irs2="GP" iso3char="GLP" iso3digit="312" />
+  <Country id="86" shortname="Guinea Equatoria" longname="The Republic Of Equatorial Guinea" iso2="GQ" irs2="EK" iso3char="GNQ" iso3digit="226" />
+  <Country id="87" shortname="Greece" longname="The Hellenic Republic" iso2="GR" irs2="GR" iso3char="GRC" iso3digit="300" />
+  <Country id="88" shortname="South Georgia &amp;" longname="South Georgia &amp; South Sandwich Islands" iso2="GS" irs2="SX" iso3char="SGS" iso3digit="239" />
+  <Country id="89" shortname="Guatemala" longname="The Republic Of Guatemala" iso2="GT" irs2="GT" iso3char="GTM" iso3digit="320" />
+  <Country id="90" shortname="Guam" longname="Guam" iso2="GU" irs2="GQ" iso3char="GUM" iso3digit="316" />
+  <Country id="91" shortname="Guinea-Bissau" longname="The Republic Of Guinea-Bissau" iso2="GW" irs2="PU" iso3char="GNB" iso3digit="624" />
+  <Country id="92" shortname="Guyana" longname="The Republic Of Guyana" iso2="GY" irs2="GY" iso3char="GUY" iso3digit="328" />
+  <Country id="93" shortname="Hong Kong" longname="Hong Kong Special Admin Region Of China" iso2="HK" irs2="HK" iso3char="HKG" iso3digit="344" />
+  <Country id="94" shortname="Heard &amp; Mcdonald" longname="Heard Island And Mcdonald Islands" iso2="HM" irs2="HM" iso3char="HMD" iso3digit="334" />
+  <Country id="95" shortname="Honduras" longname="The Republic Of Honduras" iso2="HN" irs2="HO" iso3char="HND" iso3digit="340" />
+  <Country id="96" shortname="Croatia" longname="The Republic Of Croatia" iso2="HR" irs2="HR" iso3char="HRV" iso3digit="191" />
+  <Country id="97" shortname="Haiti" longname="The Republic Of Haiti" iso2="HT" irs2="HA" iso3char="HTI" iso3digit="332" />
+  <Country id="98" shortname="Hungary" longname="The Republic Of Hungary" iso2="HU" irs2="HU" iso3char="HUN" iso3digit="348" />
+  <Country id="99" shortname="Indonesia" longname="The Republic Of Indonesia" iso2="ID" irs2="ID" iso3char="IDN" iso3digit="360" />
+  <Country id="100" shortname="Ireland" longname="Ireland" iso2="IE" irs2="EI" iso3char="IRL" iso3digit="372" />
+  <Country id="101" shortname="Israel" longname="The State Of Israel" iso2="IL" irs2="IS" iso3char="ISR" iso3digit="376" />
+  <Country id="102" shortname="Isle Of Man" longname="Isle Of Man" iso2="IM" irs2="IM" iso3char="IMN" iso3digit="833" />
+  <Country id="103" shortname="India" longname="The Republic Of India" iso2="IN" irs2="IN" iso3char="IND" iso3digit="356" />
+  <Country id="104" shortname="Indian Ocean Te" longname="British Indian Ocean Territory" iso2="IO" irs2="IO" iso3char="IOT" iso3digit="86" />
+  <Country id="105" shortname="Iraq" longname="The Republic Of Iraq" iso2="IQ" irs2="IZ" iso3char="IRQ" iso3digit="368" />
+  <Country id="106" shortname="Iran" longname="The Islamic Republic Of Iran" iso2="IR" irs2="IR" iso3char="IRN" iso3digit="364" />
+  <Country id="107" shortname="Iceland" longname="The Republic Of Iceland" iso2="IS" irs2="IC" iso3char="ISL" iso3digit="352" />
+  <Country id="108" shortname="Italy" longname="The Republic Of Italy" iso2="IT" irs2="IT" iso3char="ITA" iso3digit="380" />
+  <Country id="109" shortname="Jersey" longname="Jersey" iso2="JE" irs2="JE" iso3char="JEY" iso3digit="832" />
+  <Country id="110" shortname="Jamaica" longname="Jamaica" iso2="JM" irs2="JM" iso3char="JAM" iso3digit="388" />
+  <Country id="111" shortname="Jordan" longname="The Hashemite Kingdom Of Jordan" iso2="JO" irs2="JO" iso3char="JOR" iso3digit="400" />
+  <Country id="112" shortname="Japan" longname="Japan" iso2="JP" irs2="JA" iso3char="JPN" iso3digit="392" />
+  <Country id="113" shortname="Kenya" longname="The Republic Of Kenya" iso2="KE" irs2="KE" iso3char="KEN" iso3digit="404" />
+  <Country id="114" shortname="Kyrgyzstan" longname="The Kyrgyz Republic" iso2="KG" irs2="KG" iso3char="KGZ" iso3digit="417" />
+  <Country id="115" shortname="Cambodia" longname="The Kingdom Of Cambodia" iso2="KH" irs2="CB" iso3char="KHM" iso3digit="116" />
+  <Country id="116" shortname="Kiribati" longname="The Republic Of Kiribati" iso2="KI" irs2="KR" iso3char="KIR" iso3digit="296" />
+  <Country id="117" shortname="Comoros" longname="The Union Of The Comoros" iso2="KM" irs2="CN" iso3char="COM" iso3digit="174" />
+  <Country id="118" shortname="St Kitts &amp; Nevis" longname="Saint Kitts And Nevis" iso2="KN" irs2="SC" iso3char="KNA" iso3digit="659" />
+  <Country id="119" shortname="North Korea" longname="Democratic People's Republic Of Korea" iso2="KP" irs2="KN" iso3char="PRK" iso3digit="408" />
+  <Country id="120" shortname="South Korea" longname="The Republic Of Korea" iso2="KR" irs2="KS" iso3char="KOR" iso3digit="410" />
+  <Country id="121" shortname="Kuwait" longname="The State Of Kuwait" iso2="KW" irs2="KU" iso3char="KWT" iso3digit="414" />
+  <Country id="122" shortname="Cayman Islands" longname="Cayman Islands" iso2="KY" irs2="CJ" iso3char="CYM" iso3digit="136" />
+  <Country id="123" shortname="Kazakhstan" longname="The Republic Of Kazakhstan" iso2="KZ" irs2="KZ" iso3char="KAZ" iso3digit="398" />
+  <Country id="124" shortname="Laos" longname="The Lao People's Democratic Republic" iso2="LA" irs2="LA" iso3char="LAO" iso3digit="418" />
+  <Country id="125" shortname="Lebanon" longname="The Lebanese Republic" iso2="LB" irs2="LE" iso3char="LBN" iso3digit="422" />
+  <Country id="126" shortname="Saint Lucia" longname="Saint Lucia" iso2="LC" irs2="ST" iso3char="LCA" iso3digit="662" />
+  <Country id="127" shortname="Liechtenstein" longname="The Principality Of Liechtenstein" iso2="LI" irs2="LS" iso3char="LIE" iso3digit="438" />
+  <Country id="128" shortname="Sri Lanka" longname="Democratic Socialist Republic Sri Lanka" iso2="LK" irs2="CE" iso3char="LKA" iso3digit="144" />
+  <Country id="129" shortname="Liberia" longname="The Republic Of Liberia" iso2="LR" irs2="LI" iso3char="LBR" iso3digit="430" />
+  <Country id="130" shortname="Lesotho" longname="The Kingdom Of Lesotho" iso2="LS" irs2="LT" iso3char="LSO" iso3digit="426" />
+  <Country id="131" shortname="Lithuania" longname="The Republic Of Lithuania" iso2="LT" irs2="LH" iso3char="LTU" iso3digit="440" />
+  <Country id="132" shortname="Luxembourg" longname="The Grand Duchy Of Luxembourg" iso2="LU" irs2="LU" iso3char="LUX" iso3digit="442" />
+  <Country id="133" shortname="Latvia" longname="The Republic Of Latvia" iso2="LV" irs2="LG" iso3char="LVA" iso3digit="428" />
+  <Country id="134" shortname="Libya" longname="Socialist Peoples Libyan Arab Jamahiriya" iso2="LY" irs2="LY" iso3char="LBY" iso3digit="434" />
+  <Country id="135" shortname="Morocco" longname="The Kingdom Of Morocco" iso2="MA" irs2="MO" iso3char="MAR" iso3digit="504" />
+  <Country id="136" shortname="Monaco" longname="The Principality Of Monaco" iso2="MC" irs2="MN" iso3char="MCO" iso3digit="492" />
+  <Country id="137" shortname="Moldova Republic" longname="The Republic Of Moldova" iso2="MD" irs2="MD" iso3char="MDA" iso3digit="498" />
+  <Country id="138" shortname="Montenegro" longname="The Republic Of Montenegro" iso2="ME" irs2="MJ" iso3char="MNE" iso3digit="499" />
+  <Country id="139" shortname="Madagascar" longname="The Republic Of Madagascar" iso2="MG" irs2="MA" iso3char="MDG" iso3digit="450" />
+  <Country id="140" shortname="Marshall Islands" longname="The Republic Of The Marshall Islands" iso2="MH" irs2="RM" iso3char="MHL" iso3digit="584" />
+  <Country id="141" shortname="Macedonia" longname="Former Yugoslav Republic Of Macedonia" iso2="MK" irs2="MK" iso3char="MKD" iso3digit="807" />
+  <Country id="142" shortname="Mali" longname="The Republic Of Mali" iso2="ML" irs2="ML" iso3char="MLI" iso3digit="466" />
+  <Country id="143" shortname="Myanmar" longname="The Union Of Myanmar" iso2="MM" irs2="MM" iso3char="MMR" iso3digit="104" />
+  <Country id="144" shortname="Mongolia" longname="Mongolia" iso2="MN" irs2="MG" iso3char="MNG" iso3digit="496" />
+  <Country id="145" shortname="Macao" longname="Macao Special Admin Region Of China" iso2="MO" irs2="MC" iso3char="MAC" iso3digit="446" />
+  <Country id="146" shortname="Northern Mariana" longname="Commonwealth Of Northern Mariana Islands" iso2="MP" irs2="CQ" iso3char="MNP" iso3digit="580" />
+  <Country id="147" shortname="Martinique" longname="Martinique" iso2="MQ" irs2="MB" iso3char="MTQ" iso3digit="474" />
+  <Country id="148" shortname="Mauritania" longname="The Islamic Republic Of Mauritania" iso2="MR" irs2="MR" iso3char="MRT" iso3digit="478" />
+  <Country id="149" shortname="Montserrat" longname="Montserrat" iso2="MS" irs2="MH" iso3char="MSR" iso3digit="500" />
+  <Country id="150" shortname="Malta" longname="The Republic Of Malta" iso2="MT" irs2="MT" iso3char="MLT" iso3digit="470" />
+  <Country id="151" shortname="Mauritius" longname="The Republic Of Mauritius" iso2="MU" irs2="MP" iso3char="MUS" iso3digit="480" />
+  <Country id="152" shortname="Maldives" longname="The Republic Of Maldives" iso2="MV" irs2="MV" iso3char="MDV" iso3digit="462" />
+  <Country id="153" shortname="Malawi" longname="The Republic Of Malawi" iso2="MW" irs2="MI" iso3char="MWI" iso3digit="454" />
+  <Country id="154" shortname="Mexico" longname="The United Mexican States" iso2="MX" irs2="MX" iso3char="MEX" iso3digit="484" />
+  <Country id="155" shortname="Malaysia" longname="Malaysia" iso2="MY" irs2="MY" iso3char="MYS" iso3digit="458" />
+  <Country id="156" shortname="Mozambique" longname="The Republic Of Mozambique" iso2="MZ" irs2="MZ" iso3char="MOZ" iso3digit="508" />
+  <Country id="157" shortname="Namibia" longname="The Republic Of Namibia" iso2="NA" irs2="WA" iso3char="NAM" iso3digit="516" />
+  <Country id="158" shortname="New Caledonia" longname="New Caledonia" iso2="NC" irs2="NC" iso3char="NCL" iso3digit="540" />
+  <Country id="159" shortname="Niger" longname="The Republic Of The Niger" iso2="NE" irs2="NG" iso3char="NER" iso3digit="562" />
+  <Country id="160" shortname="Norfolk Island" longname="Norfolk Island" iso2="NF" irs2="NF" iso3char="NFK" iso3digit="574" />
+  <Country id="161" shortname="Nigeria" longname="The Federal Republic Of Nigeria" iso2="NG" irs2="NI" iso3char="NGA" iso3digit="566" />
+  <Country id="162" shortname="Nicaragua" longname="The Republic Of Nicaragua" iso2="NI" irs2="NU" iso3char="NIC" iso3digit="558" />
+  <Country id="163" shortname="Netherlands" longname="The Kingdom Of The Netherlands" iso2="NL" irs2="NL" iso3char="NLD" iso3digit="528" />
+  <Country id="164" shortname="Norway" longname="The Kingdom Of Norway" iso2="NO" irs2="NO" iso3char="NOR" iso3digit="578" />
+  <Country id="165" shortname="Nepal" longname="Nepal" iso2="NP" irs2="NP" iso3char="NPL" iso3digit="524" />
+  <Country id="166" shortname="Nauru" longname="The Republic Of Nauru" iso2="NR" irs2="NR" iso3char="NRU" iso3digit="520" />
+  <Country id="167" shortname="Niue" longname="The Republic Of Niue" iso2="NU" irs2="NE" iso3char="NIU" iso3digit="570" />
+  <Country id="168" shortname="New Zealand" longname="New Zealand" iso2="NZ" irs2="NZ" iso3char="NZL" iso3digit="554" />
+  <Country id="169" shortname="Oman" longname="The Sultanate Of Oman" iso2="OM" irs2="MU" iso3char="OMN" iso3digit="512" />
+  <Country id="170" shortname="Panama" longname="The Republic Of Panama" iso2="PA" irs2="PM" iso3char="PAN" iso3digit="591" />
+  <Country id="171" shortname="Peru" longname="The Republic Of Peru" iso2="PE" irs2="PE" iso3char="PER" iso3digit="604" />
+  <Country id="172" shortname="French Polynesia" longname="French Polynesia" iso2="PF" irs2="FP" iso3char="PYF" iso3digit="258" />
+  <Country id="173" shortname="Papua New Guinea" longname="Papua New Guinea" iso2="PG" irs2="PP" iso3char="PNG" iso3digit="598" />
+  <Country id="174" shortname="Philippines" longname="The Republic Of The Philippines" iso2="PH" irs2="RP" iso3char="PHL" iso3digit="608" />
+  <Country id="175" shortname="Pakistan" longname="The Islamic Republic Of Pakistan" iso2="PK" irs2="PK" iso3char="PAK" iso3digit="586" />
+  <Country id="176" shortname="Poland" longname="The Republic Of Poland" iso2="PL" irs2="PL" iso3char="POL" iso3digit="616" />
+  <Country id="177" shortname="St Pierre&amp;Miquel" longname="Saint Pierre And Miquelon" iso2="PM" irs2="SB" iso3char="SPM" iso3digit="666" />
+  <Country id="178" shortname="Pitcairn" longname="Pitcairn" iso2="PN" irs2="PC" iso3char="PCN" iso3digit="612" />
+  <Country id="179" shortname="Puerto Rico" longname="Puerto Rico" iso2="PR" irs2="RQ" iso3char="PRI" iso3digit="630" />
+  <Country id="180" shortname="Palestinian Terr" longname="The Occupied Palestinian Territory" iso2="PS" irs2="PS" iso3char="PSE" iso3digit="275" />
+  <Country id="181" shortname="Portugal" longname="The Portuguese Republic" iso2="PT" irs2="PO" iso3char="PRT" iso3digit="620" />
+  <Country id="182" shortname="Palau" longname="The Republic Of Palau" iso2="PW" irs2="PS" iso3char="PLW" iso3digit="585" />
+  <Country id="183" shortname="Paraguay" longname="The Republic Of Paraguay" iso2="PY" irs2="PA" iso3char="PRY" iso3digit="600" />
+  <Country id="184" shortname="Qatar" longname="The State Of Qatar" iso2="QA" irs2="QA" iso3char="QAT" iso3digit="634" />
+  <Country id="185" shortname="Reunion" longname="Reunion" iso2="RE" irs2="RE" iso3char="REU" iso3digit="638" />
+  <Country id="186" shortname="Romania" longname="Romania" iso2="RO" irs2="RO" iso3char="ROU" iso3digit="642" />
+  <Country id="187" shortname="Serbia" longname="The Republic Of Serbia" iso2="RS" irs2="RI" iso3char="SRB" iso3digit="688" />
+  <Country id="188" shortname="Russia" longname="The Russian Federation" iso2="RU" irs2="RS" iso3char="RUS" iso3digit="643" />
+  <Country id="189" shortname="Rwanda" longname="The Republic Of Rwanda" iso2="RW" irs2="RW" iso3char="RWA" iso3digit="646" />
+  <Country id="190" shortname="Saudi Arabia" longname="The Kingdom Of Saudi Arabia" iso2="SA" irs2="SA" iso3char="SAU" iso3digit="682" />
+  <Country id="191" shortname="Solomon Islands" longname="Solomon Islands" iso2="SB" irs2="BP" iso3char="SLB" iso3digit="90" />
+  <Country id="192" shortname="Seychelles" longname="The Republic Of Seychelles" iso2="SC" irs2="SE" iso3char="SYC" iso3digit="690" />
+  <Country id="193" shortname="Sudan" longname="The Republic Of The Sudan" iso2="SD" irs2="SU" iso3char="SDN" iso3digit="736" />
+  <Country id="194" shortname="Sweden" longname="The Kingdom Of Sweden" iso2="SE" irs2="SW" iso3char="SWE" iso3digit="752" />
+  <Country id="195" shortname="Singapore" longname="The Republic Of Singapore" iso2="SG" irs2="SN" iso3char="SGP" iso3digit="702" />
+  <Country id="196" shortname="Saint Helena" longname="Saint Helena" iso2="SH" irs2="SH" iso3char="SHN" iso3digit="654" />
+  <Country id="197" shortname="Slovenia" longname="The Republic Of Slovenia" iso2="SI" irs2="SI" iso3char="SVN" iso3digit="705" />
+  <Country id="198" shortname="Svalbard&amp;Jan May" longname="Svalbard And Jan Mayen" iso2="SJ" irs2="SV" iso3char="SJM" iso3digit="744" />
+  <Country id="199" shortname="Slovakia" longname="The Slovak Republic" iso2="SK" irs2="LO" iso3char="SVK" iso3digit="703" />
+  <Country id="200" shortname="Sierra Leone" longname="The Republic Of Sierra Leone" iso2="SL" irs2="SL" iso3char="SLE" iso3digit="694" />
+  <Country id="201" shortname="San Marino" longname="The Republic Of San Marino" iso2="SM" irs2="SM" iso3char="SMR" iso3digit="674" />
+  <Country id="202" shortname="Senegal" longname="The Republic Of Senegal" iso2="SN" irs2="SG" iso3char="SEN" iso3digit="686" />
+  <Country id="203" shortname="Somalia" longname="The Somali Republic" iso2="SO" irs2="SO" iso3char="SOM" iso3digit="706" />
+  <Country id="204" shortname="Suriname" longname="The Republic Of Suriname" iso2="SR" irs2="NS" iso3char="SUR" iso3digit="740" />
+  <Country id="205" shortname="Sao Tome&amp;Princip" longname="Democratic Republic Sao Tome &amp; Principe" iso2="ST" irs2="TP" iso3char="SPT" iso3digit="678" />
+  <Country id="206" shortname="El Salvador" longname="The Republic Of El Salvador" iso2="SV" irs2="ES" iso3char="SLV" iso3digit="222" />
+  <Country id="207" shortname="Syrian Arab Repu" longname="The Syrian Arab Republic" iso2="SY" irs2="SY" iso3char="SYR" iso3digit="760" />
+  <Country id="208" shortname="Swaziland" longname="The Kingdom Of Swaziland" iso2="SZ" irs2="WZ" iso3char="SWZ" iso3digit="748" />
+  <Country id="209" shortname="Turks &amp; Caicos" longname="Turks And Caicos Islands" iso2="TC" irs2="TK" iso3char="TCA" iso3digit="796" />
+  <Country id="210" shortname="Chad" longname="The Republic Of Chad" iso2="TD" irs2="CD" iso3char="TCD" iso3digit="148" />
+  <Country id="211" shortname="French South Ter" longname="French Southern Territories" iso2="TF" irs2="FS" iso3char="ATF" iso3digit="260" />
+  <Country id="212" shortname="Togo" longname="The Togolese Republic" iso2="TG" irs2="TO" iso3char="TGO" iso3digit="768" />
+  <Country id="213" shortname="Thailand" longname="The Kingdom Of Thailand" iso2="TH" irs2="TH" iso3char="THA" iso3digit="764" />
+  <Country id="214" shortname="Tajikistan" longname="The Republic Of Tajikistan" iso2="TJ" irs2="TI" iso3char="TJK" iso3digit="762" />
+  <Country id="215" shortname="Tokelau" longname="Tokelau" iso2="TK" irs2="TL" iso3char="TKL" iso3digit="772" />
+  <Country id="216" shortname="Timor-Leste" longname="The Democratic Republic Of Timor-Leste" iso2="TL" irs2="TT" iso3char="TLS" iso3digit="626" />
+  <Country id="217" shortname="Turkmenistan" longname="Turkmenistan" iso2="TM" irs2="TX" iso3char="TKM" iso3digit="795" />
+  <Country id="218" shortname="Tunisia" longname="The Republic Of Tunisia" iso2="TN" irs2="TS" iso3char="TUN" iso3digit="788" />
+  <Country id="219" shortname="Tonga" longname="The Kingdom Of Tonga" iso2="TO" irs2="TN" iso3char="TON" iso3digit="776" />
+  <Country id="220" shortname="Turkey" longname="The Republic Of Turkey" iso2="TR" irs2="TU" iso3char="TUR" iso3digit="792" />
+  <Country id="221" shortname="Trinidad &amp;Tobago" longname="The Republic Of Trinidad And Tobago" iso2="TT" irs2="TD" iso3char="TTO" iso3digit="780" />
+  <Country id="222" shortname="Tuvalu" longname="Tuvalu" iso2="TV" irs2="TV" iso3char="TUV" iso3digit="798" />
+  <Country id="223" shortname="Taiwan Province" longname="Taiwan Province Of China" iso2="TW" irs2="TW" iso3char="TWN" iso3digit="158" />
+  <Country id="224" shortname="Tanzania" longname="The United Republic Of Tanzania" iso2="TZ" irs2="TZ" iso3char="TZA" iso3digit="834" />
+  <Country id="225" shortname="Ukraine" longname="Ukraine" iso2="UA" irs2="UP" iso3char="UKR" iso3digit="804" />
+  <Country id="226" shortname="Uganda" longname="The Republic Of Uganda" iso2="UG" irs2="UG" iso3char="UGA" iso3digit="800" />
+  <Country id="227" shortname="Us Minor Outlyin" longname="United States Minor Outlying Islands" iso2="UM" irs2="UM" iso3char="UMI" iso3digit="581" />
+  <Country id="228" shortname="United States" longname="The United States Of America" iso2="US" irs2="US" iso3char="USA" iso3digit="840" />
+  <Country id="229" shortname="Uruguay" longname="The Eastern Republic Of Uruguay" iso2="UY" irs2="UY" iso3char="URY" iso3digit="858" />
+  <Country id="230" shortname="Uzbekistan" longname="The Republic Of Uzbekistan" iso2="UZ" irs2="UZ" iso3char="UZB" iso3digit="860" />
+  <Country id="231" shortname="Holy See Vatican" longname="Holy See (Vatican City State)" iso2="VA" irs2="VT" iso3char="VAT" iso3digit="336" />
+  <Country id="232" shortname="St Vincent&amp;Grena" longname="Saint Vincent And The Grenadines" iso2="VC" irs2="VC" iso3char="VCT" iso3digit="670" />
+  <Country id="233" shortname="Venezuela" longname="The Bolivarian Republic Of Venezuela" iso2="VE" irs2="VE" iso3char="VEN" iso3digit="862" />
+  <Country id="234" shortname="British Virgin" longname="British Virgin Islands (The)" iso2="VG" irs2="VI" iso3char="VGB" iso3digit="92" />
+  <Country id="235" shortname="Virgin Islands" longname="The Virgin Islands Of The United States" iso2="VI" irs2="VQ" iso3char="VIR" iso3digit="850" />
+  <Country id="236" shortname="Viet Nam" longname="The Socialist Republic Of Viet Nam" iso2="VN" irs2="VM" iso3char="VNM" iso3digit="704" />
+  <Country id="237" shortname="Vanuatu" longname="The Republic Of Vanuatu" iso2="VU" irs2="NH" iso3char="VUT" iso3digit="548" />
+  <Country id="238" shortname="Wallis &amp; Futuna" longname="Wallis And Futuna Islands" iso2="WF" irs2="WF" iso3char="WLF" iso3digit="876" />
+  <Country id="239" shortname="Samoa" longname="The Independent State Of Samoa" iso2="WS" irs2="WS" iso3char="WSM" iso3digit="882" />
+  <Country id="240" shortname="Yemen" longname="The Republic Of Yemen" iso2="YE" irs2="YM" iso3char="YEM" iso3digit="887" />
+  <Country id="241" shortname="Mayotte" longname="Mayotte" iso2="YT" irs2="MF" iso3char="MYT" iso3digit="175" />
+  <Country id="242" shortname="South Africa" longname="The Republic Of South Africa" iso2="ZA" irs2="SF" iso3char="ZAF" iso3digit="710" />
+  <Country id="243" shortname="Zambia" longname="The Republic Of Zambia" iso2="ZM" irs2="ZA" iso3char="ZMB" iso3digit="894" />
+  <Country id="244" shortname="Zimbabwe" longname="The Republic Of Zimbabwe" iso2="ZW" irs2="ZI" iso3char="ZWE" iso3digit="716" />
+</Countries>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Provinces>
+  <Province id="ON" txt="Ontario" />
+  <Province id="QC" txt="Quebec" />
+  <Province id="NS" txt="Nova Scotia" />
+  <Province id="NB" txt="New Brunswick" />
+  <Province id="MB" txt="Manitoba" />
+  <Province id="BC" txt="British Columbia" />
+  <Province id="PE" txt="Prince Edward Island" />
+  <Province id="SK" txt="Saskatchewan" />
+  <Province id="AB" txt="Alberta" />
+  <Province id="NL" txt="Newfoundland And Labrador" />
+  <Province id="NT" txt="Northwest Territories" />
+  <Province id="YT" txt="Yukon" />
+  <Province id="NU" txt="Nunavut" />
+</Provinces>

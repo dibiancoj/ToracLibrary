@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<States>
+  <State id="AL" txt="Alabama" />
+  <State id="AK" txt="Alaska" />
+  <State id="AZ" txt="Arizona" />
+  <State id="AR" txt="Arkansas" />
+  <State id="CA" txt="California" />
+  <State id="CO" txt="Colorado" />
+  <State id="CT" txt="Connecticut" />
+  <State id="DE" txt="Delaware" />
+  <State id="DC" txt="District Of Columbia" />
+  <State id="FL" txt="Florida" />
+  <State id="GA" txt="Georgia" />
+  <State id="HI" txt="Hawaii" />
+  <State id="ID" txt="Idaho" />
+  <State id="IL" txt="Illinois" />
+  <State id="IN" txt="Indiana" />
+  <State id="IA" txt="Iowa" />
+  <State id="KS" txt="Kansas" />
+  <State id="KY" txt="Kentucky" />
+  <State id="LA" txt="Louisiana" />
+  <State id="ME" txt="Maine" />
+  <State id="MD" txt="Maryland" />
+  <State id="MA" txt="Massachusetts" />
+  <State id="MI" txt="Michigan" />
+  <State id="MN" txt="Minnesota" />
+  <State id="MS" txt="Mississippi" />
+  <State id="MO" txt="Missouri" />
+  <State id="MT" txt="Montana" />
+  <State id="NE" txt="Nebraska" />
+  <State id="NV" txt="Nevada" />
+  <State id="NH" txt="New Hampshire" />
+  <State id="NJ" txt="New Jersey" />
+  <State id="NM" txt="New Mexico" />
+  <State id="NY" txt="New York" />
+  <State id="NC" txt="North Carolina" />
+  <State id="ND" txt="North Dakota" />
+  <State id="OH" txt="Ohio" />
+  <State id="OK" txt="Oklahoma" />
+  <State id="OR" txt="Oregon" />
+  <State id="PA" txt="Pennsylvania" />
+  <State id="PR" txt="Puerto Rico" />
+  <State id="RI" txt="Rhode Island" />
+  <State id="SC" txt="South Carolina" />
+  <State id="SD" txt="South Dakota" />
+  <State id="TN" txt="Tennessee" />
+  <State id="TX" txt="Texas" />
+  <State id="UT" txt="Utah" />
+  <State id="VT" txt="Vermont" />
+  <State id="VA" txt="Virginia" />
+  <State id="WA" txt="Washington" />
+  <State id="WV" txt="West Virginia" />
+  <State id="WI" txt="Wisconsin" />
+  <State id="WY" txt="Wyoming" />
+</States>
