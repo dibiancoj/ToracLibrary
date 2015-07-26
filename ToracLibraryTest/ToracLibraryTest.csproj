@@ -57,7 +57,9 @@
   <ItemGroup>
     <Compile Include="AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Countries\CountryTest.cs" />
+    <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
+    <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\StateTest.cs" />
