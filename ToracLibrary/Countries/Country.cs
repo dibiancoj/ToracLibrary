@@ -45,9 +45,10 @@ namespace ToracLibrary.Countries
         public static IImmutableDictionary<int, CountryCodeInfo> CountryListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
+            //because this is a really small xml document, an xml reader is actually slower!
 
             //dictionary to be returned
-            var ReturnObject = new ConcurrentDictionary<int, CountryCodeInfo>();
+            var ReturnObject = new Dictionary<int, CountryCodeInfo>();
 
             //Loop Through The XML To Load The Dictionary
             foreach (XElement CountryToLoad in CountryXmlResource().Element("Countries").Elements("Country"))
@@ -62,7 +63,7 @@ namespace ToracLibrary.Countries
                                                         Convert.ToInt32(CountryToLoad.Attribute("iso3digit").Value));
 
                 //add the country value
-                ReturnObject.TryAdd(CountryToAdd.CountryID, CountryToAdd);
+                ReturnObject.Add(CountryToAdd.CountryID, CountryToAdd);
             }
 
             //return the dictionary

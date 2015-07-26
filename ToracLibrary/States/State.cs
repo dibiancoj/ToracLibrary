@@ -46,6 +46,7 @@ namespace ToracLibrary.States
         public static IImmutableDictionary<string, string> UnitedStatesStateListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
+            //because this is a really small xml document, an xml reader is actually slower!
 
             //dictionary to be returned
             var ReturnObject = new Dictionary<string, string>();
@@ -91,6 +92,7 @@ namespace ToracLibrary.States
         public static IImmutableDictionary<string, string> CanadaProvincesListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
+            //because this is a really small xml document, an xml reader is actually slower!
 
             //dictionary to be returned
             var ReturnObject = new Dictionary<string, string>();
