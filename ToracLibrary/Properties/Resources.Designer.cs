@@ -62,15 +62,41 @@ namespace ToracLibrary.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;Countries&gt;
-        ///  &lt;Country id=&quot;1&quot; shortname=&quot;Andorra&quot; longname=&quot;The Principality Of Andorra&quot; iso2=&quot;AD&quot; irs2=&quot;AN&quot; iso3char=&quot;AND&quot; iso3digit=&quot;20&quot; /&gt;
-        ///  &lt;Country id=&quot;2&quot; shortname=&quot;United Arab Emir&quot; longname=&quot;The United Arab Emirates&quot; iso2=&quot;AE&quot; irs2=&quot;AE&quot; iso3char=&quot;ARE&quot; iso3digit=&quot;784&quot; /&gt;
-        ///  &lt;Country id=&quot;3&quot; shortname=&quot;Afghanistan&quot; longname=&quot;The Islamic Republic Of Afghanistan&quot; iso2=&quot;AF&quot; irs2=&quot;AF&quot; iso3char=&quot;AFG&quot; iso3digit=&quot;4&quot; /&gt;
-        ///  &lt;Country id=&quot;4&quot; shortname=&quot;Antigua &amp;amp;Barbud [rest of string was truncated]&quot;;.
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:element name=&quot;Provinces&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Province&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:attribute name=&quot;id&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+        ///            &lt;xs:attribute name=&quot;txt&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
+        ///          &lt;/xs:complexType&gt;
+        ///        &lt;/x [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Countries {
+        internal static string CanadaProvinceSchema {
             get {
-                return ResourceManager.GetString("Countries", resourceCulture);
+                return ResourceManager.GetString("CanadaProvinceSchema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Provinces&gt;
+        ///  &lt;Province id=&quot;ON&quot; txt=&quot;Ontario&quot; /&gt;
+        ///  &lt;Province id=&quot;QC&quot; txt=&quot;Quebec&quot; /&gt;
+        ///  &lt;Province id=&quot;NS&quot; txt=&quot;Nova Scotia&quot; /&gt;
+        ///  &lt;Province id=&quot;NB&quot; txt=&quot;New Brunswick&quot; /&gt;
+        ///  &lt;Province id=&quot;MB&quot; txt=&quot;Manitoba&quot; /&gt;
+        ///  &lt;Province id=&quot;BC&quot; txt=&quot;British Columbia&quot; /&gt;
+        ///  &lt;Province id=&quot;PE&quot; txt=&quot;Prince Edward Island&quot; /&gt;
+        ///  &lt;Province id=&quot;SK&quot; txt=&quot;Saskatchewan&quot; /&gt;
+        ///  &lt;Province id=&quot;AB&quot; txt=&quot;Alberta&quot; /&gt;
+        ///  &lt;Province id=&quot;NL&quot; txt=&quot;Newfoundland And Labrador&quot; /&gt;
+        ///  &lt;Province id=&quot;NT&quot; txt= [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CanadaProvinceXml {
+            get {
+                return ResourceManager.GetString("CanadaProvinceXml", resourceCulture);
             }
         }
         
@@ -94,41 +120,34 @@ namespace ToracLibrary.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;Provinces&gt;
-        ///  &lt;Province id=&quot;ON&quot; txt=&quot;Ontario&quot; /&gt;
-        ///  &lt;Province id=&quot;QC&quot; txt=&quot;Quebec&quot; /&gt;
-        ///  &lt;Province id=&quot;NS&quot; txt=&quot;Nova Scotia&quot; /&gt;
-        ///  &lt;Province id=&quot;NB&quot; txt=&quot;New Brunswick&quot; /&gt;
-        ///  &lt;Province id=&quot;MB&quot; txt=&quot;Manitoba&quot; /&gt;
-        ///  &lt;Province id=&quot;BC&quot; txt=&quot;British Columbia&quot; /&gt;
-        ///  &lt;Province id=&quot;PE&quot; txt=&quot;Prince Edward Island&quot; /&gt;
-        ///  &lt;Province id=&quot;SK&quot; txt=&quot;Saskatchewan&quot; /&gt;
-        ///  &lt;Province id=&quot;AB&quot; txt=&quot;Alberta&quot; /&gt;
-        ///  &lt;Province id=&quot;NL&quot; txt=&quot;Newfoundland And Labrador&quot; /&gt;
-        ///  &lt;Province id=&quot;NT&quot; txt= [rest of string was truncated]&quot;;.
+        ///&lt;Countries&gt;
+        ///  &lt;Country id=&quot;1&quot; shortname=&quot;Andorra&quot; longname=&quot;The Principality Of Andorra&quot; iso2=&quot;AD&quot; irs2=&quot;AN&quot; iso3char=&quot;AND&quot; iso3digit=&quot;20&quot; /&gt;
+        ///  &lt;Country id=&quot;2&quot; shortname=&quot;United Arab Emir&quot; longname=&quot;The United Arab Emirates&quot; iso2=&quot;AE&quot; irs2=&quot;AE&quot; iso3char=&quot;ARE&quot; iso3digit=&quot;784&quot; /&gt;
+        ///  &lt;Country id=&quot;3&quot; shortname=&quot;Afghanistan&quot; longname=&quot;The Islamic Republic Of Afghanistan&quot; iso2=&quot;AF&quot; irs2=&quot;AF&quot; iso3char=&quot;AFG&quot; iso3digit=&quot;4&quot; /&gt;
+        ///  &lt;Country id=&quot;4&quot; shortname=&quot;Antigua &amp;amp;Barbud [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Provinces {
+        internal static string CountriesXml {
             get {
-                return ResourceManager.GetString("Provinces", resourceCulture);
+                return ResourceManager.GetString("CountriesXml", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        ///  &lt;xs:element name=&quot;Provinces&quot;&gt;
+        ///  &lt;xs:element name=&quot;States&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
-        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Province&quot;&gt;
+        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;State&quot;&gt;
         ///          &lt;xs:complexType&gt;
         ///            &lt;xs:attribute name=&quot;id&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
         ///            &lt;xs:attribute name=&quot;txt&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
         ///          &lt;/xs:complexType&gt;
-        ///        &lt;/x [rest of string was truncated]&quot;;.
+        ///        &lt;/xs:elem [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ProvincesSchema {
+        internal static string UnitedStatesSchema {
             get {
-                return ResourceManager.GetString("ProvincesSchema", resourceCulture);
+                return ResourceManager.GetString("UnitedStatesSchema", resourceCulture);
             }
         }
         
@@ -149,28 +168,9 @@ namespace ToracLibrary.Properties {
         ///  &lt;State id=&quot;HI&quot; txt=&quot;Hawaii&quot; /&gt;
         ///  &lt;State id=&quot;ID&quot; txt= [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string States {
+        internal static string UnitedStatesXml {
             get {
-                return ResourceManager.GetString("States", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        ///  &lt;xs:element name=&quot;States&quot;&gt;
-        ///    &lt;xs:complexType&gt;
-        ///      &lt;xs:sequence&gt;
-        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;State&quot;&gt;
-        ///          &lt;xs:complexType&gt;
-        ///            &lt;xs:attribute name=&quot;id&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
-        ///            &lt;xs:attribute name=&quot;txt&quot; type=&quot;xs:string&quot; use=&quot;required&quot; /&gt;
-        ///          &lt;/xs:complexType&gt;
-        ///        &lt;/xs:elem [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string StatesSchema {
-            get {
-                return ResourceManager.GetString("StatesSchema", resourceCulture);
+                return ResourceManager.GetString("UnitedStatesXml", resourceCulture);
             }
         }
     }

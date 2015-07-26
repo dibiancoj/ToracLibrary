@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.States;
+using ToracLibrary.Xml.Schema;
 
 namespace ToracLibraryTest.CountryTest
 {
@@ -12,7 +13,25 @@ namespace ToracLibraryTest.CountryTest
     public class StateTest
     {
 
-        #region Main Tests
+        #region United States Tests
+
+        /// <summary>
+        /// US States - Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
+        /// </summary>
+        [TestMethod]
+        public void UnitedStatesValidateXmlAgainstSchemaTest1()
+        {
+            try
+            {
+                //go run the validation
+                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.UnitedStatesXmlResource(), State.UnitedStatesXmlSchemaResource()));
+            }
+            catch (Exception)
+            {
+                //failed, fail the unit test now
+                Assert.Fail("State Xml Doesn't Meet Schema Validation");
+            }
+        }
 
         /// <summary>
         /// Test builds the united states listing and verifies everything is correct and running
@@ -29,6 +48,28 @@ namespace ToracLibraryTest.CountryTest
             //check random states
             Assert.AreEqual("Alabama", StateListing["AL"]);
             Assert.AreEqual("Wyoming", StateListing["WY"]);
+        }
+
+        #endregion
+
+        #region Canada Provinces Tests
+
+        /// <summary>
+        /// US States - Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
+        /// </summary>
+        [TestMethod]
+        public void CanadaProvincesValidateXmlAgainstSchemaTest1()
+        {
+            try
+            {
+                //go run the validation
+                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.CanadaProvinceXmlResource(), State.CanadaProvinceXmlSchemaResource()));
+            }
+            catch (Exception)
+            {
+                //failed, fail the unit test now
+                Assert.Fail("Canada Province Xml Doesn't Meet Schema Validation");
+            }
         }
 
         /// <summary>

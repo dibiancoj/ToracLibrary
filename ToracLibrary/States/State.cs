@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using ToracLibrary.Xml.Schema;
 
 namespace ToracLibrary.States
@@ -17,6 +18,26 @@ namespace ToracLibrary.States
 
         #region Public Methods
 
+        #region States
+
+        /// <summary>
+        /// Get the state xml resouce
+        /// </summary>
+        /// <returns>xml file in an xdocument</returns>
+        public static XDocument UnitedStatesXmlResource()
+        {
+            return XDocument.Parse(Properties.Resources.UnitedStatesXml);
+        }
+
+        /// <summary>
+        /// Get the state xml schema resource to validate with
+        /// </summary>
+        /// <returns>XmlSchemaSet to validate with</returns>
+        public static XmlSchemaSet UnitedStatesXmlSchemaResource()
+        {
+            return XMLSchemaValidation.LoadSchemaFromText(Properties.Resources.UnitedStatesSchema, null);
+        }
+
         /// <summary>
         /// Get a listing of states along (Key Value Pair)
         /// </summary>
@@ -24,28 +45,42 @@ namespace ToracLibrary.States
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
         public static IImmutableDictionary<string, string> UnitedStatesStateListing()
         {
-            //load the xml
-            XDocument xDoc = XDocument.Parse(Properties.Resources.States);
+            //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
 
-            //validate the xml first, make sure its in the proper format. It will raise an exception and return false if it fails
-            if (XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(xDoc, XMLSchemaValidation.LoadSchemaFromText(Properties.Resources.StatesSchema, null)))
+            //dictionary to be returned
+            var ReturnObject = new Dictionary<string, string>();
+
+            //Loop Through The XML To Load The Dictionary
+            foreach (XElement StateToAdd in UnitedStatesXmlResource().Element("States").Elements("State"))
             {
-                //no schema errors...continue to query the xml..first create the dictionary
-                var ReturnObject = new Dictionary<string, string>();
-
-                //Loop Through The XML To Load The Dictionary
-                foreach (XElement StateToAdd in xDoc.Element("States").Elements("State"))
-                {
-                    //add the state value
-                    ReturnObject.Add(StateToAdd.Attribute("id").Value, StateToAdd.Attribute("txt").Value);
-                }
-
-                //return the dictionary
-                return ReturnObject.ToImmutableDictionary();
+                //add the state value
+                ReturnObject.Add(StateToAdd.Attribute("id").Value, StateToAdd.Attribute("txt").Value);
             }
 
-            //if we get here then we have some sort of error
-            throw new Exception("UnitedStatesStateListing Failed");
+            //return the dictionary
+            return ReturnObject.ToImmutableDictionary();
+        }
+
+        #endregion
+
+        #region Provinces
+
+        /// <summary>
+        /// Get the provinces xml resouce
+        /// </summary>
+        /// <returns>xml file in an xdocument</returns>
+        public static XDocument CanadaProvinceXmlResource()
+        {
+            return XDocument.Parse(Properties.Resources.CanadaProvinceXml);
+        }
+
+        /// <summary>
+        /// Get the provinces xml schema resource to validate with
+        /// </summary>
+        /// <returns>XmlSchemaSet to validate with</returns>
+        public static XmlSchemaSet CanadaProvinceXmlSchemaResource()
+        {
+            return XMLSchemaValidation.LoadSchemaFromText(Properties.Resources.CanadaProvinceSchema, null);
         }
 
         /// <summary>
@@ -55,29 +90,23 @@ namespace ToracLibrary.States
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
         public static IImmutableDictionary<string, string> CanadaProvincesListing()
         {
-            //load the xml to the xDoc
-            XDocument xDoc = XDocument.Parse(Properties.Resources.Provinces);
+            //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
 
-            //validate the xml first, make sure its in the proper format. It will raise an exception and return false if it fails
-            if (XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(xDoc, XMLSchemaValidation.LoadSchemaFromText(Properties.Resources.ProvincesSchema, null)))
+            //dictionary to be returned
+            var ReturnObject = new Dictionary<string, string>();
+
+            //Loop Through The XML To Load The Dictionary
+            foreach (XElement ProvinceToAdd in CanadaProvinceXmlResource().Element("Provinces").Elements("Province"))
             {
-                //no schema errors...continue to query the xml..first create the dictionary
-                var ReturnObject = new Dictionary<string, string>();
-
-                //Loop Through The XML To Load The Dictionary
-                foreach (XElement ProvinceToAdd in xDoc.Element("Provinces").Elements("Province"))
-                {
-                    //add the province value
-                    ReturnObject.Add(ProvinceToAdd.Attribute("id").Value, ProvinceToAdd.Attribute("txt").Value);
-                }
-
-                //return the dictionary
-                return ReturnObject.ToImmutableDictionary();
+                //add the province value
+                ReturnObject.Add(ProvinceToAdd.Attribute("id").Value, ProvinceToAdd.Attribute("txt").Value);
             }
 
-            //if we get here then we have some sort of error
-            throw new Exception("ProvincesListing Failed");
+            //return the dictionary
+            return ReturnObject.ToImmutableDictionary();
         }
+
+        #endregion
 
         #endregion
 

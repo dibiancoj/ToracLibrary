@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.Countries;
+using ToracLibrary.Xml.Schema;
 
 namespace ToracLibraryTest.CountryTest
 {
@@ -13,6 +14,24 @@ namespace ToracLibraryTest.CountryTest
     {
 
         #region Main Tests
+
+        /// <summary>
+        /// Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
+        /// </summary>
+        [TestMethod]
+        public void ValidateXmlAgainstSchemaTest1()
+        {
+            try
+            {
+                //go run the validation
+                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(Country.CountryXmlResource(), Country.CountryXmlSchemaResource()));
+            }
+            catch (Exception)
+            {
+                //failed, fail the unit test now
+                Assert.Fail("Country Xml Doesn't Meet Schema Validation");
+            }
+        }
 
         /// <summary>
         /// Test builds the country listing and verifies everything is correct and running
@@ -36,7 +55,7 @@ namespace ToracLibraryTest.CountryTest
             Assert.AreEqual("AND", countryListing[1].ISO3CharCode);
             Assert.AreEqual(20, countryListing[1].ISO3DigitCode);
         }
- 
+
         #endregion
 
     }
