@@ -50,16 +50,16 @@ namespace ToracLibrary.Countries
             var ReturnObject = new ConcurrentDictionary<int, CountryCodeInfo>();
 
             //Loop Through The XML To Load The Dictionary
-            foreach (XElement thisNode in CountryXmlResource().Element("Countries").Elements("Country"))
+            foreach (XElement CountryToLoad in CountryXmlResource().Element("Countries").Elements("Country"))
             {
                 //create the new country. Using a variable so we can re-use the country id below when we insert it into the dictionary
-                var CountryToAdd = new CountryCodeInfo(Convert.ToInt32(thisNode.Attribute("id").Value),
-                                                        thisNode.Attribute("shortname").Value,
-                                                        thisNode.Attribute("longname").Value,
-                                                        thisNode.Attribute("iso2").Value,
-                                                        thisNode.Attribute("irs2").Value,
-                                                        thisNode.Attribute("iso3char").Value,
-                                                        Convert.ToInt32(thisNode.Attribute("iso3digit").Value));
+                var CountryToAdd = new CountryCodeInfo(Convert.ToInt32(CountryToLoad.Attribute("id").Value),
+                                                        CountryToLoad.Attribute("shortname").Value,
+                                                        CountryToLoad.Attribute("longname").Value,
+                                                        CountryToLoad.Attribute("iso2").Value,
+                                                        CountryToLoad.Attribute("irs2").Value,
+                                                        CountryToLoad.Attribute("iso3char").Value,
+                                                        Convert.ToInt32(CountryToLoad.Attribute("iso3digit").Value));
 
                 //add the country value
                 ReturnObject.TryAdd(CountryToAdd.CountryID, CountryToAdd);
