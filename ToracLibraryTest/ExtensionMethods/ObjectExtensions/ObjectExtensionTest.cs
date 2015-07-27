@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ToracLibrary.ExtensionMethods.ISetExtensions;
+using ToracLibrary.ExtensionMethods.ObjectExtensions;
 using ToracLibraryTest.Framework.DummyObjects;
 
 namespace ToracLibraryTest.ExtensionMethods.ObjectTest

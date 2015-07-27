@@ -61,6 +61,7 @@
     <Compile Include="Countries\CountryTest.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
+    <Compile Include="ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
     <Compile Include="ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />

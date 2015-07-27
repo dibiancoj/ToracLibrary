@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.ExtensionMethods.IEnumerableExtensions;
 
-namespace ToracLibrary.ExtensionMethods.ISetExtensions
+namespace ToracLibrary.ExtensionMethods.ObjectExtensions
 {
 
     /// <summary>
