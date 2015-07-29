@@ -12,7 +12,7 @@ namespace ToracLibraryTest.ExtensionMethods.XElementTest
 {
 
     /// <summary>
-    /// Unit test to XElement Extension Methods
+    /// Unit test to test XElement Extension Methods
     /// </summary>
     [TestClass]
     public class XElementExtensionTest
