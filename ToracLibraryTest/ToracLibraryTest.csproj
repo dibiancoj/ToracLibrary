@@ -60,6 +60,7 @@
     <Compile Include="AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Countries\CountryTest.cs" />
     <Compile Include="DateTime\DateTimeTests.cs" />
+    <Compile Include="Delimiter Creator And Parser\DelimiterTest.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
     <Compile Include="ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
-    <Compile Include="Paging\PageTest.cs" />
+    <Compile Include="Paging\DataSetPagingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
