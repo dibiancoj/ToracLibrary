@@ -6,8 +6,8 @@
     <ProjectGuid>{B4CBCC69-E8E7-4C5B-A8F1-CE1C41ECC1D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToracLibraryTest</RootNamespace>
-    <AssemblyName>ToracLibraryTest</AssemblyName>
+    <RootNamespace>ToracLibraryTest.UnitsTest.Core</RootNamespace>
+    <AssemblyName>ToracLibraryTest.UnitsTest.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -83,9 +83,9 @@
     <Compile Include="Xml\XSLTTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ToracLibrary\ToracLibrary.csproj">
+    <ProjectReference Include="..\ToracLibrary\ToracLibrary.Core.csproj">
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
-      <Name>ToracLibrary</Name>
+      <Name>ToracLibrary.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.DateTimeHelpers
+namespace ToracLibrary.Core.DateTimeHelpers
 {
 
     /// <summary>

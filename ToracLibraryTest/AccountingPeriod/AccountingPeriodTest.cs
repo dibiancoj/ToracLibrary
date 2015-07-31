@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.AccountingPeriods;
-using ToracLibrary.AccountingPeriods.Exceptions;
+using ToracLibrary.Core.AccountingPeriods;
+using ToracLibrary.Core.AccountingPeriods.Exceptions;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     [TestClass]

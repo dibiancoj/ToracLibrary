@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Schema;
-using ToracLibrary.Xml.Schema;
+using ToracLibrary.Core.Xml.Schema;
 
-namespace ToracLibrary.States
+namespace ToracLibrary.Core.States
 {
     /// <summary>
     /// Retrieve all the state

@@ -4,10 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ToracLibrary.ExtensionMethods.ISetExtensions;
-using ToracLibraryTest.Framework.DummyObjects;
+using ToracLibrary.Core.ExtensionMethods.ISetExtensions;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods
+namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

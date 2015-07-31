@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Xsl;
 
-namespace ToracLibrary.Xml.XSLT
+namespace ToracLibrary.Core.Xml.XSLT
 {
 
     /// <summary>

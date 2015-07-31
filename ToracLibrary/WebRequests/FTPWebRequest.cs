@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.DiskIO;
+using ToracLibrary.Core.DiskIO;
 
-namespace ToracLibrary.WebRequests
+namespace ToracLibrary.Core.WebRequests
 {
 
     /// <summary>

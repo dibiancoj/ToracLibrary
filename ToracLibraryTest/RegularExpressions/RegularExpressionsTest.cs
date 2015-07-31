@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using ToracLibrary.RegularExpressions;
+using ToracLibrary.Core.RegularExpressions;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>

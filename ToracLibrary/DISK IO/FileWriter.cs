@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.ExtensionMethods.ObjectExtensions;
+using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 
-namespace ToracLibrary.DiskIO
+namespace ToracLibrary.Core.DiskIO
 {
 
     /// <summary>

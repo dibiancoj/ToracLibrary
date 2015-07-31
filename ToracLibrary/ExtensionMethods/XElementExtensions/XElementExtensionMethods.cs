@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ToracLibrary.ExtensionMethods.XElementExtensions
+namespace ToracLibrary.Core.ExtensionMethods.XElementExtensions
 {
 
     /// <summary>

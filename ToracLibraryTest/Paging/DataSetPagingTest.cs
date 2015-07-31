@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.Paging;
+using ToracLibrary.Core.Paging;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>

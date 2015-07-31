@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Security.Encryption
+namespace ToracLibrary.Core.Security.Encryption
 {
 
     /// <summary>

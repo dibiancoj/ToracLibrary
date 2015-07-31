@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.AccountingPeriods.Exceptions;
+using ToracLibrary.Core.AccountingPeriods.Exceptions;
 
-namespace ToracLibrary.AccountingPeriods
+namespace ToracLibrary.Core.AccountingPeriods
 {
 
     /// <summary>

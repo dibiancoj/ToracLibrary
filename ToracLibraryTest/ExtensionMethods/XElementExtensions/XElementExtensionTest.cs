@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using ToracLibrary.ExtensionMethods.XElementExtensions;
+using ToracLibrary.Core.ExtensionMethods.XElementExtensions;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods
+namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

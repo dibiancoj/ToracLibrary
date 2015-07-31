@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ToracLibrary.ExtensionMethods.IEnumerableExtensions;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibraryTest.Framework.DummyObjects;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods
+namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

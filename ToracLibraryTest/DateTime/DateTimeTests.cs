@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.DateTimeHelpers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToracLibrary.DateTimeHelpers.BusinessHours;
+using ToracLibrary.Core.DateTimeHelpers;
+using ToracLibrary.Core.DateTimeHelpers.BusinessHours;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>

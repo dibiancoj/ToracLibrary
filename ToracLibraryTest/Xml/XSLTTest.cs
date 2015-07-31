@@ -2,9 +2,9 @@
 using System;
 using System.Linq;
 using System.Xml.Linq;
-using ToracLibrary.Xml.XSLT;
+using ToracLibrary.Core.Xml.XSLT;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>

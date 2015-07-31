@@ -7,8 +7,8 @@
     <ProjectGuid>{8E0E1685-D77E-4447-9F3B-3E025A2BE642}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToracLibrary</RootNamespace>
-    <AssemblyName>ToracLibrary</AssemblyName>
+    <RootNamespace>ToracLibrary.Core</RootNamespace>
+    <AssemblyName>ToracLibrary.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

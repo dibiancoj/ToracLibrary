@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.DiskIO
+namespace ToracLibrary.Core.DiskIO
 {
 
     /// <summary>

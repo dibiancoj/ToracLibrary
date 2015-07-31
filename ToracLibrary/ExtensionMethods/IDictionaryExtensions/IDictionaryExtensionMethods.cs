@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.ExtensionMethods.IDictionaryExtensions
+namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
 {
 
     /// <summary>

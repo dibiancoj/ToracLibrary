@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.Countries;
-using ToracLibrary.Xml.Schema;
+using ToracLibrary.Core.Countries;
+using ToracLibrary.Core.Xml.Schema;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>

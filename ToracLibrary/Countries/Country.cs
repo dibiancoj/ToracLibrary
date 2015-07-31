@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Schema;
-using ToracLibrary.Xml.Schema;
+using ToracLibrary.Core.Xml.Schema;
 
-namespace ToracLibrary.Countries
+namespace ToracLibrary.Core.Countries
 {
     /// <summary>
     /// Retrieve all the country codes

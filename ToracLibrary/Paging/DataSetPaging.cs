@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Paging
+namespace ToracLibrary.Core.Paging
 {
 
     /// <summary>

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.ExtensionMethods.IEnumerableExtensions;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
-namespace ToracLibrary.Delimiter
+namespace ToracLibrary.Core.Delimiter
 {
 
     /* Notes

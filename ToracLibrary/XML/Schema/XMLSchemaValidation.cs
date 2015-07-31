@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 
-namespace ToracLibrary.Xml.Schema
+namespace ToracLibrary.Core.Xml.Schema
 {
 
     /// <summary>

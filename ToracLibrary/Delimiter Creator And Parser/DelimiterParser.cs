@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.DiskIO;
+using ToracLibrary.Core.DiskIO;
 
-namespace ToracLibrary.Delimiter
+namespace ToracLibrary.Core.Delimiter
 {
 
     /*

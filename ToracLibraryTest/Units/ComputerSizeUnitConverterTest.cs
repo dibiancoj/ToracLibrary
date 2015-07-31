@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static ToracLibrary.Units.ComputerSizeUnitConverter;
+using static ToracLibrary.Core.Units.ComputerSizeUnitConverter;
 
-namespace ToracLibraryTest.UnitsTest
+namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>
