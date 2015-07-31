@@ -64,6 +64,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Security\Encryption\Implementations\MD5HashSecurityEncryption.cs" />
+    <Compile Include="Security\Encryption\Interface\ISecurityEncryption.cs" />
+    <Compile Include="Security\Encryption\Implementations\RijndaelSecurityEncryption.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
     <Compile Include="XML\Schema\XMLSchemaValidation.cs" />
