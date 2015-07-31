@@ -58,8 +58,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountingPeriod\AccountingPeriodTest.cs" />
+    <Compile Include="Caching\SqlCacheDependencyTest.cs" />
+    <Compile Include="Caching\InMemoryCacheTest.cs" />
     <Compile Include="Countries\CountryTest.cs" />
-    <Compile Include="DateTime\DateTimeTests.cs" />
+    <Compile Include="DataProvider\SqlDataProviderTest.cs" />
+    <Compile Include="DateTime\DateTimeTest.cs" />
     <Compile Include="Delimiter Creator And Parser\DelimiterTest.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
@@ -83,6 +86,10 @@
     <Compile Include="Xml\XSLTTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
+      <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
+      <Name>ToracLibrary.Caching</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToracLibrary\ToracLibrary.Core.csproj">
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
       <Name>ToracLibrary.Core</Name>

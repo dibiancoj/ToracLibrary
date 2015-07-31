@@ -12,7 +12,7 @@ namespace ToracLibraryTest.UnitsTest.Core
     /// Unit test to test date specific functionality
     /// </summary>
     [TestClass]
-    public class DateTimeTests
+    public class DateTimeTest
     {
 
         #region Months Between 2 Dates
