@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RegularExpressions\RegularExpressionsTest.cs" />
     <Compile Include="Security\Encryption\EncryptionSecurityTest.cs" />
     <Compile Include="States\StateTest.cs" />
     <Compile Include="Units\ComputerSizeUnitConverterTest.cs" />
