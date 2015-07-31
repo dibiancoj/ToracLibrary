@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.Units;
+using static ToracLibrary.Units.ComputerSizeUnitConverter;
 
 namespace ToracLibraryTest.UnitsTest
 {
@@ -19,22 +19,22 @@ namespace ToracLibraryTest.UnitsTest
         public void UnitConversionTest1()
         {
             //run a whole bunch of tests
-            Assert.AreEqual(1, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Byte, 1));
-            Assert.AreEqual(250, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Byte, 250));
+            Assert.AreEqual(1, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Byte, 1));
+            Assert.AreEqual(250, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Byte, 250));
 
-            Assert.AreEqual(0.0009765625, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Kilobyte, 1));
-            Assert.AreEqual(9.5367431640625E-07, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Megabyte, 1));
-            Assert.AreEqual(0.00000000093132257461547852, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Gigabyte, 1));
-            Assert.AreEqual(0.00000000000090949470177292824, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, 1));
+            Assert.AreEqual(0.0009765625, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Kilobyte, 1));
+            Assert.AreEqual(9.5367431640625E-07, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Megabyte, 1));
+            Assert.AreEqual(0.00000000093132257461547852, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Gigabyte, 1));
+            Assert.AreEqual(0.00000000000090949470177292824, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Terabyte, 1));
 
-            Assert.AreEqual(1024, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, ComputerSizeUnitConverter.ComputerSizeUnit.Gigabyte, 1));
-            Assert.AreEqual(1048576, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, ComputerSizeUnitConverter.ComputerSizeUnit.Megabyte, 1));
-            Assert.AreEqual(1073741824, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, ComputerSizeUnitConverter.ComputerSizeUnit.Kilobyte, 1));
-            Assert.AreEqual(1099511627776, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, ComputerSizeUnitConverter.ComputerSizeUnit.Byte, 1));
+            Assert.AreEqual(1024, ConvertUnitCalcuation(ComputerSizeUnit.Terabyte, ComputerSizeUnit.Gigabyte, 1));
+            Assert.AreEqual(1048576, ConvertUnitCalcuation(ComputerSizeUnit.Terabyte, ComputerSizeUnit.Megabyte, 1));
+            Assert.AreEqual(1073741824, ConvertUnitCalcuation(ComputerSizeUnit.Terabyte, ComputerSizeUnit.Kilobyte, 1));
+            Assert.AreEqual(1099511627776, ConvertUnitCalcuation(ComputerSizeUnit.Terabyte, ComputerSizeUnit.Byte, 1));
 
-            Assert.AreEqual(0.0048828125, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Kilobyte, 5));
-            Assert.AreEqual(0.00000476837158203125, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Kilobyte, ComputerSizeUnitConverter.ComputerSizeUnit.Gigabyte, 5));
-            Assert.AreEqual(0.0000000000045474735088646412, ComputerSizeUnitConverter.ConvertUnitCalcuation(ComputerSizeUnitConverter.ComputerSizeUnit.Byte, ComputerSizeUnitConverter.ComputerSizeUnit.Terabyte, 5));
+            Assert.AreEqual(0.0048828125, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Kilobyte, 5));
+            Assert.AreEqual(0.00000476837158203125, ConvertUnitCalcuation(ComputerSizeUnit.Kilobyte, ComputerSizeUnit.Gigabyte, 5));
+            Assert.AreEqual(0.0000000000045474735088646412, ConvertUnitCalcuation(ComputerSizeUnit.Byte, ComputerSizeUnit.Terabyte, 5));
         }
 
     }
