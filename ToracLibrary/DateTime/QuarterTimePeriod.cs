@@ -44,7 +44,7 @@ namespace ToracLibrary.DateTimeHelpers
                     return 4;
 
                 default:
-                    throw new NotImplementedException();
+                    throw new ArgumentOutOfRangeException("Month Of WhichQuarterIsDateTimeIn Can't Be Found In Quarter Lookup");
             }
         }
 
