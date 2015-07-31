@@ -7,7 +7,7 @@ using System.Text;
 using ToracLibrary.ExtensionMethods.IDictionaryExtensions;
 using ToracLibraryTest.Framework.DummyObjects;
 
-namespace ToracLibraryTest.ExtensionMethods.IDictionaryTest
+namespace ToracLibraryTest.UnitsTest.ExtensionMethods
 {
 
     /// <summary>

@@ -1,10 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.States;
-using ToracLibrary.Xml.Schema;
 using ToracLibrary.Security.Encryption;
 
-namespace ToracLibraryTest.Encryption
+namespace ToracLibraryTest.UnitsTest
 {
 
     /// <summary>

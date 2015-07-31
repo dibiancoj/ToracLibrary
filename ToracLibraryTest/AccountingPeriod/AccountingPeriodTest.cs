@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.AccountingPeriods;
 using ToracLibrary.AccountingPeriods.Exceptions;
 
-namespace ToracLibraryTest.AccountingPeriodsTest
+namespace ToracLibraryTest.UnitsTest
 {
 
     [TestClass]

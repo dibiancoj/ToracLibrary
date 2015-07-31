@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.States;
 using ToracLibrary.Xml.Schema;
 
-namespace ToracLibraryTest.StateTest
+namespace ToracLibraryTest.UnitsTest
 {
 
     /// <summary>

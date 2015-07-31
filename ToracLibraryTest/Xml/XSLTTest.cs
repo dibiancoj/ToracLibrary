@@ -4,14 +4,14 @@ using System.Linq;
 using System.Xml.Linq;
 using ToracLibrary.Xml.XSLT;
 
-namespace ToracLibraryTest.XSLTTest
+namespace ToracLibraryTest.UnitsTest
 {
 
     /// <summary>
     /// Unit test for xml. Schema is tested in country, state unit tests
     /// </summary>
     [TestClass]
-    public class ComputerSizeUnitConverterTest
+    public class XSLTTest
     {
 
         /// <summary>
