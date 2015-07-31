@@ -58,6 +58,7 @@
     <Compile Include="ExtensionMethods\StringsExtensions\StringExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\XElementExtensions\XElementExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ObjectExtensions\ObjectExtensionMethods.cs" />
+    <Compile Include="DISK IO\FileReader.cs" />
     <Compile Include="Paging\DataSetPaging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -73,6 +74,9 @@
     <Compile Include="States\State.cs" />
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
     <Compile Include="Units\ComputerSizeUnitConverter.cs" />
+    <Compile Include="WebRequests\FileDownloadWebRequest.cs" />
+    <Compile Include="WebRequests\FTPWebRequest.cs" />
+    <Compile Include="WebRequests\HTMLGrabber.cs" />
     <Compile Include="XML\Schema\XMLSchemaValidation.cs" />
     <Compile Include="XML\XSLT\XSLTTransformation.cs" />
   </ItemGroup>
