@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Countries\CountryTest.cs" />
+    <Compile Include="DateTime\DateTimeTests.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
     <Compile Include="ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
