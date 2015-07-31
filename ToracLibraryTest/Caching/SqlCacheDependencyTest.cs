@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToracLibrary.Core.DateTimeHelpers;
-using ToracLibrary.Core.DateTimeHelpers.BusinessHours;
 
 namespace ToracLibraryTest.UnitsTest.Caching
 {
