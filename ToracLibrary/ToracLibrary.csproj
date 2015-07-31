@@ -71,6 +71,7 @@
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
     <Compile Include="Units\ComputerSizeUnitConverter.cs" />
     <Compile Include="XML\Schema\XMLSchemaValidation.cs" />
+    <Compile Include="XML\XSLT\XSLTTransformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

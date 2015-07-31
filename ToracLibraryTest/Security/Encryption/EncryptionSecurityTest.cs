@@ -4,7 +4,7 @@ using ToracLibrary.States;
 using ToracLibrary.Xml.Schema;
 using ToracLibrary.Security.Encryption;
 
-namespace ToracLibraryTest.CountryTest
+namespace ToracLibraryTest.Encryption
 {
 
     /// <summary>

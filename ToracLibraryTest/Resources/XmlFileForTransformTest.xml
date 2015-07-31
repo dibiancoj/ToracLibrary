@@ -1,0 +1,10 @@
+ <Persons xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <Person>
+                        <FirstName id="1">First Name 1</FirstName>
+                        <LastName>Last Name 1</LastName>
+                    </Person>
+                    <Person>
+                        <FirstName id="2">First Name 2</FirstName>
+                        <LastName>Last Name 2</LastName>
+                    </Person>
+               </Persons>
