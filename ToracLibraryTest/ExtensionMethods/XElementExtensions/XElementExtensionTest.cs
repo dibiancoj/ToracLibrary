@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ToracLibrary.ExtensionMethods.XElementExtensions;
-using ToracLibraryTest.Framework.DummyObjects;
 
 namespace ToracLibraryTest.ExtensionMethods.XElementTest
 {
