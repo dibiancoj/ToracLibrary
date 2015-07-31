@@ -52,6 +52,7 @@
     <Compile Include="Countries\CountryCodeInfo.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHourHoliday.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHoursCalculator.cs" />
+    <Compile Include="DISK IO\FileWriter.cs" />
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionMethods.cs" />
