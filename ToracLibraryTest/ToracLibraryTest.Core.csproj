@@ -58,8 +58,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccountingPeriod\AccountingPeriodTest.cs" />
-    <Compile Include="Caching\SqlCacheDependencyTest.cs" />
     <Compile Include="Caching\InMemoryCacheTest\InMemoryCacheTest.cs" />
+    <Compile Include="Caching\SqlCacheDependencyTest.cs" />
     <Compile Include="Countries\CountryTest.cs" />
     <Compile Include="DataProvider\SqlDataProviderTest.cs" />
     <Compile Include="DateTime\DateTimeTest.cs" />
