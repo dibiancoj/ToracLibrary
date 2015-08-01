@@ -141,18 +141,21 @@ namespace ToracLibraryTest.UnitsTest.Caching
                 //declare the cache key so we have it for the tests
                 const string CacheKeyToUse = "DICachTestKey";
 
-                try running an example iwth IDepInjectUnitTestCache instead of DummyCacheWithDI
+                //di factory name for this specific cache
+                const string DIFactoryName = "DIFactoryInMemoryTest";
 
                 //declare a func so we can just count how many items we have for just this cache (other cache unit tests might get in the way)
                 Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;
 
                 //let's register my dummy cache container
-                DIContainer.RegisterType(typeof(DummyCacheWithDI<IEnumerable<DummyObject>>), "DICacheFactory", new ContainerControlledLifetimeManager(),
+                DIContainer.RegisterType<IDepInjectUnitTestCache<IEnumerable<DummyObject>>, DummyCacheWithDI<IEnumerable<DummyObject>>>(
+                    DIFactoryName,
+                    new ContainerControlledLifetimeManager(),
                     new InjectionConstructor(CacheKeyToUse,
                     new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
 
                 //let's go get my factory from my DI Container
-                var CacheFromDIContainer = DIContainer.Resolve<DummyCacheWithDI<IEnumerable<DummyObject>>>("DICacheFactory");
+                var CacheFromDIContainer = DIContainer.Resolve<DummyCacheWithDI<IEnumerable<DummyObject>>>(DIFactoryName);
 
                 //we will make sure nothing is in the cache
                 Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
