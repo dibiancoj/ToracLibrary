@@ -5,13 +5,13 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Caching.BaseClass
+namespace ToracLibrary.Caching
 {
 
     /// <summary>
     /// Holds the methods in Cache Base that we want untyped
     /// </summary>
-    public static class CacheBase
+    public static class InMemoryCache
     {
 
         /// <summary>
@@ -30,6 +30,25 @@ namespace ToracLibrary.Caching.BaseClass
                 //use yield result so we don't have to throw this guy in a list before returning it
                 yield return thisItemInCache;
             }
+        }
+
+        /// <summary>
+        /// Calculates the absolute expiration date for the cache
+        /// </summary>
+        /// <param name="ExpirationLength">Holds the max amount of time the item in the cache is valid for (AbsoluteExpiration). Default Is Null (No Expiration Date). It gets calculated from the time its put in the cache plus the timespan</param>
+        /// <returns>Expiration date offset to set on the cache</returns>
+        /// <remarks>Right now we don't need this to be public. No harm if it does indeed become public</remarks>
+        public static DateTimeOffset CalculateAbsoluteExpirationDate(TimeSpan? ExpirationLength)
+        {
+            //first check to make sure we have expiration length field that is not null
+            if (ExpirationLength.HasValue)
+            {
+                //we have a value...so calculate it from now
+                return DateTime.Now.Add(ExpirationLength.Value);
+            }
+
+            //we don't have an expiration, return the max value
+            return ObjectCache.InfiniteAbsoluteExpiration;
         }
 
     }

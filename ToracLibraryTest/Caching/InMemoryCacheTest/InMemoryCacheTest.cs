@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ToracLibrary.Caching;
-using ToracLibrary.Caching.BaseClass;
 using ToracLibraryTest.Framework.DummyObjects;
 
 namespace ToracLibraryTest.UnitsTest.Caching
@@ -19,48 +18,38 @@ namespace ToracLibraryTest.UnitsTest.Caching
         #region Framework
 
         /// <summary>
-        /// Dummy Cache Record
+        /// Dummy Cache For Unit Test
         /// </summary>
-        private class DummyObjectCache : InMemoryCache<IEnumerable<DummyObject>>
+        public static class DummyObjectCache
         {
 
-            #region Constructor
-
             /// <summary>
-            /// Constructor
+            /// Common method so we can have 1 method that creates the in memory cache for "DummyObjectCache"
             /// </summary>
-            public DummyObjectCache() : base("DummyObjectCache")
+            /// <returns>In memory cache</returns>
+            public static InMemoryCache<IEnumerable<DummyObject>> BuildCache()
             {
+                return new InMemoryCache<IEnumerable<DummyObject>>("DummyObjectCache", BuildCacheDataSourceLazy);
             }
 
-            #endregion
-
-            #region Implementation Methods
-
             /// <summary>
-            /// Grab the record from the data source
+            /// Get the cache item. From cache, otherwise goes back to the data source
             /// </summary>
-            /// <returns></returns>
-            protected override IEnumerable<DummyObject> GetDataFromDataSource()
+            /// <returns>IEnumerable of dummy object</returns>
+            public static IEnumerable<DummyObject> GetCacheItem()
             {
-                return BuildCacheDataSourceLazy().ToArray();
+                return BuildCache().GetCacheItem();
             }
-
-            #endregion
-
-            #region Static Methods So We Can Test This
 
             /// <summary>
             /// Build the data source that we will put in the cache. Seperate static method so we can test this.
             /// </summary>
             /// <returns>IEnumerable of dummy objects</returns>
-            internal static IEnumerable<DummyObject> BuildCacheDataSourceLazy()
+            public static IEnumerable<DummyObject> BuildCacheDataSourceLazy()
             {
                 yield return new DummyObject { Id = 1 };
                 yield return new DummyObject { Id = 2 };
             }
-
-            #endregion
 
         }
 
@@ -75,34 +64,31 @@ namespace ToracLibraryTest.UnitsTest.Caching
         public void InMemoryCacheTest1()
         {
             //we will make sure nothing is in the cache
-            Assert.AreEqual(0, DummyObjectCache.GetAllItemsInCacheLazy().Count());
-
-            //let's create a new cache object for this specific cache
-            var CacheToUse = new DummyObjectCache();
+            Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //grab the first item that we will test against. This should be the record "it should be"
             var RecordToCheckAgainst = DummyObjectCache.BuildCacheDataSourceLazy().First();
 
             //let's try to grab the first item...it should go get the item from the cache and return it
-            Assert.AreEqual(RecordToCheckAgainst.Id, CacheToUse.GetCacheItem().ElementAt(0).Id);
+            Assert.AreEqual(RecordToCheckAgainst.Id, DummyObjectCache.GetCacheItem().ElementAt(0).Id);
 
             //just make sure we have that 1 item in the cache
-            Assert.AreEqual(1, DummyObjectCache.GetAllItemsInCacheLazy().Count());
+            Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //let's try to clear the cache now
-            CacheToUse.RemoveCacheItem();
+            DummyObjectCache.BuildCache().RemoveCacheItem();
 
             //make sure we have 0 records
-            Assert.AreEqual(0, DummyObjectCache.GetAllItemsInCacheLazy().Count());
+            Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //let's test the refresh now (we currently don't have an item in the cache, so it should handle if it's not there!)
-            CacheToUse.RefreshCacheItem();
+            DummyObjectCache.BuildCache().RefreshCacheItem();
 
             //that method should put the item back in... (1 element, because its only 1 cache we are using)
-            Assert.AreEqual(1, DummyObjectCache.GetAllItemsInCacheLazy().Count());
+            Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //let's just make sure we have 2 elements in the array
-            Assert.AreEqual(DummyObjectCache.BuildCacheDataSourceLazy().Count(), CacheToUse.GetCacheItem().Count());
+            Assert.AreEqual(DummyObjectCache.BuildCacheDataSourceLazy().Count(), DummyObjectCache.GetCacheItem().Count());
         }
 
         #endregion

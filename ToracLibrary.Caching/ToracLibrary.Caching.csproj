@@ -42,9 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClass\CacheBase.cs" />
-    <Compile Include="BaseClass\CacheBaseUntyped.cs" />
-    <Compile Include="Implementation\InMemoryCache.cs" />
+    <Compile Include="BaseClass\InMemoryCache.cs" />
+    <Compile Include="BaseClass\InMemoryCacheUntyped.cs" />
     <Compile Include="Implementation\SqlCacheDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

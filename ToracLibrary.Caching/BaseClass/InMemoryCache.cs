@@ -5,7 +5,7 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Caching.BaseClass
+namespace ToracLibrary.Caching
 {
 
     /// <summary>
@@ -13,32 +13,60 @@ namespace ToracLibrary.Caching.BaseClass
     /// </summary>
     /// <typeparam name="T">Type Of Data That Is Stored For This Key</typeparam>
     /// <remarks>Properties are immutable</remarks>
-    public abstract class CacheBase<T>
+    public class InMemoryCache<T>
     {
+
+        //**** don't use any async methods when getting the data source data. Because you are not aloud to await inside a lock. You will get freezing!!!
 
         #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="CacheItemKey">Cache key to use for this cache item</param>
-        /// <param name="ExpireCacheLength">Holds the max amount of time the item in the cache is valid for (AbsoluteExpiration). It gets calculated from the time its put in the cache plus the timespan</param>
-        protected CacheBase(string CacheItemKey, TimeSpan? ExpireCacheLength)
+        /// <param name="CacheImplementation">The type of cache this base class will use cache the data and implement</param>
+        /// <param name="GetFromDataSource">Method to get the data if we can't find it in the cache</param>
+        public InMemoryCache(string KeyForCache, Func<T> GetFromDataSource)
+            : this(KeyForCache, GetFromDataSource, new TimeSpan?())
+        {
+
+        }
+
+        /// <summary>
+        /// Overload constructor helper
+        /// </summary>
+        /// <param name="CacheImplementation">The type of cache this base class will use cache the data and implement</param>
+        /// <param name="GetFromDataSource">Method to get the data if we can't find it in the cache</param>
+        /// <param name="AbsoluteExpirationSpanOnCache">How long until we expire the cache</param>
+        public InMemoryCache(string KeyForCache, Func<T> GetFromDataSource, TimeSpan AbsoluteExpirationSpanOnCache)
+               : this(KeyForCache, GetFromDataSource, new TimeSpan?(AbsoluteExpirationSpanOnCache))
+        {
+        }
+
+        /// <summary>
+        /// Overload constructor helper
+        /// </summary>
+        /// <param name="CacheImplementation">The type of cache this base class will use cache the data and implement</param>
+        /// <param name="GetFromDataSource">Method to get the data if we can't find it in the cache</param>
+        /// <param name="AbsoluteExpirationSpanOnCache">How long until we expire the cache</param>
+        protected InMemoryCache(string KeyForCache, Func<T> GetFromDataSource, TimeSpan? AbsoluteExpirationSpanOnCache)
         {
             //an internal constructor will give a user an error if they try to inherit from CacheBaseDirectly
             //we want a developer to inherit off either Generic Cache Or Sql Cache Dep. and not this class
 
             //make sure the cache key is not null
-            if (string.IsNullOrEmpty(CacheItemKey))
+            if (string.IsNullOrEmpty(KeyForCache))
             {
                 throw new ArgumentNullException("Cache Key Can't Be Null");
             }
 
             //set the cache key
-            CacheKey = CacheItemKey;
+            CacheKey = KeyForCache;
 
-            //set the absolute expiration span
-            AbsoluteExpirationLength = ExpireCacheLength;
+            //set the function if we can't get the data from the data source
+            FunctionToGetDataFromSource = GetFromDataSource;
+
+            //set the expiration
+            AbsoluteExpirationLength = AbsoluteExpirationSpanOnCache;
 
             //create the cache lock
             CacheLock = new object();
@@ -51,7 +79,6 @@ namespace ToracLibrary.Caching.BaseClass
         /// <summary>
         /// What is the key to the cache for this item
         /// </summary>
-        /// <remarks>Just a getter because the variable is immutable</remarks>
         public string CacheKey { get; }
 
         /// <summary>
@@ -60,30 +87,18 @@ namespace ToracLibrary.Caching.BaseClass
         public TimeSpan? AbsoluteExpirationLength { get; }
 
         /// <summary>
+        /// If we can't find the data in the cache, then we need to call this method to get it from the data source
+        /// </summary>
+        public Func<T> FunctionToGetDataFromSource { get; }
+
+        /// <summary>
         /// Lock Mechanism so we don't have any collisions when we have 2 users trying to retrieve the data source if the cache item is null
         /// </summary>
         private object CacheLock { get; }
 
         #endregion
 
-        #region Abstract Members
-
-        /// <summary>
-        /// Can't find data or it's expired...let's go to the data source and populate the cache
-        /// </summary>
-        /// <returns>T</returns>
-        /// <remarks>Protected So A User Can't Run It By Mistake. *** Don't run this in async. Or the method that gets the data. We need to use a lock in the cache. So you won't be able to await it. This will cause locking. Just grab the data normally!</remarks>
-        protected abstract T GetDataFromDataSource();
-
-        /// <summary>
-        /// Add an item to the cache. Enables sql cache dep. and generic cache to share this class
-        /// </summary>
-        /// <param name="ItemToAddToCache">Item To Add To The Cache</param>
-        protected abstract void AddItemToCache(T ItemToAddToCache);
-
-        #endregion
-
-        #region Base Methods
+        #region Methods
 
         /// <summary>
         /// get the cached item...if it's not there it goes and grab's the data and puts it in the cache, then returns it
@@ -111,14 +126,13 @@ namespace ToracLibrary.Caching.BaseClass
                     //check to see if we have the data source now
                     if (TryToGetItemFromCache == null)
                     {
-                        //we didn't find it in the cache...let's grab it from the datasource
-                        TryToGetItemFromCache = GetDataFromDataSource();
+                        //we didn't find it in the cache...let's grab it from the datasource.
+                        TryToGetItemFromCache = FunctionToGetDataFromSource();
 
                         //anything that is null will fail when you try to put it in...check to make sure it's not null
                         if (TryToGetItemFromCache != null)
                         {
-                            //we need to add the item to the cache. This method is abstract so any type of caching can support it
-                            //example (Generic Cache Add's it to it's cache, SqlCacheDep add's it to his)
+                            //we need to add the item to the cache, each cache type knows how to add it...so add it now to the cache
                             AddItemToCache((T)TryToGetItemFromCache);
                         }
                     }
@@ -128,6 +142,21 @@ namespace ToracLibrary.Caching.BaseClass
             //we have the item (either from cache or from the data source) let's return it now
             //now is when we cast it to T because we have a value...or we can cast the null into a value type
             return (T)TryToGetItemFromCache;
+        }
+
+        /// <summary>
+        /// Add an item to the cache (only used when we can't find the item in the cache)
+        /// </summary>
+        /// <param name="ItemToAddToCache">Item to add to the cache</param>
+        /// <remarks>Virtual so sql cache dep can piggy back off of this</remarks>
+        public virtual void AddItemToCache(T ItemToAddToCache)
+        {
+            //put it into the cache now (the expiration date is the time now plus the _ExpirationLength timespan)
+            MemoryCache.Default.Add(new CacheItem(CacheKey, ItemToAddToCache),
+                                    new CacheItemPolicy()
+                                    {
+                                        AbsoluteExpiration = InMemoryCache.CalculateAbsoluteExpirationDate(AbsoluteExpirationLength)
+                                    });
         }
 
         /// <summary>
@@ -171,26 +200,7 @@ namespace ToracLibrary.Caching.BaseClass
             //an implementation to get it that way too
 
             //use the untyped overload
-            return CacheBase.GetAllItemsInCacheLazy();
-        }
-
-        /// <summary>
-        /// Calculates the absolute expiration date for the cache
-        /// </summary>
-        /// <param name="ExpirationLength">Holds the max amount of time the item in the cache is valid for (AbsoluteExpiration). Default Is Null (No Expiration Date). It gets calculated from the time its put in the cache plus the timespan</param>
-        /// <returns>Expiration date offset to set on the cache</returns>
-        /// <remarks>Right now we don't need this to be public. No harm if it does indeed become public</remarks>
-        protected static DateTimeOffset CalculateAbsoluteExpirationDate(TimeSpan? ExpirationLength)
-        {
-            //first check to make sure we have expiration length field that is not null
-            if (ExpirationLength.HasValue)
-            {
-                //we have a value...so calculate it from now
-                return DateTime.Now.Add(ExpirationLength.Value);
-            }
-
-            //we don't have an expiration, return the max value
-            return ObjectCache.InfiniteAbsoluteExpiration;
+            return GetAllItemsInCacheLazy();
         }
 
         #endregion

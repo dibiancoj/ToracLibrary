@@ -80,7 +80,7 @@ namespace ToracLibrary.Caching
     /// Builds a sql cache dependency. If the data in the sql table changes, an event will be raised which will reload the cache
     /// </summary>
     /// <remarks>For More Directions And Information See Cache Base. Properties in class are immutable</remarks>
-    public abstract class SqlCacheDependency<T> : InMemoryCache<T>
+    public class SqlCacheDependency<T> : InMemoryCache<T>
     {
 
         #region Constructor
@@ -92,23 +92,9 @@ namespace ToracLibrary.Caching
         /// <param name="ConnectionStringToSet">Connection String</param>
         /// <param name="DatabaseSchemaToSet">Database Schema Of Db And Query Tables</param>
         /// <param name="SqlToRunToSet">Sql to run to raise the cache event to reload</param>
-        protected SqlCacheDependency(string CacheKey, string ConnectionStringToSet, string DatabaseSchemaToSet, string SqlToRunToSet)
-            : base(CacheKey)
+        public SqlCacheDependency(string CacheKey, Func<T> GetFromDataSource, string ConnectionStringToSet, string DatabaseSchemaToSet, string SqlToRunToSet)
+            : this(CacheKey, GetFromDataSource, ConnectionStringToSet, DatabaseSchemaToSet, SqlToRunToSet, null)
         {
-            //make sure it passes validation, it will raise an error if it fails
-            PassesValidation(ConnectionString, SqlToRun, DatabaseSchema);
-
-            //set the connection string property
-            ConnectionString = ConnectionStringToSet;
-
-            //set the db schema
-            DatabaseSchema = DatabaseSchemaToSet;
-
-            //set the sql to run
-            SqlToRun = SqlToRunToSet;
-
-            //go start the sql depend
-            Start(ConnectionString);
         }
 
         /// <summary>
@@ -119,8 +105,22 @@ namespace ToracLibrary.Caching
         /// <param name="DatabaseSchemaToSet">Database Schema Of Db And Query Tables</param>
         /// <param name="SqlToRunToSet">Sql to run to raise the cache event to reload</param>
         /// <param name="AbsoluteExpirationSpan">Holds the max amount of time the item in the cache is valid for (AbsoluteExpiration). It gets calculated from the time its put in the cache plus the timespan</param>
-        protected SqlCacheDependency(string CacheKey, string ConnectionStringToSet, string DatabaseSchemaToSet, string SqlToRunToSet, TimeSpan AbsoluteExpirationSpan)
-            : base(CacheKey, AbsoluteExpirationSpan)
+        public SqlCacheDependency(string CacheKey, Func<T> GetFromDataSource, string ConnectionStringToSet, string DatabaseSchemaToSet, string SqlToRunToSet, TimeSpan AbsoluteExpirationSpan)
+            : this(CacheKey, GetFromDataSource, ConnectionStringToSet, DatabaseSchemaToSet, SqlToRunToSet, new TimeSpan?(AbsoluteExpirationSpan))
+        {
+        }
+
+        /// <summary>
+        /// Helper Constructor to handle all the overloads
+        /// </summary>
+        /// <param name="CacheKey">The Cache Key To Use For This Cache Item</param>
+        /// <param name="ConnectionStringToSet">Connection String</param>
+        /// <param name="DatabaseSchemaToSet">Database Schema Of Db And Query Tables</param>
+        /// <param name="SqlToRunToSet">Sql to run to raise the cache event to reload</param>
+        /// <param name="AbsoluteExpirationSpan">Holds the max amount of time the item in the cache is valid for (AbsoluteExpiration). It gets calculated from the time its put in the cache plus the timespan</param>
+        private SqlCacheDependency(string CacheKey, Func<T> GetFromDataSource, string ConnectionStringToSet, string DatabaseSchemaToSet, string SqlToRunToSet, TimeSpan? AbsoluteExpirationSpan)
+            : base(CacheKey, GetFromDataSource, AbsoluteExpirationSpan)
+
         {
             //make sure it passes validation, it will raise an error if it fails
             PassesValidation(ConnectionString, SqlToRun, DatabaseSchema);
@@ -166,7 +166,7 @@ namespace ToracLibrary.Caching
         /// Add the item to the cache.  SqlCacheDependency invalidates the cache when the dependency changes vsSqlDependency, which notifies us that it changed, and we can then do what we want
         /// </summary>
         /// <param name="ItemToAddToCache">Item To Add To The Cache</param>
-        protected override void AddItemToCache(T ItemToAddToCache)
+        public override void AddItemToCache(T ItemToAddToCache)
         {
             //validate all the parameters now (will raise an error if it fails)
             PassesValidation(ConnectionString, SqlToRun, DatabaseSchema);
