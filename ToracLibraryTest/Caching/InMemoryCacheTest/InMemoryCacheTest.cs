@@ -76,7 +76,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
                 //set the factory for the cache
                 Cache = new InMemoryCache<T>(KeyForCache, BuildDataSourceForCache);
 
-                //set the func that will populate this data key
+                //set the func that will populate this data when we don't have it in the cache
                 BuildDataSource = BuildDataSourceForCache;
             }
 
@@ -155,7 +155,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
                     new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
 
                 //let's go get my factory from my DI Container
-                var CacheFromDIContainer = DIContainer.Resolve<DummyCacheWithDI<IEnumerable<DummyObject>>>(DIFactoryName);
+                var CacheFromDIContainer = DIContainer.Resolve<IDepInjectUnitTestCache<IEnumerable<DummyObject>>>(DIFactoryName);
 
                 //we will make sure nothing is in the cache
                 Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
