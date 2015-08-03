@@ -51,6 +51,7 @@
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryCodeInfo.cs" />
     <Compile Include="DataProviders\ADO.NET\Implementation\SQLDataProvider.cs" />
+    <Compile Include="DataProviders\ADO.NET\Interface\IDataProvider.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHourHoliday.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHoursCalculator.cs" />
     <Compile Include="DateTime\DateTimeCalculations.cs" />
@@ -92,12 +93,21 @@
     <None Include="Resources\CountriesSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\ProvincesSchema.xsd">
+    <None Include="Resources\CanadaProvinceSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\StatesSchema.xsd">
+    <None Include="Resources\UnitedStatesSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CountriesXml.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitedStatesXml.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CanadaProvinceXml.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,16 +115,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Countries.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\States.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Provinces.xml" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -61,16 +61,17 @@ namespace ToracLibraryTest.UnitsTest.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  &lt;Persons xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///   Looks up a localized string similar to &lt;Persons xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
         ///                    &lt;Person&gt;
         ///                        &lt;FirstName id=&quot;1&quot;&gt;First Name 1&lt;/FirstName&gt;
         ///                        &lt;LastName&gt;Last Name 1&lt;/LastName&gt;
         ///                    &lt;/Person&gt;
         ///                    &lt;Person&gt;
-        ///                        &lt;FirstName id=&quot;2&quot;&gt;First Name 2&lt;/FirstName&gt;
+        ///                       &lt;FirstName id=&quot;2&quot;&gt;First Name 2&lt;/FirstName&gt;
         ///                        &lt;LastName&gt;Last Name 2&lt;/LastName&gt;
         ///                    &lt;/Person&gt;
-        ///               &lt;/Persons&gt;.
+        ///               &lt;/Persons&gt; 
+        ///.
         /// </summary>
         internal static string XmlFileForTransformTest {
             get {
@@ -89,7 +90,8 @@ namespace ToracLibraryTest.UnitsTest.Properties {
         ///              &lt;/xsl:for-each&gt;
         ///            &lt;/Customers&gt;
         ///          &lt;/xsl:template&gt;
-        ///        &lt;/xsl:stylesheet&gt;.
+        ///        &lt;/xsl:stylesheet&gt; 
+        ///.
         /// </summary>
         internal static string XmlTransform {
             get {

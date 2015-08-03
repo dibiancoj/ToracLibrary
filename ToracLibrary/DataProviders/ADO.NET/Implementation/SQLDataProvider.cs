@@ -17,7 +17,7 @@ namespace ToracLibrary.Core.DataProviders.ADO
     /// The Dataprovider class gives you a generic object which allows you to retrieve and perform queries on a SQL Server database
     /// </summary>
     /// <remarks>Sample Connection String ==> "Data Source=192.168.100.242; Failover Partner=192.168.100.243; Network Library=DBMSSOCN; Initial Catalog=Radman; User ID=radman9_read_write; Password=myPassword; Application Name=web1.wmgsuite.wmginc.com"</remarks>
-    public class SQLDataProvider : IDisposable
+    public class SQLDataProvider : IDataProvider, IDisposable
     {
 
         #region Constructor
