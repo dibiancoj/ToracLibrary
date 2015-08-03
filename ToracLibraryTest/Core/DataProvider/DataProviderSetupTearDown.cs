@@ -17,10 +17,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
     public static class DataProviderSetupTearDown
     {
 
-        /*
-        Sql Data Provider uses the DI container. Check DiUnitTestContainer for the build up of the SqlDataProvider
-
-        */
+        //Sql Data Provider uses the DI container. Check DiUnitTestContainer for the build up of the SqlDataProvider
 
         #region Constants
 
