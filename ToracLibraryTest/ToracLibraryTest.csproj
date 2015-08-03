@@ -102,7 +102,7 @@
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
     <Compile Include="Core\Paging\DataSetPagingTest.cs" />
-    <Compile Include="DIContainerForUnitTest\DIUnitTestContainer.cs" />
+    <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_SubObject.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_Test.cs" />
@@ -161,7 +161,7 @@
     <None Include="Resources\XmlTransform.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UnitTestConfiguration\CreateDatabaseScripts.sql" />
+    <Content Include="Framework\SqlCreateScripts\CreateDatabaseScripts.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
