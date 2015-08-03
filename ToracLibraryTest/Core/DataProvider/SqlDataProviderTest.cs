@@ -70,14 +70,19 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         [TestMethod]
         public void DataSetWithText()
         {
-            TruncateTable();
-            AddRows();
+            //tear down and build up
+            TearDownAndBuildUpDbEnvironment();
 
+            //create the data provider
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
             {
+                //go grab the data set
                 var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test", CommandType.Text);
 
+                //make sure we have 1 table
                 Assert.AreEqual(1, DataSetToTest.Tables.Count);
+
+                //check the row count now
                 Assert.AreEqual(DefaultRecordsToInsert, DataSetToTest.Tables[0].Rows.Count);
             }
         }
