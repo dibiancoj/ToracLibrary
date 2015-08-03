@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ToracLibrary.Caching;
+using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
+using ToracLibraryTest.UnitsTest.Framework;
 
 namespace ToracLibraryTest.UnitsTest.Caching
 {
@@ -13,8 +15,40 @@ namespace ToracLibraryTest.UnitsTest.Caching
     /// Unit test to test the in memory cache
     /// </summary>
     [TestClass]
-    public class InMemoryCacheTest
+    public class InMemoryCacheTest : IDependencyInject
     {
+
+        #region IDependency Injection Methods
+
+        /// <summary>
+        /// Configure the DI container for this unit test
+        /// </summary>
+        /// <param name="DIContainer">container to modify</param>
+        public void ConfigureDIContainer(UnityContainer DIContainer)
+        {
+            //let's register my dummy cache container
+            DIContainer.RegisterType<IDepInjectUnitTestCache<IEnumerable<DummyObject>>, DummyCacheWithDI<IEnumerable<DummyObject>>>(
+                DIFactoryName,
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(CacheKeyToUse,
+                new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
+        }
+
+        #endregion
+
+        #region Constants
+
+        /// <summary>
+        /// declare the cache key so we have it for the tests
+        /// </summary>
+        const string CacheKeyToUse = "DICachTestKey";
+
+        /// <summary>
+        /// di factory name for this specific cache
+        /// </summary>
+        const string DIFactoryName = "DIFactoryInMemoryTest";
+
+        #endregion
 
         #region Framework
 
@@ -135,55 +169,38 @@ namespace ToracLibraryTest.UnitsTest.Caching
         [TestMethod]
         public void InMemoryCacheTestWithDependencyInjection1()
         {
-            //let's go create unity DI container
-            using (var DIContainer = new UnityContainer())
-            {
-                //declare the cache key so we have it for the tests
-                const string CacheKeyToUse = "DICachTestKey";
+            //declare a func so we can just count how many items we have for just this cache (other cache unit tests might get in the way)
+            Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;
 
-                //di factory name for this specific cache
-                const string DIFactoryName = "DIFactoryInMemoryTest";
+            //let's go get my factory from my DI Container
+            var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<IDepInjectUnitTestCache<IEnumerable<DummyObject>>>(DIFactoryName);
 
-                //declare a func so we can just count how many items we have for just this cache (other cache unit tests might get in the way)
-                Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;
+            //we will make sure nothing is in the cache
+            Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
-                //let's register my dummy cache container
-                DIContainer.RegisterType<IDepInjectUnitTestCache<IEnumerable<DummyObject>>, DummyCacheWithDI<IEnumerable<DummyObject>>>(
-                    DIFactoryName,
-                    new ContainerControlledLifetimeManager(),
-                    new InjectionConstructor(CacheKeyToUse,
-                    new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
+            //grab the first item that we will test against. This should be the record "it should be"
+            var RecordToCheckAgainst = CacheFromDIContainer.BuildDataSource().First();
 
-                //let's go get my factory from my DI Container
-                var CacheFromDIContainer = DIContainer.Resolve<IDepInjectUnitTestCache<IEnumerable<DummyObject>>>(DIFactoryName);
+            //let's try to grab the first item...it should go get the item from the cache and return it
+            Assert.AreEqual(RecordToCheckAgainst.Id, CacheFromDIContainer.Cache.GetCacheItem().ElementAt(0).Id);
 
-                //we will make sure nothing is in the cache
-                Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+            //just make sure we have that 1 item in the cache
+            Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
-                //grab the first item that we will test against. This should be the record "it should be"
-                var RecordToCheckAgainst = CacheFromDIContainer.BuildDataSource().First();
+            //let's try to clear the cache now
+            CacheFromDIContainer.Cache.RemoveCacheItem();
 
-                //let's try to grab the first item...it should go get the item from the cache and return it
-                Assert.AreEqual(RecordToCheckAgainst.Id, CacheFromDIContainer.Cache.GetCacheItem().ElementAt(0).Id);
+            //make sure we have 0 records
+            Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
-                //just make sure we have that 1 item in the cache
-                Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+            //let's test the refresh now (we currently don't have an item in the cache, so it should handle if it's not there!)
+            CacheFromDIContainer.Cache.RefreshCacheItem();
 
-                //let's try to clear the cache now
-                CacheFromDIContainer.Cache.RemoveCacheItem();
+            //that method should put the item back in... (1 element, because its only 1 cache we are using)
+            Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
-                //make sure we have 0 records
-                Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
-
-                //let's test the refresh now (we currently don't have an item in the cache, so it should handle if it's not there!)
-                CacheFromDIContainer.Cache.RefreshCacheItem();
-
-                //that method should put the item back in... (1 element, because its only 1 cache we are using)
-                Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
-
-                //let's just make sure we have 2 elements in the array
-                Assert.AreEqual(CacheFromDIContainer.BuildDataSource().Count(), CacheFromDIContainer.Cache.GetCacheItem().Count());
-            }
+            //let's just make sure we have 2 elements in the array
+            Assert.AreEqual(CacheFromDIContainer.BuildDataSource().Count(), CacheFromDIContainer.Cache.GetCacheItem().Count());
         }
 
         #endregion

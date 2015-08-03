@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.DataProviders.ADO;
-using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
+using ToracLibraryTest.UnitsTest.Framework;
+using ToracLibrary.Core.ReflectionDynamic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ToracLibraryTest.Framework
 {
@@ -13,6 +14,7 @@ namespace ToracLibraryTest.Framework
     /// <summary>
     /// DI Unit Test Container
     /// </summary>
+    [TestClass]
     public static class DIUnitTestContainer
     {
 
@@ -21,45 +23,45 @@ namespace ToracLibraryTest.Framework
         /// <summary>
         /// Static Constructor
         /// </summary>
-        static DIUnitTestContainer()
+        /// <remarks>Uses AssemblyInitialize to ensure this runs before any tests. We need a setter because this isn't a static constructor</remarks>
+        [AssemblyInitialize()]
+        public static void ConfigureDIContainer(TestContext context)
         {
             //create the new di container
             DIContainer = new UnityContainer();
 
             //let's go build up the sql data provider
-            BuildSqlAdoNetDiContainer();
+            ConfigureDIContainer(DIContainer);
         }
 
         #endregion
 
         #region Static Properties
 
-        /// <summary>
-        /// Declare a di container so we can build whatever we need
+        /// <summary> 
+        /// Declare a di container so we can build whatever we need (need the setter because we aren't setting the variable in the static constructor - we need assembly initalize)
         /// </summary>
-        public static UnityContainer DIContainer { get; }
+        public static UnityContainer DIContainer { get; set; }
 
         #endregion
 
-        #region Build Up The Modules For The Unity Container 
+        #region Static Methods
 
         /// <summary>
-        /// Builds up the sql data provider for all the sql server data provider unit tests
+        /// Builds up the DI container by grabbing everything that implements IDependencyInject
         /// </summary>
-        private static void BuildSqlAdoNetDiContainer()
+        /// <param name="ContainerToBuildUp">DI Container To Add Too</param>
+        private static void ConfigureDIContainer(UnityContainer ContainerToBuildUp)
         {
-            //connection string variable
-            string SqlServerConnectionString;
-
-            //grab the connection string from the ef model
-            using (var EFDataContext = new EntityFrameworkEntityDP())
+            //grab each of the class types that implement IDependencyInject. Then loop through each of the implementations, and call the confiure DI method
+            foreach (var ClassImplementation in ImplementingClasses.RetrieveImplementingClassesLazy(typeof(IDependencyInject)))
             {
-                //set the connection string
-                SqlServerConnectionString = EFDataContext.Database.Connection.ConnectionString;
-            }
+                //create the instance of that class
+                var ImplementationInstance = (IDependencyInject)Activator.CreateInstance(ClassImplementation);
 
-            //let's register the di container now
-            DIContainer.RegisterType<IDataProvider, SQLDataProvider>(new InjectionConstructor(SqlServerConnectionString));
+                //now call the method that creates the setup configuration for the DI container
+                ImplementationInstance.ConfigureDIContainer(ContainerToBuildUp);
+            }
         }
 
         #endregion

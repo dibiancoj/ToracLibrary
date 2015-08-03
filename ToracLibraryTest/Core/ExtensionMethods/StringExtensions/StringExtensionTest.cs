@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
+using static ToracLibraryTest.Framework.FrameworkHelperMethods;
 
 namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 {
@@ -230,8 +231,8 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         [TestMethod]
         public void StringToByteArrayTest1()
         {
-            //loop through the 
-            Framework.FrameworkHelperMethods.UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToByteArray());
+            //loop through the elements to test using the helper method for this
+            UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToByteArray());
         }
 
         /// <summary>
@@ -240,7 +241,8 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         [TestMethod]
         public void StringToByteArrayTest2()
         {
-            Framework.FrameworkHelperMethods.UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
+            //loop through the elements to test using the helper method for this
+            UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
         }
 
         #endregion

@@ -6,6 +6,8 @@ using System.Data;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibraryTest.Framework;
+using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
+using ToracLibraryTest.UnitsTest.Framework;
 using static ToracLibraryTest.UnitsTest.Core.DataProviders.DataProviderSetupTearDown;
 
 namespace ToracLibraryTest.UnitsTest.Core.DataProviders
@@ -15,8 +17,32 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
     /// Unit test to test the sql data provider
     /// </summary>
     [TestClass]
-    public class SqlDataProviderTest
+    public class SqlDataProviderTest : IDependencyInject
     {
+
+        #region IDependency Injection Methods
+
+        /// <summary>
+        /// Configure the DI container for this unit test
+        /// </summary>
+        /// <param name="DIContainer">container to modify</param>
+        public void ConfigureDIContainer(UnityContainer DIContainer)
+        {
+            //connection string variable
+            string SqlServerConnectionString;
+
+            //grab the connection string from the ef model
+            using (var EFDataContext = new EntityFrameworkEntityDP())
+            {
+                //set the connection string
+                SqlServerConnectionString = EFDataContext.Database.Connection.ConnectionString;
+            }
+
+            //let's register the di container now
+            DIContainer.RegisterType<IDataProvider, SQLDataProvider>(new InjectionConstructor(SqlServerConnectionString));
+        }
+
+        #endregion
 
         #region Utility Methods
 
