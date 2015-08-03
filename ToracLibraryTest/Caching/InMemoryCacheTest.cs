@@ -6,7 +6,6 @@ using System.Linq;
 using ToracLibrary.Caching;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
-using ToracLibraryTest.UnitsTest.Framework;
 
 namespace ToracLibraryTest.UnitsTest.Caching
 {

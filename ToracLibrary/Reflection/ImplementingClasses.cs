@@ -14,51 +14,37 @@ namespace ToracLibrary.Core.ReflectionDynamic
     public class ImplementingClasses
     {
 
+        #region Public Methods
+
         /// <summary>
-        /// Retrieve a list of classes that implement the interface passed in. Pass in typeof(MyInterface). This method gets parallized because the number of assemblies and types could be very large
+        /// Retrieve a list of classes that implement the interface or base class passed in. Pass in typeof(MyInterface || MyBaseClass).
         /// </summary>
-        /// <param name="InterfaceType">typeof(MyInterface). Type of the interface you want to check</param>
-        /// <returns>list of classes that implement this item. You can call Activator.CreateInstance(thisType) to create an instance of the type passed back.</returns>
-        public static IEnumerable<Type> RetrieveImplementingClassesLazy(Type InterfaceType)
+        /// <param name="InterfaceOrBaseClass">typeof(MyInterface || MyBaseClass). Type of the interface or base classyou want to check</param>
+        /// <returns>list of types (classes) that implement or derived from InterfaceOrBaseClass. You can call Activator.CreateInstance(thisType) to create an instance of the type passed back.</returns>
+        public static IEnumerable<Type> RetrieveImplementingClassesLazy(Type InterfaceOrBaseClass)
         {
             //let loop through all the assemblies
             foreach (var AssemblyToCheck in AppDomain.CurrentDomain.GetAssemblies())
             {
-                //now loop through all the types in this assembly
-                foreach (Type TypeInAssemblyToCheck in AssemblyToCheck.GetTypes())
+                //now loop through all the types in this assembly (ignore interfaces)
+                foreach (Type TypeInAssemblyToCheck in AssemblyToCheck.GetTypes().Where(x => !x.IsInterface))
                 {
-                    //make sure it can be assigned from the class you want and is an interface
-                    if (InterfaceType.IsAssignableFrom(TypeInAssemblyToCheck) && !TypeInAssemblyToCheck.IsInterface)
+                    //if we are checking for interfaces then see if it's assignable from
+                    if (InterfaceOrBaseClass.IsInterface && InterfaceOrBaseClass.IsAssignableFrom(TypeInAssemblyToCheck))
                     {
-                        //we have a match so return the type
+                        //we are testing for interfaces (we have a match)
+                        yield return TypeInAssemblyToCheck;
+                    }
+                    else if (TypeInAssemblyToCheck.IsSubclassOf(InterfaceOrBaseClass))
+                    {
+                        //we are testing for base classes (we have a match)
                         yield return TypeInAssemblyToCheck;
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Retrieve a list of classes that derive from this base class. This method gets parallized because the number of assemblies and types could be very large
-        /// </summary>
-        /// <param name="BaseClass">typeof(BaseClass). Type of the base class you want to check</param>
-        /// <returns>list of classes that inherit this item. You can call Activator.CreateInstance(thisType) to create an instance of the type passed back.</returns>
-        public static IEnumerable<Type> RetrieveDerivedClassesLazy(Type BaseClass)
-        {
-            //let loop through all the assemblies
-            foreach (var AssemblyToCheck in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                //now loop through all the types in this assembly
-                foreach (Type TypeInAssemblyToCheck in AssemblyToCheck.GetTypes())
-                {
-                    //make sure it can be assigned from the class you want and is an interface
-                    if (TypeInAssemblyToCheck.IsSubclassOf(BaseClass) && !TypeInAssemblyToCheck.IsInterface)
-                    {
-                        //we have a match so return the type
-                        yield return TypeInAssemblyToCheck;
-                    }
-                }
-            }
-        }
+        #endregion
 
     }
 

@@ -99,6 +99,7 @@
     <Compile Include="Core\ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
+    <Compile Include="Core\Reflection\ReflectionTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
     <Compile Include="Core\Paging\DataSetPagingTest.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_SubObject.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_Test.cs" />
-    <Compile Include="Framework\IDependencyInject.cs" />
+    <Compile Include="Framework\DIContainerForUnitTest\IDependencyInject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\RegularExpressions\RegularExpressionsTest.cs" />
     <Compile Include="Core\Security\Encryption\EncryptionSecurityTest.cs" />

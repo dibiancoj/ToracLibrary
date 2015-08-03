@@ -7,7 +7,6 @@ using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
-using ToracLibraryTest.UnitsTest.Framework;
 using static ToracLibraryTest.UnitsTest.Core.DataProviders.DataProviderSetupTearDown;
 
 namespace ToracLibraryTest.UnitsTest.Core.DataProviders
