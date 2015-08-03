@@ -14,6 +14,7 @@ namespace ToracLibraryTest.Framework
     /// <summary>
     /// DI Unit Test Container
     /// </summary>
+    /// <remarks>Needs the TestClass attribute so the AssemblyInitialize gets called</remarks>
     [TestClass]
     public static class DIUnitTestContainer
     {

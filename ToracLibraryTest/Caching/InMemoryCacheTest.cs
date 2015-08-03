@@ -21,7 +21,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
         #region IDependency Injection Methods
 
         /// <summary>
-        /// Configure the DI container for this unit test
+        /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
         public void ConfigureDIContainer(UnityContainer DIContainer)
