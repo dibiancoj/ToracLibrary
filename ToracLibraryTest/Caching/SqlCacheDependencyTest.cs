@@ -65,10 +65,10 @@ namespace ToracLibraryTest.UnitsTest.Caching
             public static InMemoryCache<IEnumerable<DummyObject>> BuildCache()
             {
                 return new SqlCacheDependency<IEnumerable<DummyObject>>("DummySqlCacheObjectCache",
-                    InMemoryCacheTest.DummyObjectCacheNoDI.BuildCacheDataSourceLazy,
+                    Cache needs to read from a database table,
                     SqlDataProviderTest.ConnectionStringToUse(),
                     "dbo",
-                    "select * from dbo.Ref_Test");
+                    "select * from dbo.Ref_SqlCachTrigger");
             }
 
             /// <summary>
@@ -93,17 +93,20 @@ namespace ToracLibraryTest.UnitsTest.Caching
             //tear down and build up
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
-            //make sure we have 10 items
+            //make sure we have 10 items in the table
             Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
 
-            //now insert 4 more records
+            //insert some rows
             DataProviderSetupTearDown.AddRows(4);
+
+            //now we want to trigger the cache 
+            update Ref_SqlCachTrigger
 
             //we need to try to wait until sql cache dep event is raised...otherwise we will get false blowups.
             //because it will raise for every record inserted. so just try to wait a second then go grab the data and check
             Thread.SpinWait(10000000);
 
-            //make sure we have 14 records
+            //cache should be reset now...should be 14
             Assert.AreEqual(14, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
 
             //now insert 4 more records
