@@ -27,18 +27,22 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <param name="DIContainer">container to modify</param>
         public void ConfigureDIContainer(UnityContainer DIContainer)
         {
-            //connection string variable
-            string SqlServerConnectionString;
+            //let's register the di container now
+            DIContainer.RegisterType<IDataProvider, SQLDataProvider>(new InjectionConstructor(ConnectionStringToUse()));
+        }
 
+        /// <summary>
+        /// Get the connection string to use
+        /// </summary>
+        /// <returns>Connection string</returns>
+        public static string ConnectionStringToUse()
+        {
             //grab the connection string from the ef model
             using (var EFDataContext = new EntityFrameworkEntityDP())
             {
                 //set the connection string
-                SqlServerConnectionString = EFDataContext.Database.Connection.ConnectionString;
+                return EFDataContext.Database.Connection.ConnectionString;
             }
-
-            //let's register the di container now
-            DIContainer.RegisterType<IDataProvider, SQLDataProvider>(new InjectionConstructor(SqlServerConnectionString));
         }
 
         #endregion

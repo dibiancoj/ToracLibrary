@@ -123,7 +123,7 @@ namespace ToracLibrary.Caching
 
         {
             //make sure it passes validation, it will raise an error if it fails
-            PassesValidation(ConnectionString, SqlToRun, DatabaseSchema);
+            PassesValidation(ConnectionStringToSet, SqlToRunToSet, DatabaseSchemaToSet);
 
             //set the connection string property
             ConnectionString = ConnectionStringToSet;
