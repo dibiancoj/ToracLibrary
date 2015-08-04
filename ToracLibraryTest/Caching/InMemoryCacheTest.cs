@@ -30,7 +30,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
                 DIFactoryName,
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(CacheKeyToUse,
-                new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
+                new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSource())));
         }
 
         #endregion
@@ -63,7 +63,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             /// <returns>In memory cache</returns>
             public static InMemoryCache<IEnumerable<DummyObject>> BuildCache()
             {
-                return new InMemoryCache<IEnumerable<DummyObject>>("DummyObjectCache", BuildCacheDataSourceLazy);
+                return new InMemoryCache<IEnumerable<DummyObject>>("DummyObjectCache", BuildCacheDataSource);
             }
 
             /// <summary>
@@ -79,10 +79,17 @@ namespace ToracLibraryTest.UnitsTest.Caching
             /// Build the data source that we will put in the cache. Seperate static method so we can test this.
             /// </summary>
             /// <returns>IEnumerable of dummy objects</returns>
-            public static IEnumerable<DummyObject> BuildCacheDataSourceLazy()
+            public static IEnumerable<DummyObject> BuildCacheDataSource()
             {
-                yield return new DummyObject { Id = 1 };
-                yield return new DummyObject { Id = 2 };
+                //using a list because i don't want an iterator in the cache
+                var DataSourceForCache = new List<DummyObject>();
+
+                //add the cache items
+                DataSourceForCache.Add(new DummyObject { Id = 1 });
+                DataSourceForCache.Add(new DummyObject { Id = 2 });
+
+                //return the list now
+                return DataSourceForCache;
             }
 
         }
@@ -138,7 +145,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //grab the first item that we will test against. This should be the record "it should be"
-            var RecordToCheckAgainst = DummyObjectCacheNoDI.BuildCacheDataSourceLazy().First();
+            var RecordToCheckAgainst = DummyObjectCacheNoDI.BuildCacheDataSource().First();
 
             //let's try to grab the first item...it should go get the item from the cache and return it
             Assert.AreEqual(RecordToCheckAgainst.Id, DummyObjectCacheNoDI.GetCacheItem().ElementAt(0).Id);
@@ -159,7 +166,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count());
 
             //let's just make sure we have 2 elements in the array
-            Assert.AreEqual(DummyObjectCacheNoDI.BuildCacheDataSourceLazy().Count(), DummyObjectCacheNoDI.GetCacheItem().Count());
+            Assert.AreEqual(DummyObjectCacheNoDI.BuildCacheDataSource().Count(), DummyObjectCacheNoDI.GetCacheItem().Count());
         }
 
         /// <summary>

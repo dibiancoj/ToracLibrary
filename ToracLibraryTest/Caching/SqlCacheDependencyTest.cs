@@ -65,7 +65,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             {
                 //create the new cache object
                 Cache = new SqlCacheDependency<IEnumerable<DummyObject>>("DummySqlCacheObjectCache",
-                        () => BuildCacheDataSourceLazy().ToArray(),
+                        BuildCacheDataSource,
                         SqlDataProviderTest.ConnectionStringToUse(),
                         "dbo",
                         "select * from dbo.Ref_SqlCachTrigger");
@@ -107,8 +107,11 @@ namespace ToracLibraryTest.UnitsTest.Caching
             /// Build the data source that we will put in the cache. Seperate static method so we can test this.
             /// </summary>
             /// <returns>IEnumerable of dummy objects</returns>
-            public static IEnumerable<DummyObject> BuildCacheDataSourceLazy()
+            public static IEnumerable<DummyObject> BuildCacheDataSource()
             {
+                //i don't want an iterator in the cache, not using yield return
+                var DataSourceInCache = new List<DummyObject>();
+
                 //create the data provider
                 using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
                 {
@@ -118,9 +121,12 @@ namespace ToracLibraryTest.UnitsTest.Caching
                     //loop through each row and return it
                     foreach (DataRow DataRowFound in DataSetToTest.Tables[0].Rows)
                     {
-                        yield return new DummyObject { Id = Convert.ToInt32(DataRowFound["Id"]) };
+                        DataSourceInCache.Add(new DummyObject { Id = Convert.ToInt32(DataRowFound["Id"]) });
                     }
                 }
+
+                //return the list
+                return DataSourceInCache;
             }
 
         }
@@ -134,7 +140,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
         public void SqlCacheDependencyNoDITest1()
         {
             //how many records to add
-            const int RecordsToAdd = 4;
+            const int RecordsToAdd = 1;
 
             //tear down and build up
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
