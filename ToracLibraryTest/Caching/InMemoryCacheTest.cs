@@ -40,12 +40,12 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// <summary>
         /// declare the cache key so we have it for the tests
         /// </summary>
-        const string CacheKeyToUse = "DICachTestKey";
+        private const string CacheKeyToUse = "DICachTestKey";
 
         /// <summary>
         /// di factory name for this specific cache
         /// </summary>
-        const string DIFactoryName = "DIFactoryInMemoryTest";
+        private const string DIFactoryName = "DIFactoryInMemoryTest";
 
         #endregion
 
