@@ -80,7 +80,7 @@ namespace ToracLibrary.Caching
     /// Builds a sql cache dependency. If the data in the sql table changes, an event will be raised which will reload the cache
     /// </summary>
     /// <remarks>For More Directions And Information See Cache Base. Properties in class are immutable</remarks>
-    public class SqlCacheDependency<T> : InMemoryCache<T>
+    public class SqlCacheDependency<T> : InMemoryCache<T>, ICacheImplementation<T>
     {
 
         #region Constructor

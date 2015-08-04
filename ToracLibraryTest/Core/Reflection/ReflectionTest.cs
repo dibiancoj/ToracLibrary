@@ -49,13 +49,16 @@ namespace ToracLibraryTest.UnitsTest.Core
             var ImplementationResults = RetrieveImplementingClassesLazy(typeof(IDependencyInject)).ToArray();
 
             //we should currently have 2 (could change)
-            Assert.AreEqual(2, ImplementationResults.Length);
+            Assert.AreEqual(3, ImplementationResults.Length);
 
             //check it's the sql server data provider
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlDataProviderTest)));
 
             //make sure its the in memory caching now
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(InMemoryCacheTest)));
+
+            //make sure sql cache dep is in there
+            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlCacheDependencyTest)));
         }
 
         /// <summary>

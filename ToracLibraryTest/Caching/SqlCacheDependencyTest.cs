@@ -18,26 +18,25 @@ namespace ToracLibraryTest.UnitsTest.Caching
     /// Unit test to test sql cache dep.
     /// </summary>
     [TestClass]
-    public class SqlCacheDependencyTest
+    public class SqlCacheDependencyTest : IDependencyInject
     {
 
-        //#region IDependency Injection Methods
+        #region IDependency Injection Methods
 
-        ///// <summary>
-        ///// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
-        ///// </summary>
-        ///// <param name="DIContainer">container to modify</param>
-        //public void ConfigureDIContainer(UnityContainer DIContainer)
-        //{
-        //    //let's register my dummy cache container
-        //    DIContainer.RegisterType<IDepInjectUnitTestCache<IEnumerable<DummyObject>>, DummyCacheWithDI<IEnumerable<DummyObject>>>(
-        //        DIFactoryName,
-        //        new ContainerControlledLifetimeManager(),
-        //        new InjectionConstructor(CacheKeyToUse,
-        //        new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSourceLazy())));
-        //}
+        /// <summary>
+        /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
+        /// </summary>
+        /// <param name="DIContainer">container to modify</param>
+        public void ConfigureDIContainer(UnityContainer DIContainer)
+        {
+            //let's register my dummy cache container
+            DIContainer.RegisterType<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(
+                DIFactoryName,
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(CacheKeyToUse, new Func<IEnumerable<DummyObject>>(() => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource()), SqlDataProviderTest.ConnectionStringToUse(), DatabaseSchemaUsedForCacheRefresh, CacheSqlToUseToTriggerRefresh));
+        }
 
-        //#endregion
+        #endregion
 
         #region Constants
 
@@ -50,6 +49,16 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// di factory name for this specific cache
         /// </summary>
         private const string DIFactoryName = "DISqlFactoryInMemoryTest";
+
+        /// <summary>
+        /// Database schema use to trigger a refresh of the cache
+        /// </summary>
+        private const string DatabaseSchemaUsedForCacheRefresh = "dbo";
+
+        /// <summary>
+        /// Sql to use to refresh the cache
+        /// </summary>
+        private const string CacheSqlToUseToTriggerRefresh = "select * from dbo.Ref_SqlCachTrigger";
 
         #endregion
 
@@ -67,8 +76,8 @@ namespace ToracLibraryTest.UnitsTest.Caching
                 Cache = new SqlCacheDependency<IEnumerable<DummyObject>>("DummySqlCacheObjectCache",
                         BuildCacheDataSource,
                         SqlDataProviderTest.ConnectionStringToUse(),
-                        "dbo",
-                        "select * from dbo.Ref_SqlCachTrigger");
+                        DatabaseSchemaUsedForCacheRefresh,
+                        CacheSqlToUseToTriggerRefresh);
             }
 
             #endregion
@@ -163,6 +172,41 @@ namespace ToracLibraryTest.UnitsTest.Caching
 
             //cache should be reset now...should be 14
             Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
+        }
+
+        /// <summary>
+        /// Test the sql cache dep using a DI container
+        /// </summary>
+        [TestMethod]
+        public void SqlCacheDependencyWithDependencyInjection1()
+        {
+            //let's go get my factory from my DI Container
+            var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<ICacheImplementation<IEnumerable<DummyObject>>>(DIFactoryName);
+
+            //how many records to add
+            const int RecordsToAdd = 1;
+
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //make sure we have 10 items in the table
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, CacheFromDIContainer.GetCacheItem().Count());
+
+            //insert some rows
+            DataProviderSetupTearDown.AddRows(RecordsToAdd, false);
+
+            //now we just added some rows in the table (but we have not updated the trigger table...so we should still have the same amount of records)
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, CacheFromDIContainer.GetCacheItem().Count());
+
+            //now we want to trigger the cache and grab the changes
+            DummySqlCacheObjectCacheNoDI.UpdateSqlCache();
+
+            //we need to try to wait until sql cache dep event is raised...otherwise we will get false blowups.
+            //because it will raise for every record inserted. so just try to wait a second then go grab the data and check
+            Thread.SpinWait(10000000);
+
+            //cache should be reset now...should be 14
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, CacheFromDIContainer.GetCacheItem().Count());
         }
 
         #endregion

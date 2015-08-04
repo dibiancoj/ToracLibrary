@@ -13,7 +13,7 @@ namespace ToracLibrary.Caching
     /// </summary>
     /// <typeparam name="T">Type Of Data That Is Stored For This Key</typeparam>
     /// <remarks>Properties are immutable</remarks>
-    public class InMemoryCache<T>
+    public class InMemoryCache<T>: ICacheImplementation<T>
     {
 
         //**** don't use any async methods when getting the data source data. Because you are not aloud to await inside a lock. You will get freezing!!!

@@ -45,6 +45,7 @@
     <Compile Include="BaseClass\InMemoryCache.cs" />
     <Compile Include="BaseClass\InMemoryCacheUntyped.cs" />
     <Compile Include="Implementation\SqlCacheDependency.cs" />
+    <Compile Include="Interface\ICacheImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

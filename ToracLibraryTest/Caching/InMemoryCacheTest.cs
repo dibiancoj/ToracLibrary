@@ -26,11 +26,10 @@ namespace ToracLibraryTest.UnitsTest.Caching
         public void ConfigureDIContainer(UnityContainer DIContainer)
         {
             //let's register my dummy cache container
-            DIContainer.RegisterType<IDepInjectUnitTestCache<IEnumerable<DummyObject>>, DummyCacheWithDI<IEnumerable<DummyObject>>>(
+            DIContainer.RegisterType<ICacheImplementation<IEnumerable<DummyObject>>, InMemoryCache<IEnumerable<DummyObject>>>(
                 DIFactoryName,
                 new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(CacheKeyToUse,
-                new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSource())));
+                new InjectionConstructor(CacheKeyToUse, new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSource())));
         }
 
         #endregion
@@ -94,43 +93,6 @@ namespace ToracLibraryTest.UnitsTest.Caching
 
         }
 
-        /// <summary>
-        /// DI Interface for cache
-        /// </summary>
-        public interface IDepInjectUnitTestCache<T>
-        {
-            InMemoryCache<T> Cache { get; }
-            Func<T> BuildDataSource { get; }
-        }
-
-        /// <summary>
-        /// Dummy Cache For Unit Test With Dep. Injection
-        /// </summary>
-        public class DummyCacheWithDI<T> : IDepInjectUnitTestCache<T>
-        {
-
-            #region Constructor
-
-            public DummyCacheWithDI(string KeyForCache, Func<T> BuildDataSourceForCache)
-            {
-                //set the factory for the cache
-                Cache = new InMemoryCache<T>(KeyForCache, BuildDataSourceForCache);
-
-                //set the func that will populate this data when we don't have it in the cache
-                BuildDataSource = BuildDataSourceForCache;
-            }
-
-            #endregion
-
-            #region Properties
-
-            public InMemoryCache<T> Cache { get; }
-            public Func<T> BuildDataSource { get; }
-
-            #endregion
-
-        }
-
         #endregion
 
         #region Unit Tests
@@ -179,34 +141,34 @@ namespace ToracLibraryTest.UnitsTest.Caching
             Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;
 
             //let's go get my factory from my DI Container
-            var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<IDepInjectUnitTestCache<IEnumerable<DummyObject>>>(DIFactoryName);
+            var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<ICacheImplementation<IEnumerable<DummyObject>>>(DIFactoryName);
 
             //we will make sure nothing is in the cache
             Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
             //grab the first item that we will test against. This should be the record "it should be"
-            var RecordToCheckAgainst = CacheFromDIContainer.BuildDataSource().First();
+            var RecordToCheckAgainst = CacheFromDIContainer.FunctionToGetDataFromSource.Invoke().First();
 
             //let's try to grab the first item...it should go get the item from the cache and return it
-            Assert.AreEqual(RecordToCheckAgainst.Id, CacheFromDIContainer.Cache.GetCacheItem().ElementAt(0).Id);
+            Assert.AreEqual(RecordToCheckAgainst.Id, CacheFromDIContainer.GetCacheItem().ElementAt(0).Id);
 
             //just make sure we have that 1 item in the cache
             Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
             //let's try to clear the cache now
-            CacheFromDIContainer.Cache.RemoveCacheItem();
+            CacheFromDIContainer.RemoveCacheItem();
 
             //make sure we have 0 records
             Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
             //let's test the refresh now (we currently don't have an item in the cache, so it should handle if it's not there!)
-            CacheFromDIContainer.Cache.RefreshCacheItem();
+            CacheFromDIContainer.RefreshCacheItem();
 
             //that method should put the item back in... (1 element, because its only 1 cache we are using)
             Assert.AreEqual(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
 
             //let's just make sure we have 2 elements in the array
-            Assert.AreEqual(CacheFromDIContainer.BuildDataSource().Count(), CacheFromDIContainer.Cache.GetCacheItem().Count());
+            Assert.AreEqual(CacheFromDIContainer.FunctionToGetDataFromSource.Invoke().Count(), CacheFromDIContainer.GetCacheItem().Count());
         }
 
         #endregion

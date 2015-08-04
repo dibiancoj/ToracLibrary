@@ -195,7 +195,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
                 const int IdToFetch = 1;
 
                 //let's go build the sql for this id
-                string sql = $"SELECT T.Id FROM Ref_Test AS T WHERE T.id = IdToFetch";
+                string sql = $"SELECT T.Id FROM Ref_Test AS T WHERE T.id = {IdToFetch}";
 
                 //go fetch the record using the object return overload
                 Assert.AreEqual(IdToFetch, (int)DP.GetScalar(sql, CommandType.Text));
