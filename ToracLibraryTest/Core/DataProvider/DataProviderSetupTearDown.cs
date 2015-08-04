@@ -39,7 +39,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
             TruncateTable();
 
             //add the default number of rows
-            AddRows();
+            AddRows(true);
         }
 
         /// <summary>
@@ -59,20 +59,25 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// Add the default amount of rows to Ref_Test (10)
         /// </summary>
-        internal static void AddRows()
+        /// <param name="TruncateTable">Truncate the table first</param>
+        internal static void AddRows(bool TruncateTable)
         {
             //add the default x amount of rows (10)
-            AddRows(DefaultRecordsToInsert);
+            AddRows(DefaultRecordsToInsert, TruncateTable);
         }
 
         /// <summary>
         /// Add x amount of rows to Ref_Test
         /// </summary>
         /// <param name="HowManyRowsToAdd"></param>
-        internal static void AddRows(int HowManyRowsToAdd)
+        /// <param name="TruncateTableBeforeLoadingData">Truncate the table before loading rows</param>
+        internal static void AddRows(int HowManyRowsToAdd, bool TruncateTableBeforeLoadingData)
         {
-            //go truncate the table first
-            TruncateTable();
+            //go truncate the table first (if they want too)
+            if (TruncateTableBeforeLoadingData)
+            {
+                TruncateTable();
+            }
 
             //create the data provider
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
@@ -81,7 +86,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
                 for (var i = 0; i < HowManyRowsToAdd; i++)
                 {
                     //build the sql
-                    string sql = string.Format($"Insert Into Ref_Test (Description,Description2) Values ('i.ToString()','i.ToString()')");
+                    string sql = string.Format($"Insert Into Ref_Test (Description,Description2) Values ('{i}','{i}')");
 
                     //insert the record now
                     DP.ExecuteNonQuery(sql, CommandType.Text);
