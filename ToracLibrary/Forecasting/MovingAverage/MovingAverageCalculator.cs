@@ -53,15 +53,6 @@ namespace ToracLibrary.Core.Forecasting.MovingAverage
             return CalculateMovingAverageResultsForDataSetLazy(NumberOfPeriodsToTest, YValues).Where(x => x.MeanSquaredError.HasValue).OrderBy(x => x.MeanSquaredError.Value).FirstOrDefault();
         }
 
-        //public static IEnumerable<MovingAverageResult> test(IEnumerable<int> NumberOfPeriodsToTes, IList<double> YValues)
-        //{
-        //    foreach (int NumberOfPeriods in NumberOfPeriodsToTest)
-        //    {
-        //        //get and start the task
-        //        yield return CalculateMovingAverage(NumberOfPeriods, YValues);
-        //    }
-        //}
-
         #endregion
 
         #region Single Time Period
