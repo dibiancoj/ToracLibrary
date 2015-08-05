@@ -95,6 +95,7 @@
     <Compile Include="Core\Delimiter Creator And Parser\DelimiterTest.cs" />
     <Compile Include="Core\EnumUtilities\EnumUtilitiesTest.cs" />
     <Compile Include="Core\Excel\ExcelUtilityTest.cs" />
+    <Compile Include="Core\Exceptions\ExceptionUtilityTest.cs" />
     <Compile Include="Core\ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

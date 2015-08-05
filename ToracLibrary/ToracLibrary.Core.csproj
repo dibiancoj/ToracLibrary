@@ -62,6 +62,7 @@
     <Compile Include="DISK IO\FileWriter.cs" />
     <Compile Include="EnumUtilities\EnumUtilities.cs" />
     <Compile Include="Excel\ExcelUtilities.cs" />
+    <Compile Include="Exceptions\ExceptionUtilities.cs" />
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionMethods.cs" />
