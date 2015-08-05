@@ -15,6 +15,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test dataset paging. How many pages for a given dataset
         /// </summary>
+        [TestCategory("Core.Paging")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CalculateTheNumberOfPagesTest1()
         {

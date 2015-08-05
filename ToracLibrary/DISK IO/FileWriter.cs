@@ -48,7 +48,7 @@ namespace ToracLibrary.Core.DiskIO
         public static void WriteFile(string FilePath, string TextToOutput, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //use the helper method
-            WriteFileHelper(FilePath, TextToOutput.ToIEnumerable(), FileStatus, WhereToInsert);
+            WriteFileHelper(FilePath, TextToOutput.ToIEnumerableLazy().ToArray(), FileStatus, WhereToInsert);
         }
 
         /// <summary>

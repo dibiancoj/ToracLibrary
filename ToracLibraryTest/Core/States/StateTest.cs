@@ -18,6 +18,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// US States - Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
         /// </summary>
+        [TestCategory("Core.States")]
+        [TestCategory("Core.Xml.Schema")]
+        [TestCategory("Core")]
         [TestMethod]
         public void UnitedStatesValidateXmlAgainstSchemaTest1()
         {
@@ -36,6 +39,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test builds the united states listing and verifies everything is correct and running
         /// </summary>
+        [TestCategory("Core.States")]
+        [TestCategory("Core")]
         [TestMethod]
         public void UnitedStatesSelectTest1()
         {
@@ -57,6 +62,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// US States - Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
         /// </summary>
+        [TestCategory("Core.States")]
+        [TestCategory("Core.Xml.Schema")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CanadaProvincesValidateXmlAgainstSchemaTest1()
         {
@@ -75,6 +83,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test builds the canada state (provinces) listing and verifies everything is correct and running
         /// </summary>
+        [TestCategory("Core.States")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CanadaProvincesSelectTest1()
         {

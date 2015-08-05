@@ -21,6 +21,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test column name to number (for excel)
         /// </summary>
+        [TestCategory("Core.Excel")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ExcelToolsColumnNameToIntTest1()
         {
@@ -37,6 +39,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test column number to letter (for excel)
         /// </summary>
+        [TestCategory("Core.Excel")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ExcelToolsColumnNumberToLetterTest1()
         {

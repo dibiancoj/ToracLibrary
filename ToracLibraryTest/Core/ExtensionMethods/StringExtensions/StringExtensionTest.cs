@@ -25,6 +25,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test string contains with sring comparison
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void StringContainsTest1()
         {
@@ -46,6 +49,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test ienumerable of string contains with sring comparison
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void IEnumerableStringContainsTest1()
         {
@@ -70,6 +76,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for formatting a string to a usa phone number
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void FormatUSAPhoneNumberTest1()
         {
@@ -90,6 +99,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for formatting a string to a usa zip code
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void FormatUSAZipCodeTest1()
         {
@@ -119,6 +131,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Test is a string is a valid email address
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void IsValidEmailTest1()
         {
@@ -145,6 +160,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Test the replacement of characters ignoring case
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void StringReplaceCaseSensitiveTest1()
         {
@@ -163,6 +181,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Test the string right function
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void StringRightTest1()
         {
@@ -181,6 +202,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Check trim with null check with no replacement value
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TrimHandleNullNoReplacementTest1()
         {
@@ -201,6 +225,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Check trim with null check with with replacement value
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TrimHandleNullWithReplacementTest2()
         {
@@ -228,6 +255,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Test to make sure a string to a byte array is correct
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void StringToByteArrayTest1()
         {
@@ -238,6 +268,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Test to make sure a string to a byte array is correct
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void StringToByteArrayTest2()
         {

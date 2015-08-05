@@ -24,6 +24,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of count on IEnumerable
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void IEnumerableCountTest1()
         {
@@ -43,6 +46,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the no predicate version
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void AnyWithNullCheckTest1()
         {
@@ -81,6 +87,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the version with the predicate
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void AnyWithNullCheckPredicateTest1()
         {
@@ -128,6 +137,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of the first index
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void FirstIndexOfElementTest1()
         {
@@ -149,6 +161,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of the last index
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void LastIndexOfElementTest1()
         {
@@ -171,6 +186,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of the foreach on ienumerable
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ForEachTest1()
         {
@@ -201,6 +219,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of the Distinct By
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DistintByTest1()
         {
@@ -225,6 +246,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with non index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionNonIndexOverloadTest1()
         {
@@ -241,6 +265,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with non index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionNonIndexOverloadTest2()
         {
@@ -257,6 +284,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with non index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionNonIndexOverloadTest3()
         {
@@ -277,6 +307,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionWithIndexOverloadTest1()
         {
@@ -293,6 +326,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionWithIndexOverloadTest2()
         {
@@ -309,6 +345,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the Output friendly with index overload
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void OutputFriendlyDescriptionWithIndexOverloadTest3()
         {
@@ -328,6 +367,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test the basic functionality of the Paginate
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void PaginateResultsWithExtensionMethodsTest1()
         {

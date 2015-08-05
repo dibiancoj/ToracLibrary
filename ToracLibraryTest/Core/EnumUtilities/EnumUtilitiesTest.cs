@@ -75,6 +75,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Enum get values
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void EnumGetValuesTest1()
         {
@@ -98,6 +100,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Try Parse To Nullable
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TryParseToNullableTest1()
         {
@@ -114,6 +118,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Try Parse To Nullable. This will be a negative test that it can't parse
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TryParseToNullableTest2()
         {
@@ -127,6 +133,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Try Parse To Nullable. Ensure case insensitive works
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TryParseToNullableTest3()
         {
@@ -147,6 +155,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test getting a custom attribute off of an enum
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void GetCustomAttributeFromEnumTest1()
         {
@@ -165,6 +175,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the bit mask functionality
         /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
         [TestMethod]
         public void BitMaskTest1()
         {

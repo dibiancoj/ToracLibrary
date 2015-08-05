@@ -145,6 +145,8 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// <summary>
         /// Test sql cache dep.
         /// </summary>
+        [TestCategory("Caching.SqlCacheDepedency")]
+        [TestCategory("Caching")]
         [TestMethod]
         public void SqlCacheDependencyNoDITest1()
         {
@@ -177,6 +179,9 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// <summary>
         /// Test the sql cache dep using a DI container
         /// </summary>
+        [TestCategory("Caching.InMemory")]
+        [TestCategory("Caching")]
+        [TestCategory("Dependency Injection")]
         [TestMethod]
         public void SqlCacheDependencyWithDependencyInjection1()
         {
@@ -203,7 +208,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
 
             //we need to try to wait until sql cache dep event is raised...otherwise we will get false blowups.
             //because it will raise for every record inserted. so just try to wait a second then go grab the data and check
-            Thread.SpinWait(10000000);
+            Thread.SpinWait(50000000);
 
             //cache should be reset now...should be 14
             Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, CacheFromDIContainer.GetCacheItem().Count());

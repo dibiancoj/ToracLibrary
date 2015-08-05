@@ -23,13 +23,10 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         /// <typeparam name="T">Type Of The Item Passed In</typeparam>
         /// <param name="ItemToPutInArray">Item To Push Into The IEnumerable</param>
         /// <returns>IEnumerable Of That Object Type, With The Item In The IEnumerable</returns>
-        public static IEnumerable<T> ToIEnumerable<T>(this T ItemToPutInArray)
+        public static IEnumerable<T> ToIEnumerableLazy<T>(this T ItemToPutInArray)
         {
-            //to call this method
-            //ClaimTeamToSave.ToIEnumerable();
-
-            //calling the ToIList To Share The Functionality And Not Duplicate Code
-            return ItemToPutInArray.ToIList();
+            //just return this item
+            yield return ItemToPutInArray;
         }
 
         /// <summary>
@@ -40,12 +37,7 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         /// <returns>IList Of That Object Type, With The Item In The IList</returns>
         public static IList<T> ToIList<T>(this T ItemToPutInArray)
         {
-            //to call this method
-            //ClaimTeamToSave.ToIList();
-
-            //because it's an extension method of T...it's basically an object type because this will show up for every type when the namespace is imported
-
-            //return the new array with the item in it
+            //instead of calling the overload which will create an iterator for no reason, we will just return a list
             return new List<T> { ItemToPutInArray };
         }
 

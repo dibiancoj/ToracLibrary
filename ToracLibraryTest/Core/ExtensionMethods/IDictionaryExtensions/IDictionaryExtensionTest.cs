@@ -20,6 +20,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for try add to a dictionary
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.IDictionaryExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void TryAddTest1()
         {

@@ -48,6 +48,8 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Without Headers With A Single Line
 
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersTest1()
         {
@@ -70,6 +72,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("", SplitTextResult[0].ColumnData.ElementAt(3));
         }
 
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersTest2()
         {
@@ -96,6 +100,8 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Without Headers With A Single Line (Bulk Load)
 
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersBulkLoadTest1()
         {
@@ -124,6 +130,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("", SplitTextResult[0].ColumnData.ElementAt(3));
         }
 
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersBulkLoadTest2()
         {
@@ -156,6 +164,8 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Without Headers With Multiple Rows
 
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersMultiRowTest1()
         {
@@ -188,6 +198,11 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Without Headers With Multiple Rows (Bulk Load)
 
+        /// <summary>
+        /// Test the delimiter using a csv format
+        /// </summary>
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithoutHeadersMultiRowBulkLoadTest1()
         {
@@ -226,6 +241,11 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region With Headers With A Single Line
 
+        /// <summary>
+        /// Test the delimiter using a csv format
+        /// </summary>
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithHeadersTest1()
         {
@@ -253,6 +273,11 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("4", SplitTextResult[1].ColumnData.ElementAt(3));
         }
 
+        /// <summary>
+        /// Test the delimiter using a csv format
+        /// </summary>
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithHeadersTest2()
         {
@@ -284,6 +309,11 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region With Headers With Muliple Line
 
+        /// <summary>
+        /// Test the delimiter using a csv format
+        /// </summary>
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithHeadersMultiRowTest1()
         {
@@ -321,6 +351,11 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region With Headers With Muliple Line (Bulk Load)
 
+        /// <summary>
+        /// Test the delimiter using a csv format
+        /// </summary>
+        [TestCategory("Core.Delimiter")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CSVWithHeadersMultiRowBulkLoadTest1()
         {

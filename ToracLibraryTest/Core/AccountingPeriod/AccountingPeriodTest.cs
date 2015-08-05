@@ -23,6 +23,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test builds an accounting period object and verifies its correct
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void BuildAccountingPeriodObjectIntConstructorTest1()
         {
@@ -57,6 +59,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test builds an accounting period object and verifies its correct
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void BuildAccountingPeriodObjectSeperateMonthYearConstructorTest2()
         {
@@ -92,6 +96,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test how we add periods
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void IncrementPeriodTest1()
         {
@@ -117,6 +123,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test how we subtract periods
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DecreasePeriodTest1()
         {
@@ -139,6 +147,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test how we convert a period to a date
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ConvertPeriodToDateTest1()
         {
@@ -155,6 +165,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// /Test a date to a period
         /// </summary>
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ConvertDateToPeriodTest1()
         {
@@ -172,6 +184,8 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Validation Tests
 
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         [ExpectedException(typeof(AccountingPeriodYearOutOfRangeException))]
         public void ValidateAccountingPeriodOutOfRangeExceptionTest1()
@@ -179,6 +193,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             new AccountingPeriod(20140000);
         }
 
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         [ExpectedException(typeof(AccountingPeriodMonthOutOfRangeException))]
         public void ValidateAccountingPeriodOutOfRangeExceptionTest2()
@@ -186,6 +202,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             new AccountingPeriod(201400);
         }
 
+        [TestCategory("Core.AccountingPeriods")]
+        [TestCategory("Core")]
         [TestMethod]
         [ExpectedException(typeof(AccountingPeriodMonthOutOfRangeException))]
         public void ValidateAccountingPeriodOutOfMonthExceptionTest3()

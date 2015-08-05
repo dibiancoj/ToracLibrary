@@ -42,6 +42,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test Implementing classes. Even though the DI uses this functionality, I'm still going to give it the test it deserves
         /// </summary>
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ImplementingInterfacesFromClass()
         {
@@ -64,6 +66,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test Derived Classes
         /// </summary>
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DeriveClassFromBaseClass()
         {

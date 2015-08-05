@@ -20,6 +20,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test how many months between 2 dates
         /// </summary>
+        [TestCategory("Core.DateTimeHelpers")]
+        [TestCategory("Core")]
         [TestMethod]
         public void HowManyMonthsBetween2DatesTest1()
         {
@@ -64,6 +66,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test method for business hours, going forwards
         /// </summary>
+        [TestCategory("Core.DateTimeHelpers")]
+        [TestCategory("Core")]
         [TestMethod]
         public void BusinessHoursPositiveNumbersTest1()
         {
@@ -114,6 +118,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the business hours, going backwards
         /// </summary>
+        [TestCategory("Core.DateTimeHelpers")]
+        [TestCategory("Core")]
         [TestMethod]
         public void BusinessHoursNegativeNumbersTest1()
         {
@@ -167,6 +173,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test which quarter this date is in
         /// </summary>
+        [TestCategory("Core.DateTimeHelpers")]
+        [TestCategory("Core")]
         [TestMethod]
         public void QuarterTimePeriodTest1()
         {

@@ -18,6 +18,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Html Tag Removal Test
         /// </summary>
+        [TestCategory("Core.RegularExpressions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void HtmlTagRemovalTest1()
         {
@@ -37,6 +39,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the regular expression parser functionanlity
         /// </summary>
+        [TestCategory("Core.RegularExpressions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void NumberParserTest1()
         {

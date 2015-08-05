@@ -15,6 +15,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the conversion between 2 unit types for computer sizes
         /// </summary>
+        [TestCategory("Core.Units.ComputerSizeUnitConverter")]
+        [TestCategory("Core.Units")]
+        [TestCategory("Core")]
         [TestMethod]
         public void UnitConversionTest1()
         {

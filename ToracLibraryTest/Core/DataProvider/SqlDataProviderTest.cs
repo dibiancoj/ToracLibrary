@@ -53,6 +53,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// Can we connect to the database
         /// </summary>
         [TestMethod]
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         public void CanConnect()
         {
             //go create the sql data provider
@@ -70,6 +72,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// Let's test the data set with sql text
         /// </summary>
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DataSetWithText()
         {
@@ -97,6 +101,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         ///  Let's test the data table with sql text
         /// </summary>
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DataTableWithText()
         {
@@ -121,6 +127,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// Let's test the data reader with sql text
         /// </summary>
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         [TestMethod]
         public void DataReaderWithText()
         {
@@ -158,6 +166,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// Let's test the xml data fetch
         /// </summary>
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         [TestMethod]
         public void XElementWithText()
         {
@@ -182,6 +192,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// Test the get scalar with a text sql command
         /// </summary>
+        [TestCategory("Core.DataProviders")]
+        [TestCategory("Core")]
         [TestMethod]
         public void GetScalarWithText()
         {

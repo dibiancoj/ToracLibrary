@@ -21,6 +21,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test to find a specific exception from an error stack trace
         /// </summary>
+        [TestCategory("Core.Exceptions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void FindExceptionTypeTest1()
         {
@@ -42,6 +44,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test to find a specific exception from an error stack trace. This test will bubble up an exception to see if it can traverse the stack trace tree
         /// </summary>
+        [TestCategory("Core.Exceptions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void FindExceptionTypeTest2()
         {
@@ -73,6 +77,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test that we get all the exceptions that were raised in the exception tree. Method should traverse the tree and return every exception
         /// </summary>
+        [TestCategory("Core.Exceptions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RetrieveExceptionHistoryTest1()
         {
@@ -91,6 +97,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test that we get all the exceptions that were raised in the exception tree. Method should traverse the tree and return every exception
         /// </summary>
+        [TestCategory("Core.Exceptions")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RetrieveExceptionHistoryTest2()
         {

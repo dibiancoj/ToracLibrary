@@ -19,6 +19,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for add range for a hash set. This test has no duplicates so everything should evaulate to true (Test 1)
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.ISetExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void AddRangeTest1()
         {
@@ -35,6 +38,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for add range for a hash set. This test has duplicate values where we need to check for true and false that get returned from the method call (Test 2)
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.ISetExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void AddRangeTest2()
         {

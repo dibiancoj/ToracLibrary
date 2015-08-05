@@ -17,6 +17,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the xslt functionality
         /// </summary>
+        [TestCategory("Core.Xml.XSLT")]
+        [TestCategory("Core.Xml")]
+        [TestCategory("Core")]
         [TestMethod]
         public void XSLTTest1()
         {

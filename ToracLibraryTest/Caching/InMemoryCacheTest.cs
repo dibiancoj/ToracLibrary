@@ -101,6 +101,8 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// Test the in memory cache
         /// </summary>
         [TestMethod]
+        [TestCategory("Caching.InMemory")]
+        [TestCategory("Caching")]
         public void InMemoryCacheTestWithNoDependencyInjection1()
         {
             //we will make sure nothing is in the cache
@@ -134,6 +136,9 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// <summary>
         /// Test the in memory cache using a DI container
         /// </summary>
+        [TestCategory("Caching.InMemory")]
+        [TestCategory("Caching")]
+        [TestCategory("Dependency Injection")]
         [TestMethod]
         public void InMemoryCacheTestWithDependencyInjection1()
         {

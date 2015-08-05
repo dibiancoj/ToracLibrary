@@ -20,6 +20,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.XElementExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RemoveBlankElementsTest1()
         {
@@ -41,6 +44,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.XElementExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RemoveBlankElementsTest2()
         {
@@ -62,6 +68,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.XElementExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RemoveBlankElementsTest3()
         {
@@ -88,6 +97,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.XElementExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RemoveBlankElementsTest4()
         {
@@ -112,6 +124,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.XElementExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void RemoveBlankElementsTest5()
         {

@@ -18,6 +18,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Make sure the xml conforms to the schema. I don't have the runtime performance hit to check it on each method call
         /// </summary>
+        [TestCategory("Core.Countries")]
+        [TestCategory("Core.Xml.Schema")]
+        [TestCategory("Core")]
         [TestMethod]
         public void ValidateXmlAgainstSchemaTest1()
         {
@@ -36,24 +39,26 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test builds the country listing and verifies everything is correct and running
         /// </summary>
+        [TestCategory("Core.Countries")]
+        [TestCategory("Core")]
         [TestMethod]
         public void CountrySelectTest1()
         {
             //grab the country list
-            var countryListing = Country.CountryListing();
+            var CountryListing = Country.CountryListing();
 
             //check the total country count
-            Assert.AreEqual(244, countryListing.Count);
+            Assert.AreEqual(244, CountryListing.Count);
 
             //let's just test a random country
-            Assert.AreEqual(1, countryListing[1].CountryID);
-            Assert.AreEqual("Andorra", countryListing[1].ShortCountryName);
-            Assert.AreEqual("The Principality Of Andorra", countryListing[1].LongCountryName);
+            Assert.AreEqual(1, CountryListing[1].CountryID);
+            Assert.AreEqual("Andorra", CountryListing[1].ShortCountryName);
+            Assert.AreEqual("The Principality Of Andorra", CountryListing[1].LongCountryName);
 
-            Assert.AreEqual("AD", countryListing[1].ISO2CharCode);
-            Assert.AreEqual("AN", countryListing[1].IRS2CharCode);
-            Assert.AreEqual("AND", countryListing[1].ISO3CharCode);
-            Assert.AreEqual(20, countryListing[1].ISO3DigitCode);
+            Assert.AreEqual("AD", CountryListing[1].ISO2CharCode);
+            Assert.AreEqual("AN", CountryListing[1].IRS2CharCode);
+            Assert.AreEqual("AND", CountryListing[1].ISO3CharCode);
+            Assert.AreEqual(20, CountryListing[1].ISO3DigitCode);
         }
 
         #endregion

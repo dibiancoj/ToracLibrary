@@ -26,6 +26,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the MD5 Hash Encryption
         /// </summary>
+        [TestCategory("Core.Security.Encryption")]
+        [TestCategory("Core.Security")]
+        [TestCategory("Core")]
         [TestMethod]
         public void EncryptionMD5HashTest1()
         {
@@ -48,6 +51,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test the Rijndael Encrytion
         /// </summary>
+        [TestCategory("Core.Security.Encryption")]
+        [TestCategory("Core.Security")]
+        [TestCategory("Core")]
         [TestMethod]
         public void EncryptionRijndaelSecurityTest1()
         {

@@ -20,19 +20,22 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test to create an IEnumerable from a single object
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.ObjectExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void SingleObjectToIEnumerableTest1()
         {
-            //grab a single record and push to an ienumerable
-            var IEnumerableBuiltFromSingleObject = DummyObject.CreateDummyRecord().ToIEnumerable();
-
             //make sure we only have 1 record. This should prove it's in a form of ienumerable
-            Assert.AreEqual(1, IEnumerableBuiltFromSingleObject.Count());
+            Assert.AreEqual(1, DummyObject.CreateDummyRecord().ToIEnumerableLazy().Count());
         }
 
         /// <summary>
         /// Unit test to create an IList from a single object
         /// </summary>
+        [TestCategory("Core.ExtensionMethods.ObjectExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
         [TestMethod]
         public void SingleObjectToListTest1()
         {
