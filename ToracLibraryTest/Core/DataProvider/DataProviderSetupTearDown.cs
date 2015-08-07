@@ -86,10 +86,10 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
                 for (var i = 0; i < HowManyRowsToAdd; i++)
                 {
                     //build the sql
-                    string sql = string.Format($"Insert Into Ref_Test (Description,Description2) Values ('{i}','{i}')");
+                    string SqlToRun = string.Format($"Insert Into Ref_Test (Description) Values ('{i}')");
 
                     //insert the record now
-                    DP.ExecuteNonQuery(sql, CommandType.Text);
+                    DP.ExecuteNonQuery(SqlToRun, CommandType.Text);
                 }
             }
         }

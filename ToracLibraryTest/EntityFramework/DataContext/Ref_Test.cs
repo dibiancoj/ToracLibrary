@@ -16,15 +16,5 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
 
         [StringLength(50)]
         public string Description2 { get; set; }
-
-        public DateTime? CreateDate { get; set; }
-
-        public bool? BooleanTest { get; set; }
-
-        public int? NullId { get; set; }
-
-        public int? SubObjectId { get; set; }
-
-        public virtual Ref_SubObject Ref_SubObject { get; set; }
     }
 }

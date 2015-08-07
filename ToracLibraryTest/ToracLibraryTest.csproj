@@ -110,7 +110,6 @@
     <Compile Include="Core\Paging\DataSetPagingTest.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
-    <Compile Include="EntityFramework\DataContext\Ref_SubObject.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_Test.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\IDependencyInject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

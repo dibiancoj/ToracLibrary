@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +14,20 @@ namespace ToracLibraryTest.Framework.DummyObjects
     public class DummyObject
     {
 
+        #region Constructor
+        public DummyObject(int IdToSet, string DescriptionToSet)
+        {
+            Id = IdToSet;
+            Description = DescriptionToSet;
+        }
+
+        #endregion
+
         #region Properties
 
         public int Id { get; set; }
 
-        public string txt { get; set; }
-
-        public Nullable<int> IdNull { get; set; }
-
-        /// <summary>
-        /// For Cloning Test
-        /// </summary>
-        public DummyObject NestedObject { get; set; }
-
-        public string duplicateTxt { get; set; }
-
-        public List<DummyObject> DummyList { get; set; }
-
-        public int LastIndexTest { get; set; }
+        public string Description { get; set; }
 
         #endregion
 
@@ -47,23 +44,7 @@ namespace ToracLibraryTest.Framework.DummyObjects
             for (int i = 0; i < HowManyItems; i++)
             {
                 //create a new record
-                var NewObject = new DummyObject { Id = i, txt = "Test_" + i.ToString() };
-
-                NewObject.duplicateTxt = "Dup";
-                NewObject.NestedObject = new DummyObject { Id = i + 10000 };
-
-                if (i == 1)
-                {
-                    NewObject.IdNull = i;
-                    NewObject.duplicateTxt = "Dup = 1";
-                }
-
-                if (i == 2 || i == 3 || i == 4)
-                {
-                    NewObject.LastIndexTest = 5;
-                }
-
-                yield return NewObject;
+                yield return new DummyObject(i, "Test_" + i.ToString());
             }
         }
 

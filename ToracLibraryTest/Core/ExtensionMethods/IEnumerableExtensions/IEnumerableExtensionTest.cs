@@ -150,7 +150,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             Assert.AreEqual(0, DummyCreatedList.FirstIndexOfElement(x => x.Id == 0));
             Assert.AreEqual(1, DummyCreatedList.FirstIndexOfElement(x => x.Id == 1));
             Assert.AreEqual(8, DummyCreatedList.FirstIndexOfElement(x => x.Id == 8));
-            Assert.AreEqual(8, DummyCreatedList.FirstIndexOfElement(x => x.txt == "Test_8"));
+            Assert.AreEqual(8, DummyCreatedList.FirstIndexOfElement(x => x.Description == "Test_8"));
             Assert.IsNull(DummyCreatedList.FirstIndexOfElement(x => x.Id == 1000));
         }
 
@@ -167,16 +167,25 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         [TestMethod]
         public void LastIndexOfElementTest1()
         {
-            //create a dummy list to test
-            var DummyCreatedList = DummyObject.CreateDummyListLazy(10).ToArray();
+            //creat the id's that will have duplicates
+            var DuplicateIds = new int[] { 3, 4 };
+
+            //duplicate text to use
+            const string DuplicateTextTag = "Duplicate";
+
+            //create a dummy list to test and modify it so we have duplicate propertu values
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(10).Select((x, i) => new { MainObject = x, DuplicateText = (DuplicateIds.Contains(i) ? DuplicateTextTag : null) }).ToArray();
 
             //check the following tests
-            Assert.IsNull(DummyCreatedList.LastIndexOfElement(x => x.Id == 100));
-            Assert.AreEqual(DummyCreatedList.Count() - 1, DummyCreatedList.LastIndexOfElement(x => string.Equals(x.duplicateTxt, "Dup", StringComparison.OrdinalIgnoreCase)));
-            Assert.AreEqual(4, DummyCreatedList.LastIndexOfElement(x => x.LastIndexTest == 5));
 
-            //add this to the unit test to test a item found at the 0 index
-            Assert.AreEqual(0, DummyCreatedList.LastIndexOfElement(x => x.Id == 0));
+            //check the main object that we don't have any id's with 100
+            Assert.IsNull(DummyCreatedList.LastIndexOfElement(x => x.MainObject.Id == 100));
+
+            //now check the duplicate text value and make sure the last index is 4 (or the highest number in duplicate id)
+            Assert.AreEqual(DuplicateIds.Last(), DummyCreatedList.LastIndexOfElement(x => x.DuplicateText == DuplicateTextTag));
+
+            //let's try to find something with no duplicates
+            Assert.AreEqual(0, DummyCreatedList.LastIndexOfElement(x => x.MainObject.Id == 0));
         }
 
         #endregion
@@ -202,13 +211,13 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             var DummyCreatedList = DummyObject.CreateDummyListLazy(10).ToArray();
 
             //go change the value for the 2 items using foreach
-            DummyCreatedList.Where(x => IdsToChange.Contains(x.Id)).ForEach(x => x.txt = ValueToSet);
+            DummyCreatedList.Where(x => IdsToChange.Contains(x.Id)).ForEach(x => x.Description = ValueToSet);
 
             //let's loop through each item and make sure we have the correct value
             foreach (var ItemToTest in DummyCreatedList.Where(x => IdsToChange.Contains(x.Id)))
             {
                 //make sure it's the value
-                Assert.AreEqual(ValueToSet, ItemToTest.txt);
+                Assert.AreEqual(ValueToSet, ItemToTest.Description);
             }
         }
 
@@ -225,16 +234,28 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         [TestMethod]
         public void DistintByTest1()
         {
-            //create a dummy list
-            var DummyCreatedList = DummyObject.CreateDummyListLazy(10).ToArray();
+            //creat the id's that will have duplicates
+            var DuplicateIds = new int[] { 3, 4 };
+
+            //duplicate text to use
+            const string DuplicateTextTag = "Duplicate";
+
+            //create a dummy list to test and modify it so we have duplicate propertu values
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(10).Select((x, i) => new { MainObject = x, DuplicateText = (DuplicateIds.Contains(i) ? DuplicateTextTag : null) }).ToArray();
 
             //run a distinct by on the duplicate text
-            var ResultsOfDistinctBy = DummyCreatedList.DistinctByLazy(x => x.duplicateTxt).OrderBy(x => x.Id).ToArray();
+            var ResultsOfDistinctBy = DummyCreatedList.DistinctByLazy(x => x.DuplicateText).OrderBy(x => x.MainObject.Id).ToArray();
 
             //check the results
+
+            //make sure we have 2 distinct items
             Assert.AreEqual(2, ResultsOfDistinctBy.Count());
-            Assert.AreEqual("Dup", ResultsOfDistinctBy.ElementAt(0).duplicateTxt);
-            Assert.AreEqual("Dup = 1", ResultsOfDistinctBy.ElementAt(1).duplicateTxt);
+
+            //make sure we only have 1 distint value for the duplicate tag (make sure it's truly distinct)
+            Assert.AreEqual(1, ResultsOfDistinctBy.Where(x => x.DuplicateText == DuplicateTextTag).Count());
+
+            //make sure the duplicate text matches what we set
+            Assert.AreEqual(DuplicateTextTag, ResultsOfDistinctBy.FirstOrDefault(x => x.DuplicateText == DuplicateTextTag).DuplicateText);
         }
 
         #endregion

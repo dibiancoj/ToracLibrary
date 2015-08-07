@@ -113,72 +113,13 @@ USE [ToracLibraryTest]
 GO
 
 
+USE [ToracLibraryTest]
+GO
+/****** Object:  Table [dbo].[Ref_SqlCachTrigger]    Script Date: 8/7/2015 8:00:34 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
-SET ANSI_PADDING ON
-GO
-
-CREATE TABLE [dbo].[Ref_SubObject](
-	[SubObjectId] [int] NOT NULL,
-	[SubObjectText] [varchar](50) NULL,
- CONSTRAINT [PK_Ref_SubObject] PRIMARY KEY CLUSTERED 
-(
-	[SubObjectId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-SET ANSI_PADDING ON
-GO
-
-CREATE TABLE [dbo].[Ref_Test](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Description] [varchar](50) NOT NULL,
-	[Description2] [varchar](50) NULL,
-	[CreateDate] [datetime] NULL CONSTRAINT [DF_Ref_Test_CreateDate]  DEFAULT (getdate()),
-	[BooleanTest] [bit] NULL CONSTRAINT [DF_Ref_Test_BooleanTest]  DEFAULT ((1)),
-	[NullId] [int] NULL,
-	[SubObjectId] [int] NULL,
- CONSTRAINT [PK_Ref_Test] PRIMARY KEY CLUSTERED 
-(
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-ALTER TABLE [dbo].[Ref_Test]  WITH CHECK ADD  CONSTRAINT [FK_Ref_Test_Ref_SubObject] FOREIGN KEY([SubObjectId])
-REFERENCES [dbo].[Ref_SubObject] ([SubObjectId])
-ON UPDATE CASCADE
-ON DELETE CASCADE
-GO
-
-ALTER TABLE [dbo].[Ref_Test] CHECK CONSTRAINT [FK_Ref_Test_Ref_SubObject]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[Ref_SqlCachTrigger](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
@@ -188,6 +129,29 @@ CREATE TABLE [dbo].[Ref_SqlCachTrigger](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+/****** Object:  Table [dbo].[Ref_Test]    Script Date: 8/7/2015 8:00:34 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Ref_Test](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Ref_Test] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+USE [master]
+GO
+ALTER DATABASE [ToracLibraryTest] SET  READ_WRITE 
 GO
 
 

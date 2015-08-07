@@ -130,7 +130,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
                     //loop through each row and return it
                     foreach (DataRow DataRowFound in DataSetToTest.Tables[0].Rows)
                     {
-                        DataSourceInCache.Add(new DummyObject { Id = Convert.ToInt32(DataRowFound["Id"]) });
+                        DataSourceInCache.Add(new DummyObject(Convert.ToInt32(DataRowFound["Id"]), null));
                     }
                 }
 

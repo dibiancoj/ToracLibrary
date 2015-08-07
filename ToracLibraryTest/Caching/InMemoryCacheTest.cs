@@ -84,8 +84,8 @@ namespace ToracLibraryTest.UnitsTest.Caching
                 var DataSourceForCache = new List<DummyObject>();
 
                 //add the cache items
-                DataSourceForCache.Add(new DummyObject { Id = 1 });
-                DataSourceForCache.Add(new DummyObject { Id = 2 });
+                DataSourceForCache.Add(new DummyObject(1, null));
+                DataSourceForCache.Add(new DummyObject(2, null));
 
                 //return the list now
                 return DataSourceForCache;
