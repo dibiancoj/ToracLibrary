@@ -151,18 +151,18 @@ namespace ToracLibrary.Core.ReflectionDynamic
             MemberExpression WorkingMemberExpression = null;
 
             //let's loop through the properties and build up the expression (we split it and build up the levels)
-            foreach (PropertyInfo thisPropertyInfo in PropertyPaths)
+            foreach (PropertyInfo PropertyInfoToSet in PropertyPaths)
             {
                 //is this the first item?
                 if (WorkingMemberExpression == null)
                 {
                     //set the working expression
-                    WorkingMemberExpression = Expression.Property(LambdaArgument, thisPropertyInfo);
+                    WorkingMemberExpression = Expression.Property(LambdaArgument, PropertyInfoToSet);
                 }
                 else
                 {
                     //set the working expression
-                    WorkingMemberExpression = Expression.Property(WorkingMemberExpression, thisPropertyInfo);
+                    WorkingMemberExpression = Expression.Property(WorkingMemberExpression, PropertyInfoToSet);
                 }
             }
 
