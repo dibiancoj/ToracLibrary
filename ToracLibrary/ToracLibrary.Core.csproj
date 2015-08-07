@@ -93,6 +93,7 @@
     <Compile Include="Security\Encryption\Implementations\RijndaelSecurityEncryption.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
+    <Compile Include="DataTypes\PrimitiveTypes.cs" />
     <Compile Include="Units\ComputerSizeUnitConverter.cs" />
     <Compile Include="WebRequests\FileDownloadWebRequest.cs" />
     <Compile Include="WebRequests\FTPWebRequest.cs" />
