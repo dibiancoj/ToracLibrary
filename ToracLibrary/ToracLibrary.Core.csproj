@@ -86,6 +86,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Reflection\ImplementingClasses.cs" />
+    <Compile Include="Reflection\PropertyHelpers.cs" />
     <Compile Include="RegularExpressions\NumberParser.cs" />
     <Compile Include="RegularExpressions\HtmlTagRemoval.cs" />
     <Compile Include="Security\Encryption\Implementations\MD5HashSecurityEncryption.cs" />
