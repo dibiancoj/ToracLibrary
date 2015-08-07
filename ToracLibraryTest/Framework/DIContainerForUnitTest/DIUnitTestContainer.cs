@@ -54,7 +54,7 @@ namespace ToracLibraryTest.Framework
         private static void ConfigureDIContainer(UnityContainer ContainerToBuildUp)
         {
             //grab each of the class types that implement IDependencyInject. Then loop through each of the implementations, and call the confiure DI method
-            foreach (var ClassImplementation in ImplementingClasses.RetrieveImplementingClassesLazy(typeof(IDependencyInject)))
+            foreach (var ClassImplementation in ImplementingClasses.RetrieveImplementingClassesLazy<IDependencyInject>())
             {
                 //create the instance of that class
                 var ImplementationInstance = (IDependencyInject)Activator.CreateInstance(ClassImplementation);

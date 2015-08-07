@@ -137,7 +137,7 @@ namespace ToracLibrary.Core.DataProviders.ADO
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
         /// <returns>Your result in an object. Be sure to cast it otherwise it will be late bound!</returns>
         /// <example>Select Count(*)</example>
-        System.Object GetScalar(string SqlToRun, CommandType CommandTypeToRun);
+        object GetScalar(string SqlToRun, CommandType CommandTypeToRun);
 
         /// <summary>
         /// Get A Typed Single Field Query

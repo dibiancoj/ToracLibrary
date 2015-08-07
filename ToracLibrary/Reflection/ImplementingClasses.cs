@@ -18,6 +18,17 @@ namespace ToracLibrary.Core.ReflectionDynamic
         /// <summary>
         /// Retrieve a list of classes that implement the interface or base class passed in. Pass in typeof(MyInterface || MyBaseClass).
         /// </summary>
+        /// <typeparam name="T">typeof(MyInterface || MyBaseClass). Type of the interface or base classyou want to check</typeparam>
+        /// <returns>list of types (classes) that implement or derived from InterfaceOrBaseClass. You can call Activator.CreateInstance(thisType) to create an instance of the type passed back.</returns>
+        public static IEnumerable<Type> RetrieveImplementingClassesLazy<T>()
+        {
+            //use the overload
+            return RetrieveImplementingClassesLazy(typeof(T));
+        }
+
+        /// <summary>
+        /// Retrieve a list of classes that implement the interface or base class passed in. Pass in typeof(MyInterface || MyBaseClass).
+        /// </summary>
         /// <param name="InterfaceOrBaseClass">typeof(MyInterface || MyBaseClass). Type of the interface or base classyou want to check</param>
         /// <returns>list of types (classes) that implement or derived from InterfaceOrBaseClass. You can call Activator.CreateInstance(thisType) to create an instance of the type passed back.</returns>
         public static IEnumerable<Type> RetrieveImplementingClassesLazy(Type InterfaceOrBaseClass)
