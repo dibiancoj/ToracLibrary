@@ -78,6 +78,8 @@
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageCalculator.cs" />
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageLineResults.cs" />
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageResult.cs" />
+    <Compile Include="Mathematical\Mode\ModeCalculation.cs" />
+    <Compile Include="Mathematical\Mode\ModeResult.cs" />
     <Compile Include="Paging\DataSetPaging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
