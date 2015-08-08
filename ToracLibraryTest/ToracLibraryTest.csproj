@@ -103,7 +103,7 @@
     <Compile Include="Core\ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
-    <Compile Include="Core\Forecasting\ForecastingTest.cs" />
+    <Compile Include="Core\Mathematical\Forecasting\ForecastingTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />

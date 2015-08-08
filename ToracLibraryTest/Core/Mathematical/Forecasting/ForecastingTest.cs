@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Forecasting.LinearRegression;
-using ToracLibrary.Core.Forecasting.MovingAverage;
+using ToracLibrary.Core.Mathematical.Forecasting.LinearRegression;
+using ToracLibrary.Core.Mathematical.Forecasting.MovingAverage;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -22,8 +22,9 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Test linear regression
         /// </summary>
-        [TestCategory("Core.Forecasting.LinearRegression")]
-        [TestCategory("Core.Forecasting")]
+        [TestCategory("Core.Mathematical.Forecasting.LinearRegression")]
+        [TestCategory("Core.Mathematical.Forecasting")]
+        [TestCategory("Core.Mathematical")]
         [TestCategory("Core")]
         [TestMethod]
         public void LinearRegressionTest1()
@@ -65,9 +66,9 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Moving Average
 
-        [TestCategory("Core.Forecasting.MovingAverage")]
-        [TestCategory("Core.Forecasting.MeanSquaredError")]
-        [TestCategory("Core.Forecasting")]
+        [TestCategory("Core.Mathematical.Forecasting.LinearRegression")]
+        [TestCategory("Core.Mathematical.Forecasting")]
+        [TestCategory("Core.Mathematical")]
         [TestCategory("Core")]
         [TestMethod]
         public void MovingAverage_Test1()

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Core.Forecasting.LinearRegression
+namespace ToracLibrary.Core.Mathematical.Forecasting.LinearRegression
 {
 
     /// <summary>

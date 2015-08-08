@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Forecasting.MeanSquaredError;
+using ToracLibrary.Core.Mathematical.Forecasting.MeanSquaredError;
 
-namespace ToracLibrary.Core.Forecasting.MovingAverage
+namespace ToracLibrary.Core.Mathematical.Forecasting.MovingAverage
 {
 
     /// <summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.Core.Forecasting.MovingAverage
+namespace ToracLibrary.Core.Mathematical.Forecasting.MovingAverage
 {
 
     /// <summary>
