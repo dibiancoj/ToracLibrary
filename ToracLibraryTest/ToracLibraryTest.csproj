@@ -104,6 +104,7 @@
     <Compile Include="Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
     <Compile Include="Core\Mathematical\Forecasting\ForecastingTest.cs" />
+    <Compile Include="Core\Mathematical\Median\MedianTest.cs" />
     <Compile Include="Core\Mathematical\ModeCalc\ModeTest.cs" />
     <Compile Include="Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
