@@ -52,6 +52,7 @@
     <Compile Include="Countries\CountryCodeInfo.cs" />
     <Compile Include="DataProviders\ADO.NET\Implementation\SQLDataProvider.cs" />
     <Compile Include="DataProviders\ADO.NET\Interface\IDataProvider.cs" />
+    <Compile Include="DataTables\ToDataTables.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHourHoliday.cs" />
     <Compile Include="DateTime\BusinessHours\BusinessHoursCalculator.cs" />
     <Compile Include="DateTime\DateTimeCalculations.cs" />

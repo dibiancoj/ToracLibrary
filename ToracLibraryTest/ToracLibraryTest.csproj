@@ -91,6 +91,7 @@
     <Compile Include="Core\Countries\CountryTest.cs" />
     <Compile Include="Core\DataProvider\DataProviderSetupTearDown.cs" />
     <Compile Include="Core\DataProvider\SqlDataProviderTest.cs" />
+    <Compile Include="Core\DataTables\DataTableTest.cs" />
     <Compile Include="Core\DataTypes\DataTypesTest.cs" />
     <Compile Include="Core\DateTime\DateTimeTest.cs" />
     <Compile Include="Core\Delimiter Creator And Parser\DelimiterTest.cs" />
