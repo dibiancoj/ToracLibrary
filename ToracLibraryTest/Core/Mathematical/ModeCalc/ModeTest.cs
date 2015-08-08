@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Mathematical.Forecasting.LinearRegression;
-using ToracLibrary.Core.Mathematical.Forecasting.MovingAverage;
 using ToracLibrary.Core.Mathematical.Mode;
 
 namespace ToracLibraryTest.UnitsTest.Core
