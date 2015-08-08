@@ -78,6 +78,8 @@
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageCalculator.cs" />
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageLineResults.cs" />
     <Compile Include="Mathematical\Forecasting\MovingAverage\MovingAverageResult.cs" />
+    <Compile Include="Mathematical\GeometricAverage\GeometricAverageCalculation.cs" />
+    <Compile Include="Mathematical\Growth\GrowthCalculation.cs" />
     <Compile Include="Mathematical\Median\MedianCalculation.cs" />
     <Compile Include="Mathematical\Mode\ModeCalculation.cs" />
     <Compile Include="Mathematical\Mode\ModeResult.cs" />
