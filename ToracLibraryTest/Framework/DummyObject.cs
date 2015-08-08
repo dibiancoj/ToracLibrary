@@ -11,6 +11,7 @@ namespace ToracLibraryTest.Framework.DummyObjects
     /// <summary>
     /// A dummy object that is used throughout the tests
     /// </summary>
+    [Serializable]
     public class DummyObject
     {
 

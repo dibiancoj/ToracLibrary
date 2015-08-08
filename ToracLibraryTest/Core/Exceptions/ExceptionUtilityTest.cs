@@ -10,7 +10,7 @@ namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>
-    /// Unit test for execption utility methods
+    /// Unit test for exceptions utility methods
     /// </summary>
     [TestClass]
     public class ExceptionUtilityTest

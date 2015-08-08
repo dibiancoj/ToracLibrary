@@ -134,15 +134,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Serialization\Binary\BinarySerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
       <Name>ToracLibrary.Caching</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToracLibrary\ToracLibrary.Core.csproj">
+    <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
       <Name>ToracLibrary.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Serialization\ToracLibrary.Serialization.csproj">
+      <Project>{34cc1c49-3b3c-44a1-8183-d2c25b1be8ce}</Project>
+      <Name>ToracLibrary.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

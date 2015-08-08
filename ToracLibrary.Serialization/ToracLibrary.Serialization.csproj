@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4B54CAFC-EB31-4542-9B6C-8641D30A2C36}</ProjectGuid>
+    <ProjectGuid>{34CC1C49-3B3C-44A1-8183-D2C25B1BE8CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToracLibrary.Caching</RootNamespace>
-    <AssemblyName>ToracLibrary.Caching</AssemblyName>
+    <RootNamespace>ToracLibrary.Serialization</RootNamespace>
+    <AssemblyName>ToracLibrary.Serialization</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClass\InMemoryCache.cs" />
-    <Compile Include="BaseClass\InMemoryCacheUntyped.cs" />
-    <Compile Include="Implementation\SqlCacheDependency.cs" />
-    <Compile Include="Interface\ICacheImplementation.cs" />
+    <Compile Include="Binary\BinarySerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
-      <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
-      <Name>ToracLibrary.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
