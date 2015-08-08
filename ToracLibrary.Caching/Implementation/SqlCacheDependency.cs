@@ -33,48 +33,7 @@ namespace ToracLibrary.Caching
     //*****Note in your sql you must specify database schema. ie: select lastupdatedate from dbo.tablename. 
     //if you just use select lastupdatedatefrom tablename it will never raise the event after the initial call is ran
 
-    //Example
-    //public static class TestCacheHelper
-    //{
-    //    public static List<string> Get()
-    //    {
-    //        return new TestCache<List<string>>().Get();
-    //    }
-    //}
-
-    //public class TestCache<T> : SqlDependencyCache<T>
-    //{
-
-    //    private const string ConnectionString = @"data source=hpdesktop\sqlexpress;initial catalog=ToracGolf;integrated security=True;Trusted_Connection=True;";
-
-    //    public TestCache()
-    //        : base(ConnectionString)
-    //    {
-    //        CacheKey = "TestCache";
-    //        DatabaseSchema = "dbo";
-    //        SqlToRun = "SELECT UpdatedDate FROM dbo.TestSql";
-    //    }
-
-    //    protected override string SqlToRun { get; set; }
-
-    //    protected override string DatabaseSchema { get; set; }
-
-    //    protected override string CacheKey { get; set; }
-
-    //    protected override T GetDataFromDataSource()
-    //    {
-    //        var l = new List<string>();
-    //        l.Add("1");
-    //        l.Add("2");
-
-    //        return GenericsConversion.ConvertValue<T>(l);
-    //    }
-
-    //    public T Get()
-    //    {
-    //        return GetCacheItem();
-    //    }
-    //}
+    //** use the SqlCacheDependencyTest for an example on how to implement if you need help **
 
     /// <summary>
     /// Builds a sql cache dependency. If the data in the sql table changes, an event will be raised which will reload the cache

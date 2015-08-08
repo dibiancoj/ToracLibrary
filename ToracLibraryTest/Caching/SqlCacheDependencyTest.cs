@@ -92,15 +92,6 @@ namespace ToracLibraryTest.UnitsTest.Caching
             #endregion
 
             /// <summary>
-            /// Get the cache item. From cache, otherwise goes back to the data source
-            /// </summary>
-            /// <returns>IEnumerable of dummy object</returns>
-            public static IEnumerable<DummyObject> GetCacheItem()
-            {
-                return Cache.GetCacheItem();
-            }
-
-            /// <summary>
             /// insert into the sql cache record
             /// </summary>
             public static void UpdateSqlCache()
@@ -157,13 +148,13 @@ namespace ToracLibraryTest.UnitsTest.Caching
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             //make sure we have 10 items in the table
-            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DummySqlCacheObjectCacheNoDI.Cache.GetCacheItem().Count());
 
             //insert some rows
             DataProviderSetupTearDown.AddRows(RecordsToAdd, false);
 
             //now we just added some rows in the table (but we have not updated the trigger table...so we should still have the same amount of records)
-            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DummySqlCacheObjectCacheNoDI.Cache.GetCacheItem().Count());
 
             //now we want to trigger the cache and grab the changes
             DummySqlCacheObjectCacheNoDI.UpdateSqlCache();
@@ -173,7 +164,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             Thread.SpinWait(10000000);
 
             //cache should be reset now...should be 14
-            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, DummySqlCacheObjectCacheNoDI.GetCacheItem().Count());
+            Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, DummySqlCacheObjectCacheNoDI.Cache.GetCacheItem().Count());
         }
 
         /// <summary>
