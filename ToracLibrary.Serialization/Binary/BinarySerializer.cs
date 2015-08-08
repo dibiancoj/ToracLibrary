@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -14,6 +15,8 @@ namespace ToracLibrary.Serialization.Binary
     /// </summary>
     public static class BinarySerializer
     {
+
+        #region Regular Binary
 
         #region Serialize
 
@@ -101,6 +104,131 @@ namespace ToracLibrary.Serialization.Binary
                 return ((T)new BinaryFormatter().Deserialize(MemoryStreamToWriteInto));
             }
         }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Binary Compressed
+
+        #region Serialize Object
+
+        #region Regular
+
+        /// <summary>
+        /// Serialize And Compress And Object To An Byte array
+        /// </summary>
+        /// <param name="ObjectToCompress">Object To Compress</param>
+        /// <returns>Compressed Object In A Byte Array</returns>
+        public static byte[] SerializeAndCompress<T>(T ObjectToCompress)
+        {
+            //create the memory stream which we will use to build the stream
+            using (var MemoryStreamToUse = new MemoryStream())
+            {
+                //create the zip stream
+                using (var GZipStreamToUse = new GZipStream(MemoryStreamToUse, CompressionMode.Compress, true))
+                {
+                    //go serialize the object and fill the stream
+                    new BinaryFormatter().Serialize(GZipStreamToUse, ObjectToCompress);
+                }
+
+                //go return the memory stream to byte array
+                return MemoryStreamToUse.ToArray();
+            }
+        }
+
+        #endregion
+
+        #region Task Based
+
+        /// <summary>
+        /// Serialize And Compress And Object To An Byte array Async
+        /// </summary>
+        /// <param name="ObjectToCompress">Object To Compress</param>
+        /// <returns>Compressed Object In A Byte Array</returns>
+        public static Task<byte[]> SerializeAndCompressAsync<T>(T ObjectToCompress)
+        {
+            return Task<byte[]>.Factory.StartNew(() =>
+            {
+                return SerializeAndCompress<T>(ObjectToCompress);
+            });
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Deserialize Object
+
+        #region Regular
+
+        /// <summary>
+        /// Decompress the byte array and deserialize it back to Type Of T
+        /// </summary>
+        /// <typeparam name="T">Type of object to return</typeparam>
+        /// <param name="CompressedData">Data that was serialized and compressed from SerializeAndCompress</param>
+        /// <returns>Decompressed And Deserialized T</returns>
+        public static T DecompressAndDeserialize<T>(byte[] CompressedData)
+        {
+            //go decompress and deserialize the object and convert it to T
+            return (T)DecompressAndDeserialize(CompressedData);
+        }
+
+        /// <summary>
+        /// Decompress the byte array and deserialize it back to an object
+        /// </summary>
+        /// <param name="CompressedData">Data that was serialized and compressed from SerializeAndCompress</param>
+        /// <returns>Decompressed And Deserialized Object</returns>
+        public static object DecompressAndDeserialize(byte[] CompressedData)
+        {
+            //create the memory stream which we will use to build the stream
+            using (var MemoryStreamToUse = new MemoryStream(CompressedData))
+            {
+                //create the zip stream
+                using (var GZipStreamToUse = new GZipStream(MemoryStreamToUse, CompressionMode.Decompress, true))
+                {
+                    //go deserialize the object and fill the stream
+                    return new BinaryFormatter().Deserialize(GZipStreamToUse);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Task Based
+
+        /// <summary>
+        /// Decompress the byte array and deserialize it back to Type Of T
+        /// </summary>
+        /// <typeparam name="T">Type of object to return</typeparam>
+        /// <param name="CompressedData">Data that was serialized and compressed from SerializeAndCompress</param>
+        /// <returns>Decompressed And Deserialized T</returns>
+        public static Task<T> DecompressAndDeserializeAsync<T>(byte[] CompressedData)
+        {
+            //go decompress and deserialize the object and convert it to T
+            return Task<T>.Factory.StartNew(() =>
+            {
+                return DecompressAndDeserialize<T>(CompressedData);
+            });
+        }
+
+        /// <summary>
+        /// Decompress the byte array and deserialize it back to an object
+        /// </summary>
+        /// <param name="CompressedData">Data that was serialized and compressed from SerializeAndCompress</param>
+        /// <returns>Decompressed And Deserialized Object</returns>
+        public static Task<object> DecompressAndDeserializeAsync(byte[] CompressedData)
+        {
+            //go decompress and deserialize the object and convert it to T
+            return Task<object>.Factory.StartNew(() =>
+            {
+                return DecompressAndDeserialize(CompressedData);
+            });
+        }
+
+        #endregion
 
         #endregion
 

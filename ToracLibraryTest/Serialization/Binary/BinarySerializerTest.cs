@@ -37,9 +37,37 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             //let's test the data
             Assert.IsNotNull(DeserializedObject);
 
-            //check the properties
+            //check the properties. check the id
             Assert.AreEqual(RecordToTest.Id, DeserializedObject.Id);
 
+            //check the description
+            Assert.AreEqual(RecordToTest.Description, DeserializedObject.Description);
+        }
+
+        /// <summary>
+        /// Test to find a specific exception from an error stack trace
+        /// </summary>
+        [TestCategory("Serializations.Binary")]
+        [TestCategory("Serializations")]
+        [TestMethod]
+        public void CompressedBinarySerializationTest1()
+        {
+            //create the dummy record
+            var RecordToTest = DummyObject.CreateDummyRecord();
+
+            //let's serialize it
+            var SerializedBytes = BinarySerializer.SerializeAndCompress(RecordToTest);
+
+            //let's de-serialize it back
+            var DeserializedObject = BinarySerializer.DecompressAndDeserialize<DummyObject>(SerializedBytes);
+
+            //let's test the data
+            Assert.IsNotNull(DeserializedObject);
+
+            //check the properties. check the id
+            Assert.AreEqual(RecordToTest.Id, DeserializedObject.Id);
+
+            //check the description
             Assert.AreEqual(RecordToTest.Description, DeserializedObject.Description);
         }
 
