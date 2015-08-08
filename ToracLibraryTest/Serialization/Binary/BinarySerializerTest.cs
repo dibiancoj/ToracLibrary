@@ -29,10 +29,10 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             var RecordToTest = DummyObject.CreateDummyRecord();
 
             //let's serialize it
-            var SerializedBytes = BinarySerializer.SerializeObject(RecordToTest);
+            var SerializedBytes = BinarySerialization.SerializeObject(RecordToTest);
 
             //let's de-serialize it back
-            var DeserializedObject = BinarySerializer.DeserializeObject<DummyObject>(SerializedBytes);
+            var DeserializedObject = BinarySerialization.DeserializeObject<DummyObject>(SerializedBytes);
 
             //let's test the data
             Assert.IsNotNull(DeserializedObject);
@@ -56,10 +56,10 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             var RecordToTest = DummyObject.CreateDummyRecord();
 
             //let's serialize it
-            var SerializedBytes = BinarySerializer.SerializeAndCompress(RecordToTest);
+            var SerializedBytes = BinarySerialization.SerializeAndCompress(RecordToTest);
 
             //let's de-serialize it back
-            var DeserializedObject = BinarySerializer.DecompressAndDeserialize<DummyObject>(SerializedBytes);
+            var DeserializedObject = BinarySerialization.DecompressAndDeserialize<DummyObject>(SerializedBytes);
 
             //let's test the data
             Assert.IsNotNull(DeserializedObject);

@@ -13,7 +13,7 @@ namespace ToracLibrary.Serialization.Binary
     /// <summary>
     /// Binary - Serialize and Deserialize Objects 
     /// </summary>
-    public static class BinarySerializer
+    public static class BinarySerialization
     {
 
         #region Regular Binary
