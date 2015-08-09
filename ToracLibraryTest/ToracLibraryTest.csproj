@@ -115,6 +115,7 @@
     <Compile Include="Core\Mathematical\ModeCalc\ModeTest.cs" />
     <Compile Include="Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
+    <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
     <Compile Include="Core\Paging\DataSetPagingTest.cs" />
@@ -146,6 +147,10 @@
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
       <Name>ToracLibrary.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Core.EntityFrameworkDP\ToracLibrary.Core.DataProviders.EntityFrameworkDP.csproj">
+      <Project>{1361fc86-9a14-437a-b256-2fad1febf8a9}</Project>
+      <Name>ToracLibrary.Core.DataProviders.EntityFrameworkDP</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
