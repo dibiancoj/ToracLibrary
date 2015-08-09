@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.Core.Security.Encryption;
+using ToracLibraryTest.Framework;
+using Microsoft.Practices.Unity;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -9,10 +11,37 @@ namespace ToracLibraryTest.UnitsTest.Core
     /// Unit test to test the Encryption
     /// </summary>
     [TestClass]
-    public class EncryptionSecurityTest
+    public class EncryptionSecurityTest : IDependencyInject
     {
 
+        #region IDependency Injection Methods
+
+        /// <summary>
+        /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
+        /// </summary>
+        /// <param name="DIContainer">container to modify</param>
+        public void ConfigureDIContainer(UnityContainer DIContainer)
+        {
+            //let's register the di container now (md5)
+            DIContainer.RegisterType<ISecurityEncryption, MD5HashSecurityEncryption>(MD5DIContainerName, new ContainerControlledLifetimeManager(), new InjectionConstructor("Test"));
+
+            //let's register the rijndael container now
+            DIContainer.RegisterType<ISecurityEncryption, RijndaelSecurityEncryption>(RijndaelDIContainerName, new ContainerControlledLifetimeManager(), new InjectionConstructor("1234567891123456", "1234567891123456"));
+        }
+
+        #endregion
+
         #region Constants
+
+        /// <summary>
+        /// Holds the md5 Di container name
+        /// </summary>
+        private const string MD5DIContainerName = "MD5";
+
+        /// <summary>
+        /// Rijndael container name for the di container
+        /// </summary>
+        private const string RijndaelDIContainerName = "Rijndael";
 
         /// <summary>
         /// Value to test
@@ -33,7 +62,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void EncryptionMD5HashTest1()
         {
             //create the implementation of the interface
-            ISecurityEncryption EncryptImplementation = new MD5HashSecurityEncryption("Test");
+            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ISecurityEncryption>(MD5DIContainerName);
 
             //go encrypt the value
             var EncryptedValue = EncryptImplementation.Encrypt(ValueToTest);
@@ -58,7 +87,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void EncryptionRijndaelSecurityTest1()
         {
             //create the implementation of the interface
-            ISecurityEncryption EncryptImplementation = new RijndaelSecurityEncryption("1234567891123456", "1234567891123456");
+            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ISecurityEncryption>(RijndaelDIContainerName);
 
             //go encrypt the value
             var EncryptedValue = EncryptImplementation.Encrypt(ValueToTest);
