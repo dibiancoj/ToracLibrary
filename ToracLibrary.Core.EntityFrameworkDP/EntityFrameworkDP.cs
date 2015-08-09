@@ -1023,7 +1023,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             if (!ColumnIsAutoSeed.HasValue)
             {
                 //we didn't find the column...throw an error 
-                throw new NullReferenceException(string.Format("Can't Find Column '{0}' In The Table '{1}'. Please Correct The Parameters Of Method", ColumnName, TableName));
+                throw new NullReferenceException(string.Format($"Can't Find Column '{ColumnName}' In The Table '{TableName}'. Please Correct The Parameters Of Method"));
             }
 
             //we found the column and we have a result...so just return it

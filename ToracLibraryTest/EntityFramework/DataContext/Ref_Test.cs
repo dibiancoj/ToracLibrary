@@ -14,7 +14,5 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
         [StringLength(50)]
         public string Description { get; set; }
 
-        [StringLength(50)]
-        public string Description2 { get; set; }
     }
 }

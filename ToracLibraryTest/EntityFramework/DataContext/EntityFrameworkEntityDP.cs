@@ -20,9 +20,6 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
                 .Property(e => e.Description)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Ref_Test>()
-                .Property(e => e.Description2)
-                .IsUnicode(false);
         }
     }
 }
