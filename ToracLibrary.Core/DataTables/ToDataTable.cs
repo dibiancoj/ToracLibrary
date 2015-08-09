@@ -16,7 +16,7 @@ namespace ToracLibrary.Core.DataTableHelpers
     /// <summary>
     /// Builds a data table from an object or a list of objects
     /// </summary>
-    public static class ToDataTables
+    public static class ToDataTable
     {
 
         #region Public Methods

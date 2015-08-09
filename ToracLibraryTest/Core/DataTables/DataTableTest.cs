@@ -67,7 +67,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             const string TableNameToUse = "TestTableName";
 
             //go grab the result of the method
-            var DataTableResult = ToDataTables.BuildDataTableFromObject(SingleObject, TableNameToUse);
+            var DataTableResult = ToDataTable.BuildDataTableFromObject(SingleObject, TableNameToUse);
 
             //check the table name
             Assert.AreEqual(TableNameToUse, DataTableResult.TableName);
@@ -100,7 +100,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             const string TableNameToUse = "TestTableName";
 
             //go grab the result of the method
-            var DataTableResult = ToDataTables.BuildDataTableFromListOfObjects(RowsToTest, TableNameToUse);
+            var DataTableResult = ToDataTable.BuildDataTableFromListOfObjects(RowsToTest, TableNameToUse);
 
             //check the table name
             Assert.AreEqual(TableNameToUse, DataTableResult.TableName);
@@ -135,7 +135,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void ToDataTableTest3()
         {
             //run the single T method with a list, it should raise an error
-            ToDataTables.BuildDataTableFromObject(DataTableTestClass.BuildListOfTLazy().ToArray(), "TestTableName");
+            ToDataTable.BuildDataTableFromObject(DataTableTestClass.BuildListOfTLazy().ToArray(), "TestTableName");
         }
 
         #endregion

@@ -94,6 +94,8 @@
     <Compile Include="Caching\SqlCacheDependencyTest.cs" />
     <Compile Include="Core\Countries\CountryTest.cs" />
     <Compile Include="Core\DataProvider\DataProviderSetupTearDown.cs" />
+    <Compile Include="Core\DataProvider\SharedSqlHelpersTest.cs" />
+    <Compile Include="Core\DataProvider\GenericSqlBuilderTest.cs" />
     <Compile Include="Core\DataProvider\SqlDataProviderTest.cs" />
     <Compile Include="Core\DataTables\DataTableTest.cs" />
     <Compile Include="Core\DataTypes\DataTypesTest.cs" />
