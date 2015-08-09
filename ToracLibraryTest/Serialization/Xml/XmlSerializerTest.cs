@@ -45,9 +45,8 @@ namespace ToracLibraryTest.UnitsTest.Serialization
 
         #endregion
 
-        /// <summary>
-        /// Test to find a specific exception from an error stack trace
-        /// </summary>
+        #region Unit Tests
+
         [TestCategory("Serializations.Xml")]
         [TestCategory("Serializations")]
         [TestMethod]
@@ -80,6 +79,8 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             Assert.AreEqual(RecordToTest.Description, DeserializedStringObject.Description);
             Assert.AreEqual(RecordToTest.Description, DeserializedXElementObject.Description);
         }
+
+        #endregion
 
     }
 

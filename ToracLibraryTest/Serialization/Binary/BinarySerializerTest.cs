@@ -17,9 +17,6 @@ namespace ToracLibraryTest.UnitsTest.Serialization
     public class BinarySerializerTest
     {
 
-        /// <summary>
-        /// Test to find a specific exception from an error stack trace
-        /// </summary>
         [TestCategory("Serializations.Binary")]
         [TestCategory("Serializations")]
         [TestMethod]
@@ -44,9 +41,6 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             Assert.AreEqual(RecordToTest.Description, DeserializedObject.Description);
         }
 
-        /// <summary>
-        /// Test to find a specific exception from an error stack trace
-        /// </summary>
         [TestCategory("Serializations.Binary")]
         [TestCategory("Serializations")]
         [TestMethod]
