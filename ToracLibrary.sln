@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Serialization"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Core", "ToracLibrary.Core\ToracLibrary.Core.csproj", "{8E0E1685-D77E-4447-9F3B-3E025A2BE642}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{19906D7A-2DC9-4747-85B3-02C2B8FD58D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlScripts", "SqlScripts", "{1B62797C-EEBE-4EDA-B864-681AA01F9630}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1B62797C-EEBE-4EDA-B864-681AA01F9630} = {19906D7A-2DC9-4747-85B3-02C2B8FD58D9}
 	EndGlobalSection
 EndGlobal
