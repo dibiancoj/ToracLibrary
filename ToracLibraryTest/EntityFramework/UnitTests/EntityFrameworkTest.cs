@@ -68,7 +68,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         /// <summary>
         /// holds the di container name for the insert or update data provider
         /// </summary>
-        private const string WritableDataProviderName = "EFWritableOnly";
+        internal const string WritableDataProviderName = "EFWritableOnly";
 
         #endregion
 
@@ -302,8 +302,11 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //check that we have 500 rows in the table
                 Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
 
+                //first row's id to use to fetch the record
+                var FirstRowInsertedDescription = RowsToInsert.First().Description;
+
                 //grab the first record
-                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Id == RowsToInsert.First().Id);
+                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Description == FirstRowInsertedDescription);
 
                 //id is an identity seed, so whatever we put in id will start with 1, thats why description is 1 behind the id
                 Assert.AreEqual(1, FirstRow.Id);
@@ -333,8 +336,11 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //make sure we have the 500 rows to insert
                 Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
 
+                //first row's id to use to fetch the record
+                var FirstRowInsertedDescription = RowsToInsert.First().Description;
+
                 //grab the first row
-                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Id == RowsToInsert.First().Id);
+                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Description == FirstRowInsertedDescription);
 
                 //id is an identity seed, so whatever we put in id will start with 1, thats why description is 1 behind the id
                 Assert.AreEqual(1, FirstRow.Id);
@@ -358,7 +364,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DataProviderSetupTearDown.TruncateTable();
 
                 //go insert the raw sql
-                DP.ExecuteRawSql("Insert Into Ref_Test (Description,Description2) Values ({0},{1});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1", "Ref Test 2");
+                DP.ExecuteRawSql("Insert Into Ref_Test (Description) Values ({0});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1");
 
                 //make sure there is 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
@@ -377,7 +383,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DataProviderSetupTearDown.TruncateTable();
 
                 //go insert the raw sql
-                await DP.ExecuteRawSqlAsync(@"Insert Into Ref_Test (Description,Description2) Values ({0},{1});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1", "Ref Test 2");
+                await DP.ExecuteRawSqlAsync(@"Insert Into Ref_Test (Description) Values ({0});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1");
 
                 //make sure there is 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
@@ -390,7 +396,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void ExecuteRawSqlWithResultsNoParametersTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
@@ -408,16 +414,19 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void ExecuteRawSqlWithResultsWithParametersTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
+                //grab a random record's id
+                var RandomRecord = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).Skip(3).First();
+
                 //go grab the results from the table
-                var Result = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test where Id={0};", 5).Single();
+                var Result = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test where Id={0};", RandomRecord.Id).Single();
 
                 //let's verify it's the correct row
-                Assert.AreEqual(5, Result.Id);
-                Assert.AreEqual("Test5", Result.Description);
+                Assert.AreEqual(RandomRecord.Id, Result.Id);
+                Assert.AreEqual(RandomRecord.Description, Result.Description);
             }
         }
 
@@ -431,12 +440,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteWithSqlTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab all the rows
-                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single().Id;
+                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).First().Id;
 
                 //delete everything but this id
                 DP.Delete<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);
@@ -455,12 +464,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteWithSqlAsyncTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab all the rows
-                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single().Id;
+                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First().Id;    
 
                 //delete everything but this id
                 await DP.DeleteAsync<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);
@@ -479,12 +488,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteMultipleTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab all the rows to delete
-                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(false).Skip(2).Take(2).ToArray();
+                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).Take(2).ToArray();
 
                 //there should be 2 rows to delete
                 Assert.AreEqual(2, DeleteAllTheseRows.Count());
@@ -503,12 +512,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteMultipleAsyncTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab all the rows to delete
-                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(false).Skip(2).Take(2).ToArray();
+                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).Take(2).ToArray();
 
                 //there should be 2 rows to delete
                 Assert.AreEqual(2, DeleteAllTheseRows.Count());
@@ -527,12 +536,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteByEntityTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab a random record to delete
-                var RecordToDelete = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single();
+                var RecordToDelete = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First();
 
                 //delete that record and save it
                 DP.Delete(RecordToDelete, true);
@@ -548,12 +557,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteByEntityAsyncTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab a random record to delete
-                var RecordToDelete = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single();
+                var RecordToDelete = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First();
 
                 //delete that record and save it
                 await DP.DeleteAsync(RecordToDelete, true);
@@ -770,14 +779,14 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //upsert the record but dont save it
                 DP.Upsert(NewRecord1, false);
 
-                //check how many records we should have
-                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DP.Fetch<Ref_Test>(false).Count());
+                //check how many records we should have (none because we haven't saved anything yet)
+                Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
                 //add record 2 and save it...both records should be saved now
                 DP.Upsert(NewRecord2, true);
 
                 //make sure we have the correct number of rows
-                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + HowManyNewRows, DP.Fetch<Ref_Test>(false).Count());
+                Assert.AreEqual(HowManyNewRows, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -802,7 +811,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DP.UpsertRange(RowsToUpsert, true);
 
                 //how many rows + the rows in the collection
-                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RowsToUpsert.Count(), DP.Fetch<Ref_Test>(false).Count());
+                Assert.AreEqual(RowsToUpsert.Count(), DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -812,7 +821,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddOrUpdateRangeTest2()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
@@ -821,7 +830,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
 
                 //grab 2 records to change
                 var NewRecord1 = DP.EFContext.Ref_Test.First();
-                var NewRecord2 = DP.EFContext.Ref_Test.Skip(1).First();
+                var NewRecord2 = DP.EFContext.Ref_Test.OrderBy(x => x.Id).Skip(1).First();
 
                 //set the description on the first record
                 NewRecord1.Description = ChangeStringValue;
@@ -850,12 +859,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task FindTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
                 //grab the last id
-                var LastRecordInTable = DP.EFContext.Ref_Test.OrderBy(x => x.Id).Last();
+                var LastRecordInTable = DP.EFContext.Ref_Test.OrderByDescending(x => x.Id).First();
 
                 //find the records where the id is greater then the last record
                 var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync();
@@ -877,12 +886,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task FetchTest1()
         {
-            DataProviderSetupTearDown.TruncateTable();
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
                 //grab the last id
-                var LastRecordInTable = DP.EFContext.Ref_Test.OrderBy(x => x.Id).Last();
+                var LastRecordInTable = DP.EFContext.Ref_Test.OrderByDescending(x => x.Id).First();
 
                 //find the records where the id is greater then the last record
                 var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync();

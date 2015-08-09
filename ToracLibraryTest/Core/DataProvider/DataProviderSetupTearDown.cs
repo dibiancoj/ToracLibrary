@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.ADO;
+using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibraryTest.Framework;
+using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 
 namespace ToracLibraryTest.UnitsTest.Core.DataProviders
 {
@@ -35,10 +38,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// </summary>
         internal static void TearDownAndBuildUpDbEnvironment()
         {
-            //delete all the records
-            TruncateTable();
-
-            //add the default number of rows
+            //add the default number of rows (pass in true to truncate the table)
             AddRows(true);
         }
 
@@ -80,17 +80,17 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
             }
 
             //create the data provider
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.WritableDataProviderName))
             {
                 //loop through however many records you want to add
                 for (var i = 0; i < HowManyRowsToAdd; i++)
                 {
-                    //build the sql
-                    string SqlToRun = string.Format($"Insert Into Ref_Test (Description) Values ('{i}')");
-
-                    //insert the record now
-                    DP.ExecuteNonQuery(SqlToRun, CommandType.Text);
+                    //push the record to the context (don't save yet)
+                    DP.Add(new Ref_Test { Description = i.ToString() }, false);
                 }
+
+                //let's save now
+                DP.SaveChanges();
             }
         }
 

@@ -9,6 +9,7 @@ using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.Caching;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
+using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
 using static ToracLibrary.Core.ReflectionDynamic.ImplementingClasses;
 
 namespace ToracLibraryTest.UnitsTest.Core
@@ -88,16 +89,19 @@ namespace ToracLibraryTest.UnitsTest.Core
             var ImplementationResults = RetrieveImplementingClassesLazy(typeof(IDependencyInject)).ToArray();
 
             //we should currently have 2 (could change)
-            Assert.AreEqual(3, ImplementationResults.Length);
+            Assert.AreEqual(4, ImplementationResults.Length);
 
             //check it's the sql server data provider
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlDataProviderTest)));
+
+            //make sure ef data provider
+            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EntityFrameworkTest)));
 
             //make sure its the in memory caching now
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(InMemoryCacheTest)));
 
             //make sure sql cache dep is in there
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlCacheDependencyTest)));
+            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlCacheDependencyTest)));            
         }
 
         /// <summary>
