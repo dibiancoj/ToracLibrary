@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="EntityFrameworkDP.cs" />
     <Compile Include="EFUnTypedDP.cs" />
+    <Compile Include="Logger\EFSqlLogger.cs" />
+    <Compile Include="Logger\MyEFSqlLoggerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

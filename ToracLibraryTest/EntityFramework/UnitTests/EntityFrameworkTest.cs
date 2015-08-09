@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,27 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
 
             //let's register the di container for the editable EF data provider
             DIContainer.RegisterType<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName, new InjectionConstructor(true, true, false));
+        }
+
+        #endregion
+
+        #region Framework
+
+        /// <summary>
+        /// Builds x amount of rows
+        /// </summary>
+        /// <param name="HowManyRowsToBuild">How many rows to build</param>
+        /// <returns>list of ref_test</returns>
+        private static IList<Ref_Test> BuildRows(int HowManyRowsToBuild)
+        {
+            List<Ref_Test> lst = new List<Ref_Test>();
+
+            for (int i = 0; i < HowManyRowsToBuild; i++)
+            {
+                lst.Add(new Ref_Test { Id = i, Description = i.ToString() });
+            }
+
+            return lst;
         }
 
         #endregion
@@ -112,7 +134,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         {
             //if you have auto detect false (constructor parameter)
             //then grab a record and update. If you dont have  thisContext.ChangeTracker.DetectChanges(); in the save changes it wont update it but wont raise an error
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             //description to use
             const string DescriptionTest = "New Record";
@@ -181,7 +203,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         public void GetOrAddTest1()
         {
             //go truncate the table to get ready for the test
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             //go build the record to test
             var RecordToTest = BuildRows(1).First();
@@ -194,17 +216,23 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //let's test the "add" part when there is no record
                 var InsertedRecord = DP.GetOrAdd(RecordToTest, x => x.Id == RecordToTest.Id, false);
 
+                //make sure we have a new row
                 Assert.AreEqual(RecordToTest.Id, InsertedRecord.Id);
-                Assert.AreEqual(DP.EFContext.Ref_Test.Count(), 1);
+
+                //make sure we only have 1 row
+                Assert.AreEqual(1, DP.EFContext.Ref_Test.Count());
 
                 //we are going to test the get now...so we change the local record...and then we will test what the database has
                 RecordToTest.Description = "New Description";
 
                 //now go run a get or add
-                var insertedRecord2 = DP.GetOrAdd(RecordToTest, x => x.Id == RecordToTest.Id, false);
+                var InsertedRecord2 = DP.GetOrAdd(RecordToTest, x => x.Id == RecordToTest.Id, false);
 
-                Assert.AreEqual(OriginalDescriptionValue, insertedRecord2.Description);
-                Assert.AreEqual(DP.EFContext.Ref_Test.Count(), 1);
+                //check the description on the 2nd record inserted
+                Assert.AreEqual(OriginalDescriptionValue, InsertedRecord2.Description);
+
+                //make sure we have 1 row
+                Assert.AreEqual(1, DP.EFContext.Ref_Test.Count());
             }
         }
 
@@ -215,7 +243,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         public async Task GetOrAddAsyncTest1()
         {
             //go truncate the table to get ready for the test
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             //go build the record to test
             var RecordToTest = BuildRows(1).First();
@@ -228,8 +256,11 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //let's test the "add" part when there is no record
                 var InsertedRecord = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false);
 
+                //check the inserted record
                 Assert.AreEqual(RecordToTest.Id, InsertedRecord.Id);
-                Assert.AreEqual(DP.EFContext.Ref_Test.Count(), 1);
+
+                //make sure we only have 1 row
+                Assert.AreEqual(1, DP.EFContext.Ref_Test.Count());
 
                 //we are going to test the get now...so we change the local record...and then we will test what the database has
                 RecordToTest.Description = "New Description";
@@ -237,8 +268,11 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //now go run a get or add
                 var insertedRecord2 = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false);
 
+                //check the record
                 Assert.AreEqual(OriginalDescriptionValue, insertedRecord2.Description);
-                Assert.AreEqual(DP.EFContext.Ref_Test.Count(), 1);
+
+                //check how many rows we have
+                Assert.AreEqual(1, DP.EFContext.Ref_Test.Count());
             }
         }
 
@@ -252,21 +286,28 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void BulkInsertTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                const int howManyRows = 500;
+                //how many rows to add
+                const int HowManyRows = 500;
 
-                DP.BulkInsert("dbo", BuildRows(howManyRows), System.Data.SqlClient.SqlBulkCopyOptions.Default, 100);
+                //rows to insert
+                var RowsToInsert = BuildRows(HowManyRows);
 
-                Assert.AreEqual(howManyRows, DP.Fetch<Ref_Test>(false).Count());
+                //go build 500 rows and insert them
+                DP.BulkInsert("dbo", RowsToInsert, System.Data.SqlClient.SqlBulkCopyOptions.Default, 100);
 
-                var firstRow = DP.EFContext.Ref_Test.First(x => x.Id == 1);
+                //check that we have 500 rows in the table
+                Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
+
+                //grab the first record
+                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Id == RowsToInsert.First().Id);
 
                 //id is an identity seed, so whatever we put in id will start with 1, thats why description is 1 behind the id
-                Assert.AreEqual(1, firstRow.Id);
-                Assert.AreEqual("0", firstRow.Description);
+                Assert.AreEqual(1, FirstRow.Id);
+                Assert.AreEqual("0", FirstRow.Description);
             }
         }
 
@@ -276,21 +317,28 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task BulkInsertAsyncTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                const int howManyRows = 500;
+                //how many rows to add
+                const int HowManyRows = 500;
 
-                await DP.BulkInsertAsync("dbo", BuildRows(howManyRows), System.Data.SqlClient.SqlBulkCopyOptions.Default, 100);
+                //rows to insert
+                var RowsToInsert = BuildRows(HowManyRows);
 
-                Assert.AreEqual(howManyRows, DP.Fetch<Ref_Test>(false).Count());
+                //go build 500 rows and insert them
+                await DP.BulkInsertAsync("dbo", RowsToInsert, System.Data.SqlClient.SqlBulkCopyOptions.Default, 100);
 
-                var firstRow = DP.EFContext.Ref_Test.First(x => x.Id == 1);
+                //make sure we have the 500 rows to insert
+                Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
+
+                //grab the first row
+                var FirstRow = DP.EFContext.Ref_Test.First(x => x.Id == RowsToInsert.First().Id);
 
                 //id is an identity seed, so whatever we put in id will start with 1, thats why description is 1 behind the id
-                Assert.AreEqual(1, firstRow.Id);
-                Assert.AreEqual("0", firstRow.Description);
+                Assert.AreEqual(1, FirstRow.Id);
+                Assert.AreEqual("0", FirstRow.Description);
             }
         }
 
@@ -307,9 +355,10 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //go truncate the table first (this test's the no parameter)
-                DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+                DataProviderSetupTearDown.TruncateTable();
 
-                DP.ExecuteRawSql(@"Insert Into Ref_Test (Description,Description2) Values ({0},{1});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1", "Ref Test 2");
+                //go insert the raw sql
+                DP.ExecuteRawSql("Insert Into Ref_Test (Description,Description2) Values ({0},{1});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1", "Ref Test 2");
 
                 //make sure there is 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
@@ -325,8 +374,9 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //go truncate the table first (this test's the no parameter)
-                await DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment(); Async();
+                DataProviderSetupTearDown.TruncateTable();
 
+                //go insert the raw sql
                 await DP.ExecuteRawSqlAsync(@"Insert Into Ref_Test (Description,Description2) Values ({0},{1});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1", "Ref Test 2");
 
                 //make sure there is 1 record
@@ -340,15 +390,15 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void ExecuteRawSqlWithResultsNoParametersTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
-            Add10Rows(false, false);
-
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
-                var result = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test;");
+                //go grab the results from the table
+                var Results = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test;");
 
-                Assert.AreEqual(HowManyRecord, result.Count());
+                //check that we have the correct number of rows
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, Results.Count());
             }
         }
 
@@ -358,17 +408,16 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void ExecuteRawSqlWithResultsWithParametersTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var result = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test where Id={0};", 5).Single();
+                //go grab the results from the table
+                var Result = DP.ExecuteRawSqlWithResults<Ref_Test>("select * from ref_test where Id={0};", 5).Single();
 
-                Assert.AreEqual(5, result.Id);
-                Assert.AreEqual("Test5", result.Description);
-                Assert.AreEqual("Test_5", result.Description2);
+                //let's verify it's the correct row
+                Assert.AreEqual(5, Result.Id);
+                Assert.AreEqual("Test5", Result.Description);
             }
         }
 
@@ -382,17 +431,21 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteWithSqlTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                DP.Delete<Ref_Test>(x => x.Id != HowManyRecord, true);
+                //grab all the rows
+                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single().Id;
 
-                var records = DP.Fetch<Ref_Test>(false);
+                //delete everything but this id
+                DP.Delete<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);
 
-                Assert.AreEqual(1, records.Count());
+                //grab the records so we can test
+                var RecordsAfterDelete = DP.Fetch<Ref_Test>(false);
+
+                //should only have 1 record
+                Assert.AreEqual(1, RecordsAfterDelete.Count());
             }
         }
 
@@ -402,17 +455,21 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteWithSqlAsyncTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                await DP.DeleteAsync<Ref_Test>(x => x.Id != HowManyRecord, true);
+                //grab all the rows
+                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single().Id;
 
-                var records = DP.Fetch<Ref_Test>(false);
+                //delete everything but this id
+                await DP.DeleteAsync<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);
 
-                Assert.AreEqual(1, records.Count());
+                //grab the records so we can test
+                var RecordsAfterDelete = DP.Fetch<Ref_Test>(false);
+
+                //should only have 1 record
+                Assert.AreEqual(1, RecordsAfterDelete.Count());
             }
         }
 
@@ -422,18 +479,21 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteMultipleTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var records = DP.Fetch<Ref_Test>(true).Where(x => x.Id == 2 || x.Id == 3).ToArray();
-                Assert.AreEqual(2, records.Count());
+                //grab all the rows to delete
+                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(false).Skip(2).Take(2).ToArray();
 
-                DP.DeleteRange(records, true);
+                //there should be 2 rows to delete
+                Assert.AreEqual(2, DeleteAllTheseRows.Count());
 
-                Assert.AreEqual(8, DP.Fetch<Ref_Test>(false).Count());
+                //delete the range and save it
+                DP.DeleteRange(DeleteAllTheseRows, true);
+
+                //make sure we have default rows - how many we deleted
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Count(), DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -443,18 +503,21 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteMultipleAsyncTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var records = DP.Fetch<Ref_Test>(true).Where(x => x.Id == 2 || x.Id == 3).ToArray();
-                Assert.AreEqual(2, records.Count());
+                //grab all the rows to delete
+                var DeleteAllTheseRows = DP.Fetch<Ref_Test>(false).Skip(2).Take(2).ToArray();
 
-                await DP.DeleteRangeAsync(records, true);
+                //there should be 2 rows to delete
+                Assert.AreEqual(2, DeleteAllTheseRows.Count());
 
-                Assert.AreEqual(8, DP.Fetch<Ref_Test>(false).Count());
+                //delete the range and save it
+                await DP.DeleteRangeAsync(DeleteAllTheseRows, true);
+
+                //make sure we have default rows - how many we deleted
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Count(), DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -464,17 +527,18 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void DeleteByEntityTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var record = DP.Find<Ref_Test>(x => x.Id == 5, true).Single();
+                //grab a random record to delete
+                var RecordToDelete = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single();
 
-                DP.Delete(record, true);
+                //delete that record and save it
+                DP.Delete(RecordToDelete, true);
 
-                Assert.AreEqual(HowManyRecord - 1, DP.Fetch<Ref_Test>(false).Count());
+                //make sure we have x amount of records
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - 1, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -484,68 +548,18 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task DeleteByEntityAsyncTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var record = DP.Find<Ref_Test>(x => x.Id == 5, true).Single();
+                //grab a random record to delete
+                var RecordToDelete = DP.Fetch<Ref_Test>(false).Skip(2).Take(1).Single();
 
-                await DP.DeleteAsync(record, true);
+                //delete that record and save it
+                await DP.DeleteAsync(RecordToDelete, true);
 
-                Assert.AreEqual(HowManyRecord - 1, DP.Fetch<Ref_Test>(false).Count());
-            }
-        }
-
-        [TestCategory("Core.DataProviders.EntityFramework")]
-        [TestCategory("EntityFramework")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public void DeleteByEntityTest2()
-        {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
-
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
-            {
-                var recordToDelete = DP.Find<Ref_Test>(x => true, true).ToList();
-
-                recordToDelete.ForEach(x => DP.Delete(x, false));
-
-                Assert.AreEqual(HowManyRecord, DP.Fetch<Ref_Test>(false).Count());
-
-                DP.SaveChanges();
-
-                Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
-            }
-        }
-
-        [TestCategory("Core.DataProviders.EntityFramework")]
-        [TestCategory("EntityFramework")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public async Task DeleteByEntityAsyncTest2()
-        {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
-
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
-            {
-                var recordToDelete = DP.Find<Ref_Test>(x => true, true).ToList();
-
-                foreach (var thisRecord in recordToDelete)
-                {
-                    await DP.DeleteAsync(thisRecord, false);
-                }
-
-                Assert.AreEqual(HowManyRecord, DP.Fetch<Ref_Test>(false).Count());
-
-                DP.SaveChanges();
-
-                Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
+                //make sure we have x amount of records
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - 1, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -559,29 +573,41 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Id = 1, Description = "1" };
-                var newRecord2 = new Ref_Test() { Id = 2, Description = "2" };
-                var newRecord3 = new Ref_Test() { Id = 3, Description = "3", Description2 = "3" };
+                //build the rows to build
+                var RowsToUse = BuildRows(3);
 
-                DP.Add(newRecord1, false);
+                //3 records to add
+                var NewRecord1 = RowsToUse[0];
+                var NewRecord2 = RowsToUse[1];
+                var NewRecord3 = RowsToUse[2];
 
+                //add record 1 but dont save it
+                DP.Add(NewRecord1, false);
+
+                //make sure we have 0 rows in the table
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
+                //now save the changes, there should be 1 row after we have
                 DP.SaveChanges();
 
+                //make sure we have 1 row saved
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
-                DP.Add(newRecord2, false);
-                DP.Add(newRecord3, false);
+                //add the next 2 rows, but don't have it now
+                DP.Add(NewRecord2, false);
+                DP.Add(NewRecord3, false);
 
+                //still should only be 1 row, until we save the changes
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
+                //save the changes now
                 DP.SaveChanges();
 
+                //make sure we have 3 rows now
                 Assert.AreEqual(3, DP.Fetch<Ref_Test>(false).Count());
             }
         }
@@ -592,21 +618,34 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddTest2()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Id = 1, Description = "1" };
-                var newRecord2 = new Ref_Test() { Id = 2, Description = "2" };
-                var newRecord3 = new Ref_Test() { Id = 3, Description = "3", Description2 = "3" };
+                //build the rows to build
+                var RowsToUse = BuildRows(3);
 
-                DP.Add(newRecord1, true);
+                //3 records to add
+                var NewRecord1 = RowsToUse[0];
+                var NewRecord2 = RowsToUse[1];
+                var NewRecord3 = RowsToUse[2];
+
+                //add record 1 and save the changes
+                DP.Add(NewRecord1, true);
+
+                //make sure we only have this 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
-                DP.Add(newRecord2, true);
+                //add record 2 and save the changes
+                DP.Add(NewRecord2, true);
+
+                //should have 2 rows now
                 Assert.AreEqual(2, DP.Fetch<Ref_Test>(false).Count());
 
-                DP.Add(newRecord3, true);
+                //add record 3 and save the changes
+                DP.Add(NewRecord3, true);
+
+                //should have 3 rows now
                 Assert.AreEqual(3, DP.Fetch<Ref_Test>(false).Count());
             }
         }
@@ -617,29 +656,41 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task AddAsyncTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Id = 1, Description = "1" };
-                var newRecord2 = new Ref_Test() { Id = 2, Description = "2" };
-                var newRecord3 = new Ref_Test() { Id = 3, Description = "3", Description2 = "3" };
+                //build the rows to build
+                var RowsToUse = BuildRows(3);
 
-                DP.Add(newRecord1, false);
+                //3 records to add
+                var NewRecord1 = RowsToUse[0];
+                var NewRecord2 = RowsToUse[1];
+                var NewRecord3 = RowsToUse[2];
 
+                //add record 1 but dont save it
+                DP.Add(NewRecord1, false);
+
+                //make sure we have 0 rows in the table
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
+                //now save the changes, there should be 1 row after we have
                 await DP.SaveChangesAsync();
 
+                //make sure we have 1 row saved
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
-                DP.Add(newRecord2, false);
-                DP.Add(newRecord3, false);
+                //add the next 2 rows, but don't have it now
+                DP.Add(NewRecord2, false);
+                DP.Add(NewRecord3, false);
 
+                //still should only be 1 row, until we save the changes
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
+                //save the changes now
                 await DP.SaveChangesAsync();
 
+                //make sure we have 3 rows now
                 Assert.AreEqual(3, DP.Fetch<Ref_Test>(false).Count());
             }
         }
@@ -650,23 +701,24 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddRangeTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Description = "1" };
-                var newRecord2 = new Ref_Test() { Description = "2" };
-                var newRecord3 = new Ref_Test() { Description = "3", Description2 = "3" };
+                //build a list to add to the db
+                var RecordsToAdd = BuildRows(3);
 
-                List<Ref_Test> lst = new List<Ref_Test>() { newRecord1, newRecord2, newRecord3 };
+                //add the range but don't save it
+                DP.AddRange(RecordsToAdd, false);
 
-                DP.AddRange(lst, false);
-
+                //we didn't save yet, so we should have 0 rows
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
+                //save the changes now
                 DP.SaveChanges();
 
-                Assert.AreEqual(lst.Count, DP.Fetch<Ref_Test>(false).Count());
+                //make sure we have x number of rows in the collection
+                Assert.AreEqual(RecordsToAdd.Count, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -676,19 +728,18 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddRangeTest2()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Description = "1" };
-                var newRecord2 = new Ref_Test() { Description = "2" };
-                var newRecord3 = new Ref_Test() { Description = "3", Description2 = "3" };
+                //records to be added
+                var RecordsToBeAdded = BuildRows(3);
 
-                List<Ref_Test> lst = new List<Ref_Test>() { newRecord1, newRecord2, newRecord3 };
+                //add the rows to the context to be add
+                DP.AddRange(RecordsToBeAdded, true);
 
-                DP.AddRange(lst, true);
-
-                Assert.AreEqual(lst.Count, DP.Fetch<Ref_Test>(false).Count());
+                //check how many records we have now
+                Assert.AreEqual(RecordsToBeAdded.Count, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -702,78 +753,31 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddOrUpdateTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Id = -1, Description = "1" };
-                var newRecord2 = new Ref_Test() { Id = -1, Description = "2" };
+                //how many rows to add
+                const int HowManyNewRows = 2;
 
-                DP.Upsert(newRecord1, false);
-                Assert.AreEqual(HowManyRecord, DP.Fetch<Ref_Test>(false).Count());
+                //build the rows to build
+                var RowsToUse = BuildRows(HowManyNewRows);
 
-                DP.Upsert(newRecord2, true);
+                //2 records to add
+                var NewRecord1 = RowsToUse[0];
+                var NewRecord2 = RowsToUse[1];
 
-                Assert.AreEqual(HowManyRecord + 2, DP.Fetch<Ref_Test>(false).Count());
-            }
-        }
+                //upsert the record but dont save it
+                DP.Upsert(NewRecord1, false);
 
-        [TestCategory("Core.DataProviders.EntityFramework")]
-        [TestCategory("EntityFramework")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public void AddOrUpdateTest2()
-        {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+                //check how many records we should have
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert, DP.Fetch<Ref_Test>(false).Count());
 
-            Add10Rows(false, false);
+                //add record 2 and save it...both records should be saved now
+                DP.Upsert(NewRecord2, true);
 
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
-            {
-                var newRecord1 = DP.EFContext.Ref_Test.Single(x => x.Id == 5);
-                var newRecord2 = new Ref_Test() { Id = -1, Description = "2" };
-
-                const string changestring = "jason";
-
-                newRecord1.Description2 = changestring;
-
-                DP.Upsert(newRecord2, true);
-
-                Assert.AreEqual(HowManyRecord + 1, DP.Fetch<Ref_Test>(false).Count());
-
-                Assert.AreEqual(changestring, DP.EFContext.Ref_Test.Single(x => x.Id == 5).Description2);
-            }
-        }
-
-        [TestCategory("Core.DataProviders.EntityFramework")]
-        [TestCategory("EntityFramework")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public void AddOrUpdateTest3()
-        {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
-
-            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
-            {
-                var updateRecord1 = DP.EFContext.Ref_Test.Single(x => x.Id == 5);
-                var updateRecord2 = DP.EFContext.Ref_Test.Single(x => x.Id == 6);
-
-                const string changestring = "jason";
-
-                updateRecord1.Description2 = changestring;
-                updateRecord2.Description2 = changestring;
-
-                DP.Upsert(updateRecord1, false);
-                DP.Upsert(updateRecord2, false);
-
-                DP.SaveChanges();
-
-                Assert.AreEqual(changestring, DP.EFContext.Ref_Test.Single(x => x.Id == 5).Description2);
-                Assert.AreEqual(changestring, DP.EFContext.Ref_Test.Single(x => x.Id == 6).Description2);
+                //make sure we have the correct number of rows
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + HowManyNewRows, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -783,20 +787,22 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddOrUpdateRangeTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var newRecord1 = new Ref_Test() { Id = -1, Description = "1" };
-                var newRecord2 = new Ref_Test() { Id = -1, Description = "2" };
+                //create 2 random rows to upsert
+                var NewRecord1 = new Ref_Test() { Id = -1, Description = "1" };
+                var NewRecord2 = new Ref_Test() { Id = -1, Description = "2" };
 
-                var lst = new Ref_Test[] { newRecord1, newRecord2 };
+                //rows to upsert
+                var RowsToUpsert = new Ref_Test[] { NewRecord1, NewRecord2 };
 
-                DP.UpsertRange(lst, true);
+                //go upsert the rows and save it
+                DP.UpsertRange(RowsToUpsert, true);
 
-                Assert.AreEqual(HowManyRecord + lst.Count(), DP.Fetch<Ref_Test>(false).Count());
+                //how many rows + the rows in the collection
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert + RowsToUpsert.Count(), DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -806,26 +812,31 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void AddOrUpdateRangeTest2()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                const string changestring = "jason";
+                //string value to change
+                const string ChangeStringValue = "UpdatedRecordDescription";
 
-                var newRecord1 = DP.EFContext.Ref_Test.Single(x => x.Id == 1);
-                var newRecord2 = DP.EFContext.Ref_Test.Single(x => x.Id == 2);
+                //grab 2 records to change
+                var NewRecord1 = DP.EFContext.Ref_Test.First();
+                var NewRecord2 = DP.EFContext.Ref_Test.Skip(1).First();
 
-                newRecord1.Description = changestring;
-                newRecord2.Description2 = changestring;
+                //set the description on the first record
+                NewRecord1.Description = ChangeStringValue;
 
-                var lst = new Ref_Test[] { newRecord1, newRecord2 };
+                //create a list to upsert
+                var RecordsToUpsert = new Ref_Test[] { NewRecord1, NewRecord2 };
 
-                DP.UpsertRange(lst, true);
+                //upsert the records and save
+                DP.UpsertRange(RecordsToUpsert, true);
 
-                Assert.AreEqual(changestring, DP.EFContext.Ref_Test.Single(x => x.Id == 1).Description);
-                Assert.AreEqual(changestring, DP.EFContext.Ref_Test.Single(x => x.Id == 2).Description2);
+                //make sure we have the change string on the record we wanted to change
+                Assert.AreEqual(ChangeStringValue, DP.EFContext.Ref_Test.Single(x => x.Id == NewRecord1.Id).Description);
+
+                //make sure we only have this record with this description
+                Assert.AreEqual(1, DP.EFContext.Ref_Test.Count(x => x.Description == ChangeStringValue));
             }
         }
 
@@ -839,18 +850,20 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task FindTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
-                var records = await DP.Find<Ref_Test>(x => x.Id > 9, false).ToArrayAsync();
+                //grab the last id
+                var LastRecordInTable = DP.EFContext.Ref_Test.OrderBy(x => x.Id).Last();
 
-                Assert.AreEqual(1, records.Count());
-                Assert.AreEqual(10, records.ElementAt(0).Id);
-                Assert.AreEqual("Test10", records.ElementAt(0).Description);
-                Assert.AreEqual("Test_10", records.ElementAt(0).Description2);
+                //find the records where the id is greater then the last record
+                var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync();
+
+                //make sure we only have 1 record
+                Assert.AreEqual(1, RecordsToFind.Count());
+                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind.First().Id);
+                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind.First().Description);
             }
         }
 
@@ -864,20 +877,20 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public async Task FetchTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
-
-            Add10Rows(false, false);
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
-                var query = DP.Fetch<Ref_Test>(true).Where(x => x.Id > 9);
+                //grab the last id
+                var LastRecordInTable = DP.EFContext.Ref_Test.OrderBy(x => x.Id).Last();
 
-                var records = await query.ToArrayAsync();
+                //find the records where the id is greater then the last record
+                var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync();
 
-                Assert.AreEqual(1, records.Count());
-                Assert.AreEqual(10, records.ElementAt(0).Id);
-                Assert.AreEqual("Test10", records.ElementAt(0).Description);
-                Assert.AreEqual("Test_10", records.ElementAt(0).Description2);
+                //make sure we only have 1 record
+                Assert.AreEqual(1, RecordsToFind.Count());
+                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind.First().Id);
+                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind.First().Description);
             }
         }
 
@@ -891,24 +904,32 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void TransactionTest1()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var recordToAdd = new Ref_Test() { Description = "New Record" };
+                //Record to add
+                var RecordToAdd = new Ref_Test() { Description = "New Record" };
 
+                //start the transaction
                 DP.StartTransaction();
 
-                DP.Add(recordToAdd, false);
+                //add the record, don't save yet
+                DP.Add(RecordToAdd, false);
 
+                //make sure we still have 0 records
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
+                //save the changes now
                 DP.SaveChanges();
 
+                //should have 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
+                //roll back because we have commited
                 DP.RollBackTransaction();
 
+                //should have 0 rows
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
             }
         }
@@ -919,24 +940,32 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestMethod]
         public void TransactionTest2()
         {
-            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+            DataProviderSetupTearDown.TruncateTable();
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
-                var recordToAdd = new Ref_Test() { Description = "New Record" };
+                //Record to add
+                var RecordToAdd = new Ref_Test() { Description = "New Record" };
 
+                //start the transaction
                 DP.StartTransaction();
 
-                DP.Add(recordToAdd, false);
+                //add the record, don't save yet
+                DP.Add(RecordToAdd, false);
 
+                //make sure we still have 0 records
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
+                //save the changes now
                 DP.SaveChanges();
 
+                //should have 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
+                //commit the transaction now
                 DP.CommitTransaction();
 
+                //shold have the 1 commited record in the table now
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
             }
         }
