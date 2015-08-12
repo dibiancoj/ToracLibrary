@@ -171,10 +171,59 @@ namespace ToracLibrary.DIContainer
             }
 
             //now go return an instance
-            return RegisteredObject.GetInstance(this, RegisteredObjectToUse);
+            return GetInstance(RegisteredObjectToUse);
         }
 
         #endregion
+
+        #endregion
+
+        #region Instance Fetching
+
+        /// <summary>
+        /// Get's the instance when we try to resolve this registered object
+        /// </summary>
+        /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
+        /// <returns>The object for the consumer to use</returns>
+        private object GetInstance(RegisteredObject RegisteredObjectToBuild)
+        {
+            //is this a singleton
+            bool IsSingleton = RegisteredObjectToBuild.ObjectScope == DIContainerScope.Singleton;
+
+            //is this a singleton and we already created an object
+            if (IsSingleton && RegisteredObjectToBuild.Instance != null)
+            {
+                //they want a singleton, so just return the instance we have stored
+                return RegisteredObjectToBuild.Instance;
+            }
+
+            //this is a transient...so they wan't a new object, let's go create it
+            var ObjectToReturn = RegisteredObject.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+
+            //if this is a singleton, go store it
+            if (IsSingleton)
+            {
+                RegisteredObjectToBuild.Instance = ObjectToReturn;
+            }
+
+            //all done return the object
+            return ObjectToReturn;
+        }
+
+        /// <summary>
+        /// Resolved the constructor parameters and returns it in an array
+        /// </summary>
+        /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
+        /// <returns>Parameters to be fed into the constructor</returns>
+        private IEnumerable<object> ResolveConstructorParameters(RegisteredObject RegisteredObjectToBuild)
+        {
+            //let's loop through the paramters for this constructor
+            foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
+            {
+                //we are going to recurse through this and resolve until we have everything
+                yield return Resolve(ConstructorParameter.ParameterType);
+            }
+        }
 
         #endregion
 

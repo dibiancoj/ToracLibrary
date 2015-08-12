@@ -61,13 +61,16 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             DIContainer.Register<ILogger, Logger>();
 
             //let's grab an instance now
-            ILogger logToWrite = DIContainer.Resolve<ILogger>();
+            ILogger LoggerToUse = DIContainer.Resolve<ILogger>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(LoggerToUse);
 
             //write test to the log
-            logToWrite.Log(WriteToLog);
+            LoggerToUse.Log(WriteToLog);
 
             //now let's check the log
-            Assert.AreEqual(WriteToLog, logToWrite.LogFile.ToString());
+            Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
         }
 
         #endregion
