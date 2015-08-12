@@ -117,6 +117,7 @@
     <Compile Include="Core\Mathematical\ModeCalc\ModeTest.cs" />
     <Compile Include="Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
+    <Compile Include="DIContainer\DIContainerTest.cs" />
     <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
@@ -157,6 +158,10 @@
     <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
       <Name>ToracLibrary.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.DiContainer\ToracLibrary.DIContainer.csproj">
+      <Project>{88dd2fd5-a146-420e-979e-801ed848064a}</Project>
+      <Name>ToracLibrary.DIContainer</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Serialization\ToracLibrary.Serialization.csproj">
       <Project>{34cc1c49-3b3c-44a1-8183-d2c25b1be8ce}</Project>
