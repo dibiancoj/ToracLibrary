@@ -95,6 +95,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Reflection\ImplementingClasses.cs" />
+    <Compile Include="Reflection\InvokeDynamically\InvokeDynamically.cs" />
+    <Compile Include="Reflection\InvokeDynamically\InvokeDynamicallyParameter.cs" />
     <Compile Include="Reflection\PropertyHelpers.cs" />
     <Compile Include="RegularExpressions\NumberParser.cs" />
     <Compile Include="RegularExpressions\HtmlTagRemoval.cs" />

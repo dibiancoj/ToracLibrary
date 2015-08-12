@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.Core.ReflectionDynamic;
+using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.Caching;
@@ -69,6 +71,63 @@ namespace ToracLibraryTest.UnitsTest.Core
         private class SubPropertyChild
         {
             public int ChildId { get; set; }
+        }
+
+        #endregion
+
+        #region Invoke Dynamically
+
+        private class InvokeRegularMethod
+        {
+
+            #region Constants
+
+            public const int InvokeStaticMethodResult = 5;
+
+            #endregion
+
+            #region Static Methods
+
+            public static int InvokeStaticMethod()
+            {
+                return InvokeStaticMethodResult;
+            }
+
+            public static int InvokeStaticMethodWithParameter(int BaseNumber)
+            {
+                return BaseNumber + InvokeStaticMethodResult;
+            }
+
+            #endregion
+
+            #region Instance Methods
+
+            public int InvokeInstanceMethod()
+            {
+                return InvokeStaticMethodResult;
+            }
+
+            public static int InvokeInstanceMethodWithParameter(int BaseNumber)
+            {
+                return BaseNumber + InvokeStaticMethodResult;
+            }
+
+            #endregion
+
+            #region Generic Static Methods
+
+            public static Type InvokeGenericStaticMethod<T>()
+            {
+                return typeof(T);
+            }
+
+            public static Type InvokeGenericStaticMethodWithParameter<T>(Type TypeToTest)
+            {
+                return TypeToTest;
+            }
+
+            #endregion
+
         }
 
         #endregion
@@ -249,6 +308,86 @@ namespace ToracLibraryTest.UnitsTest.Core
             //let's test the untyped value
             Assert.AreEqual(ChildIdToTest, ChildExpressionToGetPropertyNotTyped.Invoke(ObjectToTest));
         }
+
+        #endregion
+
+        #region Invoke Dynamically
+
+        #region Non Generic Method
+
+        #region Static Methods
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeRegularStaticMethodWithNoParametersTest1()
+        {
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(InvokeRegularMethod.InvokeStaticMethodResult, InvokeDynamically.InvokeMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticMethod), false, null));
+        }
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeRegularStaticMethodWithParameterTest1()
+        {
+            //base number
+            const int BaseNumber = 100;
+
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(BaseNumber + InvokeRegularMethod.InvokeStaticMethodResult, InvokeDynamically.InvokeMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticMethodWithParameter), false, BaseNumber.ToIEnumerableLazy().Cast<object>()));
+        }
+
+        #endregion
+
+        #region Instance Methods
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeRegularInstanceMethodWithNoParametersTest1()
+        {
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(InvokeRegularMethod.InvokeStaticMethodResult, InvokeDynamically.InvokeMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeInstanceMethod), true, null));
+        }
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeRegularInstanceMethodWithParameterTest1()
+        {
+            //base number
+            const int BaseNumber = 100;
+
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(BaseNumber + InvokeRegularMethod.InvokeStaticMethodResult, InvokeDynamically.InvokeMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeInstanceMethodWithParameter), true, BaseNumber.ToIEnumerableLazy().Cast<object>()));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Generic Method
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeGenericStaticMethodWithNoParametersTest1()
+        {
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(InvokeRegularMethod.InvokeGenericStaticMethod<string>(), InvokeDynamically.InvokeGenericMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeGenericStaticMethod), typeof(string).ToIEnumerableLazy(), null));
+        }
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void InvokeGenericStaticMethodWithParameterTest1()
+        {
+            //let's go invoke this method dynamically (static method)
+            Assert.AreEqual(InvokeRegularMethod.InvokeGenericStaticMethodWithParameter<string>(typeof(int)), InvokeDynamically.InvokeGenericMethod(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeGenericStaticMethodWithParameter), typeof(string).ToIEnumerableLazy(), typeof(int).ToIEnumerableLazy()));
+        }
+
+        #endregion
 
         #endregion
 
