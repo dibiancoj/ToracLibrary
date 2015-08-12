@@ -22,8 +22,9 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <param name="TypeToResolveToSet">Type to resolve. ie: ILogger</param>
         /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
         /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
-        internal TransientRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet)
-            : base(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet)
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        internal TransientRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementation)
+            : base(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation)
         {
         }
 

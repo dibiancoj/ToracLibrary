@@ -72,18 +72,52 @@ namespace ToracLibrary.DIContainer
         }
 
         /// <summary>
-        /// 
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        public void Register<TTypeToResolve, TConcrete>(string FactoryName)
+        {
+            Register<TTypeToResolve, TConcrete>(FactoryName, DIContainerScope.Transient);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TTypeToResolve, TConcrete>(Func<TConcrete> CreateConcreteImplementation)
+        {
+            Register<TTypeToResolve, TConcrete>(DIContainerScope.Transient, CreateConcreteImplementation);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
         /// </summary>
         /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
         /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
         /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
         public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope)
         {
-            Register<TTypeToResolve, TConcrete>(Guid.NewGuid().ToString(), ObjectScope);
+            Register<TTypeToResolve, TConcrete>(null, ObjectScope);
         }
 
         /// <summary>
-        /// 
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
+        {
+            Register<TTypeToResolve, TConcrete>(null, ObjectScope, CreateConcreteImplementation);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
         /// </summary>
         /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
         /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
@@ -92,7 +126,34 @@ namespace ToracLibrary.DIContainer
         public void Register<TTypeToResolve, TConcrete>(string FactoryName, DIContainerScope ObjectScope)
         {
             //add the item to our list
-            RegisteredObjectsInContainer.Add(BaseRegisteredObject.BuildRegisteredObject(FactoryName, typeof(TTypeToResolve), typeof(TConcrete), ObjectScope));
+            Register<TTypeToResolve, TConcrete>(FactoryName, ObjectScope, null);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TTypeToResolve, TConcrete>(string FactoryName, DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
+        {
+            //function to create to cast to object
+            Func<object> ConcreteCreation = null;
+
+            //do we have a function passed in?
+            if (CreateConcreteImplementation != null)
+            {
+                //create a new function that returns an object
+                ConcreteCreation = () => CreateConcreteImplementation();
+            }
+
+            //add the item to our list
+            RegisteredObjectsInContainer.Add(BaseRegisteredObject.BuildRegisteredObject(FactoryName, typeof(TTypeToResolve), typeof(TConcrete), ObjectScope, ConcreteCreation));
+
+            //we want to prevent them from adding multiple types so validate it when they input it (so we are going to run this method which validates everything)
+            FindRegisterdObject(RegisteredObjectsInContainer, FactoryName, typeof(TTypeToResolve));
         }
 
         #endregion
@@ -147,32 +208,8 @@ namespace ToracLibrary.DIContainer
         /// <returns>The resolved type. TTypeToResolve</returns>
         public object Resolve(string FactoryName, Type TypeToResolve)
         {
-            //holds the object we are going to use
-            BaseRegisteredObject RegisteredObjectToUse = null;
-
-            //let's grab the registered object in the list that we have
-            var SearchForRegisteredObject = RegisteredObjectsInContainer.Where(x => x.TypeToResolve == TypeToResolve);
-
-            //now if they have a factory name use it
-            if (string.IsNullOrEmpty(FactoryName))
-            {
-                //we don't have a factory name, just grab the first record
-                RegisteredObjectToUse = SearchForRegisteredObject.FirstOrDefault();
-            }
-            else
-            {
-                RegisteredObjectToUse = SearchForRegisteredObject.FirstOrDefault(x => x.FactoryName == FactoryName);
-            }
-
-            //make sure we found the registered object
-            if (RegisteredObjectToUse == null)
-            {
-                //throw an exception
-                throw new TypeNotRegisteredException(TypeToResolve);
-            }
-
             //now go return an instance
-            return GetInstance(RegisteredObjectToUse);
+            return GetInstance(FindRegisterdObject(RegisteredObjectsInContainer, FactoryName, TypeToResolve));
         }
 
         #endregion
@@ -205,8 +242,19 @@ namespace ToracLibrary.DIContainer
                 }
             }
 
-            //this is a transient...so they wan't a new object, let's go create it
-            var ObjectToReturn = RegisteredObjectToBuild.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+            //object to return
+            object ObjectToReturn;
+
+            //first we will try to build it using the func
+            if (RegisteredObjectToBuild.CreateConcreteImplementation != null)
+            {
+                ObjectToReturn = RegisteredObjectToBuild.CreateConcreteImplementation.Invoke();
+            }
+            else
+            {
+                //they never passed in the func, so go create an instance
+                ObjectToReturn = RegisteredObjectToBuild.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+            }
 
             //if this is a singleton, go store it
             if (IsSingleton)
@@ -231,6 +279,45 @@ namespace ToracLibrary.DIContainer
                 //we are going to recurse through this and resolve until we have everything
                 yield return Resolve(ConstructorParameter.ParameterType);
             }
+        }
+
+        #endregion
+
+        #region Finding The Correct Registered Object
+
+        /// <summary>
+        /// Finds the correct registered object to resolve an item. Will validate everything based on parameters
+        /// </summary>
+        /// <param name="RegisteredObjectsInContainer">Registered objects in the container</param>
+        /// <param name="FactoryName">Factory name if there are more</param>
+        /// <param name="TypeToResolve">Type to resolve</param>
+        /// <returns>BaseRegisteredObject. Null if not found</returns>
+        /// <remarks>will throw errors if more then 1 registered object is found</remarks>
+        private static BaseRegisteredObject FindRegisterdObject(IList<BaseRegisteredObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
+        {
+            //are we checking for factory names (let's cache this in a variable
+            bool CheckingForFactoryNames = !string.IsNullOrEmpty(FactoryName);
+
+            //easier and cleaner to write in linq
+            var FoundRegisteredObjects = (from DataSet in RegisteredObjectsInContainer
+                                          where DataSet.TypeToResolve == TypeToResolve
+                                          && (CheckingForFactoryNames ? FactoryName == DataSet.FactoryName : true)
+                                          select DataSet).ToArray();
+
+            //did we find any items?
+            if (!FoundRegisteredObjects.Any())
+            {
+                //throw an exception
+                throw new TypeNotRegisteredException(TypeToResolve);
+            }
+            else if (FoundRegisteredObjects.Length != 1)
+            {
+                //do we have too many items registered? They didn't use factory names
+                throw new MultipleTypesFoundException(TypeToResolve);
+            }
+
+            //we are ok, just return the first item
+            return FoundRegisteredObjects[0];
         }
 
         #endregion

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container\ToracDIContainer.cs" />
+    <Compile Include="Exceptions\MultipleTypesFoundException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredObjects\BaseClass\BaseRegisteredObject.cs" />

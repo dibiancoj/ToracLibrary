@@ -23,13 +23,15 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <param name="TypeToResolveToSet">Type to resolve. ie: ILogger</param>
         /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
         /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
-        internal BaseRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet)
+        /// <param name="CreateConcreteImplementationToSet">Function to create an concrete implementation</param>
+        internal BaseRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementationToSet)
         {
             //set all the properties
             FactoryName = FactoryNameToSet;
             TypeToResolve = TypeToResolveToSet;
             ConcreteType = ConcreteTypeToSet;
             ObjectScope = ObjectScopeToSet;
+            CreateConcreteImplementation = CreateConcreteImplementationToSet;
 
             // we are going to create a new instance everytime. We want to cache the constructor parameters so we don't have to keep getting it
             //even to for the singleton, we need them to register everything first. So we can't create the singleton as soon as they register it
@@ -59,6 +61,11 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// We are going to store the constructor info of the concrete class. This way when we go to resolve it multiple times we can cache this. For singleton, we need to allow them to register everything first. So we need to store this for all cases
         /// </summary>
         internal ParameterInfo[] ConstructorInfoOfConcreteType { get; }
+
+        /// <summary>
+        /// Function to create an concrete implementation
+        /// </summary>
+        internal Func<object> CreateConcreteImplementation { get; }
 
         /// <summary>
         /// How long does does the object last in the di container
@@ -91,17 +98,18 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <param name="TypeToResolveToSet">Type to resolve. ie: ILogger</param>
         /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
         /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
         /// <returns>IRegisteredObject</returns>
-        internal static BaseRegisteredObject BuildRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet)
+        internal static BaseRegisteredObject BuildRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementation)
         {
             //which scope is it?
             if (ObjectScopeToSet == ToracDIContainer.DIContainerScope.Transient)
             {
-                return new TransientRegisteredObject(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet);
+                return new TransientRegisteredObject(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation);
             }
 
             //else return the singleton
-            return new SingletonRegisteredObject(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet);
+            return new SingletonRegisteredObject(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation);
         }
 
         #endregion
