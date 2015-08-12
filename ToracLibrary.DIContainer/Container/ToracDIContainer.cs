@@ -38,6 +38,15 @@ namespace ToracLibrary.DIContainer
 
         #endregion
 
+        #region Constants
+
+        /// <summary>
+        /// Holds the default scope to use if the overload doesn't specify one
+        /// </summary>
+        private DIContainerScope DefaultScope = DIContainerScope.Transient;
+
+        #endregion
+
         #region Enums
 
         /// <summary>
@@ -59,7 +68,118 @@ namespace ToracLibrary.DIContainer
 
         #endregion
 
-        #region Register
+        #region Register Overloads
+
+        #region Only 1 Type (From And To)
+
+        /* There are 4 parameters, so we need every iteration for the overload */
+
+        #region Single Parmeters
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        public void Register<TRegisterType>()
+        {
+            Register<TRegisterType, TRegisterType>(DefaultScope);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        public void Register<TRegisterType>(string FactoryName)
+        {
+            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        public void Register<TRegisterType>(DIContainerScope ObjectScope)
+        {
+            Register<TRegisterType, TRegisterType>(null, ObjectScope);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TRegisterType>(Func<TRegisterType> CreateConcreteImplementation)
+        {
+            Register<TRegisterType, TRegisterType>(DefaultScope, CreateConcreteImplementation);
+        }
+
+        #endregion
+
+        #region Two Parameters
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        public void Register<TRegisterType>(string FactoryName, DIContainerScope ObjectScope)
+        {
+            //add the item to our list
+            Register<TRegisterType, TRegisterType>(FactoryName, ObjectScope, null);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TRegisterType>(string FactoryName, Func<TRegisterType> CreateConcreteImplementation)
+        {
+            //add the item to our list
+            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope, CreateConcreteImplementation);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TRegisterType>(DIContainerScope ObjectScope, Func<TRegisterType> CreateConcreteImplementation)
+        {
+            //add the item to our list
+            Register<TRegisterType, TRegisterType>(null, ObjectScope, CreateConcreteImplementation);
+        }
+
+        #endregion
+
+        #region Three Parameters
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TRegisterType>(string FactoryName, DIContainerScope ObjectScope, Func<TRegisterType> CreateConcreteImplementation)
+        {
+            Register<TRegisterType, TRegisterType>(FactoryName, ObjectScope, CreateConcreteImplementation);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region From And To Type
+
+        /* There are 4 parameters, so we need every iteration for the overload */
+
+        #region Single Parmeters
 
         /// <summary>
         /// Register a dependency in the container
@@ -68,7 +188,7 @@ namespace ToracLibrary.DIContainer
         /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
         public void Register<TTypeToResolve, TConcrete>()
         {
-            Register<TTypeToResolve, TConcrete>(DIContainerScope.Transient);
+            Register<TTypeToResolve, TConcrete>(DefaultScope);
         }
 
         /// <summary>
@@ -79,18 +199,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
         public void Register<TTypeToResolve, TConcrete>(string FactoryName)
         {
-            Register<TTypeToResolve, TConcrete>(FactoryName, DIContainerScope.Transient);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(Func<TConcrete> CreateConcreteImplementation)
-        {
-            Register<TTypeToResolve, TConcrete>(DIContainerScope.Transient, CreateConcreteImplementation);
+            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope);
         }
 
         /// <summary>
@@ -109,12 +218,15 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
         /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
         /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
+        public void Register<TTypeToResolve, TConcrete>(Func<TConcrete> CreateConcreteImplementation)
         {
-            Register<TTypeToResolve, TConcrete>(null, ObjectScope, CreateConcreteImplementation);
+            Register<TTypeToResolve, TConcrete>(DefaultScope, CreateConcreteImplementation);
         }
+
+        #endregion
+
+        #region Two Parameters
 
         /// <summary>
         /// Register a dependency in the container
@@ -128,6 +240,36 @@ namespace ToracLibrary.DIContainer
             //add the item to our list
             Register<TTypeToResolve, TConcrete>(FactoryName, ObjectScope, null);
         }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TTypeToResolve, TConcrete>(string FactoryName, Func<TConcrete> CreateConcreteImplementation)
+        {
+            //add the item to our list
+            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope, CreateConcreteImplementation);
+        }
+
+        /// <summary>
+        /// Register a dependency in the container
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
+        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
+        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
+        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
+        public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
+        {
+            //add the item to our list
+            Register<TTypeToResolve, TConcrete>(null, ObjectScope, CreateConcreteImplementation);
+        }
+
+        #endregion
+
+        #region Three Parameters
 
         /// <summary>
         /// Register a dependency in the container
@@ -155,6 +297,10 @@ namespace ToracLibrary.DIContainer
             //we want to prevent them from adding multiple types so validate it when they input it (so we are going to run this method which validates everything)
             FindRegisterdObject(RegisteredObjectsInContainer, FactoryName, typeof(TTypeToResolve));
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

@@ -60,6 +60,14 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             internal ILogger LoggerToUse { get; }
         }
 
+        private class SqlDIWithTypeProvider<T>
+        {
+            public Type GetTypeOfT()
+            {
+                return typeof(T);
+            }
+        }
+
         #endregion
 
         #region Unit Tests
@@ -106,7 +114,7 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             //now let's check the log
             Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
 
-            //let's ensure it's not using a singleton
+            //let's ensure it's not using a singleton. Grab a new instance of ILogger, and make sure the result is empty
             Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
         }
 
@@ -155,7 +163,7 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SqlDIProvider, SqlDIProvider>(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
 
             //let's grab an the data provide rnow
             var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
@@ -255,6 +263,30 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
             //check the log
             Assert.AreEqual(Factory2LoggerTestString, FactoryLogger2.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Let's make sure generic types work. Where the method has a generic parameter
+        /// </summary>
+        [TestMethod]
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        public void InterfaceBaseGenericTypeTransientTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<SqlDIWithTypeProvider<string>>();
+
+            //let's grab an instance now
+            var GenericTypeToUse = DIContainer.Resolve<SqlDIWithTypeProvider<string>>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(GenericTypeToUse);
+
+            //grab the type of T
+            Assert.AreEqual(typeof(string), GenericTypeToUse.GetTypeOfT());
         }
 
         #endregion
