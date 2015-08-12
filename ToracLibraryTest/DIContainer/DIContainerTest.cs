@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ToracLibrary.DIContainer;
+using ToracLibrary.DIContainer.Exceptions;
 
 namespace ToracLibraryTest.UnitsTest.DiContainer
 {
@@ -45,6 +46,22 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         #endregion
 
         #region Unit Tests
+
+        /// <summary>
+        /// Let's make sure if we don't register an item, then when we go to resolve it, it will fail
+        /// </summary>
+        [TestMethod]
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [ExpectedException(typeof(TypeNotRegisteredException))]
+        public void NoRegistrationErrorTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //let's grab an instance now, but we never registered it...so it should raise an error
+            ILogger LoggerToUse = DIContainer.Resolve<ILogger>();
+        }
 
         /// <summary>
         /// Test the interface base transient for the DI container works

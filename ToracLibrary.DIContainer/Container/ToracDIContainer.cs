@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.DIContainer.Exceptions;
+using ToracLibrary.DIContainer.RegisteredObjects;
 
 namespace ToracLibrary.DIContainer
 {
@@ -23,7 +24,7 @@ namespace ToracLibrary.DIContainer
         public ToracDIContainer()
         {
             //create a new list to use, which will store all my settings
-            RegisteredObjectsInContainer = new List<RegisteredObject>();
+            RegisteredObjectsInContainer = new List<BaseRegisteredObject>();
         }
 
         #endregion
@@ -33,7 +34,7 @@ namespace ToracLibrary.DIContainer
         /// <summary>
         /// Holds all the registered objects for this DI container
         /// </summary>
-        private IList<RegisteredObject> RegisteredObjectsInContainer { get; }
+        private IList<BaseRegisteredObject> RegisteredObjectsInContainer { get; }
 
         #endregion
 
@@ -91,7 +92,7 @@ namespace ToracLibrary.DIContainer
         public void Register<TTypeToResolve, TConcrete>(string FactoryName, DIContainerScope ObjectScope)
         {
             //add the item to our list
-            RegisteredObjectsInContainer.Add(new RegisteredObject(FactoryName, typeof(TTypeToResolve), typeof(TConcrete), ObjectScope));
+            RegisteredObjectsInContainer.Add(BaseRegisteredObject.BuildRegisteredObject(FactoryName, typeof(TTypeToResolve), typeof(TConcrete), ObjectScope));
         }
 
         #endregion
@@ -147,7 +148,7 @@ namespace ToracLibrary.DIContainer
         public object Resolve(string FactoryName, Type TypeToResolve)
         {
             //holds the object we are going to use
-            RegisteredObject RegisteredObjectToUse = null;
+            BaseRegisteredObject RegisteredObjectToUse = null;
 
             //let's grab the registered object in the list that we have
             var SearchForRegisteredObject = RegisteredObjectsInContainer.Where(x => x.TypeToResolve == TypeToResolve);
@@ -185,25 +186,32 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <returns>The object for the consumer to use</returns>
-        private object GetInstance(RegisteredObject RegisteredObjectToBuild)
+        private object GetInstance(BaseRegisteredObject RegisteredObjectToBuild)
         {
             //is this a singleton
             bool IsSingleton = RegisteredObjectToBuild.ObjectScope == DIContainerScope.Singleton;
 
             //is this a singleton and we already created an object
-            if (IsSingleton && RegisteredObjectToBuild.Instance != null)
+            if (IsSingleton)
             {
-                //they want a singleton, so just return the instance we have stored
-                return RegisteredObjectToBuild.Instance;
+                //try to grab the instance without creating it
+                var EagerResolveObject = RegisteredObjectToBuild.EagerResolveObject();
+
+                //do we have an instance
+                if (EagerResolveObject != null)
+                {
+                    //they want a singleton, so just return the instance we have stored
+                    return EagerResolveObject;
+                }
             }
 
             //this is a transient...so they wan't a new object, let's go create it
-            var ObjectToReturn = RegisteredObject.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+            var ObjectToReturn = RegisteredObjectToBuild.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
 
             //if this is a singleton, go store it
             if (IsSingleton)
             {
-                RegisteredObjectToBuild.Instance = ObjectToReturn;
+                RegisteredObjectToBuild.StoreInstance(ObjectToReturn);
             }
 
             //all done return the object
@@ -215,7 +223,7 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <returns>Parameters to be fed into the constructor</returns>
-        private IEnumerable<object> ResolveConstructorParameters(RegisteredObject RegisteredObjectToBuild)
+        private IEnumerable<object> ResolveConstructorParameters(BaseRegisteredObject RegisteredObjectToBuild)
         {
             //let's loop through the paramters for this constructor
             foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
