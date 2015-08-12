@@ -32,12 +32,21 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
-        #region Singleton Specific
+        #region Singleton Specific Properties
 
         /// <summary>
         /// if they want a singleton, then we store the instance here
         /// </summary>
         internal object Instance { get; private set; }
+
+        #endregion
+
+        #region Abstract Properties
+
+        /// <summary>
+        ///  In a singleton pattern we will try to resolve the issue without creating it first. If this flag is set to true, then we will try to eager load the items
+        /// </summary>
+        override internal bool SupportsEagerCachingOfObjects { get { return true; } }
 
         #endregion
 

@@ -72,6 +72,8 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
         #region Unit Tests
 
+        #region Exception Tests
+
         /// <summary>
         /// Let's make sure if we don't register an item, then when we go to resolve it, it will fail
         /// </summary>
@@ -87,6 +89,31 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             //let's grab an instance now, but we never registered it...so it should raise an error
             var LoggerToUse = DIContainer.Resolve<ILogger>();
         }
+
+        /// <summary>
+        /// Test multiple types with no factory name. This should blow up with a MultipleTypesFoundException error
+        /// </summary>
+        [TestMethod]
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [ExpectedException(typeof(MultipleTypesFoundException))]
+        public void MultipleTypeFoundErrorTest1()
+        {
+            //this example would be for factories
+            //PolicyFactory implements SectionFactory
+            //ClaimFactory implements SectionFactory
+
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+        }
+
+        #endregion
 
         /// <summary>
         /// Test the interface base transient for the DI container works
@@ -188,29 +215,6 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
             //its a singleton, so it should return the same instance which already has the test we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
-        }
-
-        /// <summary>
-        /// Test multiple types with no factory name. This should blow up with a MultipleTypesFoundException error
-        /// </summary>
-        [TestMethod]
-        [TestCategory("ToracLibrary.DIContainer")]
-        [TestCategory("DIContainer")]
-        [ExpectedException(typeof(MultipleTypesFoundException))]
-        public void MultipleFactoriesWithNoFactoryNameTest1()
-        {
-            //this example would be for factories
-            //PolicyFactory implements SectionFactory
-            //ClaimFactory implements SectionFactory
-
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
-
-            //register a second instance
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
         }
 
         /// <summary>

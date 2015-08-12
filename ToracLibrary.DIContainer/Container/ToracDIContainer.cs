@@ -9,12 +9,16 @@ using ToracLibrary.DIContainer.RegisteredObjects;
 namespace ToracLibrary.DIContainer
 {
 
+    /*Partial class so all the register overloads won't get in the way and cloud the code */
+
     /// <summary>
     /// Holds the actual di container that everything derives off of
     /// </summary>
     /// <remarks>Class is property immutable</remarks>
-    public class ToracDIContainer
+    public partial class ToracDIContainer
     {
+
+        //**Register is a partial class in ToracDIContainerRegisterOverloads**
 
         #region Constructor
 
@@ -65,242 +69,6 @@ namespace ToracLibrary.DIContainer
             /// </summary>
             Singleton = 1
         }
-
-        #endregion
-
-        #region Register Overloads
-
-        #region Only 1 Type (From And To)
-
-        /* There are 4 parameters, so we need every iteration for the overload */
-
-        #region Single Parmeters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        public void Register<TRegisterType>()
-        {
-            Register<TRegisterType, TRegisterType>(DefaultScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        public void Register<TRegisterType>(string FactoryName)
-        {
-            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        public void Register<TRegisterType>(DIContainerScope ObjectScope)
-        {
-            Register<TRegisterType, TRegisterType>(null, ObjectScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TRegisterType>(Func<TRegisterType> CreateConcreteImplementation)
-        {
-            Register<TRegisterType, TRegisterType>(DefaultScope, CreateConcreteImplementation);
-        }
-
-        #endregion
-
-        #region Two Parameters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        public void Register<TRegisterType>(string FactoryName, DIContainerScope ObjectScope)
-        {
-            //add the item to our list
-            Register<TRegisterType, TRegisterType>(FactoryName, ObjectScope, null);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TRegisterType>(string FactoryName, Func<TRegisterType> CreateConcreteImplementation)
-        {
-            //add the item to our list
-            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope, CreateConcreteImplementation);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TRegisterType>(DIContainerScope ObjectScope, Func<TRegisterType> CreateConcreteImplementation)
-        {
-            //add the item to our list
-            Register<TRegisterType, TRegisterType>(null, ObjectScope, CreateConcreteImplementation);
-        }
-
-        #endregion
-
-        #region Three Parameters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TRegisterType>(string FactoryName, DIContainerScope ObjectScope, Func<TRegisterType> CreateConcreteImplementation)
-        {
-            Register<TRegisterType, TRegisterType>(FactoryName, ObjectScope, CreateConcreteImplementation);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region From And To Type
-
-        /* There are 4 parameters, so we need every iteration for the overload */
-
-        #region Single Parmeters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        public void Register<TTypeToResolve, TConcrete>()
-        {
-            Register<TTypeToResolve, TConcrete>(DefaultScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        public void Register<TTypeToResolve, TConcrete>(string FactoryName)
-        {
-            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope)
-        {
-            Register<TTypeToResolve, TConcrete>(null, ObjectScope);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(Func<TConcrete> CreateConcreteImplementation)
-        {
-            Register<TTypeToResolve, TConcrete>(DefaultScope, CreateConcreteImplementation);
-        }
-
-        #endregion
-
-        #region Two Parameters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        public void Register<TTypeToResolve, TConcrete>(string FactoryName, DIContainerScope ObjectScope)
-        {
-            //add the item to our list
-            Register<TTypeToResolve, TConcrete>(FactoryName, ObjectScope, null);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(string FactoryName, Func<TConcrete> CreateConcreteImplementation)
-        {
-            //add the item to our list
-            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope, CreateConcreteImplementation);
-        }
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
-        {
-            //add the item to our list
-            Register<TTypeToResolve, TConcrete>(null, ObjectScope, CreateConcreteImplementation);
-        }
-
-        #endregion
-
-        #region Three Parameters
-
-        /// <summary>
-        /// Register a dependency in the container
-        /// </summary>
-        /// <typeparam name="TTypeToResolve">Type Of T To Resolve</typeparam>
-        /// <typeparam name="TConcrete">Type of the concrete class</typeparam>
-        /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
-        /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        public void Register<TTypeToResolve, TConcrete>(string FactoryName, DIContainerScope ObjectScope, Func<TConcrete> CreateConcreteImplementation)
-        {
-            //function to create to cast to object
-            Func<object> ConcreteCreation = null;
-
-            //do we have a function passed in?
-            if (CreateConcreteImplementation != null)
-            {
-                //create a new function that returns an object
-                ConcreteCreation = () => CreateConcreteImplementation();
-            }
-
-            //add the item to our list
-            RegisteredObjectsInContainer.Add(BaseRegisteredObject.BuildRegisteredObject(FactoryName, typeof(TTypeToResolve), typeof(TConcrete), ObjectScope, ConcreteCreation));
-
-            //we want to prevent them from adding multiple types so validate it when they input it (so we are going to run this method which validates everything)
-            FindRegisterdObject(RegisteredObjectsInContainer, FactoryName, typeof(TTypeToResolve));
-        }
-
-        #endregion
-
-        #endregion
 
         #endregion
 
@@ -371,11 +139,8 @@ namespace ToracLibrary.DIContainer
         /// <returns>The object for the consumer to use</returns>
         private object GetInstance(BaseRegisteredObject RegisteredObjectToBuild)
         {
-            //is this a singleton
-            bool IsSingleton = RegisteredObjectToBuild.ObjectScope == DIContainerScope.Singleton;
-
-            //is this a singleton and we already created an object
-            if (IsSingleton)
+            //does this registered type support eager loading?
+            if (RegisteredObjectToBuild.SupportsEagerCachingOfObjects)
             {
                 //try to grab the instance without creating it
                 var EagerResolveObject = RegisteredObjectToBuild.EagerResolveObject();
@@ -392,19 +157,21 @@ namespace ToracLibrary.DIContainer
             object ObjectToReturn;
 
             //first we will try to build it using the func
-            if (RegisteredObjectToBuild.CreateConcreteImplementation != null)
-            {
-                ObjectToReturn = RegisteredObjectToBuild.CreateConcreteImplementation.Invoke();
-            }
-            else
+            if (RegisteredObjectToBuild.CreateConcreteImplementation == null)
             {
                 //they never passed in the func, so go create an instance
                 ObjectToReturn = RegisteredObjectToBuild.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
             }
-
-            //if this is a singleton, go store it
-            if (IsSingleton)
+            else
             {
+                //we have the func that creates the object, go invoke it and return the result
+                ObjectToReturn = RegisteredObjectToBuild.CreateConcreteImplementation.Invoke();
+            }
+
+            //if we support eager loading, then go store this item
+            if (RegisteredObjectToBuild.SupportsEagerCachingOfObjects)
+            {
+                //if this is a singleton, go store it
                 RegisteredObjectToBuild.StoreInstance(ObjectToReturn);
             }
 

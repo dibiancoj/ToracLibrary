@@ -30,16 +30,12 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
-        #region Override Methods
+        #region Abstract Properties
 
         /// <summary>
-        /// In a singleton pattern we will try to resolve the issue without creating it first. For transient this will return null
+        ///  In a singleton pattern we will try to resolve the issue without creating it first. If this flag is set to true, then we will try to eager load the items
         /// </summary>
-        /// <returns>null if the object needs to be created. Object if we have already created the object and we can use it</returns>
-        internal override object EagerResolveObject()
-        {
-            return null;
-        }
+        override internal bool SupportsEagerCachingOfObjects { get { return false; } }
 
         #endregion
 

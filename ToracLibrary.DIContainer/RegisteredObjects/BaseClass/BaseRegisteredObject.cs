@@ -74,6 +74,15 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
+        #region Abstract Properties
+
+        /// <summary>
+        ///  In a singleton pattern we will try to resolve the issue without creating it first. If this flag is set to true, then we will try to eager load the items
+        /// </summary>
+        abstract internal bool SupportsEagerCachingOfObjects { get; }
+
+        #endregion
+
         #region Private Static Helpers
 
         /// <summary>
@@ -114,13 +123,17 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
-        #region Abstract Methods
+        #region Internal Virtual Methods
 
         /// <summary>
         /// In a singleton pattern we will try to resolve the issue without creating it first. For transient this will return null
         /// </summary>
         /// <returns>null if the object needs to be created. Object if we have already created the object and we can use it</returns>
-        internal abstract object EagerResolveObject();
+        internal virtual object EagerResolveObject()
+        {
+            //the default value is not to use a cache mechanism...so just return null
+            return null;
+        }
 
         /// <summary>
         /// Stores the instance for the any calls after this. Singleton pattern
