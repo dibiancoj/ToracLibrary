@@ -12,7 +12,7 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
     /// Unit test to test the Torac DI Container
     /// </summary>
     [TestClass]
-    public class DiContainerTest
+    public class DIContainerTest
     {
 
         #region Framework For Tests
@@ -47,12 +47,12 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         #region Unit Tests
 
         /// <summary>
-        /// Test the in memory cache
+        /// Test the interface base transient for the DI container works
         /// </summary>
         [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
-        public void InterfaceBaseRegistrationTest1()
+        public void InterfaceBaseTransientRegistrationTest1()
         {
             //declare my container
             var DIContainer = new ToracDIContainer();
@@ -71,6 +71,39 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
             //now let's check the log
             Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
+
+            //let's ensure it's not using a singleton
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test the interface base singleton for the DI container works
+        /// </summary>
+        [TestMethod]
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        public void InterfaceBaseSingletonRegistrationTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+
+            //let's grab an instance now
+            ILogger LoggerToUse = DIContainer.Resolve<ILogger>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(LoggerToUse);
+
+            //write test to the log
+            LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
         }
 
         #endregion
