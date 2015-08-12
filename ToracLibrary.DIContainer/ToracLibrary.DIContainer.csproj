@@ -50,7 +50,9 @@
     <Compile Include="RegisteredObjects\Implementation\TransientRegisteredObject.cs" />
     <Compile Include="RegisteredObjects\Implementation\SingletonRegisteredObject.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Documentation For ASP.NET MVC\DIContainer In ASP.NET MVC" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

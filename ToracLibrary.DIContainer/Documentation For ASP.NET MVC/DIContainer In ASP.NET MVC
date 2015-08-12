@@ -1,0 +1,72 @@
+﻿1. Torac Library so we can use the DI Container
+2. ToracDIBootstrapper
+3. ToracDIDefaultControllerFactory
+4. Global.asax.cs ==> 
+		var container = new SimpleIocContainer();
+ 
+        BootStrapper.Configure(container);
+ 
+        ControllerBuilder.Current.SetControllerFactory(new SimpleIocControllerFactory(container));
+
+
+Then in your controller you can put the ILogger or whatever in the constructor
+
+--------------------- Code for the above steps ---------------------
+
+2. 
+    /// <summary>
+    /// Default bootstrapper to configure everything in the DI container
+    /// </summary>
+    public static class ToracDIBootstrapper
+    {
+
+        public static void Configure(ToracDIContainer ContainerToConfigure)
+        {
+            ContainerToConfigure.Register<HomeController>();
+            ContainerToConfigure.Register<ILogger, StringBuilderLogger>();
+        }
+
+    }
+
+3. 
+
+    /// <summary>
+    /// Default controller needed when implementing the Torac DI Container
+    /// </summary>
+    /// <remarks>DefaultControllerFactory is cached, so we don't need to store the container in a static property</remarks>
+    public class ToracDIDefaultControllerFactory : DefaultControllerFactory
+    {
+
+        #region Constructor
+
+        public ToracDIDefaultControllerFactory(ToracDIContainer ContainerToSet)
+        {
+            this.Container = ContainerToSet;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private ToracDIContainer Container { get; }
+
+        #endregion
+
+        #region Overrides
+
+        protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
+        {
+            return (Controller)Container.Resolve(controllerType);
+        }
+
+        #endregion
+
+    }
+
+4. 
+
+		var container = new SimpleIocContainer();
+ 
+        BootStrapper.Configure(container);
+ 
+        ControllerBuilder.Current.SetControllerFactory(new SimpleIocControllerFactory(container));
