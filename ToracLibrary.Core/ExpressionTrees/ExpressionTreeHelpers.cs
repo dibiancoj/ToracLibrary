@@ -12,7 +12,7 @@ namespace ToracLibrary.Core.ExpressionTrees
     /// <summary>
     /// Holds expression tree helpers
     /// </summary>
-    public class ExpressionTreeHelpers
+    public static class ExpressionTreeHelpers
     {
 
         #region New Item From Expression Tree
