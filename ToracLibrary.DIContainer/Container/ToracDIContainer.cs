@@ -47,7 +47,7 @@ namespace ToracLibrary.DIContainer
         /// <summary>
         /// Holds the default scope to use if the overload doesn't specify one
         /// </summary>
-        private DIContainerScope DefaultScope = DIContainerScope.Transient;
+        private const DIContainerScope DefaultScope = DIContainerScope.Transient;
 
         #endregion
 
