@@ -34,9 +34,15 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             ObjectScope = ObjectScopeToSet;
             CreateConcreteImplementation = CreateConcreteImplementationToSet;
 
+            //grab the construtor info
+            var ConstructorInfo = ConcreteType.GetConstructors().First();
+
             // we are going to create a new instance everytime. We want to cache the constructor parameters so we don't have to keep getting it
             //even to for the singleton, we need them to register everything first. So we can't create the singleton as soon as they register it
-            ConstructorInfoOfConcreteType = ConcreteType.GetConstructors().First().GetParameters();
+            ConstructorInfoOfConcreteType = ConstructorInfo.GetParameters();
+
+            //let's go set the activator func
+            CachedActivator = BuildCachedActivator(ConstructorInfo, ConstructorInfoOfConcreteType);
         }
 
         #endregion
@@ -71,7 +77,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <summary>
         /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
         /// </summary>
-        internal Func<object[], object> CachedActivator { get; private set; }
+        internal Func<object[], object> CachedActivator { get; set; }
 
         /// <summary>
         /// How long does does the object last in the di container
@@ -108,63 +114,33 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
             //so we are going to build a func that takes a params object[] and then we just set it to each item.
 
-            //if we haven't already built the expression, then let's build and compile it now
-            if (CachedActivator == null)
-            {
-                //build the constructor parameter
-                var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
-
-                //We are going build up all the types that the constructor takes
-                var ConstructorParameterTypes = ConstructorInfoOfConcreteType.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
-
-                //now build the "New Object" expression
-                var NewObjectExpression = Expression.New(ConcreteType.GetConstructors().First(), ConstructorParameterTypes);
-
-                //now let's build the lambda
-                CachedActivator = Expression.Lambda<Func<object[], object>>(NewObjectExpression, ConstructorParameterName).Compile();
-            }
+            //if we haven't already built the expression, then let's build and compile it now   
 
             //we have the expression, so let's go invoke it and return the results
             return CachedActivator.Invoke(ConstructorParameters);
         }
 
-        //public static object GetActivator(Type TypeToBuild, ConstructorInfo ctor)
-        //{
-        //    Type type = ctor.DeclaringType;
-        //    ParameterInfo[] paramsInfo = ctor.GetParameters();
+        /// <summary>
+        /// Builds the func that will create a new instance.
+        /// </summary>
+        /// <param name="ConstructorInfoOfNewType">Constructor info for the new type</param>
+        /// <param name="ConstructorParametersOfConcreteType">Parameters of the contructor</param>
+        /// <returns>Func which creates the new object</returns>
+        private static Func<object[], object> BuildCachedActivator(ConstructorInfo ConstructorInfoOfNewType, IEnumerable<ParameterInfo> ConstructorParametersOfConcreteType)
+        {
+            //go create the activator cached func
+            //build the constructor parameter
+            var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
 
-        //    //create a single param of type object[]
-        //    ParameterExpression param = Expression.Parameter(typeof(object[]), "args");
+            //We are going build up all the types that the constructor takes
+            var ConstructorParameterTypes = ConstructorParametersOfConcreteType.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
 
-        //    Expression[] argsExp = new Expression[paramsInfo.Length];
+            //now build the "New Object" expression
+            var NewObjectExpression = Expression.New(ConstructorInfoOfNewType, ConstructorParameterTypes);
 
-        //    //pick each arg from the params array 
-        //    //and create a typed expression of them
-        //    for (int i = 0; i < paramsInfo.Length; i++)
-        //    {
-        //        Expression index = Expression.Constant(i);
-        //        Type paramType = paramsInfo[i].ParameterType;
-
-        //        Expression paramAccessorExp = Expression.ArrayIndex(param, index);
-
-        //        Expression paramCastExp = Expression.Convert(paramAccessorExp, paramType);
-
-        //        argsExp[i] = paramCastExp;
-        //    }
-
-        //    //make a NewExpression that calls the
-        //    //ctor with the args we just created
-        //    NewExpression newExp = Expression.New(ctor, argsExp);
-
-        //    //create a lambda with the New
-        //    //Expression as body and our param object[] as arg
-        //    LambdaExpression lambda = Expression.Lambda(typeof(ObjectActivator<T>), newExp, param);
-
-        //    //compile it
-        //    ObjectActivator<T> compiled = (ObjectActivator<T>)lambda.Compile();
-
-        //    return compiled;
-        //}
+            //now let's build the lambda and return it
+            return Expression.Lambda<Func<object[], object>>(NewObjectExpression, ConstructorParameterName).Compile();
+        }
 
         #endregion
 
