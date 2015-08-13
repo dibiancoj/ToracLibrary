@@ -477,6 +477,15 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //make sure we have factory 1
             Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
 
+            //make sure the logger is a transient
+            Assert.AreEqual(ToracDIContainer.DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
+
+            //make sure the second factory is a transient
+            Assert.AreEqual(ToracDIContainer.DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName2).ObjectScope);
+
+            //make sure the sql di provider is a singleton
+            Assert.AreEqual(ToracDIContainer.DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
+
             //make sure we have factory 2
             Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));
 
