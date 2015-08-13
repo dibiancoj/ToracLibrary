@@ -68,12 +68,10 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// </summary>
         internal Func<object> CreateConcreteImplementation { get; }
 
-        //performance testing showed that you would have to resolve over 10,000 items to have expression tree's be faster.
-        //leaving the code in here but going to stay with the activator codef
         /// <summary>
         /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
         /// </summary>
-        //internal Func<object[], object> CachedActivator { get; private set; }
+        internal Func<object[], object> CachedActivator { get; private set; }
 
         /// <summary>
         /// How long does does the object last in the di container
@@ -101,33 +99,33 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         internal object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
             //use the activator and go create the instance
-             return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
+            //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
 
-            //performance testing showed that you would have to resolve over 10,000 items to have expression tree's be faster.
-            //leaving the code in here but going to stay with the activator code
+            //**so expression tree is slower if you are just running resolve a handful of times. You would need to get into the 10,000 resolves before it starts getting faster.
+            //**since an asp.net mvc site will handle request after request the pool won't get recycled before 10,000. So we are going to build it for scalability with expression trees
 
             //instead of using activator, we are going to use an expression tree which is a ton faster.
 
             //so we are going to build a func that takes a params object[] and then we just set it to each item.
 
             //if we haven't already built the expression, then let's build and compile it now
-            //if (CachedActivator == null)
-            //{
-            //    //build the constructor parameter
-            //    var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
+            if (CachedActivator == null)
+            {
+                //build the constructor parameter
+                var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
 
-            //    //We are going build up all the types that the constructor takes
-            //    var ConstructorParameterTypes = ConstructorInfoOfConcreteType.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
+                //We are going build up all the types that the constructor takes
+                var ConstructorParameterTypes = ConstructorInfoOfConcreteType.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
 
-            //    //now build the "New Object" expression
-            //    var NewObjectExpression = Expression.New(ConcreteType.GetConstructors().First(), ConstructorParameterTypes);
+                //now build the "New Object" expression
+                var NewObjectExpression = Expression.New(ConcreteType.GetConstructors().First(), ConstructorParameterTypes);
 
-            //    //now let's build the lambda
-            //    CachedActivator = Expression.Lambda<Func<object[], object>>(NewObjectExpression, ConstructorParameterName).Compile();
-            //}
+                //now let's build the lambda
+                CachedActivator = Expression.Lambda<Func<object[], object>>(NewObjectExpression, ConstructorParameterName).Compile();
+            }
 
-            ////we have the expression, so let's go invoke it and return the results
-            //return CachedActivator.Invoke(ConstructorParameters);
+            //we have the expression, so let's go invoke it and return the results
+            return CachedActivator.Invoke(ConstructorParameters);
         }
 
         //public static object GetActivator(Type TypeToBuild, ConstructorInfo ctor)
