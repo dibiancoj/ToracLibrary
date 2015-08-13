@@ -54,6 +54,12 @@
   <ItemGroup>
     <None Include="Documentation For ASP.NET MVC\DIContainer In ASP.NET MVC" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
+      <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
+      <Name>ToracLibrary.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

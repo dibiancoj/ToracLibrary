@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExpressionTrees;
 
 namespace ToracLibrary.DIContainer.RegisteredObjects
 {
@@ -42,7 +43,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             ConstructorInfoOfConcreteType = ConstructorInfo.GetParameters();
 
             //let's go set the activator func
-            CachedActivator = BuildCachedActivator(ConstructorInfo, ConstructorInfoOfConcreteType);
+            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorInfo, ConstructorInfoOfConcreteType).Compile();
         }
 
         #endregion
@@ -118,28 +119,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
             //we have the expression, so let's go invoke it and return the results
             return CachedActivator.Invoke(ConstructorParameters);
-        }
-
-        /// <summary>
-        /// Builds the func that will create a new instance.
-        /// </summary>
-        /// <param name="ConstructorInfoOfNewType">Constructor info for the new type</param>
-        /// <param name="ConstructorParametersOfConcreteType">Parameters of the contructor</param>
-        /// <returns>Func which creates the new object</returns>
-        private static Func<object[], object> BuildCachedActivator(ConstructorInfo ConstructorInfoOfNewType, IEnumerable<ParameterInfo> ConstructorParametersOfConcreteType)
-        {
-            //go create the activator cached func
-            //build the constructor parameter
-            var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
-
-            //We are going build up all the types that the constructor takes
-            var ConstructorParameterTypes = ConstructorParametersOfConcreteType.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
-
-            //now build the "New Object" expression
-            var NewObjectExpression = Expression.New(ConstructorInfoOfNewType, ConstructorParameterTypes);
-
-            //now let's build the lambda and return it
-            return Expression.Lambda<Func<object[], object>>(NewObjectExpression, ConstructorParameterName).Compile();
         }
 
         #endregion
