@@ -20,9 +20,9 @@ namespace ToracLibrary.DIContainer
         /// Constructor
         /// </summary>
         /// <param name="FactoryNameToSet"> Unique Identifier when you have the same types to resolve. Abstract Factory Pattern usages</param>
-        /// <param name="ContainerScopeToSet">How long does does the object last in the di container</param>
+        /// <param name="TypeToResolveToSet"> Type to resolve. ie: ILogger</param>
         /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
-        /// <param name="ObjectScopeToSet">Type to resolve. ie: ILogger</param>
+        /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
         public AllRegistrationResult(string FactoryNameToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet)
         {
             //set all the properties
