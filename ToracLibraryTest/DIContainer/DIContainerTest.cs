@@ -48,6 +48,16 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             }
         }
 
+        private class SectionFactoryWithConstParam
+        {
+            public SectionFactoryWithConstParam(ILogger logger)
+            {
+                Log = logger;
+            }
+
+            public readonly ILogger Log;
+        }
+
         private class SqlDIProvider
         {
             public SqlDIProvider(string ConnectionStringToSet, ILogger LoggerToSet)
@@ -217,6 +227,29 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
             //its a singleton, so it should return the same instance which already has the test we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterTransientTest1()
+        {
+            //basically want to test a transient with a dependency in the constructor passed in
+
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Transient);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SectionFactoryWithConstParam>(ToracDIContainer.DIContainerScope.Transient);
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SectionFactoryWithConstParam>();
         }
 
         /// <summary>

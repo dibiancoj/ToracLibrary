@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,8 +94,74 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         internal object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
             //use the activator and go create the instance
-            return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
+            //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
+
+
+            ParameterInfo[] paramsInfo = ConstructorInfoOfConcreteType;
+            var construtypes = new List<Type>();
+
+            //pick each arg from the params array 
+            //and create a typed expression of them
+            for (int i = 0; i < ConstructorParameters.Length; i++)
+            {
+                //Expression index = Expression.Constant(i);
+                Type paramType = paramsInfo[i].ParameterType;
+                construtypes.Add(paramType);
+                //Expression paramAccessorExp = Expression.ArrayIndex(param, index);
+
+                //Expression paramCastExp = Expression.Convert(paramAccessorExp, paramType);
+            }
+
+            var args = Expression.Parameter(typeof(object[]), "args");
+
+            var types = construtypes.Select((t, i) => Expression.Convert(Expression.ArrayIndex(args, Expression.Constant(i)), t)).ToArray();
+
+            NewExpression newExp = Expression.New(ConcreteType.GetConstructors().First(), types);
+
+           
+            var expToReturn = Expression.Lambda<Func<object[], object>>(newExp, args);
+
+            //******* need to cache this so we don't compile it over and over
+            return expToReturn.Compile().Invoke(ConstructorParameters);
         }
+
+        //public static object GetActivator(Type TypeToBuild, ConstructorInfo ctor)
+        //{
+        //    Type type = ctor.DeclaringType;
+        //    ParameterInfo[] paramsInfo = ctor.GetParameters();
+
+        //    //create a single param of type object[]
+        //    ParameterExpression param = Expression.Parameter(typeof(object[]), "args");
+
+        //    Expression[] argsExp = new Expression[paramsInfo.Length];
+
+        //    //pick each arg from the params array 
+        //    //and create a typed expression of them
+        //    for (int i = 0; i < paramsInfo.Length; i++)
+        //    {
+        //        Expression index = Expression.Constant(i);
+        //        Type paramType = paramsInfo[i].ParameterType;
+
+        //        Expression paramAccessorExp = Expression.ArrayIndex(param, index);
+
+        //        Expression paramCastExp = Expression.Convert(paramAccessorExp, paramType);
+
+        //        argsExp[i] = paramCastExp;
+        //    }
+
+        //    //make a NewExpression that calls the
+        //    //ctor with the args we just created
+        //    NewExpression newExp = Expression.New(ctor, argsExp);
+
+        //    //create a lambda with the New
+        //    //Expression as body and our param object[] as arg
+        //    LambdaExpression lambda = Expression.Lambda(typeof(ObjectActivator<T>), newExp, param);
+
+        //    //compile it
+        //    ObjectActivator<T> compiled = (ObjectActivator<T>)lambda.Compile();
+
+        //    return compiled;
+        //}
 
         #endregion
 
