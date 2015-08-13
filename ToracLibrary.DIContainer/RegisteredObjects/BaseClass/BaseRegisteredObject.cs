@@ -42,8 +42,12 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             //even to for the singleton, we need them to register everything first. So we can't create the singleton as soon as they register it
             ConstructorInfoOfConcreteType = ConstructorInfo.GetParameters();
 
-            //let's go set the activator func
-            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorInfo, ConstructorInfoOfConcreteType).Compile();
+            //if the user hasn't provided the conrete implementation then implement the cached activator
+            if (CreateConcreteImplementation == null)
+            {
+                //go create the cached activator from the derived class
+                CachedActivator = ConfigureTheCachedActivator(ConstructorInfo, ConstructorInfoOfConcreteType);
+            }
         }
 
         #endregion
@@ -96,33 +100,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
-        #region Private Static Helpers
-
-        /// <summary>
-        /// create an instance of this type
-        /// </summary>
-        /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
-        /// <param name="ConstructorParameters">Constructor Parameters</param>
-        internal object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters)
-        {
-            //use the activator and go create the instance
-            //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
-
-            //**so expression tree is slower if you are just running resolve a handful of times. You would need to get into the 10,000 resolves before it starts getting faster.
-            //**since an asp.net mvc site will handle request after request the pool won't get recycled before 10,000. So we are going to build it for scalability with expression trees
-
-            //instead of using activator, we are going to use an expression tree which is a ton faster.
-
-            //so we are going to build a func that takes a params object[] and then we just set it to each item.
-
-            //if we haven't already built the expression, then let's build and compile it now   
-
-            //we have the expression, so let's go invoke it and return the results
-            return CachedActivator.Invoke(ConstructorParameters);
-        }
-
-        #endregion
-
         #region Internal Static Methods
 
         /// <summary>
@@ -145,6 +122,25 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             //else return the singleton
             return new SingletonRegisteredObject(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation);
         }
+
+        #endregion
+
+        #region Internal Abstract Methods
+
+        /// <summary>
+        /// Have the derived classed build the cached activator. They both have different agenda's and different goals. Let them decide if they want to implement it
+        /// </summary>
+        /// <param name="ConstructorInfo">Constructor Info for the concrete class</param>
+        /// <param name="ConstructorParameters">Constructor parameters and what needs to be passed into the constructor when creating a new object</param>
+        /// <returns>The cached activator. Null if the derived class doesn't want to implement it</returns>
+        internal abstract Func<object[], object> ConfigureTheCachedActivator(ConstructorInfo ConstructorInfo, IEnumerable<ParameterInfo> ConstructorParameters);
+
+        /// <summary>
+        /// create an instance of this type. Each implementation will create there own. Transient will make use of expression trees (multiple creations). Singleton will only every create a single instance so the expression tree cost won't be beneificial
+        /// </summary>
+        /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
+        /// <param name="ConstructorParameters">Constructor Parameters</param>
+        internal abstract object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters);
 
         #endregion
 
