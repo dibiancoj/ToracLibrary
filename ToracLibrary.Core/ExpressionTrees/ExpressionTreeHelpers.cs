@@ -23,6 +23,7 @@ namespace ToracLibrary.Core.ExpressionTrees
         /// <param name="ConstructorInfoOfNewType">Constructor info for the new type. Using typeof(T).GetConstructors().First()</param>
         /// <param name="ConstructorParameter">Parameters of the contructor. So the parameters you would pass into the constructor</param>
         /// <returns>Func which creates the new object</returns>
+        /// <remarks>Be sure to cache this if you are going to need it again. Call .Compile() to grab the func</remarks>
         public static Expression<Func<object[], object>> BuildNewObject(ConstructorInfo ConstructorInfoOfNewType, IEnumerable<ParameterInfo> ConstructorParameter)
         {
             //so instead of having to modify the expression you get back. We will use func(params object[] ConstructorParameters)
