@@ -78,7 +78,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <summary>
         /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
         /// </summary>
-        internal Func<object[], object> CachedActivator { get; set; }
+        internal Func<object[], object> CachedActivator { get; }
 
         /// <summary>
         /// How long does does the object last in the di container
