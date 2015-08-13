@@ -6,7 +6,7 @@ using System.Text;
 using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Exceptions;
 
-namespace ToracLibraryTest.UnitsTest.DiContainer
+namespace ToracLibraryTest.UnitsTest.DIContainer
 {
 
     /// <summary>
