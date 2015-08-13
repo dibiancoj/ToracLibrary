@@ -155,7 +155,7 @@ namespace ToracLibrary.DIContainer
         /// Removes all registrations from the container for the specific type passed in
         /// </summary>
         /// <typeparam name="TTypeToResolve">The type that gets cleared. This should be the type that resolves to. ie. the interface</typeparam>
-        public void ClearAllRegistrations<TTypeToResolve>()
+        public void ClearAllRegistrationsForSpecificType<TTypeToResolve>()
         {
             //go remove all the items that are this type.
             RegisteredObjectsInContainer.RemoveAll(x => x.TypeToResolve == typeof(TTypeToResolve));

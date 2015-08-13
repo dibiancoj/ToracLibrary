@@ -374,7 +374,7 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
 
             //clear all the registrations
-            DIContainer.ClearAllRegistrations<ILogger>();
+            DIContainer.ClearAllRegistrationsForSpecificType<ILogger>();
 
             //make sure we have 1 item left in the container, we can't resolve sql di provider because ilogger is a dependency!!!!!
             Assert.AreEqual(1, DIContainer.AllRegistrationSelectLazy().Count(x => x.ConcreteType == typeof(SqlDIProvider)));
