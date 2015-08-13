@@ -38,7 +38,7 @@ namespace ToracLibrary.DIContainer
         /// <summary>
         /// Holds all the registered objects for this DI container
         /// </summary>
-        private IList<BaseRegisteredObject> RegisteredObjectsInContainer { get; }
+        private List<BaseRegisteredObject> RegisteredObjectsInContainer { get; }
 
         #endregion
 
@@ -127,6 +127,66 @@ namespace ToracLibrary.DIContainer
         }
 
         #endregion
+
+        #endregion
+
+        #region Resolve All
+
+        /// <summary>
+        /// returns all the factories for a given type
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">type to resolve all the factories for</typeparam>
+        /// <returns>Iterator of all the registered types for that specific implementation. Key is the factory name</returns>
+        public IEnumerable<KeyValuePair<string, TTypeToResolve>> ResolveAllLazy<TTypeToResolve>()
+        {
+            //let's loop through all the types and return them
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => x.TypeToResolve == typeof(TTypeToResolve)))
+            {
+                //go resolve this type and yield it
+                yield return new KeyValuePair<string, TTypeToResolve>(FactoryToResolve.FactoryName, Resolve<TTypeToResolve>(FactoryToResolve.FactoryName));
+            }
+        }
+
+        #endregion
+
+        #region Clear All Registrations
+
+        /// <summary>
+        /// Removes all registrations from the container for the specific type passed in
+        /// </summary>
+        /// <typeparam name="TTypeToResolve">The type that gets cleared. This should be the type that resolves to. ie. the interface</typeparam>
+        public void ClearAllRegistrations<TTypeToResolve>()
+        {
+            //go remove all the items that are this type.
+            RegisteredObjectsInContainer.RemoveAll(x => x.TypeToResolve == typeof(TTypeToResolve));
+        }
+
+        /// <summary>
+        /// Removes all registrations from the container
+        /// </summary>
+        public void ClearAllRegistrations()
+        {
+            //just clear the list
+            RegisteredObjectsInContainer.Clear();
+        }
+
+        #endregion
+
+        #region Get All Registrations
+
+        /// <summary>
+        /// Returns all the registrations for troubleshooting or just seeing what is registered in the container
+        /// </summary>
+        /// <returns>iterator of AllRegistrationResult</returns>
+        public IEnumerable<AllRegistrationResult> AllRegistrationSelectLazy()
+        {
+            //loop through all the registered objects
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer)
+            {
+                //return the new object using yield
+                yield return new AllRegistrationResult(FactoryToResolve.FactoryName, FactoryToResolve.ObjectScope, FactoryToResolve.TypeToResolve, FactoryToResolve.ConcreteType);
+            }
+        }
 
         #endregion
 

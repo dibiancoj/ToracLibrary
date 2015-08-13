@@ -76,11 +76,11 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
         /// <summary>
         /// Let's make sure if we don't register an item, then when we go to resolve it, it will fail
-        /// </summary>
-        [TestMethod]
+        /// </summary>        
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(TypeNotRegisteredException))]
+        [TestMethod]
         public void NoRegistrationErrorTest1()
         {
             //declare my container
@@ -93,10 +93,10 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         /// <summary>
         /// Test multiple types with no factory name. This should blow up with a MultipleTypesFoundException error
         /// </summary>
-        [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(MultipleTypesFoundException))]
+        [TestMethod]
         public void MultipleTypeFoundErrorTest1()
         {
             //this example would be for factories
@@ -115,12 +115,14 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
         #endregion
 
+        #region Resolve
+
         /// <summary>
         /// Test the interface base transient for the DI container works
         /// </summary>
-        [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
+        [TestMethod]
         public void InterfaceBaseTransientTest1()
         {
             //declare my container
@@ -148,9 +150,9 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         /// <summary>
         /// Test the interface base singleton for the DI container works
         /// </summary>
-        [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
+        [TestMethod]
         public void InterfaceBaseSingletonTest1()
         {
             //declare my container
@@ -177,10 +179,10 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
 
         /// <summary>
         /// Test a concrete class to concrete class
-        /// </summary>
-        [TestMethod]
+        /// </summary>    
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
+        [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterTest1()
         {
             //declare my container
@@ -220,9 +222,9 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         /// <summary>
         /// Test multiple types with a factory name
         /// </summary>
-        [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
+        [TestMethod]
         public void MultipleFactoriesWithFactoryNameTest1()
         {
             //this example would be for factories
@@ -272,9 +274,9 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
         /// <summary>
         /// Let's make sure generic types work. Where the method has a generic parameter
         /// </summary>
-        [TestMethod]
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
+        [TestMethod]
         public void InterfaceBaseGenericTypeTransientTest1()
         {
             //declare my container
@@ -292,6 +294,164 @@ namespace ToracLibraryTest.UnitsTest.DiContainer
             //grab the type of T
             Assert.AreEqual(typeof(string), GenericTypeToUse.GetTypeOfT());
         }
+
+        #endregion
+
+        #region Resolve All
+
+        /// <summary>
+        /// Test resolve all when you have multiple factories
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ResolveAllTest1()
+        {
+            //this example would be for factories
+            //PolicyFactory implements SectionFactory
+            //ClaimFactory implements SectionFactory
+
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //prefix for factory
+            const string FactoryNamePrefix = "Factory";
+
+            //store the factory names
+            const string FactoryName1 = FactoryNamePrefix + "0";
+            const string FactoryName2 = FactoryNamePrefix + "1";
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(FactoryName1);
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>(FactoryName2);
+
+            //count how many resolve all items we have
+            int ResolveAllResultCount = 0;
+
+            //lets loop through the resolve all
+            foreach (var FactoryToResolve in DIContainer.ResolveAllLazy<ILogger>().OrderBy(x => x.Key))
+            {
+                //let's resolve based on the index (so index 0 is the first factory)
+                Assert.AreEqual(string.Format($"{FactoryNamePrefix}{ResolveAllResultCount}"), FactoryToResolve.Key);
+
+                //and just make sure the actual instance is not null
+                Assert.IsNotNull(FactoryToResolve.Value);
+
+                //increase the count
+                ResolveAllResultCount++;
+            }
+
+            //make sure we have 2 factories that resolved
+            Assert.AreEqual(2, ResolveAllResultCount);
+        }
+
+        #endregion
+
+        #region Clear All
+
+        /// <summary>
+        /// Test clearing of all the registrations for a specific type
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ClearAllRegistrationsForSpecificTypeTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //we are mixing up the order below to make sure the removal works correctly
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+
+            //clear all the registrations
+            DIContainer.ClearAllRegistrations<ILogger>();
+
+            //make sure we have 1 item left in the container, we can't resolve sql di provider because ilogger is a dependency!!!!!
+            Assert.AreEqual(1, DIContainer.AllRegistrationSelectLazy().Count(x => x.ConcreteType == typeof(SqlDIProvider)));
+        }
+
+        /// <summary>
+        /// Test clearing of all the registrations
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ClearAllRegistrationsTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+
+            //clear all the registrations
+            DIContainer.ClearAllRegistrations();
+
+            //make sure we have 0 items in the container
+            Assert.AreEqual(0, DIContainer.AllRegistrationSelectLazy().Count());
+        }
+
+        #endregion
+
+        #region Get All Items In The Container
+
+        /// <summary>
+        /// Get all the registered items in the container
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void AllRegistrationsInContainerTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //store the factory names
+            const string FactoryName1 = "FactoryName1";
+            const string FactoryName2 = "FactoryName2";
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(FactoryName1);
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>(FactoryName2);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+
+            //now let's check what items we have registered
+            var ItemsRegistered = DIContainer.AllRegistrationSelectLazy().ToArray();
+
+            //make sure we have 3 items
+            Assert.AreEqual(3, ItemsRegistered.Length);
+
+            //make sure we have factory 1
+            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
+
+            //make sure we have factory 2
+            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));
+
+            //make sure we have the sql di provider now
+            Assert.IsTrue(ItemsRegistered.Any(x => x.ConcreteType == typeof(SqlDIProvider)));
+        }
+
+        #endregion
 
         #endregion
 

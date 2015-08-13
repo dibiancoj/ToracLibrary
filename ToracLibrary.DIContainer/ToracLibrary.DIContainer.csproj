@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Container\AllRegistrationResult.cs" />
     <Compile Include="Container\ToracDIContainer.cs" />
     <Compile Include="Container\ToracDIContainerRegisterOverloads.cs" />
     <Compile Include="Exceptions\MultipleTypesFoundException.cs" />
