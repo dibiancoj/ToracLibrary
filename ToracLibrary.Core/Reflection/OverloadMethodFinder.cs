@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
 namespace ToracLibrary.Core.Reflection
 {
