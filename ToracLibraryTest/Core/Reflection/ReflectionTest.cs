@@ -450,6 +450,49 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #endregion
 
+        #region Properties that have TAttribute defined
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void PropertiesThatHaveAttributeDefinedTest1()
+        {
+            //let's try to find the properties that have the description attribute defined
+            var ResultsOfMethod = AttributeHelpers.PropertiesThatHasAttributeDefinedLazy<DeriveReflectionClass, DescriptionAttribute>(false).ToArray();
+
+            //let's make sure we have 1 properties (the field doesn't get picked up in this method)
+            Assert.AreEqual(1, ResultsOfMethod.Length);
+
+            //make sure we have the correct property
+            Assert.IsTrue(ResultsOfMethod.Any(x => x.Name == nameof(DeriveReflectionClass.NullIdProperty)));
+
+        }
+
+        #endregion
+
+        #region Properties that have TAttribute defined. Will return the property and the TAttribute value
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void PropertiesThatHaveAttributeDefinedWithAttributeValueTest1()
+        {
+            //let's try to find the properties that have the description attribute defined
+            var ResultsOfMethod = AttributeHelpers.PropertiesThatHasAttributeWithAttributeValueLazy<DeriveReflectionClass, DescriptionAttribute>(false).ToArray();
+
+            //let's make sure we have 1 properties (the field doesn't get picked up in this method)
+            Assert.AreEqual(1, ResultsOfMethod.Length);
+
+            //make sure we have the correct property
+            Assert.IsTrue(ResultsOfMethod.Any(x => x.Key.Name == nameof(DeriveReflectionClass.NullIdProperty)));
+
+            //check that we have the correct value now
+            Assert.AreEqual(DescriptionAttribute.DescriptionValueToTest, ResultsOfMethod.First(x => x.Key.Name == nameof(DeriveReflectionClass.NullIdProperty)).Value.Description);
+
+        }
+
+        #endregion
+
     }
 
 }
