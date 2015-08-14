@@ -53,18 +53,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         #region Abstract Methods
 
         /// <summary>
-        /// Don't build the cached activator. Singleton's will only build the object once so expression tree's will be slower with the compile time cost.
-        /// </summary>
-        /// <param name="ConstructorInfo">Constructor Info for the concrete class</param>
-        /// <param name="ConstructorParameters">Constructor parameters and what needs to be passed into the constructor when creating a new object</param>
-        /// <returns>The cached activator. Null if the derived class doesn't want to implement it</returns>
-        internal override Func<object[], object> ConfigureTheCachedActivator(ConstructorInfo ConstructorInfo, IEnumerable<ParameterInfo> ConstructorParameters)
-        {
-            //we don't want this for singleton's. Cost of expression tree makes it slower for a single instance creation
-            return null;
-        }
-
-        /// <summary>
         /// In a singleton pattern we will try to resolve the issue without creating it first. For transient this will return null
         /// </summary>
         /// <returns>null if the object needs to be created. Object if we have already created the object and we can use it</returns>

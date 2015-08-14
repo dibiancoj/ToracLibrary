@@ -28,7 +28,22 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         internal TransientRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementation)
             : base(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation)
         {
+            //if the user hasn't provided the conrete implementation then implement the cached activator
+            if (CreateConcreteImplementation == null)
+            {
+                //go create the cached activator from the derived class
+                CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConcreteType.GetConstructors().First(), ConstructorInfoOfConcreteType).Compile();
+            }
         }
+
+        #endregion
+
+        #region Private Properties
+
+        /// <summary>
+        /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
+        /// </summary>
+        private Func<object[], object> CachedActivator { get; }
 
         #endregion
 
@@ -42,18 +57,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         #endregion
 
         #region Abstract Methods
-
-        /// <summary>
-        /// Build the cache activator. Transients will build a new object every time resolved, so we want a fast expression tree. So we cache the expression to be used
-        /// </summary>
-        /// <param name="ConstructorInfo">Constructor Info for the concrete class</param>
-        /// <param name="ConstructorParameters">Constructor parameters and what needs to be passed into the constructor when creating a new object</param>
-        /// <returns>The cached activator. Null if the derived class doesn't want to implement it</returns>
-        internal override Func<object[], object> ConfigureTheCachedActivator(ConstructorInfo ConstructorInfo, IEnumerable<ParameterInfo> ConstructorParameters)
-        {
-            //let's go set the activator func
-            return ExpressionTreeHelpers.BuildNewObject(ConstructorInfo, ConstructorInfoOfConcreteType).Compile();
-        }
 
         /// <summary>
         /// create an instance of this type

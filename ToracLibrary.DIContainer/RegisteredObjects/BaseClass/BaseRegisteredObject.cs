@@ -35,19 +35,9 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             ObjectScope = ObjectScopeToSet;
             CreateConcreteImplementation = CreateConcreteImplementationToSet;
 
-            //grab the construtor info
-            var ConstructorInfo = ConcreteType.GetConstructors().First();
-
             // we are going to create a new instance everytime. We want to cache the constructor parameters so we don't have to keep getting it
             //even to for the singleton, we need them to register everything first. So we can't create the singleton as soon as they register it
-            ConstructorInfoOfConcreteType = ConstructorInfo.GetParameters();
-
-            //if the user hasn't provided the conrete implementation then implement the cached activator
-            if (CreateConcreteImplementation == null)
-            {
-                //go create the cached activator from the derived class
-                CachedActivator = ConfigureTheCachedActivator(ConstructorInfo, ConstructorInfoOfConcreteType);
-            }
+            ConstructorInfoOfConcreteType = ConcreteType.GetConstructors().First().GetParameters();
         }
 
         #endregion
@@ -78,11 +68,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// Function to create an concrete implementation
         /// </summary>
         internal Func<object> CreateConcreteImplementation { get; }
-
-        /// <summary>
-        /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
-        /// </summary>
-        internal Func<object[], object> CachedActivator { get; }
 
         /// <summary>
         /// How long does does the object last in the di container
@@ -126,14 +111,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         #endregion
 
         #region Internal Abstract Methods
-
-        /// <summary>
-        /// Have the derived classed build the cached activator. They both have different agenda's and different goals. Let them decide if they want to implement it
-        /// </summary>
-        /// <param name="ConstructorInfo">Constructor Info for the concrete class</param>
-        /// <param name="ConstructorParameters">Constructor parameters and what needs to be passed into the constructor when creating a new object</param>
-        /// <returns>The cached activator. Null if the derived class doesn't want to implement it</returns>
-        internal abstract Func<object[], object> ConfigureTheCachedActivator(ConstructorInfo ConstructorInfo, IEnumerable<ParameterInfo> ConstructorParameters);
 
         /// <summary>
         /// create an instance of this type. Each implementation will create there own. Transient will make use of expression trees (multiple creations). Singleton will only every create a single instance so the expression tree cost won't be beneificial
