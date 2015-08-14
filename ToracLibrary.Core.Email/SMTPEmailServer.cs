@@ -186,7 +186,7 @@ namespace ToracLibrary.Core.Email
             return Task.Factory.StartNew(() =>
             {
                 //Create the instance of the e-mail server. Set the properties to the parameters passed in
-                using (var SmtpClientToUse = new SmtpClient())
+                using (var SmtpClientToUse = new SmtpClient(HostAddress, PortNumber) { EnableSsl = EnableSSLConnection })
                 {
                     //create the email message with a using so we know we are disposing of it. We need to cleanup the attached files
                     using (var Email = new SMTPEmailMessageHelper(ToEmailAddress, CCEmailAddress, BCCEmailAddress, FromEmailAddress, Subject, Body, BodyContainsHTML, Priority, FileAttachments))
@@ -195,12 +195,6 @@ namespace ToracLibrary.Core.Email
                         if (!UseWebConfigForSettings)
                         {
                             //Not Using The Web Config For The Settings
-
-                            //Set the e-mail settings
-                            SmtpClientToUse.Port = PortNumber;
-                            SmtpClientToUse.Host = HostAddress;
-                            SmtpClientToUse.EnableSsl = EnableSSLConnection;
-
                             //If we want to use default credentials set it here
                             SmtpClientToUse.UseDefaultCredentials = UseDefaultCredentials;
 
