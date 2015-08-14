@@ -66,6 +66,8 @@
     <Compile Include="EnumUtilities\EnumUtilities.cs" />
     <Compile Include="Excel\ExcelUtilities.cs" />
     <Compile Include="Exceptions\ExceptionUtilities.cs" />
+    <Compile Include="ExpressionTrees\API\ReMappers\ExpressionParameterReMapper.cs" />
+    <Compile Include="ExpressionTrees\API\ReMappers\ExpressionReMapperShared.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
@@ -147,6 +149,7 @@
   <ItemGroup>
     <Content Include="T4Templates\T4ImplementationExample.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

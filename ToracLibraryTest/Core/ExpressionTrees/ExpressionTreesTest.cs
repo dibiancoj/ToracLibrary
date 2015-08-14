@@ -69,7 +69,6 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.IsInstanceOfType(NewObject, typeof(BuildNewObjectNoParams));
         }
 
-
         /// <summary>
         /// build a new object using expression trees (with parameters)
         /// </summary>
