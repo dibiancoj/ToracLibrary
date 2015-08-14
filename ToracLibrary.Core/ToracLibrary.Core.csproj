@@ -127,6 +127,7 @@
     <None Include="Resources\UnitedStatesSchema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="T4Templates\EnumCreator.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CountriesXml.xml" />
@@ -143,7 +144,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="T4Templates\T4ImplementationExample.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

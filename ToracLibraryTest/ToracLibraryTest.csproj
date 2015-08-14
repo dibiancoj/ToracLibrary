@@ -118,6 +118,12 @@
     <Compile Include="Core\Mathematical\ModeCalc\ModeTest.cs" />
     <Compile Include="Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
+    <Compile Include="Core\T4Templates\T4TemplateUnitTest.cs" />
+    <Compile Include="Core\T4Templates\T4TemplateTest.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>T4TemplateTest.tt</DependentUpon>
+    </Compile>
     <Compile Include="DIContainer\DIContainerTest.cs" />
     <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
@@ -171,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Core\T4Templates\EnumCreator.ttinclude" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -196,6 +203,10 @@
     <None Include="Resources\XmlTransform.xslt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Core\T4Templates\T4TemplateTest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>T4TemplateTest.generated.cs</LastGenOutput>
+    </Content>
     <Content Include="Framework\SqlCreateScripts\CreateDatabaseScripts.sql" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,10 @@
+﻿<#
+string ClassName = "T4Template";
+string Namespace = "ToracLibraryTest.UnitsTest.Core.T4Templates";
+string EnumName = "T4TemplateTest";
+string EnumType = "int";
+string TableName = "T4TemplateTest";
+string IdName = "Id";
+string DescriptionName = "Description";
+#>
+<#@ include file="EnumCreator.ttinclude" #>

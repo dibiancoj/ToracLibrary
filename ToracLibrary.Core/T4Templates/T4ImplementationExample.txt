@@ -1,0 +1,31 @@
+﻿Create a .tt template in the solution
+Fill in the properties below. 
+
+Namespace = Namespace of the class
+ClassName = Class Name The Enum Will Be In
+EnumName = Name Of The Enum
+EnumType = Data Type Of Enum
+TableName = Table To Grab The Lookup Data
+IdName = Id Value
+Description = Description Field
+Connection String = Connection String To The Database.
+
+Right click on the tt file and hit "Run Custom Tool". It will generate a .cs file with the class and enum for the table specified
+
+** if EnumCreator.ttinclude is creating a tt template then make sure the file properties in Visual Studio match the following
+CustomTool = Blank. Remove "TextTemplatingFileGenerator"
+
+
+-----------------------------------------------------------
+--actual .tt file text is below
+
+<#
+string ClassName = "T4Template";
+string Namespace = "ToracLibraryTest.UnitsTest.Core.T4";
+string EnumName = "T4TemplateTest";
+string EnumType = "int";
+string TableName = "T4TemplateTest";
+string IdName = "Id";
+string DescriptionName = "Description";
+#>
+<#@ include file="EnumCreator.ttinclude" #>

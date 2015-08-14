@@ -1,0 +1,54 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".generated.cs" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly Name="System.Data" #>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Configuration" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+<#
+//putting the connection string here, so if we want to map all the includes to a different db i dont need to change all the tt files.
+string ConnectionString = @"Data Source=localhost;initial catalog=ToracLibraryTest;integrated security=True;";
+#>
+
+namespace <#= Namespace #>
+{
+
+	public class <#= ClassName #>
+    {
+
+		public enum <#= EnumName #> : <#= EnumType #>
+        {
+		<#
+			using (SqlConnection conn = new SqlConnection(ConnectionString))
+			{
+				string command = string.Format("select * from {0} order by {1}", TableName, DescriptionName);
+				SqlCommand comm = new SqlCommand(command, conn);
+
+				conn.Open();
+				SqlDataReader reader = comm.ExecuteReader();
+				bool loop = reader.Read();
+				
+				while(loop)
+				{
+				#>
+				<#= reader[DescriptionName].ToString().Replace(" ",string.Empty) + "=" + reader[IdName] #><# loop = reader.Read(); #><#= loop ? ",\r\n" : string.Empty #>  
+				<#
+				}
+			}
+		#> 
+		}
+    }
+}
