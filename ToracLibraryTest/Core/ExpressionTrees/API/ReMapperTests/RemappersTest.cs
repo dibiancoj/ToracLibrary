@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
-using ToracLibrary.Core.Excel;
-using ToracLibrary.Core.ExpressionTrees;
 using ToracLibrary.Core.ExpressionTrees.API.ReMappers;
+using ToracLibrary.Core.ExtensionMethods.ExpressionTreeExtensions;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
@@ -114,6 +112,93 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //make sure we have the 2nd item
                 Assert.IsTrue(ResultsOfLinqToObject.Any(x => x.Id == SecondExpressionIdToFetch));
+            }
+        }
+
+        #endregion
+
+        #region Merge Remapper
+
+        private class MemberInitSelector
+        {
+            public int IdInGrid { get; set; }
+            public string DescriptionInGrid { get; set; }
+        }
+
+        /// <summary>
+        /// build a selector and merges the selector
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API.ReMappers")]
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ExpressionMemberInitRemapperLinqToObjectsTest1()
+        {
+            //start start off with a base selector (so we just pull in the id
+            Expression<Func<DummyObject, MemberInitSelector>> Selector = x => new MemberInitSelector { IdInGrid = x.Id };
+
+            //let's build the list so we can use the data to test it below
+            var CollectionToQuery = DummyObject.CreateDummyListLazy(3).Skip(2).Take(1).ToArray();
+
+            //let's merge this guy and bring in the description now
+            Selector = Selector.Merge(x =>
+            new MemberInitSelector
+            {
+                DescriptionInGrid = x.Description
+            }, ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
+
+            //let's go build up an expression to do a select on the linq to object collection
+            var ResultsOfLinqToObject = CollectionToQuery.AsQueryable().Select(Selector).ToArray();
+
+            //check the results now (should be only the first record)
+            Assert.AreEqual(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
+
+            //make sure we have the correct id
+            Assert.IsTrue(ResultsOfLinqToObject.Any(x => x.IdInGrid == CollectionToQuery[0].Id));
+
+            //make sure we have the correct description
+            Assert.IsTrue(ResultsOfLinqToObject.Any(x => x.DescriptionInGrid == CollectionToQuery[0].Description));
+        }
+
+        /// <summary>
+        /// build a new object using expression trees (no parameters)
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API.ReMappers")]
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ExpressionMemberInitRemapperEntityFrameworkTest1()
+        {
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
+            {
+                //start start off with a base selector (so we just pull in the id
+                Expression<Func<Ref_Test, MemberInitSelector>> Selector = x => new MemberInitSelector { IdInGrid = x.Id };
+
+                //let's build the list so we can use the data to test it below
+                var CollectionToQuery = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).Skip(2).Take(1).ToArray();
+
+                //let's merge this guy and bring in the description now
+                Selector = Selector.Merge(x =>
+                new MemberInitSelector
+                {
+                    DescriptionInGrid = x.Description
+                }, ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
+
+                //let's go build up an expression to do a select on the linq to object collection
+                var ResultsOfLinqToObject = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).Skip(2).Take(1).Select(Selector).ToArray();
+
+                //check the results now (should be only the first record)
+                Assert.AreEqual(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
+
+                //make sure we have the correct id
+                Assert.IsTrue(ResultsOfLinqToObject.Any(x => x.IdInGrid == CollectionToQuery[0].Id));
+
+                //make sure we have the correct description
+                Assert.IsTrue(ResultsOfLinqToObject.Any(x => x.DescriptionInGrid == CollectionToQuery[0].Description));
             }
         }
 

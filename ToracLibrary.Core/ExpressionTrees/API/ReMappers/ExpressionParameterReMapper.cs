@@ -24,7 +24,25 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
         //Expression<Func<T, int>> IndividualPropertySelector, 
         //Expression<Func<T, int>> GroupPropertySelector
 
-        //they both are the same T...different instances, but same data type. So we remap T to point to the same instance of T. Then we can combine the 2 expressions
+        //if i want to merge them and say IndividualPropertySelector OrElse GroupPropertySelector. I would need to say that T for expression 1 = T for expression 2
+        //this remapper will do that.
+
+        /*
+        //let's create 2 expressions
+        Expression<Func<DummyObject, bool>> Expression1 = x => x.Id == FirstExpressionIdToFetch;
+
+        //create the 2nd expression
+        Expression<Func<DummyObject, bool>> Expression2 = x => x.Id == SecondExpressionIdToFetch;
+
+        //we are going to merge the 2nd expression into the first one...the main goal of the expression visitor is to reset the ParameterExpression so x => is the same x
+        var SecondExpressionRemappedParameters = new ExpressionParameterRemapper(Expression1.Parameters, Expression2.Parameters).Visit(Expression2.Body);
+
+        //so now we should be able to combine the expressions
+        var CombinedExpression = Expression.OrElse(Expression1.Body, SecondExpressionRemappedParameters);
+
+        //i should be able to run this now
+        Func<DummyObject, bool> CombinedExpressionInFunc = Expression.Lambda<Func<DummyObject, bool>>(CombinedExpression, Expression1.Parameters).Compile();
+        */
 
         #endregion
 
