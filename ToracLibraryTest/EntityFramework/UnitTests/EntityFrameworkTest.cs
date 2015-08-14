@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 
@@ -26,13 +26,13 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
-        public void ConfigureDIContainer(UnityContainer DIContainer)
+        public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container for the readonly EF Data provider
-            DIContainer.RegisterType<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName, new InjectionConstructor(false, true, false));
+            DIContainer.Register(ReadonlyDataProviderName, () => new EntityFrameworkDP<EntityFrameworkEntityDP>(false, true, false));
 
             //let's register the di container for the editable EF data provider
-            DIContainer.RegisterType<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName, new InjectionConstructor(true, true, false));
+            DIContainer.Register(WritableDataProviderName, () => new EntityFrameworkDP<EntityFrameworkEntityDP>(true, true, false));
         }
 
         #endregion
@@ -63,7 +63,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         /// <summary>
         /// holds the di container name for the readonly data provider
         /// </summary>
-        private const string ReadonlyDataProviderName = "EFReadOnly";
+        internal const string ReadonlyDataProviderName = "EFReadOnly";
 
         /// <summary>
         /// holds the di container name for the insert or update data provider

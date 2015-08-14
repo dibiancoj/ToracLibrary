@@ -24,7 +24,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
         //Expression<Func<T, int>> IndividualPropertySelector, 
         //Expression<Func<T, int>> GroupPropertySelector
 
-        //they both are the same T...different instances, but same data type. So we remap T to point to the same instance of T
+        //they both are the same T...different instances, but same data type. So we remap T to point to the same instance of T. Then we can combine the 2 expressions
 
         #endregion
 

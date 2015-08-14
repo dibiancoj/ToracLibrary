@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using ToracLibrary.Caching;
 using ToracLibrary.Core.DataProviders.ADO;
+using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
@@ -27,13 +27,18 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
-        public void ConfigureDIContainer(UnityContainer DIContainer)
+        public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register my dummy cache container
-            DIContainer.RegisterType<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(
+            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(
                 DIFactoryName,
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(CacheKeyToUse, new Func<IEnumerable<DummyObject>>(() => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource()), SqlDataProviderTest.ConnectionStringToUse(), DatabaseSchemaUsedForCacheRefresh, CacheSqlToUseToTriggerRefresh));
+                ToracDIContainer.DIContainerScope.Singleton,
+                () => new SqlCacheDependency<IEnumerable<DummyObject>>(
+                    CacheKeyToUse,
+                    () => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource(),
+                    SqlDataProviderTest.ConnectionStringToUse(),
+                    DatabaseSchemaUsedForCacheRefresh,
+                    CacheSqlToUseToTriggerRefresh));
         }
 
         #endregion

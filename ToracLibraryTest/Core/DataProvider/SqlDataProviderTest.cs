@@ -1,10 +1,10 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
+using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 using static ToracLibraryTest.UnitsTest.Core.DataProviders.DataProviderSetupTearDown;
@@ -25,10 +25,10 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
-        public void ConfigureDIContainer(UnityContainer DIContainer)
+        public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now
-            DIContainer.RegisterType<IDataProvider, SQLDataProvider>(new InjectionConstructor(ConnectionStringToUse()));
+            DIContainer.Register<IDataProvider, SQLDataProvider>(() => new SQLDataProvider(ConnectionStringToUse()));
         }
 
         /// <summary>

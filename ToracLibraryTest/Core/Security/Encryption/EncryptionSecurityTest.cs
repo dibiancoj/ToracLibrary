@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.Core.Security.Encryption;
 using ToracLibraryTest.Framework;
-using Microsoft.Practices.Unity;
+using ToracLibrary.DIContainer;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -20,13 +20,13 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
-        public void ConfigureDIContainer(UnityContainer DIContainer)
+        public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now (md5)
-            DIContainer.RegisterType<ISecurityEncryption, MD5HashSecurityEncryption>(MD5DIContainerName, new ContainerControlledLifetimeManager(), new InjectionConstructor("Test"));
+            DIContainer.Register<ISecurityEncryption, MD5HashSecurityEncryption>(MD5DIContainerName, ToracDIContainer.DIContainerScope.Singleton, () => new MD5HashSecurityEncryption("Test"));
 
             //let's register the rijndael container now
-            DIContainer.RegisterType<ISecurityEncryption, RijndaelSecurityEncryption>(RijndaelDIContainerName, new ContainerControlledLifetimeManager(), new InjectionConstructor("1234567891123456", "1234567891123456"));
+            DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(RijndaelDIContainerName, ToracDIContainer.DIContainerScope.Singleton, () => new RijndaelSecurityEncryption("1234567891123456", "1234567891123456"));
         }
 
         #endregion

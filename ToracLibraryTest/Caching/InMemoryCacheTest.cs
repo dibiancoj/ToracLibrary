@@ -1,9 +1,9 @@
-﻿using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using ToracLibrary.Caching;
+using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 
@@ -23,13 +23,13 @@ namespace ToracLibraryTest.UnitsTest.Caching
         /// Configure the DI container for this unit test. Get's called because the class has IDependencyInject - DIUnitTestContainer.ConfigureDIContainer
         /// </summary>
         /// <param name="DIContainer">container to modify</param>
-        public void ConfigureDIContainer(UnityContainer DIContainer)
+        public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register my dummy cache container
-            DIContainer.RegisterType<ICacheImplementation<IEnumerable<DummyObject>>, InMemoryCache<IEnumerable<DummyObject>>>(
+            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, InMemoryCache<IEnumerable<DummyObject>>>(
                 DIFactoryName,
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(CacheKeyToUse, new Func<IEnumerable<DummyObject>>(() => DummyObjectCacheNoDI.BuildCacheDataSource())));
+                ToracDIContainer.DIContainerScope.Singleton,
+                () => new InMemoryCache<IEnumerable<DummyObject>>(CacheKeyToUse, () => DummyObjectCacheNoDI.BuildCacheDataSource()));
         }
 
         #endregion
