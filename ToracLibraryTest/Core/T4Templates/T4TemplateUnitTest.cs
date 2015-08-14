@@ -29,7 +29,7 @@ namespace ToracLibraryTest.UnitsTest.Core.T4Templates
             Assert.IsNotNull(typeof(T4Template));
 
             //go grab the enum values
-            var EnumValues = EnumUtility.GetValuesLazy<T4Template.T4TemplateTest>().ToArray();
+            var EnumValues = EnumUtility.GetValuesLazy<T4Template.T4TemplateTest>().Select(x => x.ToString()).ToArray();
 
             //now check the values
             Assert.AreEqual(3, EnumValues.Length);
@@ -38,7 +38,7 @@ namespace ToracLibraryTest.UnitsTest.Core.T4Templates
             for (int i = 1; i <= 3; i++)
             {
                 //make sure we have a value
-                Assert.IsNotNull(EnumValues.Any(x => x.ToString() == ("Item" + i)));
+                Assert.IsNotNull(EnumValues.Any(x => x == ("Item" + i)));
             }
         }
 
