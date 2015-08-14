@@ -95,6 +95,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Reflection\AttributeHelpers.cs" />
     <Compile Include="Reflection\ImplementingClasses.cs" />
     <Compile Include="Reflection\InvokeDynamically\InvokeDynamically.cs" />
     <Compile Include="Reflection\InvokeDynamically\InvokeDynamicallyParameter.cs" />

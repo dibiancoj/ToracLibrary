@@ -26,19 +26,49 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #region Framework
 
+        #region Attribute To Test
+
+        private class DescriptionAttribute : Attribute
+        {
+
+            #region Constructor
+
+            public DescriptionAttribute(string DescriptionToSet)
+            {
+                Description = DescriptionToSet;
+            }
+
+            #endregion
+
+            #region Constants
+
+            public const string DescriptionValueToTest = "123";
+
+            #endregion
+
+            #region Properties
+
+            public string Description { get; }
+
+            #endregion
+
+        }
+
+        #endregion
+
         #region Test Derived Classes
 
         /// <summary>
         /// This is the derived class which is built off of the base
         /// </summary>
-        internal class DeriveReflectionClass : BaseDeriveReflectionClass
+        private class DeriveReflectionClass : BaseDeriveReflectionClass
         {
         }
 
         /// <summary>
         /// base class which we will fetch by using this type. It should return anything that uses this class as a base
         /// </summary>
-        internal class BaseDeriveReflectionClass
+        private class BaseDeriveReflectionClass
         {
 
             #region Properties
@@ -46,12 +76,19 @@ namespace ToracLibraryTest.UnitsTest.Core
             /// <summary>
             /// Null property that we are going to use for the "PropertyIsNullable" Tests
             /// </summary>
+            [Description(DescriptionAttribute.DescriptionValueToTest)]
             public int? NullIdProperty { get; set; }
 
             /// <summary>
             /// IEnumerable property that we are going to use for the "PropertyIsCollection" Tests
             /// </summary>
             public List<string> IEnumerablePropertyTest { get; set; }
+
+            /// <summary>
+            /// For the attribute find, we want to make sure the overload works
+            /// </summary>
+            [Description(DescriptionAttribute.DescriptionValueToTest)]
+            public string AttributeFindOffOfField;
 
             #endregion
 
@@ -388,6 +425,28 @@ namespace ToracLibraryTest.UnitsTest.Core
         }
 
         #endregion
+
+        #endregion
+
+        #region Attributes
+
+        [TestCategory("Core.ReflectionDynamic")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void FindAttributeTest1()
+        {
+            //let's try to find the description attribute
+            Assert.AreEqual(DescriptionAttribute.DescriptionValueToTest, AttributeHelpers.FindAttribute<DescriptionAttribute>(typeof(DeriveReflectionClass).GetProperty(nameof(DeriveReflectionClass.NullIdProperty))).Description);
+
+            //let's make sure the field info works
+            Assert.AreEqual(DescriptionAttribute.DescriptionValueToTest, AttributeHelpers.FindAttribute<DescriptionAttribute>(typeof(DeriveReflectionClass).GetField(nameof(DeriveReflectionClass.AttributeFindOffOfField))).Description);
+
+            //check the other overload
+            Assert.AreEqual(DescriptionAttribute.DescriptionValueToTest, AttributeHelpers.FindAttributeInPropertyName<DescriptionAttribute>(typeof(DeriveReflectionClass), nameof(DeriveReflectionClass.NullIdProperty)).Description);
+
+            //run a test where the property does not have the attribute...so it should return null
+            Assert.IsNull(AttributeHelpers.FindAttribute<DescriptionAttribute>(typeof(DeriveReflectionClass).GetProperty(nameof(DeriveReflectionClass.IEnumerablePropertyTest))));
+        }
 
         #endregion
 
