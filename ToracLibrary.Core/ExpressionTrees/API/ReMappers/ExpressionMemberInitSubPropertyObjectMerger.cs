@@ -15,7 +15,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
     /// </summary>
     [LinqToObjectsCompatible]
     [EntityFrameworkCompatible]
-    public class ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest, TPropertySubClassType> : ExpressionVisitor
+    public class ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest> : ExpressionVisitor
     {
 
         #region Documentation
@@ -62,7 +62,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
         /// <param name="BaseExpression">The base expression to merge into the member init list of the extended expression.</param>
         /// <param name="PropertyNameOfSubClass">Holds the property name of the sub class off of the base class. So we will use reflection to grab this property name off of the base object</param>
         /// <param name="MergeSubObjectPosition">Where do you want to merge the second expression. Before Or After The Base (First Expression)</param>
-        public ExpressionMemberInitSubPropertyObjectMerger(Expression<Func<TSource, TBaseDest>> BaseExpression, Expression<Func<TBaseDest, TPropertySubClassType>> PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
+        public ExpressionMemberInitSubPropertyObjectMerger(Expression<Func<TSource, TBaseDest>> BaseExpression, string PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
         {
             //let's set the merge position
             WhichMergeSubObjectPosition = MergeSubObjectPosition;
@@ -84,7 +84,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
         /// <summary>
         /// Holds the property name of the sub class off of the base class. So we will use reflection to grab this property name off of the base object
         /// </summary>
-        private Expression<Func<TBaseDest, TPropertySubClassType>> PropertyNameOfSubClassOffOfBase { get; }
+        private string PropertyNameOfSubClassOffOfBase { get; }
 
         /// <summary>
         /// Where do you want to merge the second expression. Before Or After The Base (First Expression)
@@ -150,11 +150,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             //let's go create the base destination. This is the main class
             var NewBaseObject = Expression.New(typeof(TBaseDest));
 
-            //grab the property name
-            string PropertyName = ((MemberExpression)PropertyNameOfSubClassOffOfBase.Body).Member.Name;
-
             //now let's grab the property name which is the sub property off of the base property
-            MemberInfo SubPropertyInfo = typeof(TBaseDest).GetProperty(PropertyName);
+            MemberInfo SubPropertyInfo = typeof(TBaseDest).GetProperty(PropertyNameOfSubClassOffOfBase);
 
             //make sure we have that property info
             if (SubPropertyInfo == null)

@@ -45,7 +45,6 @@ namespace ToracLibrary.Core.ExtensionMethods.ExpressionTreeExtensions
         /// <typeparam name="TSource">Source type.</typeparam>
         /// <typeparam name="TBaseDest">Resulting type of the base mapping expression. TBaseDest is typically a super class of TExtendedDest</typeparam>
         /// <typeparam name="TExtendedDest">Resulting type of the extended mapping expression.</typeparam>
-        /// <typeparam name="TPropertySubClassType">Property Type Selector For The Sub Class Property Name</typeparam>
         /// <param name="BaseExpression">The base mapping expression, containing a member initialization expression.</param>
         /// <param name="MergeExpression">The extended mapping expression to be merged into the base member initialization expression.</param>
         /// <param name="PropertyNameOfSubClass">Holds the property name of the sub class off of the base class. So we will use reflection to grab this property name off of the base object</param>
@@ -54,10 +53,10 @@ namespace ToracLibrary.Core.ExtensionMethods.ExpressionTreeExtensions
         /// <remarks>See full documentation example in the method</remarks>
         [LinqToObjectsCompatible]
         [EntityFrameworkCompatible]
-        public static Expression<Func<TSource, TBaseDest>> MergeSubObject<TSource, TBaseDest, TExtendedDest, TPropertySubClassType>(this Expression<Func<TSource, TBaseDest>> BaseExpression, Expression<Func<TSource, TExtendedDest>> MergeExpression, Expression<Func<TBaseDest, TPropertySubClassType>> PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
+        public static Expression<Func<TSource, TBaseDest>> MergeSubObject<TSource, TBaseDest, TExtendedDest>(this Expression<Func<TSource, TBaseDest>> BaseExpression, Expression<Func<TSource, TExtendedDest>> MergeExpression, string PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
         {
             //Use an expression visitor to perform the merge of the select expressions.
-            var ExpressionToMerge = new ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest, TPropertySubClassType>(BaseExpression, PropertyNameOfSubClass, MergeSubObjectPosition);
+            var ExpressionToMerge = new ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest>(BaseExpression, PropertyNameOfSubClass, MergeSubObjectPosition);
 
             //go visit the expression (don't absorb the result, we don't need, we will grab the result from the final result property)
             ExpressionToMerge.Visit(MergeExpression);

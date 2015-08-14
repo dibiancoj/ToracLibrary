@@ -232,7 +232,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             var CollectionToQuery = DummyObject.CreateDummyListLazy(3).Skip(2).Take(1).ToArray();
 
             //let's merge this guy and bring in the description now
-            Selector = Selector.MergeSubObject(SubObjectSelector, x => x.SubObject, ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
+            Selector = Selector.MergeSubObject(SubObjectSelector, nameof(SubObjectMemberInitSelector.SubObject), ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
          
             //let's go build up an expression to do a select on the linq to object collection
             var ResultsOfLinqToObject = CollectionToQuery.AsQueryable().Select(Selector).ToArray();
@@ -272,7 +272,7 @@ namespace ToracLibraryTest.UnitsTest.Core
                 var CollectionToQuery = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).Skip(2).Take(1).ToArray();
 
                 //let's merge this guy and bring in the description now
-                Selector = Selector.MergeSubObject(SubObjectSelector, x => x.SubObject, ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
+                Selector = Selector.MergeSubObject(SubObjectSelector, nameof(SubObjectMemberInitSelector.SubObject), ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before);
 
                 //let's go build up an expression to do a select on the linq to object collection
                 var ResultsOfLinqToObject = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).Skip(2).Take(1).Select(Selector).ToArray();
