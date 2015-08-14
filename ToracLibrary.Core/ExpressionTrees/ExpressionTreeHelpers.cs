@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees
 {
@@ -24,6 +25,7 @@ namespace ToracLibrary.Core.ExpressionTrees
         /// <param name="ConstructorParameter">Parameters of the contructor. So the parameters you would pass into the constructor</param>
         /// <returns>Func which creates the new object</returns>
         /// <remarks>Be sure to cache this if you are going to need it again. Call .Compile() to grab the func</remarks>
+        [LinqToObjectsCompatible]
         public static Expression<Func<object[], object>> BuildNewObject(ConstructorInfo ConstructorInfoOfNewType, IEnumerable<ParameterInfo> ConstructorParameter)
         {
             //so instead of having to modify the expression you get back. We will use func(params object[] ConstructorParameters)

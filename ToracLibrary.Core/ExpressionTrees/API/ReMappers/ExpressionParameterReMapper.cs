@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
 {
@@ -12,6 +13,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
     /// Allows you to combine 2 different linq expression parameters (same data type passed into func) and merge it into 1 set of parameters
     /// </summary>
     /// <remarks>Class Is Immutable</remarks>
+    [LinqToObjectsCompatible]
+    [EntityFrameworkCompatible]
     public class ExpressionParameterRemapper : ExpressionVisitor
     {
 

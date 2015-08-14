@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ReflectionDynamic
 {
@@ -101,6 +102,8 @@ namespace ToracLibrary.Core.ReflectionDynamic
         /// <param name="PropertyPath">Property Path. thisObject.NestedObject.Id. If you just pass in Id for single level, it will handle it too</param>
         /// <returns>Expression to be used to select the property. See method below to see how to call this</returns>
         /// <remarks>You can pass in Object as TProperty If You Don't Know It. Property Path Can Handle Nested Child Properties</remarks>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, TProperty>> GetPropertyOfObjectExpressionFunc<T, TProperty>(string PropertyPath)
         {
             //use the overload
@@ -115,6 +118,8 @@ namespace ToracLibrary.Core.ReflectionDynamic
         /// <param name="PropertyPaths">Property Path. thisObject.NestedObject.Id. If you just pass in Id for single level, it will handle it too. Contains all the property infos</param>
         /// <returns>Expression to be used to select the property. See method below to see how to call this</returns>
         /// <remarks>You can pass in Object as TProperty If You Don't Know It. Property Path Can Handle Nested Child Properties</remarks>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, TProperty>> GetPropertyOfObjectExpressionFunc<T, TProperty>(IEnumerable<PropertyInfo> PropertyPaths)
         {
             //example of how to call this
