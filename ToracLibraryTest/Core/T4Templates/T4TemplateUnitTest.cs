@@ -16,8 +16,7 @@ namespace ToracLibraryTest.UnitsTest.Core.T4Templates
         /// <summary>
         /// just going to make sure the t4 templates work
         /// </summary>
-        [TestCategory("Core.States")]
-        [TestCategory("Core.Xml.Schema")]
+        [TestCategory("Core.T4Templates")]
         [TestCategory("Core")]
         [TestMethod]
         public void T4TemplateTest()
