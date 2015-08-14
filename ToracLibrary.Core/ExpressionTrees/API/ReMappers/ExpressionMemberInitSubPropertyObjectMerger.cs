@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
 {
@@ -12,6 +13,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
     /// <summary>
     /// Remaps 2 expressions into 1. Used mainly for dynamic select statements. So i have a base select expression. then i can set another one. then merge the 2. so i can keep adding on to the base select statement
     /// </summary>
+    [LinqToObjectsCompatible]
+    [EntityFrameworkCompatible]
     public class ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest, TPropertySubClassType> : ExpressionVisitor
     {
 
