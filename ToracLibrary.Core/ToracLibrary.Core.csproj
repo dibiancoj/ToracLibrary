@@ -67,6 +67,7 @@
     <Compile Include="Excel\ExcelUtilities.cs" />
     <Compile Include="Exceptions\ExceptionUtilities.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionMemberInitMerger.cs" />
+    <Compile Include="ExpressionTrees\API\ReMappers\ExpressionMemberInitSubPropertyObjectMerger.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionParameterReMapper.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionReMapperShared.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />

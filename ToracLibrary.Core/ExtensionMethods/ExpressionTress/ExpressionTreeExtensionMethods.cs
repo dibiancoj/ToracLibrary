@@ -52,19 +52,19 @@ namespace ToracLibrary.Core.ExtensionMethods.ExpressionTreeExtensions
         /// <param name="MergeSubObjectPosition">Where do you want to merge the second expression. Before Or After The Base (First Expression)</param>
         /// <returns>Resulting expression, after the merged select expression has been applied.</returns>
         /// <remarks>See full documentation example in the method</remarks>
-        //[LinqToObjectsCompatible]
-        //[EntityFrameworkCompatible]
-        //public static Expression<Func<TSource, TBaseDest>> MergeSubObject<TSource, TBaseDest, TExtendedDest, TPropertySubClassType>(this Expression<Func<TSource, TBaseDest>> BaseExpression, Expression<Func<TSource, TExtendedDest>> MergeExpression, Expression<Func<TBaseDest, TPropertySubClassType>> PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
-        //{
-        //    //Use an expression visitor to perform the merge of the select expressions.
-        //    var thisVisitor = new ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest, TPropertySubClassType>(BaseExpression, PropertyNameOfSubClass, MergeSubObjectPosition);
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
+        public static Expression<Func<TSource, TBaseDest>> MergeSubObject<TSource, TBaseDest, TExtendedDest, TPropertySubClassType>(this Expression<Func<TSource, TBaseDest>> BaseExpression, Expression<Func<TSource, TExtendedDest>> MergeExpression, Expression<Func<TBaseDest, TPropertySubClassType>> PropertyNameOfSubClass, ExpressionReMapperShared.ExpressionMemberInitMergerPosition MergeSubObjectPosition)
+        {
+            //Use an expression visitor to perform the merge of the select expressions.
+            var ExpressionToMerge = new ExpressionMemberInitSubPropertyObjectMerger<TSource, TBaseDest, TPropertySubClassType>(BaseExpression, PropertyNameOfSubClass, MergeSubObjectPosition);
 
-        //    //go visit the expression (don't absorb the result, we don't need, we will grab the result from the final result property)
-        //    thisVisitor.Visit(MergeExpression);
+            //go visit the expression (don't absorb the result, we don't need, we will grab the result from the final result property)
+            ExpressionToMerge.Visit(MergeExpression);
 
-        //    //use the final result property and return it
-        //    return thisVisitor.FinalResult;
-        //}
+            //use the final result property and return it
+            return ExpressionToMerge.FinalResult;
+        }
 
     }
 
