@@ -26,11 +26,14 @@ namespace ToracLibrary.Core.Reflection
         /// <returns>Method info found, or null value if not found</returns>
         public static MethodInfo FindOverloadedMethodToCall(string MethodNameToRetrieve, Type ClassTypeToLookForTheMethodIn, params Type[] MethodParameterTypes)
         {
+            //Method Parameter types to look in. We are going to pass in an empty array so we can have access to a list
+            var ParameterTypesToLookFor = MethodParameterTypes ?? Array.Empty<Type>();
+
             //let's start looping through the methods to see if we can find a match
             foreach (MethodInfo MethodToInspect in ClassTypeToLookForTheMethodIn.GetMethods().Where(x => string.Equals(MethodNameToRetrieve, x.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 //is it the method name? and does it match the method selector passed in?
-                if (MethodSignatureMatchesTheParameterTypesPassedIn(MethodToInspect, MethodParameterTypes))
+                if (MethodSignatureMatchesTheParameterTypesPassedIn(MethodToInspect, ParameterTypesToLookFor))
                 {
                     //we have a match...return the method now
                     return MethodToInspect;

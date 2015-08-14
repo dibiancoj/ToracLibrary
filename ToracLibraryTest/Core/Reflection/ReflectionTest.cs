@@ -525,12 +525,16 @@ namespace ToracLibraryTest.UnitsTest.Core
             var ClassTypeToLookIn = typeof(BaseDeriveReflectionClass);
 
             //let's try to find the overload with 0 parameters
+            var MethodInfoWith0ParametersPassingInNull = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, null);
             var MethodInfoWith0Parameters = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, Array.Empty<Type>());
             var MethodInfoWith1ParameterString = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(string) });
             var MethodInfoWith1ParametersBoolean = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(bool) });
             var MethodThatCantBeFound = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(string), typeof(string) });
 
-            //make sure the first 3 can be found
+            //make sure the first 4 can be found
+            Assert.IsNotNull(MethodInfoWith0ParametersPassingInNull);
+
+            //make sure the method exists with 0 parameters passing in an empty array
             Assert.IsNotNull(MethodInfoWith0Parameters);
 
             //let's find overload with (string parameter)
