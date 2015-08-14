@@ -89,7 +89,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             /// For the attribute find, we want to make sure the overload works
             /// </summary>
             [Description(DescriptionAttribute.DescriptionValueToTest)]
-            public string AttributeFindOffOfField;
+            public string AttributeFindOffOfField = "TestFieldValue";
 
             #endregion
 
