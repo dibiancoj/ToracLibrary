@@ -2,11 +2,11 @@
 2. ToracDIBootstrapper
 3. ToracDIDefaultControllerFactory
 4. Global.asax.cs ==> 
-		var container = new SimpleIocContainer();
+		var container = new ToracDIContainer();
  
         BootStrapper.Configure(container);
  
-        ControllerBuilder.Current.SetControllerFactory(new SimpleIocControllerFactory(container));
+        ControllerBuilder.Current.SetControllerFactory(new ToracDIDefaultControllerFactory(container));
 
 
 Then in your controller you can put the ILogger or whatever in the constructor
@@ -65,8 +65,8 @@ Then in your controller you can put the ILogger or whatever in the constructor
 
 4. 
 
-		var container = new SimpleIocContainer();
+		var container = new ToracDIContainer();
  
         BootStrapper.Configure(container);
  
-        ControllerBuilder.Current.SetControllerFactory(new SimpleIocControllerFactory(container));
+        ControllerBuilder.Current.SetControllerFactory(new ToracDIDefaultControllerFactory(container));
