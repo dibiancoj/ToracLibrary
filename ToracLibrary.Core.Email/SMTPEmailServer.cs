@@ -23,7 +23,6 @@ namespace ToracLibrary.Core.Email
     //  </mailSettings>
     //</system.net>
 
-
     /// <summary>
     /// Sends E-mail via .NET SMTP
     /// </summary>
@@ -34,7 +33,7 @@ namespace ToracLibrary.Core.Email
     /// Host = "smtp.gmail.com"
     /// Enable SSL = True
     /// </example>
-    public partial class SMTPEmail
+    public partial class SMTPEmailServer : ISMTPEmailServer
     {
 
         #region Constructor
@@ -45,7 +44,7 @@ namespace ToracLibrary.Core.Email
         /// <param name="EmailServerAddressToSet">The Server IP Or DNS Name - Example = "smtp.gmail.com"</param>
         /// <param name="PortNumberToSet">Port Number Of the Server - Example = 587</param>
         /// <param name="UseSSLConnectionToSet">Enable SSL. Does The SMTP Server Require SSL Connection</param>
-        public SMTPEmail(string EmailServerAddressToSet, int PortNumberToSet, bool UseSSLConnectionToSet)
+        public SMTPEmailServer(string EmailServerAddressToSet, int PortNumberToSet, bool UseSSLConnectionToSet)
         {
             //Validate
             if (string.IsNullOrEmpty(EmailServerAddressToSet))
@@ -74,7 +73,7 @@ namespace ToracLibrary.Core.Email
         /// <param name="UseSSLConnectionToSet">Enable SSL. Does The SMTP Server Require SSL Connection</param>
         /// <param name="EmailServerUserNameToSet">The User Name Who The E-mail Is Coming From</param>
         /// <param name="EmailServerUserPWToSet">The User's Password Who The E-mail Is Coming From. Need This To Log Into The Server</param>
-        public SMTPEmail(string EmailServerAddressToSet, int PortNumberToSet, bool UseSSLConnectionToSet, string EmailServerUserNameToSet, string EmailServerUserPWToSet)
+        public SMTPEmailServer(string EmailServerAddressToSet, int PortNumberToSet, bool UseSSLConnectionToSet, string EmailServerUserNameToSet, string EmailServerUserPWToSet)
         {
             //Validate
             if (string.IsNullOrEmpty(EmailServerAddressToSet))
@@ -109,7 +108,7 @@ namespace ToracLibrary.Core.Email
         /// <summary>
         /// Constructor. You are using the web.config file for the settings. => system.net.mailSettings. DONT USE THIS IF YOU AREN'T USING THE WEB CONFIG AND YOU DON'T KNOW YOUR SETTINGS
         /// </summary>
-        public SMTPEmail()
+        public SMTPEmailServer()
         {
             //set the property to use the web config
             UseWebConfigForSettings = true;

@@ -13,6 +13,7 @@ using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.Caching;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
 using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibraryTest.UnitsTest.EmailSMTP;
 using static ToracLibrary.Core.ReflectionDynamic.ImplementingClasses;
 
 namespace ToracLibraryTest.UnitsTest.Core
@@ -204,7 +205,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             var ImplementationResults = RetrieveImplementingClassesLazy(typeof(IDependencyInject)).ToArray();
 
             //we should currently have 2 (could change)
-            Assert.AreEqual(5, ImplementationResults.Length);
+            Assert.AreEqual(6, ImplementationResults.Length);
 
             //check it's the sql server data provider
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlDataProviderTest)));
@@ -220,6 +221,9 @@ namespace ToracLibraryTest.UnitsTest.Core
 
             //make sure the security encryption is in there
             Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EncryptionSecurityTest)));
+
+            //make sure the smtp email is in there
+            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EmailTest)));
         }
 
         /// <summary>

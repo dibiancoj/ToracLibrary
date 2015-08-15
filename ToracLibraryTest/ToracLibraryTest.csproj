@@ -49,8 +49,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -110,6 +110,7 @@
       <DependentUpon>T4TemplateTest.tt</DependentUpon>
     </Compile>
     <Compile Include="DIContainer\DIContainerTest.cs" />
+    <Compile Include="Email\EmailTest.cs" />
     <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
@@ -142,6 +143,10 @@
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
       <Name>ToracLibrary.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Core.Email\ToracLibrary.Core.Email.csproj">
+      <Project>{1e76d29f-435b-4874-bb7a-6a1d386558ee}</Project>
+      <Name>ToracLibrary.Core.Email</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Core.EntityFrameworkDP\ToracLibrary.Core.DataProviders.EntityFrameworkDP.csproj">
       <Project>{1361fc86-9a14-437a-b256-2fad1febf8a9}</Project>

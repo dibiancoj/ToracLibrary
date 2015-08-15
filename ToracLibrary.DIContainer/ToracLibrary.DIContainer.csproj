@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Documentation For ASP.NET MVC\DIContainer In ASP.NET MVC" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">

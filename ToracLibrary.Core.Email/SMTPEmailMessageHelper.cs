@@ -11,7 +11,7 @@ using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 namespace ToracLibrary.Core.Email
 {
 
-    public partial class SMTPEmail
+    public partial class SMTPEmailServer
     {
 
         /// <summary>

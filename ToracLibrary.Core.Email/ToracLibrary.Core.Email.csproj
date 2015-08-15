@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISMTPEmailServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTPEmailMessageHelper.cs" />
     <Compile Include="SMTPEmailServer.cs" />
@@ -50,6 +51,9 @@
       <Project>{8e0e1685-d77e-4447-9f3b-3e025a2be642}</Project>
       <Name>ToracLibrary.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
