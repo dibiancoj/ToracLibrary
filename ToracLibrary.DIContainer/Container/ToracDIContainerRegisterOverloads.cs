@@ -28,7 +28,7 @@ namespace ToracLibrary.DIContainer
         /// <typeparam name="TRegisterType">The type you will register and return when it gets resolved</typeparam>
         public void Register<TRegisterType>() where TRegisterType : class
         {
-            Register<TRegisterType, TRegisterType>(DefaultScope);
+            Register<TRegisterType, TRegisterType>(null, DefaultScope, null);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="FactoryName">Name of the factory. Only necessary when you have registered 2 items of the same type. ie abstract factory</param>
         public void Register<TRegisterType>(string FactoryName) where TRegisterType : class
         {
-            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope);
+            Register<TRegisterType, TRegisterType>(FactoryName, DefaultScope, null);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="ObjectScope">Holds hold long an object lives in the di container</param>
         public void Register<TRegisterType>(DIContainerScope ObjectScope) where TRegisterType : class
         {
-            Register<TRegisterType, TRegisterType>(null, ObjectScope);
+            Register<TRegisterType, TRegisterType>(null, ObjectScope, null);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
         public void Register<TRegisterType>(Func<TRegisterType> CreateConcreteImplementation) where TRegisterType : class
         {
-            Register<TRegisterType, TRegisterType>(DefaultScope, CreateConcreteImplementation);
+            Register<TRegisterType, TRegisterType>(null, DefaultScope, CreateConcreteImplementation);
         }
 
         #endregion
@@ -136,7 +136,7 @@ namespace ToracLibrary.DIContainer
             where TTypeToResolve : class
             where TConcrete : class
         {
-            Register<TTypeToResolve, TConcrete>(DefaultScope);
+            Register<TTypeToResolve, TConcrete>(null, DefaultScope, null);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace ToracLibrary.DIContainer
             where TTypeToResolve : class
             where TConcrete : class
         {
-            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope);
+            Register<TTypeToResolve, TConcrete>(FactoryName, DefaultScope, null);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace ToracLibrary.DIContainer
             where TTypeToResolve : class
             where TConcrete : class
         {
-            Register<TTypeToResolve, TConcrete>(null, ObjectScope);
+            Register<TTypeToResolve, TConcrete>(null, ObjectScope, null);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace ToracLibrary.DIContainer
             where TTypeToResolve : class
             where TConcrete : class
         {
-            Register<TTypeToResolve, TConcrete>(DefaultScope, CreateConcreteImplementation);
+            Register<TTypeToResolve, TConcrete>(null, DefaultScope, CreateConcreteImplementation);
         }
 
         #endregion
