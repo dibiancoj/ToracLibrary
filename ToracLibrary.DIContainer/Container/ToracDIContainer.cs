@@ -221,7 +221,7 @@ namespace ToracLibrary.DIContainer
             if (RegisteredObjectToBuild.CreateObjectWithThisConstructor == null)
             {
                 //they never passed in the func, so go create an instance
-                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParametersLazy(RegisteredObjectToBuild).ToArray());
             }
             else
             {
@@ -245,7 +245,7 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <returns>Parameters to be fed into the constructor</returns>
-        private IEnumerable<object> ResolveConstructorParameters(RegisteredUnTypedObject RegisteredObjectToBuild)
+        private IEnumerable<object> ResolveConstructorParametersLazy(RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //let's loop through the paramters for this constructor
             foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
