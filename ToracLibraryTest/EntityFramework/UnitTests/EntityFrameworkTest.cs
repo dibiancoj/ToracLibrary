@@ -29,10 +29,14 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container for the readonly EF Data provider
-            DIContainer.Register(ReadonlyDataProviderName, () => new EntityFrameworkDP<EntityFrameworkEntityDP>(false, true, false));
+            DIContainer.Register<EntityFrameworkDP<EntityFrameworkEntityDP>>()
+                .WithFactoryName(ReadonlyDataProviderName)
+                .WithConstructorImplementation(() => new EntityFrameworkDP<EntityFrameworkEntityDP>(false, true, false));
 
             //let's register the di container for the editable EF data provider
-            DIContainer.Register(WritableDataProviderName, () => new EntityFrameworkDP<EntityFrameworkEntityDP>(true, true, false));
+            DIContainer.Register<EntityFrameworkDP<EntityFrameworkEntityDP>>()
+                .WithFactoryName(WritableDataProviderName)
+                .WithConstructorImplementation(() => new EntityFrameworkDP<EntityFrameworkEntityDP>(true, true, false));
         }
 
         #endregion
@@ -469,7 +473,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //grab all the rows
-                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First().Id;    
+                var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First().Id;
 
                 //delete everything but this id
                 await DP.DeleteAsync<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);

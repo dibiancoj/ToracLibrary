@@ -28,7 +28,7 @@ namespace ToracLibrary.DIContainer
         public ToracDIContainer()
         {
             //create a new list to use, which will store all my settings
-            RegisteredObjectsInContainer = new List<BaseRegisteredObject>();
+            RegisteredObjectsInContainer = new List<RegisteredUnTypedObject>();
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace ToracLibrary.DIContainer
         /// <summary>
         /// Holds all the registered objects for this DI container
         /// </summary>
-        private List<BaseRegisteredObject> RegisteredObjectsInContainer { get; }
+        private List<RegisteredUnTypedObject> RegisteredObjectsInContainer { get; }
 
         #endregion
 
@@ -68,6 +68,7 @@ namespace ToracLibrary.DIContainer
             /// Only 1 object will every be created. The same object will always be returned from the container when being resolved
             /// </summary>
             Singleton = 1
+
         }
 
         #endregion
@@ -197,13 +198,13 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <returns>The object for the consumer to use</returns>
-        private object GetInstance(BaseRegisteredObject RegisteredObjectToBuild)
+        private object GetInstance(RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //does this registered type support eager loading?
-            if (RegisteredObjectToBuild.SupportsEagerCachingOfObjects)
+            if (RegisteredObjectToBuild.ScopeImplementation.SupportsEagerCachingOfObjects)
             {
                 //try to grab the instance without creating it
-                var EagerResolveObject = RegisteredObjectToBuild.EagerResolveObject();
+                var EagerResolveObject = RegisteredObjectToBuild.ScopeImplementation.EagerResolveObject();
 
                 //do we have an instance
                 if (EagerResolveObject != null)
@@ -217,22 +218,22 @@ namespace ToracLibrary.DIContainer
             object ObjectToReturn;
 
             //first we will try to build it using the func
-            if (RegisteredObjectToBuild.CreateConcreteImplementation == null)
+            if (RegisteredObjectToBuild.CreateObjectWithThisConstructor == null)
             {
                 //they never passed in the func, so go create an instance
-                ObjectToReturn = RegisteredObjectToBuild.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
+                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParameters(RegisteredObjectToBuild).ToArray());
             }
             else
             {
                 //we have the func that creates the object, go invoke it and return the result
-                ObjectToReturn = RegisteredObjectToBuild.CreateConcreteImplementation.Invoke();
+                ObjectToReturn = RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke();
             }
 
             //if we support eager loading, then go store this item
-            if (RegisteredObjectToBuild.SupportsEagerCachingOfObjects)
+            if (RegisteredObjectToBuild.ScopeImplementation.SupportsEagerCachingOfObjects)
             {
                 //if this is a singleton, go store it
-                RegisteredObjectToBuild.StoreInstance(ObjectToReturn);
+                RegisteredObjectToBuild.ScopeImplementation.StoreInstance(ObjectToReturn);
             }
 
             //all done return the object
@@ -244,7 +245,7 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <returns>Parameters to be fed into the constructor</returns>
-        private IEnumerable<object> ResolveConstructorParameters(BaseRegisteredObject RegisteredObjectToBuild)
+        private IEnumerable<object> ResolveConstructorParameters(RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //let's loop through the paramters for this constructor
             foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
@@ -266,7 +267,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="TypeToResolve">Type to resolve</param>
         /// <returns>BaseRegisteredObject. Null if not found</returns>
         /// <remarks>will throw errors if more then 1 registered object is found</remarks>
-        private static BaseRegisteredObject FindRegisterdObject(IList<BaseRegisteredObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
+        private static RegisteredUnTypedObject FindRegisterdObject(IList<RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
         {
             //are we checking for factory names (let's cache this in a variable
             bool CheckingForFactoryNames = !string.IsNullOrEmpty(FactoryName);

@@ -23,10 +23,14 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now (md5)
-            DIContainer.Register<ISecurityEncryption, MD5HashSecurityEncryption>(MD5DIContainerName, ToracDIContainer.DIContainerScope.Singleton, () => new MD5HashSecurityEncryption("Test"));
+            DIContainer.Register<ISecurityEncryption, MD5HashSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
+                .WithFactoryName(MD5DIContainerName)
+                .WithConstructorImplementation(() => new MD5HashSecurityEncryption("Test"));
 
             //let's register the rijndael container now
-            DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(RijndaelDIContainerName, ToracDIContainer.DIContainerScope.Singleton, () => new RijndaelSecurityEncryption("1234567891123456", "1234567891123456"));
+            DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
+                .WithFactoryName(RijndaelDIContainerName)
+                .WithConstructorImplementation(() => new RijndaelSecurityEncryption("1234567891123456", "1234567891123456"));
         }
 
         #endregion

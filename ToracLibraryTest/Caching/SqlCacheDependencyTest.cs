@@ -30,15 +30,14 @@ namespace ToracLibraryTest.UnitsTest.Caching
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register my dummy cache container
-            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(
-                DIFactoryName,
-                ToracDIContainer.DIContainerScope.Singleton,
-                () => new SqlCacheDependency<IEnumerable<DummyObject>>(
-                    CacheKeyToUse,
-                    () => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource(),
-                    SqlDataProviderTest.ConnectionStringToUse(),
-                    DatabaseSchemaUsedForCacheRefresh,
-                    CacheSqlToUseToTriggerRefresh));
+            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(ToracDIContainer.DIContainerScope.Singleton)
+                          .WithFactoryName(DIFactoryName)
+                          .WithConstructorImplementation(() => new SqlCacheDependency<IEnumerable<DummyObject>>(
+                                                                  CacheKeyToUse,
+                                                                  () => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource(),
+                                                                  SqlDataProviderTest.ConnectionStringToUse(),
+                                                                  DatabaseSchemaUsedForCacheRefresh,
+                                                                  CacheSqlToUseToTriggerRefresh));
         }
 
         #endregion

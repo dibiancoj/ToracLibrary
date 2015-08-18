@@ -5,14 +5,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExpressionTrees;
+using ToracLibrary.DIContainer.RegisteredObjects;
 
-namespace ToracLibrary.DIContainer.RegisteredObjects
+namespace ToracLibrary.DIContainer.ScopeImplementation
 {
 
     /// <summary>
     /// Registered Object for a transient
     /// </summary>
-    internal class TransientRegisteredObject : BaseRegisteredObject
+    internal class TransientScopedObject : IScopeImplementation
     {
 
         #region Constructor
@@ -20,25 +21,16 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="FactoryNameToSet">Unique Identifier when you have the same types to resolve. Abstract Factory Pattern usages</param>
-        /// <param name="TypeToResolveToSet">Type to resolve. ie: ILogger</param>
-        /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
-        /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        internal TransientRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementation)
-            : base(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation)
+        /// <param name="ConstructorToCreateObjectsWith">Constructor information to use to create the object with</param>
+        internal TransientScopedObject(ConstructorInfo ConstructorToCreateObjectsWith)
         {
-            //if the user hasn't provided the conrete implementation then implement the cached activator
-            if (CreateConcreteImplementation == null)
-            {
-                //go create the cached activator from the derived class
-                CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConcreteType.GetConstructors().First(), ConstructorInfoOfConcreteType).Compile();
-            }
+            //go create the cached activator. With the fluent style we dont know if they will pass in there own constructor lambda. so we just build this each time. This is cached only when the app starts so it isn't a performance issue
+            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorToCreateObjectsWith, ConstructorToCreateObjectsWith.GetParameters()).Compile();
         }
 
         #endregion
 
-        #region Private Properties
+        #region Private Transient Specific Properties
 
         /// <summary>
         /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
@@ -47,23 +39,41 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
         #endregion
 
-        #region Abstract Properties
+        #region Interface Properties
 
         /// <summary>
-        ///  In a singleton pattern we will try to resolve the issue without creating it first. If this flag is set to true, then we will try to eager load the items
+        /// We don't want to support caching of objects since they want a new instance of each resolve call
         /// </summary>
-        override internal bool SupportsEagerCachingOfObjects { get { return false; } }
+        public bool SupportsEagerCachingOfObjects { get { return false; } }
 
         #endregion
 
-        #region Abstract Methods
+        #region Interface Methods
+
+        /// <summary>
+        /// We don't implement this interface so throw an exception if this gets called. We want a new instance each time we resolve an issue
+        /// </summary>
+        /// <returns>null</returns>
+        public object EagerResolveObject()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// We don't want to cache the object. We want a new instance each time we resolve an issue
+        /// </summary>
+        /// <param name="ObjectInstanceToStore">Object instance to store</param>
+        public void StoreInstance(object ObjectInstanceToStore)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// create an instance of this type
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <param name="ConstructorParameters">Constructor Parameters</param>
-        override internal object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        public object CreateInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
             //use the activator and go create the instance
             //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);

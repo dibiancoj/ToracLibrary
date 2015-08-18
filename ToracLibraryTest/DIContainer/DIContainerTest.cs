@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Exceptions;
+using ToracLibrary.DIContainer.RegisteredObjects;
+using static ToracLibrary.DIContainer.ToracDIContainer;
 
 namespace ToracLibraryTest.UnitsTest.DIContainer
 {
@@ -101,7 +103,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         /// <summary>
-        /// Test multiple types with no factory name. This should blow up with a MultipleTypesFoundException error
+        /// Test multiple types with no factory name.This should blow up with a MultipleTypesFoundException error
         /// </summary>
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
@@ -117,10 +119,13 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             var DIContainer = new ToracDIContainer();
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //now try to resolve it would should lead to an error
+            DIContainer.Resolve<ILogger>();
         }
 
         #endregion
@@ -169,7 +174,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             var DIContainer = new ToracDIContainer();
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
 
             //let's grab an instance now
             var LoggerToUse = DIContainer.Resolve<ILogger>();
@@ -199,10 +204,11 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             var DIContainer = new ToracDIContainer();
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Singleton);
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
 
             //let's grab an the data provide rnow
             var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
@@ -243,10 +249,10 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             var DIContainer = new ToracDIContainer();
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(ToracDIContainer.DIContainerScope.Transient);
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SectionFactoryWithConstParam>(ToracDIContainer.DIContainerScope.Transient);
+            DIContainer.Register<SectionFactoryWithConstParam>(DIContainerScope.Transient);
 
             //let's grab an the data provide rnow
             var DataProviderToUse = DIContainer.Resolve<SectionFactoryWithConstParam>();
@@ -275,10 +281,10 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             const string Factory2LoggerTestString = "WriteToFactory2";
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(FactoryName1);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(FactoryName2);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
 
             //let's try to resolve the first guy
             var FactoryLogger1 = DIContainer.Resolve<ILogger>(FactoryName1);
@@ -355,10 +361,10 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             const string FactoryName2 = FactoryNamePrefix + "1";
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(FactoryName1);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(FactoryName2);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
 
             //count how many resolve all items we have
             int ResolveAllResultCount = 0;
@@ -398,13 +404,14 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //we are mixing up the order below to make sure the removal works correctly
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                 .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
 
             //clear all the registrations
             DIContainer.ClearAllRegistrationsForSpecificType<ILogger>();
@@ -425,13 +432,14 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             var DIContainer = new ToracDIContainer();
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(Guid.NewGuid().ToString());
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
 
             //clear all the registrations
             DIContainer.ClearAllRegistrations();
@@ -460,13 +468,14 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             const string FactoryName2 = "FactoryName2";
 
             //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(FactoryName1);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
 
             //register a second instance
-            DIContainer.Register<ILogger, Logger>(FactoryName2);
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register(ToracDIContainer.DIContainerScope.Singleton, () => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
 
             //now let's check what items we have registered
             var ItemsRegistered = DIContainer.AllRegistrationSelectLazy().ToArray();
@@ -476,15 +485,15 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //make sure we have factory 1
             Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
-
+            
             //make sure the logger is a transient
-            Assert.AreEqual(ToracDIContainer.DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
+            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
 
             //make sure the second factory is a transient
-            Assert.AreEqual(ToracDIContainer.DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName2).ObjectScope);
+            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName2).ObjectScope);
 
             //make sure the sql di provider is a singleton
-            Assert.AreEqual(ToracDIContainer.DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
+            Assert.AreEqual(DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
 
             //make sure we have factory 2
             Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));

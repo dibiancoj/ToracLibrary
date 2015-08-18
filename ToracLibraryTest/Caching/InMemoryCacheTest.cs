@@ -26,10 +26,9 @@ namespace ToracLibraryTest.UnitsTest.Caching
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register my dummy cache container
-            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, InMemoryCache<IEnumerable<DummyObject>>>(
-                DIFactoryName,
-                ToracDIContainer.DIContainerScope.Singleton,
-                () => new InMemoryCache<IEnumerable<DummyObject>>(CacheKeyToUse, () => DummyObjectCacheNoDI.BuildCacheDataSource()));
+            DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, InMemoryCache<IEnumerable<DummyObject>>>(ToracDIContainer.DIContainerScope.Singleton)
+                .WithFactoryName(DIFactoryName)
+                .WithConstructorImplementation(() => new InMemoryCache<IEnumerable<DummyObject>>(CacheKeyToUse, () => DummyObjectCacheNoDI.BuildCacheDataSource()));
         }
 
         #endregion

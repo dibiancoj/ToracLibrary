@@ -4,60 +4,44 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.DIContainer.RegisteredObjects;
 
-namespace ToracLibrary.DIContainer.RegisteredObjects
+namespace ToracLibrary.DIContainer.ScopeImplementation
 {
 
     /// <summary>
     /// Singleton registered object
     /// </summary>
-    internal class SingletonRegisteredObject : BaseRegisteredObject
+    internal class SingletonScopedObject : IScopeImplementation
     {
-
-        #region Constructor
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="FactoryNameToSet">Unique Identifier when you have the same types to resolve. Abstract Factory Pattern usages</param>
-        /// <param name="TypeToResolveToSet">Type to resolve. ie: ILogger</param>
-        /// <param name="ConcreteTypeToSet">Implementation of the Type to resolve. ie: TextLogger</param>
-        /// <param name="InstanceToSet">Instance to use in the singleton</param>
-        /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
-        /// <param name="CreateConcreteImplementation">Function to create an concrete implementation</param>
-        internal SingletonRegisteredObject(string FactoryNameToSet, Type TypeToResolveToSet, Type ConcreteTypeToSet, ToracDIContainer.DIContainerScope ObjectScopeToSet, Func<object> CreateConcreteImplementation)
-            : base(FactoryNameToSet, TypeToResolveToSet, ConcreteTypeToSet, ObjectScopeToSet, CreateConcreteImplementation)
-        {
-        }
-
-        #endregion
 
         #region Singleton Specific Properties
 
         /// <summary>
-        /// if they want a singleton, then we store the instance here
+        /// if they want a singleton, then we store the instance here so we can reuse it
         /// </summary>
-        internal object Instance { get; private set; }
+        private object Instance { get; set; }
 
         #endregion
 
-        #region Abstract Properties
+        #region Interface Properties
 
         /// <summary>
         ///  In a singleton pattern we will try to resolve the issue without creating it first. If this flag is set to true, then we will try to eager load the items
         /// </summary>
-        override internal bool SupportsEagerCachingOfObjects { get { return true; } }
+        public bool SupportsEagerCachingOfObjects { get { return true; } }
 
         #endregion
 
-        #region Abstract Methods
+        #region Interface Methods
 
         /// <summary>
         /// In a singleton pattern we will try to resolve the issue without creating it first. For transient this will return null
         /// </summary>
         /// <returns>null if the object needs to be created. Object if we have already created the object and we can use it</returns>
-        internal override object EagerResolveObject()
+        public object EagerResolveObject()
         {
+            //just return the instance that we store
             return Instance;
         }
 
@@ -65,7 +49,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// Stores the instance for the any calls after this. Singleton pattern
         /// </summary>
         /// <param name="ObjectInstanceToStore">Object to store</param>
-        internal override void StoreInstance(object ObjectInstanceToStore)
+        public void StoreInstance(object ObjectInstanceToStore)
         {
             //set the instance property
             Instance = ObjectInstanceToStore;
@@ -76,7 +60,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <param name="ConstructorParameters">Constructor Parameters</param>
-        override internal object CreateInstance(BaseRegisteredObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        public object CreateInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
             //**so expression tree is slower if you are just running resolve a handful of times. You would need to get into the 10,000 resolves before it starts getting faster.
             //**since an asp.net mvc site will handle request after request the pool won't get recycled before 10,000. So we are going to build it for scalability with expression trees
