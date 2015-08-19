@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.DIContainer.ScopeImplementation;
 
 namespace ToracLibrary.DIContainer.RegisteredObjects
@@ -90,6 +91,11 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// User controlled object creation lambda. The typed RegisteredObject makes sure it is type of TConcrete
         /// </summary>
         protected internal Func<object> CreateObjectWithThisConstructor { get; protected set; }
+
+        /// <summary>
+        /// Build the new object with the constructor parameters specifiedf
+        /// </summary>
+        protected internal IConstructorParameter[] CreateObjectWithConstructorParameters { get; protected set; }
 
         #endregion
 

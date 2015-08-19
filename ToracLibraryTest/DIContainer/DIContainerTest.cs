@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Exceptions;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.DIContainer.RegisteredObjects;
 using static ToracLibrary.DIContainer.ToracDIContainer;
 
@@ -198,7 +199,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
-        public void ConcreteToConcreteWithConstructorParameterTest1()
+        public void ConcreteToConcreteWithConstructorParameterLambdaTest1()
         {
             //declare my container
             var DIContainer = new ToracDIContainer();
@@ -332,6 +333,221 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //grab the type of T
             Assert.AreEqual(typeof(string), GenericTypeToUse.GetTypeOfT());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class. When passing in a set of parameters
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterPassedInSingletonTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>()));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class. When passing in a set of parameters
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterPassedInTransientTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>()));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a transient, so it should return a new instance of the logger which will be empty
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class. When passing in a set of parameters
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterPassedInMixAndMatchTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>()));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //the logger is a singleton, so it should return a new instance of the logger which will be empty
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class. When passing in a set of parameters
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterPassedInWithResolveTypeSingletonTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveTypeCtorParameter<ILogger>());
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        /// <summary>
+        /// Test a concrete class to concrete class. When passing in a set of parameters
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConcreteToConcreteWithConstructorParameterPassedInWithResolveTypeTransientTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveTypeCtorParameter<ILogger>());
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a transient, so it should return a new instance of the logger which will be empty
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
         }
 
         #endregion
@@ -485,7 +701,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //make sure we have factory 1
             Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
-            
+
             //make sure the logger is a transient
             Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
 

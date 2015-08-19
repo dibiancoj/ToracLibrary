@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 
 namespace ToracLibrary.DIContainer.RegisteredObjects
 {
@@ -55,6 +56,20 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         {
             //set the lambda
             CreateObjectWithThisConstructor = CreateObjectWith;
+
+            //return the object so we can chain it
+            return this;
+        }
+
+        /// <summary>
+        /// Passes in a specific set of constructor parameters when creating the new object
+        /// </summary>
+        /// <param name="ConstructorParametersToUse">Constructor parameters to pass in when creating a new object</param>
+        /// <returns>The typed RegisteredObject which you can build off of</returns>
+        public RegisteredObject<TTypeToResolveToSet, TConcrete> WithConstructorParameters(params IConstructorParameter[] ConstructorParametersToUse)
+        {
+            //set the parameters to use
+            CreateObjectWithConstructorParameters = ConstructorParametersToUse;
 
             //return the object so we can chain it
             return this;

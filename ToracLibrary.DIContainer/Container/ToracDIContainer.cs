@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.DIContainer.Exceptions;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
@@ -247,11 +248,23 @@ namespace ToracLibrary.DIContainer
         /// <returns>Parameters to be fed into the constructor</returns>
         private IEnumerable<object> ResolveConstructorParametersLazy(RegisteredUnTypedObject RegisteredObjectToBuild)
         {
-            //let's loop through the paramters for this constructor
-            foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
+            //if they have parameters they want to pass in then do it now
+            if (RegisteredObjectToBuild.CreateObjectWithConstructorParameters.AnyWithNullCheck())
             {
-                //we are going to recurse through this and resolve until we have everything
-                yield return Resolve(ConstructorParameter.ParameterType);
+                //loop through the parameters and yield it
+                foreach (var ConstructorParameter in RegisteredObjectToBuild.CreateObjectWithConstructorParameters)
+                {
+                    yield return ConstructorParameter.GetParameterValue(this);
+                }
+            }
+            else
+            {
+                //let's loop through the paramters for this constructor
+                foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
+                {
+                    //we are going to recurse through this and resolve until we have everything
+                    yield return Resolve(ConstructorParameter.ParameterType);
+                }
             }
         }
 
