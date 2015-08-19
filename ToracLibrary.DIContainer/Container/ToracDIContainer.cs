@@ -228,7 +228,7 @@ namespace ToracLibrary.DIContainer
             else
             {
                 //we have the func that creates the object, go invoke it and return the result
-                ObjectToReturn = RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke();
+                ObjectToReturn = RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke(this);
             }
 
             //if we support eager loading, then go store this item

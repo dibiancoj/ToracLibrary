@@ -91,7 +91,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <summary>
         /// User controlled object creation lambda. The typed RegisteredObject makes sure it is type of TConcrete
         /// </summary>
-        protected internal Func<object> CreateObjectWithThisConstructor { get; protected set; }
+        protected internal Func<ToracDIContainer, object> CreateObjectWithThisConstructor { get; protected set; }
 
         /// <summary>
         /// Build the new object with the constructor parameters specifiedf

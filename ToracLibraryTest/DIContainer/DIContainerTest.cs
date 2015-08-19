@@ -209,7 +209,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
             DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
 
             //let's grab an the data provide rnow
             var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
@@ -644,7 +644,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
             DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                 .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+                 .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
 
             //register a second instance
             DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
@@ -675,7 +675,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
             DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
 
             //clear all the registrations
             DIContainer.ClearAllRegistrations();
@@ -711,7 +711,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
             DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                .WithConstructorImplementation(() => new SqlDIProvider(ConnectionStringToUse, DIContainer.Resolve<ILogger>()));
+                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
 
             //now let's check what items we have registered
             var ItemsRegistered = DIContainer.AllRegistrationSelectLazy().ToArray();

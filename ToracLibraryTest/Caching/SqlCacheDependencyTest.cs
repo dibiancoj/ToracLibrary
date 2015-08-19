@@ -32,7 +32,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
             //let's register my dummy cache container
             DIContainer.Register<ICacheImplementation<IEnumerable<DummyObject>>, SqlCacheDependency<IEnumerable<DummyObject>>>(ToracDIContainer.DIContainerScope.Singleton)
                           .WithFactoryName(DIFactoryName)
-                          .WithConstructorImplementation(() => new SqlCacheDependency<IEnumerable<DummyObject>>(
+                          .WithConstructorImplementation((di) => new SqlCacheDependency<IEnumerable<DummyObject>>(
                                                                   CacheKeyToUse,
                                                                   () => DummySqlCacheObjectCacheNoDI.BuildCacheDataSource(),
                                                                   SqlDataProviderTest.ConnectionStringToUse(),

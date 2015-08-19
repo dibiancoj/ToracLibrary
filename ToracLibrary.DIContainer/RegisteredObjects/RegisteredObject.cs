@@ -52,7 +52,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// </summary>
         /// <param name="CreateObjectWith">A lambda which returns the new object</param>
         /// <returns>The typed RegisteredObject which you can build off of</returns>
-        public RegisteredObject<TTypeToResolveToSet, TConcrete> WithConstructorImplementation(Func<TConcrete> CreateObjectWith)
+        public RegisteredObject<TTypeToResolveToSet, TConcrete> WithConstructorImplementation(Func<ToracDIContainer, TConcrete> CreateObjectWith)
         {
             //set the lambda
             CreateObjectWithThisConstructor = CreateObjectWith;

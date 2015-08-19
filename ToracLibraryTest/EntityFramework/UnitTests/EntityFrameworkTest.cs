@@ -31,12 +31,12 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             //let's register the di container for the readonly EF Data provider
             DIContainer.Register<EntityFrameworkDP<EntityFrameworkEntityDP>>()
                 .WithFactoryName(ReadonlyDataProviderName)
-                .WithConstructorImplementation(() => new EntityFrameworkDP<EntityFrameworkEntityDP>(false, true, false));
+                .WithConstructorImplementation((di) => new EntityFrameworkDP<EntityFrameworkEntityDP>(false, true, false));
 
             //let's register the di container for the editable EF data provider
             DIContainer.Register<EntityFrameworkDP<EntityFrameworkEntityDP>>()
                 .WithFactoryName(WritableDataProviderName)
-                .WithConstructorImplementation(() => new EntityFrameworkDP<EntityFrameworkEntityDP>(true, true, false));
+                .WithConstructorImplementation((di) => new EntityFrameworkDP<EntityFrameworkEntityDP>(true, true, false));
         }
 
         #endregion

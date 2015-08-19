@@ -28,7 +28,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now
-            DIContainer.Register<IDataProvider, SQLDataProvider>().WithConstructorImplementation(() => new SQLDataProvider(ConnectionStringToUse()));
+            DIContainer.Register<IDataProvider, SQLDataProvider>().WithConstructorImplementation((di) => new SQLDataProvider(ConnectionStringToUse()));
         }
 
         /// <summary>
