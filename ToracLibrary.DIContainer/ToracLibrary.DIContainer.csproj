@@ -49,6 +49,7 @@
     <Compile Include="Parameters\ConstructorParameters\IConstructorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\PrimitiveCtorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\ResolveCtorParameter.cs" />
+    <Compile Include="Parameters\ConstructorParameters\ResolveTypeNonGenericCtorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\ResolveTypeCtorParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredObjects\RegisteredUnTypedObject.cs" />

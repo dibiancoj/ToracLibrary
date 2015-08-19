@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.DIContainer.Exceptions;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
 namespace ToracLibrary.DIContainer
@@ -222,7 +223,7 @@ namespace ToracLibrary.DIContainer
             if (RegisteredObjectToBuild.CreateObjectWithThisConstructor == null)
             {
                 //they never passed in the func, so go create an instance
-                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, ResolveConstructorParametersLazy(RegisteredObjectToBuild).ToArray());
+                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, RegisteredObjectToBuild.ResolveConstructorParametersLazy(this).ToArray());
             }
             else
             {
@@ -239,33 +240,6 @@ namespace ToracLibrary.DIContainer
 
             //all done return the object
             return ObjectToReturn;
-        }
-
-        /// <summary>
-        /// Resolved the constructor parameters and returns it in an array
-        /// </summary>
-        /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
-        /// <returns>Parameters to be fed into the constructor</returns>
-        private IEnumerable<object> ResolveConstructorParametersLazy(RegisteredUnTypedObject RegisteredObjectToBuild)
-        {
-            //if they have parameters they want to pass in then do it now
-            if (RegisteredObjectToBuild.CreateObjectWithConstructorParameters.AnyWithNullCheck())
-            {
-                //loop through the parameters and yield it
-                foreach (var ConstructorParameter in RegisteredObjectToBuild.CreateObjectWithConstructorParameters)
-                {
-                    yield return ConstructorParameter.GetParameterValue(this);
-                }
-            }
-            else
-            {
-                //let's loop through the paramters for this constructor
-                foreach (var ConstructorParameter in RegisteredObjectToBuild.ConstructorInfoOfConcreteType)
-                {
-                    //we are going to recurse through this and resolve until we have everything
-                    yield return Resolve(ConstructorParameter.ParameterType);
-                }
-            }
         }
 
         #endregion

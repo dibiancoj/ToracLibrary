@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.DIContainer.ScopeImplementation;
 
@@ -96,6 +97,42 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// Build the new object with the constructor parameters specifiedf
         /// </summary>
         protected internal IConstructorParameter[] CreateObjectWithConstructorParameters { get; protected set; }
+
+        #endregion
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Get the constructor parameters to pass into the constructor
+        /// </summary>
+        /// <param name="DIContainer">Container to build off of</param>
+        /// <returns>Parameters to pass into the constructor</returns>
+        internal IEnumerable<object> ResolveConstructorParametersLazy(ToracDIContainer DIContainer)
+        {
+            //loop through the parameters and yield it (i don't want an interator inside interator so ResolveWhichConstructorParametersToImplement will not be lazy
+            foreach (var ConstructorParameter in ResolveWhichConstructorParametersToImplement())
+            {
+                //return this value
+                yield return ConstructorParameter.GetParameterValue(DIContainer);
+            }
+        }
+
+        /// <summary>
+        /// Grabs the constructor parameters that we want to pass in to build the object
+        /// </summary>
+        /// <returns>IEnumerable of IConstructorParameter</returns>
+        private IEnumerable<IConstructorParameter> ResolveWhichConstructorParametersToImplement()
+        {
+            //do we have constructor parameters specifically passed in? So the user said i want these variables passed into the constructor
+            if (CreateObjectWithConstructorParameters.AnyWithNullCheck())
+            {
+                //use the specific parameters the user specified
+                return CreateObjectWithConstructorParameters;
+            }
+
+            //we are going to create the constructor parameters to resolve
+            return ConstructorInfoOfConcreteType.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType)).ToArray();
+        }
 
         #endregion
 

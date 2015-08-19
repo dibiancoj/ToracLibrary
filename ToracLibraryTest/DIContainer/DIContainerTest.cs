@@ -518,36 +518,56 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //declare my container
             var DIContainer = new ToracDIContainer();
 
-            //register my item now with no overloads
+            //declare the factory names so we don't have to have 2 methods with the same functionality
+            const string FactoryWithGenericParameters = "FactoryWithGenericParameters";
+            const string FactoryWithNonGenericParameters = "FactoryWithNonGenericParameters";
+
+            //register ILogger
             DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
 
-            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            //register my item now with no overloads
             DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithFactoryName(FactoryWithNonGenericParameters)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveTypeNonGenericCtorParameter(typeof(ILogger)));
+
+            //let's add the generic resolve ctor 
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithFactoryName(FactoryWithGenericParameters)
                 .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveTypeCtorParameter<ILogger>());
 
+            //let's add the non generic version
+
             //let's grab an the data provide rnow
-            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+            var DataProviderToUseGeneric = DIContainer.Resolve<SqlDIProvider>(FactoryWithGenericParameters);
+            var DataProviderToUseNonGeneric = DIContainer.Resolve<SqlDIProvider>(FactoryWithNonGenericParameters);
 
             //make sure the logger is not null
-            Assert.IsNotNull(DataProviderToUse);
+            Assert.IsNotNull(DataProviderToUseGeneric);
+            Assert.IsNotNull(DataProviderToUseNonGeneric);
 
             //make sure the logger is not null
-            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+            Assert.IsNotNull(DataProviderToUseGeneric.LoggerToUse);
+            Assert.IsNotNull(DataProviderToUseNonGeneric.LoggerToUse);
 
             //make sure the connection string is not null
-            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUseGeneric.ConnectionString));
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUseNonGeneric.ConnectionString));
 
             //make sure the connection string is correct
-            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUseGeneric.ConnectionString);
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUseNonGeneric.ConnectionString);
 
             //write test to the log
-            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+            DataProviderToUseGeneric.LoggerToUse.Log(WriteToLog);
+            DataProviderToUseNonGeneric.LoggerToUse.Log(WriteToLog);
 
             //now let's check the log
-            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+            Assert.AreEqual(WriteToLog, DataProviderToUseGeneric.LoggerToUse.LogFile.ToString());
+            Assert.AreEqual(WriteToLog, DataProviderToUseNonGeneric.LoggerToUse.LogFile.ToString());
 
             //its a transient, so it should return a new instance of the logger which will be empty
-            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>(FactoryWithGenericParameters).LoggerToUse.LogFile.ToString());
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>(FactoryWithNonGenericParameters).LoggerToUse.LogFile.ToString());
         }
 
         #endregion
