@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExpressionTrees.API.ReMappers;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API
 {
@@ -14,8 +15,6 @@ namespace ToracLibrary.Core.ExpressionTrees.API
     /// </summary>
     public static class ExpressionCombiner
     {
-
-        Add unit test for these methods
 
         #region Enum
 
@@ -49,6 +48,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <param name="WhichCombineType">Combine Type</param>
         /// <typeparam name="T">Type Of Record To Query</typeparam>
         /// <returns>Expression To Run</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, bool>> CombineExpressions<T>(Expression<Func<T, bool>> FirstExpression, CombineType WhichCombineType, Expression<Func<T, bool>> SecondExpression)
         {
             //go remap the second expression
@@ -79,6 +80,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <typeparam name="T">Type of the record</typeparam>
         /// <param name="ExpressionToPutANotInFrontOf">expression to add the not too</param>
         /// <returns>Expression Of Func</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, bool>> Not<T>(Expression<Func<T, bool>> ExpressionToPutANotInFrontOf)
         {
             //go put the not in front and return it

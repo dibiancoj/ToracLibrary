@@ -14,7 +14,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API
     /// <summary>
     /// Builds the parameter for the expression builder
     /// </summary>
-    internal static class ParameterBuilder
+    public static class ParameterBuilder
     {
 
         #region String Based Property Retrieval

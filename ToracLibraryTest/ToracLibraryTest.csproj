@@ -88,6 +88,8 @@
     <Compile Include="Core\EnumUtilities\EnumUtilitiesTest.cs" />
     <Compile Include="Core\Excel\ExcelUtilityTest.cs" />
     <Compile Include="Core\Exceptions\ExceptionUtilityTest.cs" />
+    <Compile Include="Core\ExpressionTrees\API\ExpressionBuilder\ExpressionBuilderTest.cs" />
+    <Compile Include="Core\ExpressionTrees\API\ExpressionCombiner\ExpressionCombinerTest.cs" />
     <Compile Include="Core\ExpressionTrees\API\ReMapperTests\ReMappersTest.cs" />
     <Compile Include="Core\ExpressionTrees\ExpressionTreesTest.cs" />
     <Compile Include="Core\ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />

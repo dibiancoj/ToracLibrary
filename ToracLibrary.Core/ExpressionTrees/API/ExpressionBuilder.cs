@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Core.Reflection;
+using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API
 {
@@ -15,8 +16,6 @@ namespace ToracLibrary.Core.ExpressionTrees.API
     /// </summary>
     public static class ExpressionBuilder
     {
-
-        Add unit test for these methods
 
         #region Equation Enum
 
@@ -71,6 +70,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <param name="Operator">Operation To Run</param>
         /// <param name="ValueToQuery">Value To Check Against - Right Hand Side Of Equation</param>
         /// <returns>Built Up Expression</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, bool>> BuildStatement<T, TPropertySelector>(ParameterBuilderResults LeftHandSide, DynamicUtilitiesEquations Operator, TPropertySelector ValueToQuery)
         {
             //example on how ot call this
@@ -93,6 +94,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <param name="ListToCheck">List to check against</param>
         /// <param name="RightHandSide">The property to check in the list for</param>
         /// <returns>Expression To check</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, bool>> BuildIEnumerableContains<T, TListType>(IEnumerable<TListType> ListToCheck, ParameterBuilderResults RightHandSide)
         {
             ////grab the contains method. difficult because we want to use the Enumerable which is an extension method that all ienumerable uses
@@ -127,6 +130,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <param name="IsUsedForLinqToObjects">Is used for linq to objects vs Entity Framework. This method uses local methods to check for null strings which Sql Server handles natively...so we don't call that part if we are coming from Entity Framework</param>
         /// <returns>Linq Expression</returns>
         /// <remarks>internal because we don't want external code calling this with the IsUsedForLinqToObjects parameters. We want to hide this parameter and not let the end developer pass it in</remarks>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         internal static Expression<Func<T, bool>> StringContains<T>(string PropertyNameToCheck, string ContainsTest, bool CaseSensitive, bool IsUsedForLinqToObjects)
         {
             //example
@@ -179,6 +184,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <param name="ParamResults">The result from Parameter Builder with the field you want to return</param>
         /// <returns>expression to run a select on</returns>
         /// <remarks>For Linq Just Call ThisResult.Compile()</remarks>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
         public static Expression<Func<T, TResult>> Select<T, TResult>(ParameterBuilderResults ParamResults)
         {
             //build the lambda and return it
