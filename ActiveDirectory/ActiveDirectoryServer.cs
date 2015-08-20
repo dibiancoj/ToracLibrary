@@ -12,7 +12,7 @@ namespace ToracLibrary.ActiveDirectory
     /// Class Used to Interact With Your Active Directory System
     /// </summary>
     /// <remarks>Class is immutable</remarks>
-    public class ActiveDirectory : IDisposable
+    public class ActiveDirectoryServer : IDisposable
     {
 
         #region Constructor
@@ -22,7 +22,7 @@ namespace ToracLibrary.ActiveDirectory
         /// </summary>
         /// <param name="DomainName">Domain Name</param>
         /// <example>Navigators.internal</example>
-        public ActiveDirectory(string DomainName)
+        public ActiveDirectoryServer(string DomainName)
         {
             //validate the parameters passed in
             if (string.IsNullOrEmpty(DomainName))

@@ -102,7 +102,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
         [TestMethod]
         [TestCategory("Caching.InMemory")]
         [TestCategory("Caching")]
-        public void InMemoryCacheTestWithNoDependencyInjection1()
+        public void InMemoryCacheTestWithNoDependencyInjectionTest1()
         {
             //we will make sure nothing is in the cache
             Assert.AreEqual(0, InMemoryCache.GetAllItemsInCacheLazy().Count());
@@ -139,7 +139,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
         [TestCategory("Caching")]
         [TestCategory("Dependency Injection")]
         [TestMethod]
-        public void InMemoryCacheTestWithDependencyInjection1()
+        public void InMemoryCacheTestWithDependencyInjectionTest1()
         {
             //declare a func so we can just count how many items we have for just this cache (other cache unit tests might get in the way)
             Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;

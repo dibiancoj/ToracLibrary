@@ -143,6 +143,10 @@
     <Compile Include="Serialization\Xml\XmlSerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ActiveDirectory\ToracLibrary.ActiveDirectory.csproj">
+      <Project>{faa015e4-8b3a-4c97-9ab3-71d18075a8d1}</Project>
+      <Name>ToracLibrary.ActiveDirectory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
       <Name>ToracLibrary.Caching</Name>

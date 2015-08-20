@@ -178,7 +178,7 @@ namespace ToracLibraryTest.UnitsTest.Caching
         [TestCategory("Caching")]
         [TestCategory("Dependency Injection")]
         [TestMethod]
-        public void SqlCacheDependencyWithDependencyInjection1()
+        public void SqlCacheDependencyWithDependencyInjectionTest1()
         {
             //let's go get my factory from my DI Container
             var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<ICacheImplementation<IEnumerable<DummyObject>>>(DIFactoryName);
