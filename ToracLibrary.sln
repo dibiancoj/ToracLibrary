@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ExcelEPPlus", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Log4NetWrapper", "ToracLibrary.Log4NetWrapper\ToracLibrary.Log4NetWrapper.csproj", "{2FEA2511-10A1-4D68-BF85-05E5E0AECBA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ITextSharpPdfAPI", "ITextSharpPdfAPI\ToracLibrary.ITextSharpPdfAPI.csproj", "{B2B414B4-9E74-4773-AB4F-9C4560A64A53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{2FEA2511-10A1-4D68-BF85-05E5E0AECBA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FEA2511-10A1-4D68-BF85-05E5E0AECBA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FEA2511-10A1-4D68-BF85-05E5E0AECBA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2B414B4-9E74-4773-AB4F-9C4560A64A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2B414B4-9E74-4773-AB4F-9C4560A64A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2B414B4-9E74-4773-AB4F-9C4560A64A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2B414B4-9E74-4773-AB4F-9C4560A64A53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
