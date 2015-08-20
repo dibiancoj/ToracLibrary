@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExpressionTrees;
 
 namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 {
@@ -39,7 +40,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
             //grab the enumerator
             IEnumerator CollectionEnumerator = CollectionToCount.GetEnumerator();
-            
+
             //holds the tally of how many items we have
             int CountOfItems = 0;
 
@@ -292,25 +293,6 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
             //if we get here then we don't have any items in the collection. At this point we will just return a blank string
             return string.Empty;
-        }
-
-        #endregion
-
-        #region Paginate
-
-        /// <summary>
-        /// Takes A List Of Objects And Grabs The Current Page We Are On
-        /// </summary>
-        /// <typeparam name="T">Type Of Records That Are Returned</typeparam>
-        /// <param name="CollectionToPaginate">Query To Modify</param>
-        /// <param name="CurrentPageNumber">What Page Number Are You Currently On</param>
-        /// <param name="HowManyRecordsPerPage">How Many Records Per Page</param>
-        /// <returns>IQueryable Of T</returns>
-        public static IQueryable<T> PaginateResults<T>(this IEnumerable<T> CollectionToPaginate, int CurrentPageNumber, int HowManyRecordsPerPage)
-        {
-            throw new NotImplementedException();
-            //use the main helper helper method in the regular module
-            //return LinqUtilities.PaginateResults(CollectionToPaginate, CurrentPageNumber, HowManyRecordsPerPage);
         }
 
         #endregion

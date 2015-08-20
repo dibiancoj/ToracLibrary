@@ -383,32 +383,6 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
-        #region Paginate Results
-
-        /// <summary>
-        /// Unit test the basic functionality of the Paginate
-        /// </summary>
-        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
-        [TestCategory("ExtensionMethods")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public void PaginateResultsWithExtensionMethodsTest1()
-        {
-            //create a dummy list
-            var DummyCreatedList = DummyObject.CreateDummyListLazy(100).ToArray();
-
-            //grab the paged data
-            var PagedData = DummyCreatedList.PaginateResults(2, 10).ToArray();
-
-            //go check the results
-            Assert.AreEqual(10, PagedData.Count());
-            Assert.AreEqual(10, PagedData[0].Id);
-            Assert.AreEqual(11, PagedData[1].Id);
-            Assert.AreEqual(12, PagedData[2].Id);
-        }
-
-        #endregion
-
         #endregion
 
     }
