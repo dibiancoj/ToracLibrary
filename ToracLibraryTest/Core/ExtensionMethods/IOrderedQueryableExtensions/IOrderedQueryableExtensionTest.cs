@@ -16,7 +16,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>
-    /// Unit test to IQueryable Extension Methods
+    /// Unit test to IOrderedQueryable Extension Methods
     /// </summary>
     [TestClass]
     public class IOrderedQueryableExtensionTest
@@ -25,7 +25,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for pagination in linq to objects
         /// </summary>
-        [TestCategory("Core.ExtensionMethods.IQueryableExtensions")]
+        [TestCategory("Core.ExtensionMethods.IOrderedQueryableExtensions")]
         [TestCategory("ExtensionMethods")]
         [TestCategory("Core")]
         [TestMethod]
@@ -47,7 +47,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for pagination in ef
         /// </summary>
-        [TestCategory("Core.ExtensionMethods.IQueryableExtensions")]
+        [TestCategory("Core.ExtensionMethods.IOrderedQueryableExtensions")]
         [TestCategory("ExtensionMethods")]
         [TestCategory("Core")]
         [TestMethod]

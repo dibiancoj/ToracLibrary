@@ -229,6 +229,91 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #endregion
 
+        #region String Contains
+
+        /// <summary>
+        /// build a string contains expression for linq to objects
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void StringContainstForLinqToObjectsTest1()
+        {
+            //let's build a dummy list
+            var DataSource = DummyObject.CreateDummyListLazy(5).ToArray();
+
+            //grab the id we are going to modify
+            int IdWeAreSetting = DataSource[2].Id;
+
+            //set the 2nd element description to "jason123"
+            DataSource[2].Description = "Jason123";
+
+            //let's go build the expression to run a string contians
+            var ExpressionThatWasBuilt = ExpressionBuilder.StringContains<DummyObject>(nameof(DummyObject.Description), "Jason", true, true);
+
+            //let's run the linq to objects query
+            var ResultOfQuery = DataSource.AsQueryable().Where(ExpressionThatWasBuilt).ToArray();
+
+            //we should have the 1 records
+            Assert.AreEqual(1, ResultOfQuery.Length);
+
+            //make sure the result is the id and it matches the id to fetch
+            Assert.IsTrue(ResultOfQuery.Any(x => x.Id == IdWeAreSetting));
+
+            //---------------------
+            //now let run a mix cased (should return 0 records)
+            Assert.AreEqual(0, DataSource.AsQueryable().Where(ExpressionBuilder.StringContains<DummyObject>(nameof(DummyObject.Description), "jason", true, true)).Count());
+
+            //---------------------
+            //let's go run a mixed case where i don't want to check for case
+            Assert.AreEqual(1, DataSource.AsQueryable().Where(ExpressionBuilder.StringContains<DummyObject>(nameof(DummyObject.Description), "jason", false, true)).Count());
+        }
+
+        /// <summary>
+        ///  build a string contains expression for ef
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void StringContainstForEntityFrameworkTest1()
+        {
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //grab the ef data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
+            {
+                //grab the dataset
+                var DataSet = DP.Fetch<Ref_Test>(true).ToArray();
+
+                //grab the id we are going to modify
+                int IdWeAreSetting = DataSet[2].Id;
+
+                //set the 2nd element
+                DataSet[2].Description = "Jason123";
+
+                //save the database changes
+                DP.SaveChanges();
+
+                //let's go build the expression to run a string contians
+                var ExpressionThatWasBuilt = ExpressionBuilder.StringContains<Ref_Test>(nameof(Ref_Test.Description), "Jason", false, false);
+
+                //let's run the linq to objects query
+                var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();
+
+                //we should have the 1 records
+                Assert.AreEqual(1, ResultOfQuery.Length);
+
+                //make sure the result is the id and it matches the id to fetch
+                Assert.IsTrue(ResultOfQuery.Any(x => x.Id == IdWeAreSetting));
+
+                //ef doesn't allow for case searches...so ignore the string contains overload
+            }
+        }
+
+        #endregion
+
     }
 
 }

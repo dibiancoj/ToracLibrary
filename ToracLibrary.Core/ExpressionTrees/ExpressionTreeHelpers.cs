@@ -6,7 +6,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExpressionTrees.API;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
+using ToracLibrary.Core.Reflection;
+using ToracLibrary.Core.ReflectionDynamic;
+using ToracLibrary.Core.ToracAttributes;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees
@@ -110,6 +114,104 @@ namespace ToracLibrary.Core.ExpressionTrees
 
             //let's create the lambda and return it
             return Expression.Lambda<Func<TFrom, TResult>>(NewExpression, new ReadOnlyCollection<ParameterExpression>(ArgFrom.ToIList()));
+        }
+
+        #endregion
+
+        #region Order By
+
+        /// <summary>
+        /// Modifies Queryable Of T And Orders It For Entity Framework.
+        /// </summary>
+        /// <typeparam name="T">Type Of The IQueryable</typeparam>
+        /// <param name="QueryToModify">Query To Modifiy</param>
+        /// <param name="PropertySortPath">Property Name To Sort By</param>
+        /// <param name="OrderByAscending">Sort By Ascending or Descending</param>
+        /// <param name="IQueryableIsNotSortedYet">Determines if we should run an "orderby" or "thenby". This avoids trying to figure out if IQueryable Or IOrdered is passed in. Little faster this way</param>
+        /// <returns>IOrderedQueryable Of T</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
+        public static IOrderedQueryable<T> OrderBy<T>(IQueryable<T> QueryToModify, string PropertySortPath, bool OrderByAscending, bool IQueryableIsNotSortedYet)
+        {
+            //The problem with the entity framework sort by is that the key (the field to be sorted on could be anything). You can't say expression|func|tablename,object|| because 
+            //it can't resolve the object into whatever the key should be. So we need to do it this way. I would have liked to returned just the Linq Expression
+
+            //example of how to call this
+            //sql = sql.OrderBy("CreatedDate", true);
+
+            //if i need to run linq to objects with a sub path for the property. ie. Object.SubObject.Id
+            //var columnInfo = PropertyHelpers.GetPropertyOfObjectExpressionFunc<TestRow, object>(thisSortColumn.ColumnName).Compile();
+
+            //if (thisSortColumn.DirectionToSort == SortedColumn.SortDirection.Asc)
+            //{
+            //     lst = lst.AsQueryable().OrderBy(columnInfo).ToList();
+            //}
+            //else
+            //{
+            //    lst = lst.AsQueryable().OrderByDescending(columnInfo).ToList();
+            //}
+
+            //grab the properties for this guy. So as we traverse the tree we store the properties
+            var PropertiesInTree = PropertyHelpers.GetSubPropertiesLazy(typeof(T), PropertySortPath).ToArray();
+
+            //let's throw the last property info into a variable. This way we have it (because its really the property we want to base everything off of. Its the reason we traverse down the tree)
+            PropertyInfo LastPropertyInTree = PropertiesInTree.Last();
+
+            //now we need to invoke the func using the correct property type so it will work with EF. lets go invoke that since we know the property we are looking for and its data type
+            MethodInfo SortFuncBuilder = OverloadedMethodFinder.FindOverloadedMethodToCall(nameof(PropertyHelpers.GetPropertyOfObjectExpressionFunc), typeof(PropertyHelpers), typeof(IEnumerable<PropertyInfo>));
+
+            //lets create the generic version of the sort func builder function
+            MethodInfo SortFuncGenericBuilder = SortFuncBuilder.MakeGenericMethod(typeof(T), LastPropertyInTree.PropertyType);
+
+            //let's go grab the sort predicate
+            Expression SortPredicate = (Expression)SortFuncGenericBuilder.Invoke(null, new object[] { PropertiesInTree });
+
+            // use reflection to get and call your own generic method that composes
+            // the orderby into the query.
+            MethodInfo Method = typeof(ExpressionTreeHelpers).GetMethod(nameof(ExpressionTreeHelpers.OrderByProperty), BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(typeof(T), LastPropertyInTree.PropertyType);
+
+            //go invoke the order by property generically
+            return (IOrderedQueryable<T>)Method.Invoke(null, new object[] { QueryToModify, SortPredicate, OrderByAscending, IQueryableIsNotSortedYet });
+        }
+
+        /// <summary>
+        /// Builds the sort order expression into the IQueryable and returns the IQueryable
+        /// </summary>
+        /// <typeparam name="T">Type Of The IQueryable</typeparam>
+        /// <typeparam name="TKey">Type Of The Key Which Will Be Sorted. Is That Field An Int? Decimal? Date?</typeparam>
+        /// <param name="QueryToModify">IQueryable</param>
+        /// <param name="SortPredicate">Sort predicate with the property selector</param>
+        /// <param name="OrderByAscending">Order By Ascending Or Descending Order</param>
+        /// <param name="IQueryableIsNotSortedYet">Determines if we should run an "orderby" or "thenby". This avoids trying to figure out if IQueryable Or IOrdered is passed in. Little faster this way</param>
+        /// <returns>IOrdered Queryable Of T</returns>
+        [InvokedDynamicallyAtRuntime]
+        private static IOrderedQueryable<T> OrderByProperty<T, TKey>(this IQueryable<T> QueryToModify, Expression SortPredicate, bool OrderByAscending, bool IQueryableIsNotSortedYet)
+        {
+            //**** this method gets invoked dynamically from OrderBy. So it is being used! 
+
+            //based on the way we want to sort go add the expression and return the query
+            if (OrderByAscending)
+            {
+                //is this an additional sort?
+                if (IQueryableIsNotSortedYet)
+                {
+                    //order by ascending
+                    return QueryToModify.OrderBy((Expression<Func<T, TKey>>)SortPredicate);
+                }
+
+                //tack on the additional "then by"
+                return ((IOrderedQueryable<T>)QueryToModify).ThenBy((Expression<Func<T, TKey>>)SortPredicate);
+            }
+
+            //is this an additional sort?
+            if (IQueryableIsNotSortedYet)
+            {
+                //order by descending
+                return QueryToModify.OrderByDescending((Expression<Func<T, TKey>>)SortPredicate);
+            }
+
+            //tack on the additional "then by"
+            return ((IOrderedQueryable<T>)QueryToModify).ThenByDescending((Expression<Func<T, TKey>>)SortPredicate);
         }
 
         #endregion

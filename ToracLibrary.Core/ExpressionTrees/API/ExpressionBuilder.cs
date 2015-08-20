@@ -132,7 +132,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         /// <remarks>internal because we don't want external code calling this with the IsUsedForLinqToObjects parameters. We want to hide this parameter and not let the end developer pass it in</remarks>
         [LinqToObjectsCompatible]
         [EntityFrameworkCompatible]
-        internal static Expression<Func<T, bool>> StringContains<T>(string PropertyNameToCheck, string ContainsTest, bool CaseSensitive, bool IsUsedForLinqToObjects)
+        public static Expression<Func<T, bool>> StringContains<T>(string PropertyNameToCheck, string ContainsTest, bool CaseSensitive, bool IsUsedForLinqToObjects)
         {
             //example
             //class Jason
@@ -142,6 +142,12 @@ namespace ToracLibrary.Core.ExpressionTrees.API
 
             //example of how to call it
             //lst.AsQueryable().Where(LinqUtilities.StringContains<jason>("id", "2", true)).ToArray();
+
+            //make sure if its ef based, that case sensitive is not true
+            if (!IsUsedForLinqToObjects && CaseSensitive)
+            {
+                throw new ArgumentOutOfRangeException("String Contains Can't Be Case Sensitive When Its In Entity Framework Mode (ie: IsUsedForLinqToObjects = false)");
+            }
 
             //grab the member access so we can get the value of the property at run time
             ParameterBuilderResults ValueAtRuntime = ParameterBuilder.BuildParameterFromStringName<T>(PropertyNameToCheck);

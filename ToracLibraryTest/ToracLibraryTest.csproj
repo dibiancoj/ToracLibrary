@@ -94,6 +94,7 @@
     <Compile Include="Core\ExpressionTrees\ExpressionTreesTest.cs" />
     <Compile Include="Core\ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
+    <Compile Include="Core\ExtensionMethods\IQueryableExtensions\IQueryableExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
