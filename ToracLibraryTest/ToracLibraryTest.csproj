@@ -94,8 +94,8 @@
     <Compile Include="Core\ExpressionTrees\ExpressionTreesTest.cs" />
     <Compile Include="Core\ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
-    <Compile Include="Core\ExtensionMethods\IQueryableExtensions\IQueryableExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionTest.cs" />
+    <Compile Include="Core\ExtensionMethods\IQueryableExtensions\IQueryableExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
@@ -118,7 +118,6 @@
     <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
-    <Compile Include="Core\Paging\DataSetPagingTest.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_Test.cs" />
@@ -206,7 +205,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\Paging\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
