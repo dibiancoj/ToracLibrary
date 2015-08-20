@@ -66,6 +66,10 @@
     <Compile Include="EnumUtilities\EnumUtilities.cs" />
     <Compile Include="Excel\ExcelUtilities.cs" />
     <Compile Include="Exceptions\ExceptionUtilities.cs" />
+    <Compile Include="ExpressionTrees\API\ExpressionBuilder.cs" />
+    <Compile Include="ExpressionTrees\API\ExpressionCombiner.cs" />
+    <Compile Include="ExpressionTrees\API\ParameterBuilder.cs" />
+    <Compile Include="ExpressionTrees\API\ParameterBuilderResults.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionMemberInitMerger.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionMemberInitSubPropertyObjectMerger.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionParameterReMapper.cs" />
