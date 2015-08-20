@@ -13,6 +13,8 @@ namespace ToracLibrary.Core.Paging
     public static class DataSetPaging
     {
 
+        //** Paging of the data is in IOrderedEnumerable Extension Methods **
+
         /// <summary>
         /// Calculates Total Number Of Pages In This Grid (Property Of Total Above - Need Additional Data To Calculate)
         /// </summary>
