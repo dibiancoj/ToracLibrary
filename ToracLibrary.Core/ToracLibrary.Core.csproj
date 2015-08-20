@@ -76,7 +76,7 @@
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionReMapperShared.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
     <Compile Include="ExtensionMethods\ExpressionTress\ExpressionTreeExtensionMethods.cs" />
-    <Compile Include="ExtensionMethods\IOrederedQueryableExtensions\IOrderedQueryableExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IQueryableExtensions\IQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ISetExtensions\ISetExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
