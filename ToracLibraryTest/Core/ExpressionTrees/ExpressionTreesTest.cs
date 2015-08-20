@@ -61,7 +61,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         #region Select new Object
 
         /// <summary>
-        /// don't inherit from the other guy. I want completely different properties
+        /// don't inherit from the other guy. I want completely different properties to test. Found issue when converting that it only works with derived class properties. Seperate properties weren't working
         /// </summary>
         private class SelectNewObjectFrom
         {
@@ -70,7 +70,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         }
 
         /// <summary>
-        /// don't inherit from the other guy. I want completely different properties
+        ///  don't inherit from the other guy. I want completely different properties to test. Found issue when converting that it only works with derived class properties. Seperate properties weren't working
         /// </summary>
         private class SelectNewObjectTo
         {
@@ -164,11 +164,10 @@ namespace ToracLibraryTest.UnitsTest.Core
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
             {
                 //values that we will check for
-                const int IdToCheck = 9999;
-                const string DescriptionToCheck = "TestSelectnew";
+                const int IdToCheck = 1;
 
-                //let's build the object we will copy from
-                var FromObject = new SelectNewObjectFrom { Id = IdToCheck, Description = DescriptionToCheck };
+                //let's grab the original ef record so we can compare it
+                var RefTestRecordToTest = DP.Fetch<Ref_Test>(false).First(x => x.Id == IdToCheck);
 
                 //let's create the expression now
                 var ExpressionThatWasBuilt = ExpressionTreeHelpers.SelectNewFromObject<Ref_Test, SelectNewObjectTo>(typeof(Ref_Test).GetProperties());
@@ -177,8 +176,8 @@ namespace ToracLibraryTest.UnitsTest.Core
                 var ToObjectToTest = DP.Fetch<Ref_Test>(false).Where(x => x.Id == 1).Select(ExpressionThatWasBuilt).First();
 
                 //let's compare the values
-                Assert.AreEqual(IdToCheck, ToObjectToTest.Id);
-                Assert.AreEqual(DescriptionToCheck, ToObjectToTest.Description);
+                Assert.AreEqual(RefTestRecordToTest.Id, ToObjectToTest.Id);
+                Assert.AreEqual(RefTestRecordToTest.Description, ToObjectToTest.Description);
             }
         }
 
