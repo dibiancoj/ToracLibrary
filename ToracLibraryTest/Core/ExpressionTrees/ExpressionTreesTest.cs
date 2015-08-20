@@ -5,8 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Excel;
+using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.Core.ExpressionTrees;
+using ToracLibraryTest.Framework;
+using ToracLibraryTest.UnitsTest.Core.DataProviders;
+using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -19,6 +23,8 @@ namespace ToracLibraryTest.UnitsTest.Core
     {
 
         #region Framework
+
+        #region Build New Objects
 
         private class BuildNewObjectNoParams
         {
@@ -49,6 +55,30 @@ namespace ToracLibraryTest.UnitsTest.Core
             #endregion
 
         }
+
+        #endregion
+
+        #region Select new Object
+
+        /// <summary>
+        /// don't inherit from the other guy. I want completely different properties
+        /// </summary>
+        private class SelectNewObjectFrom
+        {
+            public int Id { get; set; }
+            public string Description { get; set; }
+        }
+
+        /// <summary>
+        /// don't inherit from the other guy. I want completely different properties
+        /// </summary>
+        private class SelectNewObjectTo
+        {
+            public int Id { get; set; }
+            public string Description { get; set; }
+        }
+
+        #endregion
 
         #endregion
 
@@ -88,6 +118,68 @@ namespace ToracLibraryTest.UnitsTest.Core
 
             //make sure we hvae the correct property
             Assert.AreEqual(BuildNewObjectWithParams.DescriptionValueToTest, ((BuildNewObjectWithParams)NewObject).Description);
+        }
+
+        #endregion
+
+        #region Select New From Object - Copying Over Properties
+
+        /// <summary>
+        /// build a new object from an existing object copying over the properties using expression trees for linq to objects
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void SelectNewFromObjectForLinqToObjects()
+        {
+            //values that we will check for
+            const int IdToCheck = 9999;
+            const string DescriptionToCheck = "TestSelectnew";
+
+            //let's build the object we will copy from
+            var FromObject = new SelectNewObjectFrom { Id = IdToCheck, Description = DescriptionToCheck };
+
+            //let's create the expression now
+            var ExpressionThatWasBuilt = ExpressionTreeHelpers.SelectNewFromObject<SelectNewObjectFrom, SelectNewObjectTo>(typeof(SelectNewObjectFrom).GetProperties());
+
+            //let's go invoke this
+            var ToObjectToTest = ExpressionThatWasBuilt.Compile().Invoke(FromObject);
+
+            //let's compare the values
+            Assert.AreEqual(IdToCheck, ToObjectToTest.Id);
+            Assert.AreEqual(DescriptionToCheck, ToObjectToTest.Description);
+        }
+
+        /// <summary>
+        /// build a new object using expression trees (with parameters)
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void SelectNewFromObjectForForEntityFramework()
+        {
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //grab the ef data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
+            {
+                //values that we will check for
+                const int IdToCheck = 9999;
+                const string DescriptionToCheck = "TestSelectnew";
+
+                //let's build the object we will copy from
+                var FromObject = new SelectNewObjectFrom { Id = IdToCheck, Description = DescriptionToCheck };
+
+                //let's create the expression now
+                var ExpressionThatWasBuilt = ExpressionTreeHelpers.SelectNewFromObject<Ref_Test, SelectNewObjectTo>(typeof(Ref_Test).GetProperties());
+
+                //let's go invoke this
+                var ToObjectToTest = DP.Fetch<Ref_Test>(false).Where(x => x.Id == 1).Select(ExpressionThatWasBuilt).First();
+
+                //let's compare the values
+                Assert.AreEqual(IdToCheck, ToObjectToTest.Id);
+                Assert.AreEqual(DescriptionToCheck, ToObjectToTest.Description);
+            }
         }
 
         #endregion
