@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Core.Email", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ActiveDirectory", "ActiveDirectory\ToracLibrary.ActiveDirectory.csproj", "{FAA015E4-8B3A-4C97-9AB3-71D18075A8D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ExcelEPPlus", "ExcelEPPlus\ToracLibrary.ExcelEPPlus.csproj", "{AEA007D5-3B50-47C1-9038-230739AB7A1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{FAA015E4-8B3A-4C97-9AB3-71D18075A8D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAA015E4-8B3A-4C97-9AB3-71D18075A8D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAA015E4-8B3A-4C97-9AB3-71D18075A8D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA007D5-3B50-47C1-9038-230739AB7A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA007D5-3B50-47C1-9038-230739AB7A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA007D5-3B50-47C1-9038-230739AB7A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA007D5-3B50-47C1-9038-230739AB7A1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
