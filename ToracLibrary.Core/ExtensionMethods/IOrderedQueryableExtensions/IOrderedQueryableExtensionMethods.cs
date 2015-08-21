@@ -31,6 +31,9 @@ namespace ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions
         [EntityFrameworkCompatible]
         public static IQueryable<T> PaginateResults<T>(this IOrderedQueryable<T> QueryToModify, int CurrentPageNumber, int HowManyRecordsPerPage)
         {
+            //if you have a list of <T>...you can use the order by overload and pass in an expression<func... that will give you back an IOrderedQueryable
+            //ie: GridDataSource.AsQueryable().OrderBy(SortPropertySelector).PaginateResults(PageIndex, HowManyPerPage)
+
             //how to call this
             //sql = sql.OrderBy(sidx, isAscending).PaginateResults(page, rows);
 

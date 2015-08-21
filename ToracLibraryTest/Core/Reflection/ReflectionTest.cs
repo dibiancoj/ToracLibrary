@@ -212,7 +212,8 @@ namespace ToracLibraryTest.UnitsTest.Core
                 typeof(SqlCacheDependencyTest),
                 typeof(EncryptionSecurityTest),
                 typeof(EmailTest),
-                typeof(HtmlHelperTest)
+                typeof(HtmlHelperTest),
+                typeof(JsonActionResultTest)
             };
 
             //grab everything that implements IDependencyInject

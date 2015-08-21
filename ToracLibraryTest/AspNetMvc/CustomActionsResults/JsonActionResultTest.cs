@@ -7,10 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using ToracLibrary.AspNetMVC.CustomActionsResults;
-using ToracLibrary.AspNetMVC.HtmlHelpers;
 using ToracLibrary.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
-using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibraryTest.Framework;
 
 namespace ToracLibraryTest.UnitsTest.AspNetMVC
@@ -34,9 +32,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
             //let's mock up the controller for each of these tests
 
             //now let's register the actual html helper we are going to mock
-            DIContainer.Register<TestActionResultContoller>()
+            DIContainer.Register<JsonNetActionControllerTest>()
                 .WithFactoryName(JsonActionResultFactoryName)
-                .WithConstructorImplementation((di) => TestActionResultContoller.MockController(di));
+                .WithConstructorImplementation((di) => JsonNetActionControllerTest.MockController(di));
         }
 
         #region Constants
@@ -44,7 +42,7 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
         /// <summary>
         /// Factory name for all the mocking we need for the html helper mocks
         /// </summary>
-        private const string JsonActionResultFactoryName = "JsonActionResultFactoryName";
+        internal const string JsonActionResultFactoryName = "JsonActionResultFactoryName";
 
         #endregion
 
@@ -89,15 +87,15 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
         /// <summary>
         /// This would be the test model that would be passed into the view
         /// </summary>
-        private class TestActionResultContoller : Controller
+        internal class JsonNetActionControllerTest : Controller
         {
 
             #region DI Controller Creation
 
-            public static TestActionResultContoller MockController(ToracDIContainer DIContainer)
+            public static JsonNetActionControllerTest MockController(ToracDIContainer DIContainer)
             {
                 //create the controller
-                var MockedController = new TestActionResultContoller();
+                var MockedController = new JsonNetActionControllerTest();
 
                 //create the Mock controller
                 MockedController.ControllerContext = new MockControllerContext(MockedController);
@@ -113,6 +111,11 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
             public ActionResult JsonNetResult()
             {
                 return new JsonNetResult(new CustomActionResultViewModel());
+            }
+
+            public ActionResult SerializeToJsonNet<T>(T ObjectToSerialize)
+            {
+                return new JsonNetResult(ObjectToSerialize);
             }
 
             #endregion
@@ -132,7 +135,7 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
         public void JsonCustomActionResultTest1()
         {
             // resolve the controller from the di container
-            var TestController = DIUnitTestContainer.DIContainer.Resolve<TestActionResultContoller>(JsonActionResultFactoryName);
+            var TestController = DIUnitTestContainer.DIContainer.Resolve<JsonNetActionControllerTest>(JsonActionResultFactoryName);
 
             //let's go execute the action result
             TestController.JsonNetResult().ExecuteResult(TestController.ControllerContext);
