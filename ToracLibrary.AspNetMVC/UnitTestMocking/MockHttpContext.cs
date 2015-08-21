@@ -45,6 +45,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
             QueryStringParams = QueryStringParamsToSet;
             Cookies = CookiesToSet;
             SessionItems = SessionItemsToSet;
+            MockedHttpResponse = new MockHttpResponse();
         }
 
         #endregion
@@ -59,27 +60,32 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         /// <summary>
         /// Principal
         /// </summary>
-        private MockPrincipal Principal { get;  }
+        private MockPrincipal Principal { get; }
 
         /// <summary>
         /// Forms Params
         /// </summary>
-        private NameValueCollection FormParams { get;  }
+        private NameValueCollection FormParams { get; }
 
         /// <summary>
         /// Query string
         /// </summary>
-        private NameValueCollection QueryStringParams { get;  }
+        private NameValueCollection QueryStringParams { get; }
 
         /// <summary>
         /// Cookies
         /// </summary>
-        private HttpCookieCollection Cookies { get;  }
+        private HttpCookieCollection Cookies { get; }
 
         /// <summary>
         /// Session variables
         /// </summary>
-        private SessionStateItemCollection SessionItems { get;  }
+        private SessionStateItemCollection SessionItems { get; }
+
+        /// <summary>
+        /// The mocked http response
+        /// </summary>
+        private MockHttpResponse MockedHttpResponse { get; }
 
         #endregion
 
@@ -93,6 +99,14 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
             get
             {
                 return new MockHttpRequest(RelativeUrl, FormParams, QueryStringParams, Cookies);
+            }
+        }
+
+        public override HttpResponseBase Response
+        {
+            get
+            {
+                return MockedHttpResponse;
             }
         }
 
