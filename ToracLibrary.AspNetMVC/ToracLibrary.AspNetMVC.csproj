@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
@@ -71,9 +72,19 @@
   <ItemGroup>
     <Compile Include="HtmlHelpers\MvcHtmlHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTestMocking\MockControllerContext.cs" />
+    <Compile Include="UnitTestMocking\MockHttpContext.cs" />
+    <Compile Include="UnitTestMocking\MockHttpRequest.cs" />
+    <Compile Include="UnitTestMocking\MockHttpSessionState.cs" />
+    <Compile Include="UnitTestMocking\MockIdentity.cs" />
+    <Compile Include="UnitTestMocking\MockIViewDataContainer.cs" />
+    <Compile Include="UnitTestMocking\MockPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UnitTestMocking\Documentation.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.Core.Reflection;
 using ToracLibrary.Core.ReflectionDynamic;
 using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
+using ToracLibraryTest.UnitsTest.AspNetMVC;
 using ToracLibraryTest.UnitsTest.Caching;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
 using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
@@ -201,29 +203,30 @@ namespace ToracLibraryTest.UnitsTest.Core
         [TestMethod]
         public void ImplementingInterfacesFromClass()
         {
+            //let's hand code the items we are going to build to test
+            var ExpectedTypes = new Type[]
+            {
+                typeof(SqlDataProviderTest),
+                typeof(EntityFrameworkTest),
+                typeof(InMemoryCacheTest),
+                typeof(SqlCacheDependencyTest),
+                typeof(EncryptionSecurityTest),
+                typeof(EmailTest),
+                typeof(HtmlHelperTest)
+            };
+
             //grab everything that implements IDependencyInject
             var ImplementationResults = RetrieveImplementingClassesLazy(typeof(IDependencyInject)).ToArray();
 
-            //we should currently have 2 (could change)
-            Assert.AreEqual(6, ImplementationResults.Length);
+            //how many implementations should we currently have compared with the expected results
+            Assert.AreEqual(ExpectedTypes.Length, ImplementationResults.Length);
 
-            //check it's the sql server data provider
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlDataProviderTest)));
-
-            //make sure ef data provider
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EntityFrameworkTest)));
-
-            //make sure its the in memory caching now
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(InMemoryCacheTest)));
-
-            //make sure sql cache dep is in there
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(SqlCacheDependencyTest)));
-
-            //make sure the security encryption is in there
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EncryptionSecurityTest)));
-
-            //make sure the smtp email is in there
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(EmailTest)));
+            //let's loop through all the expected types and make sure it's in the result list
+            foreach (var ExpectedType in ExpectedTypes)
+            {
+                //is this guy in there?
+                Assert.IsTrue(ImplementationResults.Any(x => x == ExpectedType), $"Can't Find Type = {ExpectedType.Name} In ImplementingInterfacesFromClass. Result List");
+            }
         }
 
         /// <summary>

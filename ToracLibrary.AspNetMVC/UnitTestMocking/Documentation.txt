@@ -1,0 +1,33 @@
+﻿For unit testing, so you can mock up sessions and such.
+
+
+public static HomeController BuildHomeController()
+        {
+            // Create controller
+            var controller = new HomeController();
+
+
+            // Create Mock Controller Context
+            var sessionItems = new SessionStateItemCollection();
+
+			//add whatever session items you need
+            sessionItems[AppConstants.SessionRegion] = "US";
+            sessionItems[AppConstants.SessionEmployeeId] = 2813;
+
+			//create the Mock controller
+            controller.ControllerContext = new MockControllerContext(controller, sessionItems);
+
+			//return the controller
+            return controller;
+        }
+
+---------------------------------
+
+	//in the unit test...go call the method, cast the return result and go from there to test your item
+      var result = (JsonNetResult)FrameworkHelpers.BuildHomeController().FilterSortPage(1, 10, "Id", "asc", false, null, true,
+                                                   null, Grouping.Unset, 1, search, Guid.NewGuid().ToString(),
+                                                   CurrencyViewEnum.Base, null, -10, null);
+
+
+            //cast the records
+            var data = (GridData<IGroupable>)result.Data;
