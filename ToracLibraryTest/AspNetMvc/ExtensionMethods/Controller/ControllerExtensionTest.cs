@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,8 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
             //add the mock view engine
             DIContainer.Register<IViewEngine, MockIViewEngine>()
-                .WithFactoryName(ControllerExtensionFactoryName);
+                .WithFactoryName(ControllerExtensionFactoryName)
+                .WithConstructorImplementation((di) => new MockIViewEngine(new Dictionary<string, IView>() { { "_TestView", new CustomView() } }));
         }
 
         #region Constants
@@ -54,6 +56,18 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
         #endregion
 
         #region Framework
+
+        #region Test View
+
+        internal class CustomView : IView
+        {
+            public void Render(ViewContext viewContext, TextWriter writer)
+            {
+                writer.Write("jason 132");
+            }
+        }
+
+        #endregion
 
         #region Test Controller
 
