@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
+    <Compile Include="ExtensionMethods\Controller\ControllerExtensionMethods.cs" />
     <Compile Include="HtmlHelpers\MvcHtmlHelpers.cs" />
     <Compile Include="JqGrid\InlineFilters\JqGridInlineFilter.cs" />
     <Compile Include="JqGrid\InlineFilters\JqGridInlineFilterQueryBuilder.cs" />
@@ -84,6 +85,8 @@
     <Compile Include="JqGrid\JqGridData.cs" />
     <Compile Include="JqGrid\InlineFilters\JqGridInlineFilters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RazorViewToString\RazorToString.cs" />
+    <Compile Include="RazorViewToString\ViewTypeToLoad.cs" />
     <Compile Include="UnitTestMocking\MockControllerContext.cs" />
     <Compile Include="UnitTestMocking\MockHttpContext.cs" />
     <Compile Include="UnitTestMocking\MockHttpRequest.cs" />
@@ -109,6 +112,7 @@
       <Name>ToracLibrary.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
