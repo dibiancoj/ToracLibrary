@@ -94,6 +94,7 @@
     <Compile Include="UnitTestMocking\MockHttpSessionState.cs" />
     <Compile Include="UnitTestMocking\MockIdentity.cs" />
     <Compile Include="UnitTestMocking\MockIViewDataContainer.cs" />
+    <Compile Include="UnitTestMocking\MockIViewEngine.cs" />
     <Compile Include="UnitTestMocking\MockPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
