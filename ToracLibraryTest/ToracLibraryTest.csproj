@@ -103,9 +103,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AspNetMvc\CustomActionsResults\JsonActionResultTest.cs" />
+    <Compile Include="AspNetMvc\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="AspNetMvc\HtmlHelpers\HtmlHelperTest.cs" />
     <Compile Include="AspNetMvc\JqGrid\JqGridTest.cs" />
-    <Compile Include="AspNetMvc\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="Core\AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Caching\InMemoryCacheTest.cs" />
     <Compile Include="Caching\SqlCacheDependencyTest.cs" />
