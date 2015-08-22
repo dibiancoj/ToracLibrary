@@ -59,11 +59,13 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
         #region Test View
 
-        internal class CustomView : IView
+        private class CustomView : IView
         {
+            internal const string WriteHtmlValue = "<label>Test123<label>";
+
             public void Render(ViewContext viewContext, TextWriter writer)
             {
-                writer.Write("jason 132");
+                writer.Write(WriteHtmlValue);
             }
         }
 
@@ -84,12 +86,8 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
                 //create the controller
                 var MockedController = new ControllerExtensionTestController();
 
-                //we need some route data for this
-                //var routeData = new RouteData();
-                //routeData.Values.Add("controller", "someValue");
-
                 //create the Mock controller
-                MockedController.ControllerContext = new MockControllerContext(MockedController);// { RouteData = routeData };
+                MockedController.ControllerContext = new MockControllerContext(MockedController);
 
                 //return the controller now
                 return MockedController;
@@ -99,12 +97,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
             #region Methods
 
-            public string ViewToString()
+            public string ViewOrPartialToString(ViewTypeToLoad.ViewTypeToRender ViewTypeToLoad)
             {
-                //the view to use
-                const string View = "ViewToString123";
-
-                return this.RenderViewToString(ViewTypeToLoad.ViewTypeToRender.View, "_TestView", View, string.Empty);
+                return this.RenderViewToString(ViewTypeToLoad, "_TestView", "ViewToString123", string.Empty);
             }
 
             #endregion
@@ -115,9 +110,24 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
         #endregion
 
+        #region Unit Test Initalize
+
+        [ClassInitialize()]
+        public static void ClassInit(TestContext Context)
+        {
+            //we will need to mock a view engine
+            ViewEngines.Engines.Clear();
+
+            //now add the new mock view engine
+            ViewEngines.Engines.Add(DIUnitTestContainer.DIContainer.Resolve<IViewEngine>(ControllerExtensionFactoryName));
+        }
+
+        #endregion
+
         #region Unit Tests
 
-        [TestCategory("AspNetMVC.JqGrid")]
+        [TestCategory("AspNetMVC.ExtensionMethods.Controller")]
+        [TestCategory("AspNetMVC.ExtensionMethods")]
         [TestCategory("AspNetMVC")]
         [TestMethod]
         public void RazorViewToStringTest1()
@@ -125,24 +135,27 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
             // resolve the controller from the di container
             var TestController = DIUnitTestContainer.DIContainer.Resolve<ControllerExtensionTestController>(ControllerExtensionFactoryName);
 
-            //we will need to mock a view engine
-            ViewEngines.Engines.Clear();
-
-            //now add the new mock view engine
-            ViewEngines.Engines.Add(DIUnitTestContainer.DIContainer.Resolve<IViewEngine>(ControllerExtensionFactoryName));
-
             //call the method now to test
-            var Results = TestController.ViewToString();
+            var RenderedHtml = TestController.ViewOrPartialToString(ViewTypeToLoad.ViewTypeToRender.View);
 
-            Assert.Fail();
+            //make sure we have the rendered html
+            Assert.AreEqual(CustomView.WriteHtmlValue, RenderedHtml);
         }
 
-        [TestCategory("AspNetMVC.JqGrid")]
+        [TestCategory("AspNetMVC.ExtensionMethods.Controller")]
+        [TestCategory("AspNetMVC.ExtensionMethods")]
         [TestCategory("AspNetMVC")]
         [TestMethod]
         public void RazorPartialViewToStringTest1()
         {
-            Assert.Fail();
+            // resolve the controller from the di container
+            var TestController = DIUnitTestContainer.DIContainer.Resolve<ControllerExtensionTestController>(ControllerExtensionFactoryName);
+
+            //call the method now to test
+            var RenderedHtml = TestController.ViewOrPartialToString(ViewTypeToLoad.ViewTypeToRender.PartialView);
+
+            //make sure we have the rendered html
+            Assert.AreEqual(CustomView.WriteHtmlValue, RenderedHtml);
         }
 
         #endregion

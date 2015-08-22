@@ -34,22 +34,40 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
 
         #endregion
 
+        #region Mock Methods
+
+        /// <summary>
+        /// Finds the mocked view / partial view and returns it
+        /// </summary>
+        /// <param name="ViewNameToFind">View name or partial view name to return</param>
+        /// <returns></returns>
+        private ViewEngineResult FindMockedIView(string ViewNameToFind)
+        {
+            //view to find
+            IView ViewFetchAttempt;
+
+            //go try to find the view
+            if (ViewsToMock.TryGetValue(ViewNameToFind, out ViewFetchAttempt))
+            {
+                return new ViewEngineResult(ViewsToMock[ViewNameToFind], this);
+            }
+
+            //we can find it the view, throw an exception
+            throw new ArgumentNullException("Can't Find View Or Partial View In ViewsToMock To Mock");
+        }
+
+        #endregion
+
         #region Implementation
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
         {
-            throw new NotImplementedException();
+            return FindMockedIView(partialViewName);
         }
 
         public ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            //make sure we can find the view
-            if (!ViewsToMock.ContainsKey(viewName))
-            {
-                throw new ArgumentNullException("Can't Find View In Views To Mock");
-            }
-
-            return new ViewEngineResult(ViewsToMock[viewName], this);
+            return FindMockedIView(viewName);
         }
 
         public void ReleaseView(ControllerContext controllerContext, IView view)
