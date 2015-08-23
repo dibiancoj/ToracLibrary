@@ -176,7 +176,7 @@
     <Compile Include="Serialization\Xml\XmlSerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ActiveDirectory\ToracLibrary.ActiveDirectory.csproj">
+    <ProjectReference Include="..\ToracLibrary.ActiveDirectory\ToracLibrary.ActiveDirectory.csproj">
       <Project>{faa015e4-8b3a-4c97-9ab3-71d18075a8d1}</Project>
       <Name>ToracLibrary.ActiveDirectory</Name>
     </ProjectReference>
