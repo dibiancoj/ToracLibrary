@@ -75,6 +75,33 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             return this;
         }
 
+        /// <summary>
+        /// Picks the constructor to use when you have an overloaded constructor based on the types passed in
+        /// </summary>
+        /// <param name="ParameterTypesToPickTheConstructorWith">The contructor types to use to find the overloaded constructor method</param>
+        /// <returns>The typed RegisteredObject which you can build off of</returns>
+        public RegisteredObject<TTypeToResolveToSet, TConcrete> WithConstructorOverload(params Type[] ParameterTypesToPickTheConstructorWith)
+        {
+            //we need to reset a few things. First thing we need to do is find the constructor we want to use
+            var ConstructorToUse = ConcreteType.GetConstructor(ParameterTypesToPickTheConstructorWith);
+
+            //make sure we were able to find a constructor with those types
+            if (ConstructorToUse == null)
+            {
+                //throw an error because we can't find those types
+                throw new ArgumentNullException("ConstructorToUse", "Can't Find A Constructor With The Types Passed In");
+            }
+
+            //now reset the constructor parameters
+            ConcreteConstructorParameters = ConstructorToUse.GetParameters();
+
+            //now go rebuild the scope implementation
+            ScopeImplementation = CreateScopeImplementation(ObjectScope, ConstructorToUse);
+
+            //return the object so we can chain it
+            return this;
+        }
+
         #endregion
 
     }

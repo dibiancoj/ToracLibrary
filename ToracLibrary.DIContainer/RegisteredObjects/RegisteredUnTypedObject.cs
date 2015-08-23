@@ -40,24 +40,12 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             ConcreteConstructorParameters = ConstructorInfoToUse.GetParameters();
 
             //depending on which scope to use, create the implementation
-            if (ObjectScopeToSet == ToracDIContainer.DIContainerScope.Singleton)
-            {
-                ScopeImplementation = new SingletonScopedObject();
-            }
-            else
-            {
-                ScopeImplementation = new TransientScopedObject(ConstructorInfoToUse);
-            }
+            ScopeImplementation = CreateScopeImplementation(ObjectScope, ConstructorInfoToUse);
         }
 
         #endregion
 
         #region Immutable Properties
-
-        /// <summary>
-        /// The scope implementation that is tied to this configuration. We use this for the "rules" for the scope set
-        /// </summary>
-        internal IScopeImplementation ScopeImplementation { get; }
 
         /// <summary>
         /// Type to resolve. ie: ILogger
@@ -73,11 +61,6 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// How long does does the object last in the di container
         /// </summary>
         internal ToracDIContainer.DIContainerScope ObjectScope { get; }
-
-        /// <summary>
-        /// Constructor parameters for the concrete class. This way we can cache it and re-use it
-        /// </summary>
-        internal ParameterInfo[] ConcreteConstructorParameters { get; }
 
         #endregion
 
@@ -97,6 +80,16 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// Build the new object with the constructor parameters specifiedf
         /// </summary>
         protected internal IConstructorParameter[] CreateObjectWithConstructorParameters { get; protected set; }
+
+        /// <summary>
+        /// The scope implementation that is tied to this configuration. We use this for the "rules" for the scope set
+        /// </summary>
+        internal IScopeImplementation ScopeImplementation { get; set; }
+
+        /// <summary>
+        /// Constructor parameters for the concrete class. This way we can cache it and re-use it
+        /// </summary>
+        protected internal ParameterInfo[] ConcreteConstructorParameters { get; protected set; }
 
         #endregion
 
@@ -132,6 +125,23 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
 
             //we are going to create the constructor parameters to resolve
             return ConcreteConstructorParameters.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType)).ToArray();
+        }
+
+        /// <summary>
+        /// Builds and returns the concrete implementation of the IScopeImplementation.
+        /// </summary>
+        /// <param name="Scope">Scope of the object to use</param>
+        /// <param name="ConstructorToUse">Constructor to use to create the concrete type</param>
+        /// <returns>new IScopeImplementation implementation</returns>
+        internal IScopeImplementation CreateScopeImplementation(ToracDIContainer.DIContainerScope Scope, ConstructorInfo ConstructorToUse)
+        {
+            //which scope is it?
+            if (Scope == ToracDIContainer.DIContainerScope.Singleton)
+            {
+                return new SingletonScopedObject();
+            }
+
+            return new TransientScopedObject(ConstructorToUse);
         }
 
         #endregion

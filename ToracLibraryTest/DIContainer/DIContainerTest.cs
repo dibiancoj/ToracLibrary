@@ -81,6 +81,37 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             }
         }
 
+        private class OverloadedConstructor
+        {
+
+            #region Constructor
+
+            public OverloadedConstructor()
+            {
+            }
+
+            public OverloadedConstructor(string DescriptionToSet) : this(DescriptionToSet, null)
+            {
+            }
+
+            public OverloadedConstructor(string DescriptionToSet, ILogger LoggerToSet)
+            {
+                Description = DescriptionToSet;
+                Logger = LoggerToSet;
+            }
+
+            #endregion
+
+            #region Properties
+
+            public string Description { get; }
+
+            public ILogger Logger { get; }
+
+            #endregion
+
+        }
+
         #endregion
 
         #region Unit Tests
@@ -132,6 +163,155 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #endregion
 
         #region Resolve
+
+        #region Overloaded Constructor Tests
+
+        /// <summary>
+        /// Test the overloaded constructor test for a transient
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void OverloadedConstructorTransientTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //the 3 factory names so we can test this in 1 method
+            const string NoParameterOverload = "NoParameterOverload";
+            const string ParameterWithStringOverload = "ParameterWithStringOverload";
+            const string ParameterWithStringAndLoggerOverload = "ParameterWithStringAndLoggerOverload";
+
+            //the string we pass in to test the overload constructor
+            const string ConstructorParameterValue = "Jason 123";
+
+            //let's register ILogger so we have it for the last register
+            DIContainer.Register<ILogger, Logger>();
+
+            //register my item now with no overloads
+            DIContainer.Register<OverloadedConstructor>()
+                .WithFactoryName(NoParameterOverload);
+
+            //register the one with the string overload
+            DIContainer.Register<OverloadedConstructor>()
+                .WithFactoryName(ParameterWithStringOverload)
+                .WithConstructorOverload(typeof(string))
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConstructorParameterValue));
+
+            //register the one with the string and logger overload
+            DIContainer.Register<OverloadedConstructor>()
+             .WithFactoryName(ParameterWithStringAndLoggerOverload)
+             .WithConstructorOverload(typeof(string), typeof(ILogger))
+             .WithConstructorParameters(new PrimitiveCtorParameter(ConstructorParameterValue), new ResolveCtorParameter(x => x.Resolve<ILogger>()));
+
+            //let's grab an instance now with no parameters
+            var OverloadWithNoParameters = DIContainer.Resolve<OverloadedConstructor>(NoParameterOverload);
+
+            //the string should be null
+            Assert.IsNull(OverloadWithNoParameters.Description);
+
+            //--------------------------------------------------------
+
+            //now grab the item with the string only overload
+            var OverloadWithStringParameter = DIContainer.Resolve<OverloadedConstructor>(ParameterWithStringOverload);
+
+            //make sure the value is correct
+            Assert.AreEqual(ConstructorParameterValue, OverloadWithStringParameter.Description);
+
+            //--------------------------------------------------------
+
+            //now grab the item with the string and ilogger overload
+            var OverloadWithStringAndILoggerOverloadParameter = DIContainer.Resolve<OverloadedConstructor>(ParameterWithStringAndLoggerOverload);
+
+            //make sure the value is correct
+            Assert.AreEqual(ConstructorParameterValue, OverloadWithStringAndILoggerOverloadParameter.Description);
+
+            //make sure ILogger is not null
+            Assert.IsNotNull(OverloadWithStringAndILoggerOverloadParameter.Logger);
+        }
+
+        /// <summary>
+        /// Test the overloaded constructor test for a singleton
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void OverloadedConstructorSingletonTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //the 3 factory names so we can test this in 1 method
+            const string NoParameterOverload = "NoParameterOverload";
+            const string ParameterWithStringOverload = "ParameterWithStringOverload";
+            const string ParameterWithStringAndLoggerOverload = "ParameterWithStringAndLoggerOverload";
+
+            //the string we pass in to test the overload constructor
+            const string ConstructorParameterValue = "Jason 123";
+
+            //let's register ILogger so we have it for the last register
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //register my item now with no overloads
+            DIContainer.Register<OverloadedConstructor>(DIContainerScope.Singleton)
+                .WithFactoryName(NoParameterOverload);
+
+            //register the one with the string overload
+            DIContainer.Register<OverloadedConstructor>(DIContainerScope.Singleton)
+                .WithFactoryName(ParameterWithStringOverload)
+                .WithConstructorOverload(typeof(string))
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConstructorParameterValue));
+
+            //register the one with the string and logger overload
+            DIContainer.Register<OverloadedConstructor>(DIContainerScope.Singleton)
+             .WithFactoryName(ParameterWithStringAndLoggerOverload)
+             .WithConstructorOverload(typeof(string), typeof(ILogger))
+             .WithConstructorParameters(new PrimitiveCtorParameter(ConstructorParameterValue), new ResolveCtorParameter(x => x.Resolve<ILogger>()));
+
+            //let's grab an instance now with no parameters
+            var OverloadWithNoParameters = DIContainer.Resolve<OverloadedConstructor>(NoParameterOverload);
+
+            //the string should be null
+            Assert.IsNull(OverloadWithNoParameters.Description);
+
+            //--------------------------------------------------------
+
+            //now grab the item with the string only overload
+            var OverloadWithStringParameter = DIContainer.Resolve<OverloadedConstructor>(ParameterWithStringOverload);
+
+            //make sure the value is correct
+            Assert.AreEqual(ConstructorParameterValue, OverloadWithStringParameter.Description);
+
+            //--------------------------------------------------------
+
+            //now grab the item with the string and ilogger overload
+            var OverloadWithStringAndILoggerOverloadParameter = DIContainer.Resolve<OverloadedConstructor>(ParameterWithStringAndLoggerOverload);
+
+            //make sure the value is correct
+            Assert.AreEqual(ConstructorParameterValue, OverloadWithStringAndILoggerOverloadParameter.Description);
+
+            //make sure ILogger is not null
+            Assert.IsNotNull(OverloadWithStringAndILoggerOverloadParameter.Logger);
+        }
+
+        /// <summary>
+        /// Test the overloaded constructor when we can't find the overload, we want to throw an error
+        /// </summary>
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void OverloadedConstructorCantFindConstructorTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //try to register for a constructor that does not exist
+            DIContainer.Register<OverloadedConstructor>(DIContainerScope.Singleton)
+              .WithConstructorOverload(typeof(bool));
+        }
+
+        #endregion
 
         /// <summary>
         /// Test the interface base transient for the DI container works
