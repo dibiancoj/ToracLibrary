@@ -189,7 +189,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //now let's check the log
             Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
 
-            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
         }
 
@@ -232,7 +232,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //now let's check the log
             Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
 
-            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
         }
 
@@ -374,7 +374,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //now let's check the log
             Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
 
-            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
         }
 
@@ -503,7 +503,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //now let's check the log
             Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
 
-            //its a singleton, so it should return the same instance which already has the test we wrote into it
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
             Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
         }
 

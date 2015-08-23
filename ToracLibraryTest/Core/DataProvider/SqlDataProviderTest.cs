@@ -61,7 +61,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
             {
                 //make sure we can connect
-                Assert.AreEqual(true, DP.CanConnectToDatabase());
+                Assert.IsTrue(DP.CanConnectToDatabase());
             }
         }
 
@@ -145,7 +145,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
                 int RecordCount = 0;
 
                 //make sure we have rows
-                Assert.AreEqual(true, DataReaderToTest.HasRows);
+                Assert.IsTrue(DataReaderToTest.HasRows);
 
                 //loop through the rows
                 while (DataReaderToTest.Read())

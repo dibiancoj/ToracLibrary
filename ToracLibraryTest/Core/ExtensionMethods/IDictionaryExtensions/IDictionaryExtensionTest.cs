@@ -37,22 +37,22 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
              */
 
             //add an item we don't have in the dictionary
-            Assert.AreEqual(false, TestDictionary.ContainsKey(24));
-            Assert.AreEqual(true, TestDictionary.TryAdd(24, new DummyObject(24, "24")));
-            Assert.AreEqual(true, TestDictionary.ContainsKey(24));
+            Assert.IsFalse(TestDictionary.ContainsKey(24));
+            Assert.IsTrue(TestDictionary.TryAdd(24, new DummyObject(24, "24")));
+            Assert.IsTrue(TestDictionary.ContainsKey(24));
 
             //now check to see we get the correct result for that item we just added
-            Assert.AreEqual(true, TestDictionary.ContainsKey(24));
-            Assert.AreEqual(false, TestDictionary.TryAdd(24, new DummyObject(24, "24")));
+            Assert.IsTrue(TestDictionary.ContainsKey(24));
+            Assert.IsFalse(TestDictionary.TryAdd(24, new DummyObject(24, "24")));
             Assert.AreEqual(1, TestDictionary.Count);
 
             //try to add another new item
-            Assert.AreEqual(false, TestDictionary.ContainsKey(25));
-            Assert.AreEqual(true, TestDictionary.TryAdd(25, new DummyObject(25, "25")));
-            Assert.AreEqual(true, TestDictionary.ContainsKey(25));
+            Assert.IsFalse(TestDictionary.ContainsKey(25));
+            Assert.IsTrue(TestDictionary.TryAdd(25, new DummyObject(25, "25")));
+            Assert.IsTrue(TestDictionary.ContainsKey(25));
 
             //make sure 24 is still in the dictionary
-            Assert.AreEqual(true, TestDictionary.ContainsKey(24));
+            Assert.IsTrue(TestDictionary.ContainsKey(24));
 
             //make sure we have 2 items
             Assert.AreEqual(2, TestDictionary.Count);

@@ -67,7 +67,7 @@ namespace ToracLibraryTest.UnitsTest.EmailSMTP
             await EmailServerToUse.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null);
 
             //now we will just pass it 
-            Assert.AreEqual(true, true);
+            Assert.IsTrue(true);
         }
 
         #endregion

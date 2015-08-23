@@ -27,7 +27,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             try
             {
                 //go run the validation
-                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.UnitedStatesXmlResource(), State.UnitedStatesXmlSchemaResource()));
+                Assert.IsTrue(XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.UnitedStatesXmlResource(), State.UnitedStatesXmlSchemaResource()));
             }
             catch (Exception)
             {
@@ -71,7 +71,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             try
             {
                 //go run the validation
-                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.CanadaProvinceXmlResource(), State.CanadaProvinceXmlSchemaResource()));
+                Assert.IsTrue(XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(State.CanadaProvinceXmlResource(), State.CanadaProvinceXmlSchemaResource()));
             }
             catch (Exception)
             {

@@ -30,44 +30,44 @@ namespace ToracLibraryTest.UnitsTest.Core
             var DataTypesToCheck = PrimitiveTypes.PrimitiveTypesSelect();
 
             //string test
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(string)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(string)));
 
             //booleans
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(bool)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(bool?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(bool)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(bool?)));
 
             //int 16s
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Int16)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Int16?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Int16)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Int16?)));
 
             //int 32s
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(int)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(int?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(int)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(int?)));
 
             //int 64s
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Int64)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Int64?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Int64)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Int64?)));
 
             //singles
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Single)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(Single?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Single)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(Single?)));
 
             //doubles
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(double)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(double?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(double)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(double?)));
 
             //floats
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(float)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(float?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(float)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(float?)));
 
             //decimals
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(decimal)));
-            Assert.AreEqual(true, DataTypesToCheck.Contains(typeof(decimal?)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(decimal)));
+            Assert.IsTrue(DataTypesToCheck.Contains(typeof(decimal?)));
 
             //check items that should be false
-            Assert.AreEqual(false, DataTypesToCheck.Contains(typeof(IEnumerable<double>)));
-            Assert.AreEqual(false, DataTypesToCheck.Contains(typeof(object)));
-            Assert.AreEqual(false, DataTypesToCheck.Contains(typeof(List<double>)));
+            Assert.IsFalse(DataTypesToCheck.Contains(typeof(IEnumerable<double>)));
+            Assert.IsFalse(DataTypesToCheck.Contains(typeof(object)));
+            Assert.IsFalse(DataTypesToCheck.Contains(typeof(List<double>)));
         }
 
         #endregion

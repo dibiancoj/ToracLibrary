@@ -32,14 +32,14 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         public void StringContainsTest1()
         {
             //just test different combinations
-            Assert.AreEqual(true, "Jason".Contains("JASON", StringComparison.OrdinalIgnoreCase));
-            Assert.AreEqual(true, "JASON".Contains("JASON", StringComparison.OrdinalIgnoreCase));
-            Assert.AreEqual(true, "jason2".Contains("JASON", StringComparison.OrdinalIgnoreCase));
-            Assert.AreEqual(false, "test 123".Contains("JASON", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue("Jason".Contains("JASON", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue("JASON".Contains("JASON", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue("jason2".Contains("JASON", StringComparison.OrdinalIgnoreCase));
+            Assert.IsFalse("test 123".Contains("JASON", StringComparison.OrdinalIgnoreCase));
 
 
-            Assert.AreEqual(true, "JASON".Contains("JASON", StringComparison.Ordinal));
-            Assert.AreEqual(false, "jason2".Contains("JASON", StringComparison.Ordinal));
+            Assert.IsTrue("JASON".Contains("JASON", StringComparison.Ordinal));
+            Assert.IsFalse("jason2".Contains("JASON", StringComparison.Ordinal));
         }
 
         #endregion
@@ -56,15 +56,15 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         public void IEnumerableStringContainsTest1()
         {
             //create a dummy string enumerator to test
-            IEnumerable<string> ListToContainsWith = new string[] { "jason1", "jason2", "jason3" };
+            var ListToContainsWith = new string[] { "jason1", "jason2", "jason3" };
 
             //make sure we can find some values
-            Assert.AreEqual(true, ListToContainsWith.Contains("JASON", StringComparison.OrdinalIgnoreCase));
-            Assert.AreEqual(false, ListToContainsWith.Contains("JASONABC", StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(ListToContainsWith.Contains("JASON", StringComparison.OrdinalIgnoreCase));
+            Assert.IsFalse(ListToContainsWith.Contains("JASONABC", StringComparison.OrdinalIgnoreCase));
 
             //check ordinal now
-            Assert.AreEqual(false, ListToContainsWith.Contains("JASON", StringComparison.Ordinal));
-            Assert.AreEqual(true, ListToContainsWith.Contains("jason1", StringComparison.Ordinal));
+            Assert.IsFalse(ListToContainsWith.Contains("JASON", StringComparison.Ordinal));
+            Assert.IsTrue(ListToContainsWith.Contains("jason1", StringComparison.Ordinal));
         }
 
         #endregion
@@ -140,17 +140,17 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             //just check random text
 
             //try negative emails addresses
-            Assert.AreEqual(false, "jason".IsValidEmailAddress());
-            Assert.AreEqual(false, "jason.com@".IsValidEmailAddress());
-            Assert.AreEqual(false, "jason@".IsValidEmailAddress());
-            Assert.AreEqual(false, "j ason@aol.com".IsValidEmailAddress());
-            Assert.AreEqual(false, "jason.com@".IsValidEmailAddress());
-            Assert.AreEqual(false, "jason@com.".IsValidEmailAddress());
-            Assert.AreEqual(false, "@jasoncom.".IsValidEmailAddress());
+            Assert.IsFalse( "jason".IsValidEmailAddress());
+            Assert.IsFalse( "jason.com@".IsValidEmailAddress());
+            Assert.IsFalse( "jason@".IsValidEmailAddress());
+            Assert.IsFalse( "j ason@aol.com".IsValidEmailAddress());
+            Assert.IsFalse( "jason.com@".IsValidEmailAddress());
+            Assert.IsFalse( "jason@com.".IsValidEmailAddress());
+            Assert.IsFalse( "@jasoncom.".IsValidEmailAddress());
 
             //try positive email addresses
-            Assert.AreEqual(true, "jason@aol.com".IsValidEmailAddress());
-            Assert.AreEqual(true, "JoeJ@gmail.com".IsValidEmailAddress());
+            Assert.IsTrue( "jason@aol.com".IsValidEmailAddress());
+            Assert.IsTrue( "JoeJ@gmail.com".IsValidEmailAddress());
         }
 
         #endregion

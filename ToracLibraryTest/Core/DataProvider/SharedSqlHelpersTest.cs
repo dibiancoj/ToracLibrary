@@ -20,36 +20,36 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.SqlBuilder
         [TestMethod]
         public void DataTypeNeedsQuoteInSqlDbDataTest1()
         {
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.AnsiString));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.AnsiStringFixedLength));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.String));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.StringFixedLength));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Date));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime2));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTimeOffset));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Boolean));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Date));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime2));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTimeOffset));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Guid));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Xml));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.AnsiString));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.AnsiStringFixedLength));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.String));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.StringFixedLength));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Date));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime2));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTimeOffset));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Boolean));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Date));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTime2));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.DateTimeOffset));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Guid));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Xml));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Binary));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Byte));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Currency));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Decimal));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Double));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int16));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int32));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int64));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.SByte));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Single));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt16));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt32));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt64));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.VarNumeric));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Binary));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Byte));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Currency));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Decimal));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Double));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int16));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int32));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Int64));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.SByte));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.Single));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt16));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt32));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.UInt64));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(DbType.VarNumeric));
         }
 
         [TestCategory("Core.DataProviders.SqlBuilder")]
@@ -57,30 +57,30 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.SqlBuilder
         [TestMethod]
         public void DataTypeNeedsQuoteInSqlCSharpTypeTest1()
         {
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(string)));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(DateTime)));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(DateTime?)));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(bool)));
-            Assert.AreEqual(true, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(bool?)));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(string)));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(DateTime)));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(DateTime?)));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(bool)));
+            Assert.IsTrue(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(bool?)));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int16?)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int16)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int32?)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int32)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int64?)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int64)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int16?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int16)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int32?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int32)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int64?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Int64)));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(double)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(double?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(double)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(double?)));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Single)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Single?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Single)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(Single?)));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(float)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(float?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(float)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(float?)));
 
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal)));
-            Assert.AreEqual(false, SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal?)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal)));
+            Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal?)));
         }
     }
 

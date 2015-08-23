@@ -106,7 +106,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             //make sure we can connect
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
-                Assert.AreEqual(true, DP.CanConnectToDatabase(false).Item1);
+                Assert.IsTrue(DP.CanConnectToDatabase(false).Item1);
             }
         }
 
@@ -187,10 +187,10 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
             {
                 //go check the Id and make sure it comes back as true
-                Assert.AreEqual(true, DP.ColumnIsAutoSeedLookup(typeof(Ref_Test).Name, nameof(Ref_Test.Id)));
+                Assert.IsTrue(DP.ColumnIsAutoSeedLookup(typeof(Ref_Test).Name, nameof(Ref_Test.Id)));
 
                 //test a column that is not an auto seed
-                Assert.AreEqual(false, DP.ColumnIsAutoSeedLookup(typeof(Ref_Test).Name, nameof(Ref_Test.Description)));
+                Assert.IsFalse(DP.ColumnIsAutoSeedLookup(typeof(Ref_Test).Name, nameof(Ref_Test.Description)));
             }
         }
 

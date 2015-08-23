@@ -56,31 +56,31 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             List<int> lst = null;
 
             //check the null list
-            Assert.AreEqual(false, lst.AnyWithNullCheck());
+            Assert.IsFalse(lst.AnyWithNullCheck());
 
             //create a new list
             lst = new List<int>();
 
             //check if the object instance has any items
-            Assert.AreEqual(false, lst.AnyWithNullCheck());
+            Assert.IsFalse(lst.AnyWithNullCheck());
 
             //add an item to the list
             lst.Add(1);
 
             //do we see the 1 number
-            Assert.AreEqual(true, lst.AnyWithNullCheck());
+            Assert.IsTrue(lst.AnyWithNullCheck());
 
             //add another item
             lst.Add(2);
 
             //should see the 2 items
-            Assert.AreEqual(true, lst.AnyWithNullCheck());
+            Assert.IsTrue(lst.AnyWithNullCheck());
 
             //clear all the items
             lst.Clear();
 
             //should resolve to false
-            Assert.AreEqual(false, lst.AnyWithNullCheck());
+            Assert.IsFalse(lst.AnyWithNullCheck());
 
         }
 
@@ -97,37 +97,37 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             List<int> lst = null;
 
             //should return false since we don't have an instance of an object
-            Assert.AreEqual(false, lst.AnyWithNullCheck(x => x == 5));
+            Assert.IsFalse(lst.AnyWithNullCheck(x => x == 5));
 
             //create an instance of the list now
             lst = new List<int>();
 
             //we still don't have any items in the list
-            Assert.AreEqual(false, lst.AnyWithNullCheck(x => x == 5));
+            Assert.IsFalse(lst.AnyWithNullCheck(x => x == 5));
 
             //add an item now 
             lst.Add(1);
 
             //we should be able to find the == 1
-            Assert.AreEqual(true, lst.AnyWithNullCheck(x => x == 1));
+            Assert.IsTrue(lst.AnyWithNullCheck(x => x == 1));
 
             //we don't have anything greater then 5
-            Assert.AreEqual(false, lst.AnyWithNullCheck(x => x > 5));
+            Assert.IsFalse(lst.AnyWithNullCheck(x => x > 5));
 
             //add 2
             lst.Add(2);
 
             //should be able to find the 2
-            Assert.AreEqual(true, lst.AnyWithNullCheck(x => x == 2));
+            Assert.IsTrue(lst.AnyWithNullCheck(x => x == 2));
 
             //shouldn't be able to find any numbers greater then 5
-            Assert.AreEqual(false, lst.AnyWithNullCheck(x => x > 5));
+            Assert.IsFalse(lst.AnyWithNullCheck(x => x > 5));
 
             //clear the list
             lst.Clear();
 
             //we have no items because we just cleared the list
-            Assert.AreEqual(false, lst.AnyWithNullCheck(x => x <= 5));
+            Assert.IsFalse(lst.AnyWithNullCheck(x => x <= 5));
         }
 
         #endregion

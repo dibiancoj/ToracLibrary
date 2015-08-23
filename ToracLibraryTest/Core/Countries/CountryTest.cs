@@ -27,7 +27,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             try
             {
                 //go run the validation
-                Assert.AreEqual(true, XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(Country.CountryXmlResource(), Country.CountryXmlSchemaResource()));
+                Assert.IsTrue(XMLSchemaValidation.ValidateXMLAgainstSchemaAndRaiseExceptions(Country.CountryXmlResource(), Country.CountryXmlSchemaResource()));
             }
             catch (Exception)
             {

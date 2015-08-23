@@ -246,7 +246,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(1, ImplementationResults.Length);
 
             //check it's the sql server data provider
-            Assert.AreEqual(true, ImplementationResults.Any(x => x == typeof(DeriveReflectionClass)));
+            Assert.IsTrue(ImplementationResults.Any(x => x == typeof(DeriveReflectionClass)));
         }
 
         #endregion
@@ -262,11 +262,11 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void PropertyIsNullableOfTTest1()
         {
             //make sure it picks it up
-            Assert.AreEqual(true, PropertyHelpers.IsNullableOfT(typeof(BaseDeriveReflectionClass).GetProperty(nameof(BaseDeriveReflectionClass.NullIdProperty))));
+            Assert.IsTrue(PropertyHelpers.IsNullableOfT(typeof(BaseDeriveReflectionClass).GetProperty(nameof(BaseDeriveReflectionClass.NullIdProperty))));
 
             //test to make sure it doesn't pick these guys up
-            Assert.AreEqual(false, PropertyHelpers.IsNullableOfT(typeof(DummyObject).GetProperty(nameof(DummyObject.Id))));
-            Assert.AreEqual(false, PropertyHelpers.IsNullableOfT(typeof(DummyObject).GetProperty(nameof(DummyObject.Description))));
+            Assert.IsFalse(PropertyHelpers.IsNullableOfT(typeof(DummyObject).GetProperty(nameof(DummyObject.Id))));
+            Assert.IsFalse(PropertyHelpers.IsNullableOfT(typeof(DummyObject).GetProperty(nameof(DummyObject.Description))));
         }
 
         #endregion
@@ -282,11 +282,11 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void PropertyIsCollectionTest1()
         {
             //make sure it picks it up
-            Assert.AreEqual(true, PropertyHelpers.PropertyInfoIsIEnumerable(typeof(BaseDeriveReflectionClass).GetProperty(nameof(BaseDeriveReflectionClass.IEnumerablePropertyTest))));
+            Assert.IsTrue(PropertyHelpers.PropertyInfoIsIEnumerable(typeof(BaseDeriveReflectionClass).GetProperty(nameof(BaseDeriveReflectionClass.IEnumerablePropertyTest))));
 
             //test to make sure it doesn't pick these guys up
-            Assert.AreEqual(false, PropertyHelpers.PropertyInfoIsIEnumerable(typeof(DummyObject).GetProperty(nameof(DummyObject.Id))));
-            Assert.AreEqual(false, PropertyHelpers.PropertyInfoIsIEnumerable(typeof(DummyObject).GetProperty(nameof(DummyObject.Description))));
+            Assert.IsFalse(PropertyHelpers.PropertyInfoIsIEnumerable(typeof(DummyObject).GetProperty(nameof(DummyObject.Id))));
+            Assert.IsFalse(PropertyHelpers.PropertyInfoIsIEnumerable(typeof(DummyObject).GetProperty(nameof(DummyObject.Description))));
         }
 
         #endregion

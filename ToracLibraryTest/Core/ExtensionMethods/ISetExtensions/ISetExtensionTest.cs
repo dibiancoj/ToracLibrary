@@ -31,7 +31,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             foreach (var ResultOfAdd in new HashSet<int>().AddRangeLazy(new int[] { 1, 2, 3, 4, 5 }))
             {
                 //there should be no duplicates, so everything should evaulate to true
-                Assert.AreEqual(true, ResultOfAdd.SuccesfullyAddedToHashSet);
+                Assert.IsTrue(ResultOfAdd.SuccesfullyAddedToHashSet);
             }
         }
 

@@ -37,10 +37,10 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(4, TestResult.Mean.Count);
 
             //now compare what the result of the most used numbers are
-            Assert.AreEqual(true, TestResult.Mean.Contains(1));
-            Assert.AreEqual(true, TestResult.Mean.Contains(2));
-            Assert.AreEqual(true, TestResult.Mean.Contains(3));
-            Assert.AreEqual(true, TestResult.Mean.Contains(4));
+            Assert.IsTrue(TestResult.Mean.Contains(1));
+            Assert.IsTrue(TestResult.Mean.Contains(2));
+            Assert.IsTrue(TestResult.Mean.Contains(3));
+            Assert.IsTrue(TestResult.Mean.Contains(4));
         }
 
         [TestCategory("Core.Mathematical.Mode")]
@@ -64,10 +64,10 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(1, TestResult.Mean.Count);
 
             //now compare what the result of the most used numbers are
-            Assert.AreEqual(true, TestResult.Mean.Contains(1));
-            Assert.AreEqual(false, TestResult.Mean.Contains(2));
-            Assert.AreEqual(false, TestResult.Mean.Contains(3));
-            Assert.AreEqual(false, TestResult.Mean.Contains(4));
+            Assert.IsTrue(TestResult.Mean.Contains(1));
+            Assert.IsFalse(TestResult.Mean.Contains(2));
+            Assert.IsFalse(TestResult.Mean.Contains(3));
+            Assert.IsFalse(TestResult.Mean.Contains(4));
         }
 
         [TestCategory("Core.Mathematical.Mode")]
@@ -91,10 +91,10 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(2, TestResult.Mean.Count);
 
             //now compare what the result of the most used numbers are
-            Assert.AreEqual(true, TestResult.Mean.Contains(1));
-            Assert.AreEqual(true, TestResult.Mean.Contains(2));
-            Assert.AreEqual(false, TestResult.Mean.Contains(3));
-            Assert.AreEqual(false, TestResult.Mean.Contains(4));
+            Assert.IsTrue(TestResult.Mean.Contains(1));
+            Assert.IsTrue(TestResult.Mean.Contains(2));
+            Assert.IsFalse(TestResult.Mean.Contains(3));
+            Assert.IsFalse(TestResult.Mean.Contains(4));
         }
 
     }
