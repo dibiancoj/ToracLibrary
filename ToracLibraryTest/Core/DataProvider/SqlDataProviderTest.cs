@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibrary.DIContainer;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 using static ToracLibraryTest.UnitsTest.Core.DataProviders.DataProviderSetupTearDown;
@@ -28,7 +29,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now
-            DIContainer.Register<IDataProvider, SQLDataProvider>().WithConstructorImplementation((di) => new SQLDataProvider(ConnectionStringToUse()));
+            DIContainer.Register<IDataProvider, SQLDataProvider>()
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse()));
         }
 
         /// <summary>

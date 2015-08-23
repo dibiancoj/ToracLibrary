@@ -33,15 +33,16 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
             //register the view context
             DIContainer.Register<ViewContext>()
                 .WithFactoryName(HtmlHelperTestDIFactoryName)
-                .WithConstructorImplementation((di) => new ViewContext());
+                .WithConstructorOverload();
 
             //register the IViewDataContainer
             DIContainer.Register<IViewDataContainer, MockIViewDataContainer>()
                 .WithFactoryName(HtmlHelperTestDIFactoryName)
-                .WithConstructorImplementation((di) => new MockIViewDataContainer());
+                .WithConstructorOverload();
 
             //now let's register the actual html helper we are going to mock
-            DIContainer.Register<HtmlHelper<HtmlHelperTestViewModel>>().WithFactoryName(HtmlHelperTestDIFactoryName);
+            DIContainer.Register<HtmlHelper<HtmlHelperTestViewModel>>()
+                .WithFactoryName(HtmlHelperTestDIFactoryName);
         }
 
         #region Constants

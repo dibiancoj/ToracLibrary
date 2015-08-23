@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.Core.Security.Encryption;
 using ToracLibraryTest.Framework;
 using ToracLibrary.DIContainer;
+using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -25,12 +26,12 @@ namespace ToracLibraryTest.UnitsTest.Core
             //let's register the di container now (md5)
             DIContainer.Register<ISecurityEncryption, MD5HashSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
                 .WithFactoryName(MD5DIContainerName)
-                .WithConstructorImplementation((di) => new MD5HashSecurityEncryption("Test"));
+                .WithConstructorParameters(new PrimitiveCtorParameter("Test"));
 
             //let's register the rijndael container now
             DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
                 .WithFactoryName(RijndaelDIContainerName)
-                .WithConstructorImplementation((di) => new RijndaelSecurityEncryption("1234567891123456", "1234567891123456"));
+                .WithConstructorParameters(new PrimitiveCtorParameter("1234567891123456"), new PrimitiveCtorParameter("1234567891123456"));
         }
 
         #endregion
