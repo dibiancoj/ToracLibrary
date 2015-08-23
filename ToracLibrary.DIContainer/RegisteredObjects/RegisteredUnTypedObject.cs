@@ -37,7 +37,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             var ConstructorInfoToUse = ConcreteType.GetConstructors().First();
 
             //grab the constructor parameters and store them
-            ConstructorInfoOfConcreteType = ConstructorInfoToUse.GetParameters();
+            ConcreteConstructorParameters = ConstructorInfoToUse.GetParameters();
 
             //depending on which scope to use, create the implementation
             if (ObjectScopeToSet == ToracDIContainer.DIContainerScope.Singleton)
@@ -75,9 +75,9 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         internal ToracDIContainer.DIContainerScope ObjectScope { get; }
 
         /// <summary>
-        /// We are going to store the constructor info of the concrete class. This way when we go to resolve it multiple times we can cache this. For singleton, we need to allow them to register everything first. So we need to store this for all cases
+        /// Constructor parameters for the concrete class. This way we can cache it and re-use it
         /// </summary>
-        internal ParameterInfo[] ConstructorInfoOfConcreteType { get; }
+        internal ParameterInfo[] ConcreteConstructorParameters { get; }
 
         #endregion
 
@@ -131,7 +131,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             }
 
             //we are going to create the constructor parameters to resolve
-            return ConstructorInfoOfConcreteType.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType)).ToArray();
+            return ConcreteConstructorParameters.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType)).ToArray();
         }
 
         #endregion
