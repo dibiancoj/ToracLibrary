@@ -63,9 +63,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
             {
-                //id to use
-                int IdToQuery = 2;
-                string DescriptionToQuery = "1";
+                //id and description to query (both should point to the same record)
+                const int IdToQuery = 2;
+                const string DescriptionToQuery = "1";
 
                 //build the base query
                 var SqlQuery = DP.Fetch<Ref_Test>(false).AsQueryable();
@@ -100,9 +100,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
 
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
             {
-                //id to use
-                int IdToQuery = 2;
-                string DescriptionToQuery = "4";
+                //id and description to query (both should point to 2 different records)
+                const int IdToQuery = 2;
+                const string DescriptionToQuery = "4";
 
                 //build the base query
                 var SqlQuery = DP.Fetch<Ref_Test>(false).AsQueryable();
