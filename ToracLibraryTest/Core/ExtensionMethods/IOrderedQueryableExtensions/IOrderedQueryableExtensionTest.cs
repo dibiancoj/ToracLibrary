@@ -54,7 +54,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         public void PaginateForEFTest1()
         {
             //add 100 records now
-            DataProviderSetupTearDown.AddRows(100, true);
+            DataProviderSetupTearDown.AddRows(25, true);
 
             //grab the ef data provider
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
