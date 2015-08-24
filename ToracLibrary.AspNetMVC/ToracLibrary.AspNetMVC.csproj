@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
+    <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
     <Compile Include="ExtensionMethods\Controller\ControllerExtensionMethods.cs" />
     <Compile Include="HtmlHelpers\MvcHtmlHelpers.cs" />
     <Compile Include="JqGrid\InlineFilters\JqGridInlineFilter.cs" />
