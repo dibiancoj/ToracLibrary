@@ -103,6 +103,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AspNetMvc\CustomActionsResults\JsonActionResultTest.cs" />
+    <Compile Include="AspNetMvc\CustomModelBinders\CustomModelBinderTest.cs" />
     <Compile Include="AspNetMvc\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="AspNetMvc\HtmlHelpers\HtmlHelperTest.cs" />
     <Compile Include="AspNetMvc\JqGrid\JqGridTest.cs" />
