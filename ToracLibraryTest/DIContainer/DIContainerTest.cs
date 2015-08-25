@@ -829,6 +829,9 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             //register a second instance
             DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
 
+            //let's make sure we have 2 instances of ilogger
+            Assert.AreEqual(2, DIContainer.AllRegistrationSelectLazy(typeof(ILogger)).Count());
+
             //clear all the registrations
             DIContainer.ClearAllRegistrationsForSpecificType<ILogger>();
 

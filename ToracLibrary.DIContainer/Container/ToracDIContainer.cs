@@ -183,13 +183,25 @@ namespace ToracLibrary.DIContainer
         /// <returns>iterator of AllRegistrationResult</returns>
         public IEnumerable<AllRegistrationResult> AllRegistrationSelectLazy()
         {
+            //use the overload and pass in null
+            return AllRegistrationSelectLazy(null);
+        }
+
+        /// <summary>
+        /// Returns all the registrations for a specific type 
+        /// </summary>
+        /// <param name="ResolveTypeToFilterFor">Resolve type to only filter by</param>
+        /// <returns>iterator of AllRegistrationResult</returns>
+        public IEnumerable<AllRegistrationResult> AllRegistrationSelectLazy(Type ResolveTypeToFilterFor)
+        {
             //loop through all the registered objects
-            foreach (var FactoryToResolve in RegisteredObjectsInContainer)
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => ResolveTypeToFilterFor == null ? true : x.TypeToResolve == ResolveTypeToFilterFor))
             {
                 //return the new object using yield
                 yield return new AllRegistrationResult(FactoryToResolve.FactoryName, FactoryToResolve.ObjectScope, FactoryToResolve.TypeToResolve, FactoryToResolve.ConcreteType);
             }
         }
+
 
         #endregion
 
