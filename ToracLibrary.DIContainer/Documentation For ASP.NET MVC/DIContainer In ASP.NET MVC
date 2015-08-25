@@ -56,7 +56,13 @@ Then in your controller you can put the ILogger or whatever in the constructor
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
         {
-            return (Controller)Container.Resolve(controllerType);
+			//make sure the this controller is registered
+			if (Container.AllRegistrationSelectLazy(controllerType).Any())
+			{
+				return (Controller)Container.Resolve(controllerType);
+			}
+
+			return base.GetControllerInstance(requestContext, controllerType);
         }
 
         #endregion
