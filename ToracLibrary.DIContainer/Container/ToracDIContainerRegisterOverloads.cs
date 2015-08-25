@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.DIContainer.Exceptions;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
 namespace ToracLibrary.DIContainer
@@ -62,10 +63,20 @@ namespace ToracLibrary.DIContainer
             where TConcrete : class
         {
             //go build the base configuration object. This is a typed object
-            var ConfiguredObject = new RegisteredObject<TTypeToResolve, TConcrete>(ObjectScope);
+            var ConfiguredObject = new RegisteredObject<TTypeToResolve, TConcrete>(ObjectScope, this);
+
+            //let's build the tuple so we don't need to re-create it twice
+            var Hash = new Tuple<string, Type>(ConfiguredObject.FactoryName, ConfiguredObject.TypeToResolve);
+
+            //make sure we don't already have this key
+            if (RegisteredObjectsInContainer.ContainsKey(Hash))
+            {
+                //we have multiple types, throw an error
+                throw new MultipleTypesFoundException(typeof(TTypeToResolve));
+            }
 
             //add the item to our list (we used an untyped version so we can mix and match in the generic list)
-            RegisteredObjectsInContainer.Add(ConfiguredObject);
+            RegisteredObjectsInContainer.Add(Hash, ConfiguredObject);
 
             //we want to prevent them from adding multiple types so validate it when they input it (so we are going to run this method which validates everything)
             //FindRegisterdObject(RegisteredObjectsInContainer, null, typeof(TTypeToResolve));

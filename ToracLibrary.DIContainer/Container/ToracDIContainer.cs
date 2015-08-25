@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.DIContainer.Exceptions;
-using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
 namespace ToracLibrary.DIContainer
@@ -29,8 +27,8 @@ namespace ToracLibrary.DIContainer
         /// </summary>
         public ToracDIContainer()
         {
-            //create a new list to use, which will store all my settings
-            RegisteredObjectsInContainer = new List<RegisteredUnTypedObject>();
+            //create a new list to use, which will store all my settings (dictionary key is the "factoryname" & "concrete type / type to resolve")
+            RegisteredObjectsInContainer = new Dictionary<Tuple<string, Type>, RegisteredUnTypedObject>();
         }
 
         #endregion
@@ -38,9 +36,9 @@ namespace ToracLibrary.DIContainer
         #region Readonly Properties
 
         /// <summary>
-        /// Holds all the registered objects for this DI container
+        /// Holds all the registered objects for this DI container. Dictionary key is the "factoryname" & "concrete type / type to resolve"
         /// </summary>
-        private List<RegisteredUnTypedObject> RegisteredObjectsInContainer { get; }
+        internal Dictionary<Tuple<string, Type>, RegisteredUnTypedObject> RegisteredObjectsInContainer { get; }
 
         #endregion
 
@@ -143,7 +141,7 @@ namespace ToracLibrary.DIContainer
         public IEnumerable<KeyValuePair<string, TTypeToResolve>> ResolveAllLazy<TTypeToResolve>()
         {
             //let's loop through all the types and return them
-            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => x.TypeToResolve == typeof(TTypeToResolve)))
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Values.Where(x => x.TypeToResolve == typeof(TTypeToResolve)))
             {
                 //go resolve this type and yield it
                 yield return new KeyValuePair<string, TTypeToResolve>(FactoryToResolve.FactoryName, Resolve<TTypeToResolve>(FactoryToResolve.FactoryName));
@@ -160,8 +158,11 @@ namespace ToracLibrary.DIContainer
         /// <typeparam name="TTypeToResolve">The type that gets cleared. This should be the type that resolves to. ie. the interface</typeparam>
         public void ClearAllRegistrationsForSpecificType<TTypeToResolve>()
         {
-            //go remove all the items that are this type.
-            RegisteredObjectsInContainer.RemoveAll(x => x.TypeToResolve == typeof(TTypeToResolve));
+            //go remove all the items that are this type. Pushing this to a list will avoid the "removing while enumerating problem"
+            foreach (var ItemToRemove in RegisteredObjectsInContainer.Where(x => x.Key.Item2 == typeof(TTypeToResolve)).ToList())
+            {
+                RegisteredObjectsInContainer.Remove(new Tuple<string, Type>(ItemToRemove.Key.Item1, ItemToRemove.Key.Item2));
+            }
         }
 
         /// <summary>
@@ -195,13 +196,12 @@ namespace ToracLibrary.DIContainer
         public IEnumerable<AllRegistrationResult> AllRegistrationSelectLazy(Type ResolveTypeToFilterFor)
         {
             //loop through all the registered objects
-            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => ResolveTypeToFilterFor == null ? true : x.TypeToResolve == ResolveTypeToFilterFor))
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => ResolveTypeToFilterFor == null ? true : x.Key.Item2 == ResolveTypeToFilterFor))
             {
                 //return the new object using yield
-                yield return new AllRegistrationResult(FactoryToResolve.FactoryName, FactoryToResolve.ObjectScope, FactoryToResolve.TypeToResolve, FactoryToResolve.ConcreteType);
+                yield return new AllRegistrationResult(FactoryToResolve.Value.FactoryName, FactoryToResolve.Value.ObjectScope, FactoryToResolve.Value.TypeToResolve, FactoryToResolve.Value.ConcreteType);
             }
         }
-
 
         #endregion
 
@@ -266,16 +266,27 @@ namespace ToracLibrary.DIContainer
         /// <param name="TypeToResolve">Type to resolve</param>
         /// <returns>BaseRegisteredObject. Null if not found</returns>
         /// <remarks>will throw errors if more then 1 registered object is found</remarks>
-        private static RegisteredUnTypedObject FindRegisterdObject(IList<RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
+        private static RegisteredUnTypedObject FindRegisterdObject(IDictionary<Tuple<string, Type>, RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
         {
+            //configuration to try to get from the dictionary
+            RegisteredUnTypedObject TryToGetConfiguration;
+
+            //try to fetch the configuration
+            if (RegisteredObjectsInContainer.TryGetValue(new Tuple<string, Type>(FactoryName, TypeToResolve), out TryToGetConfiguration))
+            {
+                //we found the item, just return it
+                return TryToGetConfiguration;
+            }
+
+            //if we still can't find it, check just for the type. This scenario would be a secondary type doesn't know which factory name it's set with
             //are we checking for factory names (let's cache this in a variable
             bool CheckingForFactoryNames = !string.IsNullOrEmpty(FactoryName);
 
             //easier and cleaner to write in linq
             var FoundRegisteredObjects = (from DataSet in RegisteredObjectsInContainer
-                                          where DataSet.TypeToResolve == TypeToResolve
-                                          && (CheckingForFactoryNames ? FactoryName == DataSet.FactoryName : true)
-                                          select DataSet).ToArray();
+                                          where DataSet.Key.Item2 == TypeToResolve
+                                          && (CheckingForFactoryNames ? FactoryName == DataSet.Key.Item1 : true)
+                                          select DataSet.Value).ToArray();
 
             //did we find any items?
             if (!FoundRegisteredObjects.Any())
@@ -289,7 +300,7 @@ namespace ToracLibrary.DIContainer
                 throw new MultipleTypesFoundException(TypeToResolve);
             }
 
-            //we are ok, just return the first item
+            //we have a found registered object
             return FoundRegisteredObjects[0];
         }
 

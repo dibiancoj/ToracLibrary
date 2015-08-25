@@ -24,10 +24,22 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// Constructor
         /// </summary>
         /// <param name="ObjectScopeToSet">How long does does the object last in the di container</param>
-        public RegisteredObject(ToracDIContainer.DIContainerScope ObjectScopeToSet)
+        /// <param name="AttachedDIContainer">The container the parameter is in. This way we can set the factory name after we add it to the dictionary</param>
+        public RegisteredObject(ToracDIContainer.DIContainerScope ObjectScopeToSet, ToracDIContainer AttachedDIContainer)
             : base(ObjectScopeToSet, typeof(TTypeToResolveToSet), typeof(TConcrete))
         {
+            //set the container
+            Container = AttachedDIContainer;
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Holds the container so we can modify the container from a configuration value
+        /// </summary>
+        private ToracDIContainer Container { get; }
 
         #endregion
 
@@ -40,8 +52,20 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         /// <returns>The typed RegisteredObject which you can build off of</returns>
         public RegisteredObject<TTypeToResolveToSet, TConcrete> WithFactoryName(string FactoryNameToSet)
         {
+            //grab the resolve type
+            var ResolveType = typeof(TTypeToResolveToSet);
+
+            //grab the factory name before we set it, so we can cache the tuple hash so we can remove it from the container correctly
+            var CurrentEntryInContainer = new Tuple<string, Type>(FactoryName, ResolveType);
+
             //set the factory name
             FactoryName = FactoryNameToSet;
+
+            //we need to adjust the container dictionary key. 
+            Container.RegisteredObjectsInContainer.Remove(CurrentEntryInContainer);
+
+            //now re-add it
+            Container.RegisteredObjectsInContainer.Add(new Tuple<string, Type>(FactoryName, ResolveType), this);
 
             //return the object so we can chain it
             return this;
