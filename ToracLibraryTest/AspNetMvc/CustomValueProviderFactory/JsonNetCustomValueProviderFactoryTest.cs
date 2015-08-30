@@ -1,13 +1,16 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ToracLibrary.AspNetMVC;
 using ToracLibrary.AspNetMVC.CustomValueProviderFactory;
 using ToracLibrary.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
+using ToracLibrary.Serialization.Json;
 using ToracLibraryTest.Framework;
 
 namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
@@ -49,6 +52,41 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
 
         #region Framework
 
+        #region Test Model
+
+        private class AjaxPostModel
+        {
+
+            #region Constructor
+
+            public AjaxPostModel(int IdToSet, string DescriptionToSet)
+            {
+                Id = IdToSet;
+                Description = DescriptionToSet;
+            }
+
+            #endregion
+
+            #region Properties
+
+            public int Id { get; }
+            public string Description { get; }
+
+            #endregion
+
+            #region Methods
+
+            public static AjaxPostModel BuildModel()
+            {
+                return new AjaxPostModel(5, "5Description");
+            }
+
+            #endregion
+
+        }
+
+        #endregion
+
         #region Test Controller
 
         /// <summary>
@@ -64,14 +102,23 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
                 //create the controller
                 var MockedController = new JsonNetCustomValueProviderFactoryControllerTest();
 
+                //let's build a model with a stream
+                var MemoryStreamToUse = new MemoryStream();
+
+                //stream writer
+                var StreamWriterToUse = new StreamWriter(MemoryStreamToUse);
+
+                //write the string value
+                StreamWriterToUse.Write(JsonNetSerializer.Serialize(AjaxPostModel.BuildModel()));
+
+                //flush the data
+                StreamWriterToUse.Flush();
+
+                //reset the stream
+                MemoryStreamToUse.Position = 0;
+
                 //create the Mock controller
-                MockedController.ControllerContext = new MockControllerContext(MockedController);
-
-                //set the request
-                MockedController.Request = new MockHttpRequest(string.Empty, null, null, null);
-
-                //set the content type 
-                MockedController.Request.ContentType = "application/json";
+                MockedController.ControllerContext = new MockControllerContext(MockedController, null, null, null, null, null, null, null, AspNetConstants.JsonContentType, MemoryStreamToUse);
 
                 //return the controller now
                 return MockedController;
@@ -93,6 +140,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
         [TestMethod]
         public void JsonNetCustomValueProviderFactoryTest1()
         {
+            //let's grab the model we will test with
+            var BaseModel = AjaxPostModel.BuildModel();
+
             // resolve the controller from the di container
             var TestController = DIUnitTestContainer.DIContainer.Resolve<JsonNetCustomValueProviderFactoryControllerTest>(JsonNetCustomValueProviderFactoryName);
 
@@ -102,8 +152,9 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
             //let's go execute the action result
             var Result = TestProvider.GetValueProvider(TestController.ControllerContext);
 
-            //let's check the result now
-            Assert.AreEqual("{\"JsonId\":5,\"JsonDescription\":\"Description5\",\"CreatedDate\":\"2015-09-01T00:00:00\"}", ((MockHttpResponse)TestController.Response).HtmlOutput.ToString());
+            //lets run the test now
+            Assert.AreEqual(BaseModel.Id, Convert.ToInt32(Result.GetValue(nameof(AjaxPostModel.Id)).RawValue));
+            Assert.AreEqual(BaseModel.Description, Result.GetValue(nameof(AjaxPostModel.Description)).RawValue);
         }
 
         #endregion

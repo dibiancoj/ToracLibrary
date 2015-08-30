@@ -28,7 +28,7 @@ namespace ToracLibrary.AspNetMVC.CustomActionsResults
             //let's create a new instance of the cached properties
             CachedJsonSerializerSettings = new JsonSerializerSettings();
             CachedIsoDateTimeConverter = new IsoDateTimeConverter();
-            JsonContentType = "application/json";
+            JsonContentType = AspNetConstants.JsonContentType;
         }
 
         #endregion

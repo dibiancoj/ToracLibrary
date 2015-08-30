@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +25,16 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         /// <param name="FormParamsToSet">Form Params</param>
         /// <param name="QueryStringParamsToSet">Query String Parms</param>
         /// <param name="CookiesToSet">Cookies</param>
-        public MockHttpRequest(string RelativeUrlToSet, NameValueCollection FormParamsToSet, NameValueCollection QueryStringParamsToSet, HttpCookieCollection CookiesToSet)
+        /// <param name="ContentTypeToSet">Content type to set</param>
+        /// <param name="InputStreamToSet">Input stream to set</param>
+        public MockHttpRequest(string RelativeUrlToSet, NameValueCollection FormParamsToSet, NameValueCollection QueryStringParamsToSet, HttpCookieCollection CookiesToSet, string ContentTypeToSet, Stream InputStreamToSet)
         {
             RelativeUrl = RelativeUrlToSet;
             FormParams = FormParamsToSet;
             QueryStringParams = QueryStringParamsToSet;
             CookieParams = CookiesToSet;
+            ContentType = ContentTypeToSet;
+            InputStream = InputStreamToSet;
         }
 
         #endregion
@@ -67,7 +72,6 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         {
             get { return FormParams; }
         }
-
         /// <summary>
         /// Query string
         /// </summary>
@@ -99,6 +103,16 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         {
             get { return string.Empty; }
         }
+
+        /// <summary>
+        /// Content type of the request
+        /// </summary>
+        public override string ContentType { get; set; }
+
+        /// <summary>
+        /// Input stream to mock
+        /// </summary>
+        public override Stream InputStream { get; }
 
         #endregion
 

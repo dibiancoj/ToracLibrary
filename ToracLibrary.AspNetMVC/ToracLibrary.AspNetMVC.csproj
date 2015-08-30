@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetConstants.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
     <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />

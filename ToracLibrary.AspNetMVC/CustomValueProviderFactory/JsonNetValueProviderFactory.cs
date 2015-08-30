@@ -44,7 +44,7 @@ namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
             }
 
             // now make sure we are dealing with a json request
-            if (!ControllerContext.HttpContext.Request.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
+            if (!ControllerContext.HttpContext.Request.ContentType.StartsWith(AspNetConstants.JsonContentType, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
@@ -99,9 +99,9 @@ namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
         /// <summary>
         /// Add a backing store to the dictionary
         /// </summary>
-        /// <param name="BackingStore"></param>
-        /// <param name="Prefix"></param>
-        /// <param name="Value"></param>
+        /// <param name="BackingStore">Dictionary to set with the backing properties</param>
+        /// <param name="Prefix">prefix</param>
+        /// <param name="Value">value of the item</param>
         private static void AddToBackingStore(Dictionary<string, object> BackingStore, string Prefix, object Value)
         {
             //let's try to conver this thing to a dictionary first
@@ -154,9 +154,9 @@ namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
         /// <summary>
         /// Makes a property key
         /// </summary>
-        /// <param name="Prefix"></param>
-        /// <param name="PropertyName"></param>
-        /// <returns>Proerty Key</returns>
+        /// <param name="Prefix">Prefix to use</param>
+        /// <param name="PropertyName">Property name to use</param>
+        /// <returns>Property Key</returns>
         private static string MakePropertyKey(string Prefix, string PropertyName)
         {
             //is the prefix null?
