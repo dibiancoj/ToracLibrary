@@ -12,6 +12,7 @@ using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
 using ToracLibraryTest.UnitsTest.AspNetMVC;
+using ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory;
 using ToracLibraryTest.UnitsTest.Caching;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
 using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
@@ -214,7 +215,8 @@ namespace ToracLibraryTest.UnitsTest.Core
                 typeof(EmailTest),
                 typeof(HtmlHelperTest),
                 typeof(JsonActionResultTest),
-                typeof(ControllerExtensionTest)
+                typeof(ControllerExtensionTest),
+                typeof(JsonNetCustomValueProviderFactoryTest)
             };
 
             //grab everything that implements IDependencyInject
