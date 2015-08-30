@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
 namespace ToracLibrary.AspNetMVC.UnitTestMocking
 {
@@ -61,7 +62,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         public bool IsInRole(string RolesToCheck)
         {
             //do we have roles
-            return Roles != null && Roles.Contains(RolesToCheck);
+            return Roles.AnyWithNullCheck() && Roles.Contains(RolesToCheck);
         }
 
         #endregion

@@ -30,6 +30,9 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
 
         #region Properties
 
+        /// <summary>
+        /// Holds the views or partial views that we want to mock. So we hold them in a dictionary instead of what mvc does by searching the view / partial view directory
+        /// </summary>
         private IDictionary<string, IView> ViewsToMock { get; }
 
         #endregion
@@ -49,6 +52,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
             //go try to find the view
             if (ViewsToMock.TryGetValue(ViewNameToFind, out ViewFetchAttempt))
             {
+                //we have the view, return it
                 return new ViewEngineResult(ViewsToMock[ViewNameToFind], this);
             }
 
@@ -62,16 +66,19 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
         {
+            //go grab the partial view and return it
             return FindMockedIView(partialViewName);
         }
 
         public ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
+            //go grab the view and return it
             return FindMockedIView(viewName);
         }
 
         public void ReleaseView(ControllerContext controllerContext, IView view)
         {
+            //don't need this for the mocked version
             throw new NotImplementedException();
         }
 

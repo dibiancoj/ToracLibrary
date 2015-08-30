@@ -30,7 +30,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         #region Mock Properties
 
         /// <summary>
-        /// The results of the response
+        /// The results of the response. This is the mocked html output
         /// </summary>
         public StringBuilder HtmlOutput { get; }
 
