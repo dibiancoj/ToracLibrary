@@ -41,7 +41,7 @@ namespace ToracLibrary.DIContainer.Exceptions
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format($"The type {TypeThatTriedToBeResolved.Name} has not been registered");
+            return $"The type {TypeThatTriedToBeResolved.Name} has not been registered";
         }
 
         #endregion

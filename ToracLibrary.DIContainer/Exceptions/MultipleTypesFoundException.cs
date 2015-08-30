@@ -41,7 +41,7 @@ namespace ToracLibrary.DIContainer.Exceptions
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format($"The type {TypeThatTriedToBeResolved.Name} has multiple types registered. We weren't able to resolve it down to a single implementation. Please give each registration a unique factory name");
+            return $"The type {TypeThatTriedToBeResolved.Name} has multiple types registered. We weren't able to resolve it down to a single implementation. Please give each registration a unique factory name";
         }
 
         #endregion

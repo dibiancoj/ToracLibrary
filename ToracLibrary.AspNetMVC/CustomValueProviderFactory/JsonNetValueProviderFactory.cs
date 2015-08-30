@@ -148,7 +148,7 @@ namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
         /// <returns>Array key to use</returns>
         private static string MakeArrayKey(string Prefix, int Index)
         {
-            return string.Format($"{Prefix}[{Index.ToString(CultureInfo.InvariantCulture)}]");
+            return $"{Prefix}[{Index.ToString(CultureInfo.InvariantCulture)}]";
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
             }
 
             //we have a prefix...add it and the property name
-            return string.Format($"{Prefix}.{PropertyName}");
+            return $"{Prefix}.{PropertyName}";
         }
 
         #endregion

@@ -102,7 +102,7 @@ namespace ToracLibrary.Core.ExpressionTrees
                 if (ToProperty == null)
                 {
                     //we can't find that property in TResult...throw an error
-                    throw new ArgumentNullException(string.Format($"Can't Find Property Name = {ToProperty.Name} In TResult ({TResultType.Name}). The Property Names Must Match From The Argument PropertiesToSetFromTFrom And In TResult. Pass In Specific Properties That You Want To Set, But TResult Must Contain That Property Name"));
+                    throw new ArgumentNullException($"Can't Find Property Name = {ToProperty.Name} In TResult ({TResultType.Name}). The Property Names Must Match From The Argument PropertiesToSetFromTFrom And In TResult. Pass In Specific Properties That You Want To Set, But TResult Must Contain That Property Name");
                 }
 
                 //now grab the property we are going to set...and bind it, and add it to the list

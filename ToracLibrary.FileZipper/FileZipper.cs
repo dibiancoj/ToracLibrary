@@ -116,7 +116,7 @@ namespace ToracLibrary.Core.DiskIO.Zip
                     if (!CreateDirectoryIfNotFound)
                     {
                         //they don't want to create the directory and we couldn't find it so throw an exception
-                        throw new DirectoryNotFoundException(string.Format($"Directory Not Found At: {DestinationPath}. If You Would Like To Create The Directory Pass In True To Parameter CreateDirectoryIfNotFound"));
+                        throw new DirectoryNotFoundException($"Directory Not Found At: {DestinationPath}. If You Would Like To Create The Directory Pass In True To Parameter CreateDirectoryIfNotFound");
                     }
                     else
                     {

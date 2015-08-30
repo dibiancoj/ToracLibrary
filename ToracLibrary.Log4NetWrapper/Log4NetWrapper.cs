@@ -223,7 +223,7 @@ namespace ToracLibrary.Log4NetAPI
             if (UseCallerMemberInfoInOutputText)
             {
                 //return the formatted string
-                return string.Format($"MethodInfo: {SourceMemberName} [{SourceLineNumber}] - {MessageToWrite}");
+                return $"MethodInfo: {SourceMemberName} [{SourceLineNumber}] - {MessageToWrite}";
             }
 
             //don't want to format, just output whatever the end developer wanted

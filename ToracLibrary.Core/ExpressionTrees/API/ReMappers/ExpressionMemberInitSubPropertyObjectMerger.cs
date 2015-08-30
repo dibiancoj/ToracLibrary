@@ -156,7 +156,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             //make sure we have that property info
             if (SubPropertyInfo == null)
             {
-                throw new IndexOutOfRangeException(string.Format($"Can't Find Property Name {PropertyNameOfSubClassOffOfBase} Off Of The Base Class"));
+                throw new IndexOutOfRangeException($"Can't Find Property Name {PropertyNameOfSubClassOffOfBase} Off Of The Base Class");
             }
 
             //now we need to merge the 2 binding lists

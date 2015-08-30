@@ -181,7 +181,7 @@ namespace ToracLibrary.Core.DataProviders.SqlBuilder
             UpdateFieldAndValuesSql.Remove(UpdateFieldAndValuesSql.Length - 1, 1);
 
             //return the sql
-            return string.Format($"UPDATE {TableSchema}.{TableName} SET {UpdateFieldAndValuesSql} WHERE {InferredPrimaryKeyFieldName} = {PrimaryKeyValue};");
+            return $"UPDATE {TableSchema}.{TableName} SET {UpdateFieldAndValuesSql} WHERE {InferredPrimaryKeyFieldName} = {PrimaryKeyValue};";
         }
 
         #endregion

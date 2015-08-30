@@ -789,7 +789,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             foreach (var FactoryToResolve in DIContainer.ResolveAllLazy<ILogger>().OrderBy(x => x.Key))
             {
                 //let's resolve based on the index (so index 0 is the first factory)
-                Assert.AreEqual(string.Format($"{FactoryNamePrefix}{ResolveAllResultCount}"), FactoryToResolve.Key);
+                Assert.AreEqual($"{FactoryNamePrefix}{ResolveAllResultCount}", FactoryToResolve.Key);
 
                 //and just make sure the actual instance is not null
                 Assert.IsNotNull(FactoryToResolve.Value);

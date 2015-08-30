@@ -24,7 +24,7 @@ namespace ToracLibrary.Core.DataProviders.SqlBuilder
         public static string ColumnIsAutoSeedSql(string TableName, string ColumnName)
         {
             //build the sql and return it
-            return string.Format($"SELECT C.is_identity FROM sys.objects O INNER JOIN sys.columns C ON O.object_id = C.object_id WHERE O.type='U' AND O.name = '{TableName}' AND C.name = '{ColumnName}';");
+            return $"SELECT C.is_identity FROM sys.objects O INNER JOIN sys.columns C ON O.object_id = C.object_id WHERE O.type='U' AND O.name = '{TableName}' AND C.name = '{ColumnName}';";
         }
 
         #endregion

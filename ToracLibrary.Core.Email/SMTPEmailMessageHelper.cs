@@ -97,7 +97,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!ToEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", ToEmail, string.Format($"{ToEmail} Is An Invalid E-mail Address In The ToEmailAddress List"));
+                            throw new ArgumentOutOfRangeException("ToEmailAddress", ToEmail, $"{ToEmail} Is An Invalid E-mail Address In The ToEmailAddress List");
                         }
 
                         //it's a valid email address..add it
@@ -113,7 +113,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!CCEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", CCEmail, string.Format($"{CCEmail} Is An Invalid E-mail Address In The CCEmailAddress List"));
+                            throw new ArgumentOutOfRangeException("ToEmailAddress", CCEmail, $"{CCEmail} Is An Invalid E-mail Address In The CCEmailAddress List");
                         }
 
                         //it's a valid email address..add it
@@ -129,7 +129,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!BCCEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", BCCEmail, string.Format($"{BCCEmail} Is An Invalid E-mail Address In The BCCEmailAddress List"));
+                            throw new ArgumentOutOfRangeException("ToEmailAddress", BCCEmail, $"{BCCEmail} Is An Invalid E-mail Address In The BCCEmailAddress List");
                         }
 
                         //it's a valid email address..add it

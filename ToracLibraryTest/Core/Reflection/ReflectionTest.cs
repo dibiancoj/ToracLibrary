@@ -305,7 +305,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void GetSubPropertiesTest1()
         {
             //build up the path using the nameof
-            string PathToTest = string.Format($"{nameof(SubPropertyBase.Child)}.{nameof(SubPropertyChild.ChildId)}");
+            string PathToTest = $"{nameof(SubPropertyBase.Child)}.{nameof(SubPropertyChild.ChildId)}";
 
             //go grab the results for the child id
             var ChildPropertyResults = PropertyHelpers.GetSubPropertiesLazy(typeof(SubPropertyBase), PathToTest).ToArray();
@@ -345,7 +345,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             string FirstLevelPathToTest = nameof(SubPropertyBase.Description);
 
             //grab the child path
-            string ChildPathToTest = string.Format($"{nameof(SubPropertyBase.Child)}.{nameof(SubPropertyChild.ChildId)}");
+            string ChildPathToTest = $"{nameof(SubPropertyBase.Child)}.{nameof(SubPropertyChild.ChildId)}";
 
             //let's go build up the property on the 1st level property
             var FirstLevelExpressionToGetPropertyTyped = PropertyHelpers.GetPropertyOfObjectExpressionFunc<SubPropertyBase, string>(FirstLevelPathToTest).Compile();
