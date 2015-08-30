@@ -216,7 +216,8 @@ namespace ToracLibraryTest.UnitsTest.Core
                 typeof(HtmlHelperTest),
                 typeof(JsonActionResultTest),
                 typeof(ControllerExtensionTest),
-                typeof(JsonNetCustomValueProviderFactoryTest)
+                typeof(JsonNetCustomValueProviderFactoryTest),
+                typeof(DIContainerSharedMock)
             };
 
             //grab everything that implements IDependencyInject

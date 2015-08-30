@@ -37,6 +37,11 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
             DIContainer.Register<JsonNetCustomValueProviderFactoryControllerTest>()
                 .WithFactoryName(JsonNetCustomValueProviderFactoryName)
                 .WithConstructorImplementation((di) => JsonNetCustomValueProviderFactoryControllerTest.MockController(di));
+
+            //register the mocked request
+            DIContainer.Register<MockHttpRequest>()
+                .WithFactoryName(JsonNetCustomValueProviderFactoryName)
+                .WithConstructorImplementation((di) => JsonNetCustomValueProviderFactoryControllerTest.MockRequest(di));
         }
 
         #region Constants
@@ -102,6 +107,15 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
                 //create the controller
                 var MockedController = new JsonNetCustomValueProviderFactoryControllerTest();
 
+                //create the Mock controller
+                MockedController.ControllerContext = new MockControllerContext(MockedController, null, null, DIContainer.Resolve<MockHttpRequest>(JsonNetCustomValueProviderFactoryName), null, null);
+
+                //return the controller now
+                return MockedController;
+            }
+
+            public static MockHttpRequest MockRequest(ToracDIContainer DIContainer)
+            {
                 //let's build a model with a stream
                 var MemoryStreamToUse = new MemoryStream();
 
@@ -117,11 +131,8 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
                 //reset the stream
                 MemoryStreamToUse.Position = 0;
 
-                //create the Mock controller
-                MockedController.ControllerContext = new MockControllerContext(MockedController, null, null, null, null, null, null, null, AspNetConstants.JsonContentType, MemoryStreamToUse);
-
-                //return the controller now
-                return MockedController;
+                //go build hte request and return it
+                return new MockHttpRequest(null, null, null, null, AspNetConstants.JsonContentType, MemoryStreamToUse);
             }
 
             #endregion

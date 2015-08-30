@@ -22,8 +22,8 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         /// <param name="ViewDataDictionaryToSet">View data dictionary to set, if any</param>
         public MockIViewDataContainer(ViewDataDictionary ViewDataDictionaryToSet)
         {
-            //just set the view data
-            ViewData = ViewDataDictionaryToSet;
+            //just set the view data (we can't have a null view data dictionary, so we just create a new view data if null is passed in)
+            ViewData = ViewDataDictionaryToSet ?? new ViewDataDictionary();
         }
 
         /// <summary>

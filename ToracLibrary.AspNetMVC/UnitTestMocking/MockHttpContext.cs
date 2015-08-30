@@ -7,7 +7,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.SessionState;
 
 namespace ToracLibrary.AspNetMVC.UnitTestMocking
 {
@@ -22,42 +21,20 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
 
         /// <summary>
         /// Constructor
-        /// </summary>
-        /// <param name="RelativeUrlToSet">Relative Url</param>
-        public MockHttpContext(string RelativeUrlToSet)
-            : this(RelativeUrlToSet, null, null, null, null, null, null, null)
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="RelativeUrlToSet">Relative Url</param>
+        /// </summary>       
         /// <param name="PrincipalToSet">Principal</param>
-        /// <param name="FormParamsToSet">FormParams</param>
-        /// <param name="QueryStringParamsToSet">QueryStringParams</param>
-        /// <param name="CookiesToSet">Cookies</param>
-        /// <param name="SessionItemsToSet">SessionItems</param>
-        /// <param name="RequestContentTypeToSet">Request content type</param>
-        /// <param name="RequestInputStreamToSet">Request input Stream</param>
-        public MockHttpContext(string RelativeUrlToSet,
-                               MockPrincipal PrincipalToSet,
-                               NameValueCollection FormParamsToSet,
-                               NameValueCollection QueryStringParamsToSet,
-                               HttpCookieCollection CookiesToSet,
-                               SessionStateItemCollection SessionItemsToSet,
-                               string RequestContentTypeToSet,
-                               Stream RequestInputStreamToSet)
+        /// <param name="RequestToSet">Request to mock</param>
+        /// <param name="ResponseToSet">Response to mock</param>
+        /// <param name="SessionStateToSet">Mocked session state</param>
+        public MockHttpContext(MockPrincipal PrincipalToSet,
+                               MockHttpRequest RequestToSet,
+                               MockHttpResponse ResponseToSet,
+                               MockHttpSessionState SessionStateToSet)
         {
-            RelativeUrl = RelativeUrlToSet;
             Principal = PrincipalToSet;
-            FormParams = FormParamsToSet;
-            QueryStringParams = QueryStringParamsToSet;
-            Cookies = CookiesToSet;
-            SessionItems = SessionItemsToSet;
-            RequestContentType = RequestContentTypeToSet;
-            RequestInputStream = RequestInputStreamToSet;
-            MockedHttpResponse = new MockHttpResponse();
+            MockedSessionState = SessionStateToSet;
+            MockedHttpResponse = ResponseToSet;
+            MockedHttpRequest = RequestToSet;
         }
 
         #endregion
@@ -65,49 +42,24 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         #region Properties
 
         /// <summary>
-        /// Relative Url
-        /// </summary>
-        private string RelativeUrl { get; }
-
-        /// <summary>
         /// Principal
         /// </summary>
         private MockPrincipal Principal { get; }
 
         /// <summary>
-        /// Forms Params
+        /// Mocked http request
         /// </summary>
-        private NameValueCollection FormParams { get; }
+        private HttpRequestBase MockedHttpRequest { get; }
 
         /// <summary>
-        /// Query string
-        /// </summary>
-        private NameValueCollection QueryStringParams { get; }
-
-        /// <summary>
-        /// Cookies
-        /// </summary>
-        private HttpCookieCollection Cookies { get; }
-
-        /// <summary>
-        /// Session variables
-        /// </summary>
-        private SessionStateItemCollection SessionItems { get; }
-
-        /// <summary>
-        /// The mocked http response
+        /// Mocked http response
         /// </summary>
         private MockHttpResponse MockedHttpResponse { get; }
 
         /// <summary>
-        /// Content type of the http request to set
+        /// Mocked session state
         /// </summary>
-        private string RequestContentType { get; }
-
-        /// <summary>
-        /// Request input stream
-        /// </summary>
-        private Stream RequestInputStream { get; }
+        private MockHttpSessionState MockedSessionState { get; }
 
         #endregion
 
@@ -121,7 +73,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
             get
             {
                 //return the mocked request
-                return new MockHttpRequest(RelativeUrl, FormParams, QueryStringParams, Cookies, RequestContentType, RequestInputStream);
+                return MockedHttpRequest;
             }
         }
 
@@ -155,7 +107,7 @@ namespace ToracLibrary.AspNetMVC.UnitTestMocking
         {
             get
             {
-                return new MockHttpSessionState(SessionItems);
+                return MockedSessionState;
             }
         }
 
