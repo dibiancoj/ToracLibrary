@@ -52,6 +52,42 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNet", "Tora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.DynamicRunTime", "ToracLibrary.DynamicRunTime\ToracLibrary.DynamicRunTime.csproj", "{F70021E8-EF11-4418-88BC-7BDDC310E0E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{8F90657A-D8C4-42AB-B97E-FB20C3F07938}"
+	ProjectSection(SolutionItems) = preProject
+		PerformanceScripts.sql = PerformanceScripts.sql
+		RebuildAllIndexesInTableScript.sql = RebuildAllIndexesInTableScript.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleSqlScripts", "ExampleSqlScripts", "{179A0B4A-7F69-464B-9FCA-823DA8ABB316}"
+	ProjectSection(SolutionItems) = preProject
+		AllSubstringsBetween2Characters.sql = AllSubstringsBetween2Characters.sql
+		BitMask.sql = BitMask.sql
+		DropManagementStudioCache.sql = DropManagementStudioCache.sql
+		EXECWInsert.sql = EXECWInsert.sql
+		Merge.sql = Merge.sql
+		Pivot.sql = Pivot.sql
+		RecursiveQueryWithCTE.sql = RecursiveQueryWithCTE.sql
+		RemoveAllForeignsInDb.sql = RemoveAllForeignsInDb.sql
+		Transaction.sql = Transaction.sql
+		UpdateWithAJoin.sql = UpdateWithAJoin.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml", "Xml", "{12B59A60-1049-4DBA-97C1-59A57EF76542}"
+	ProjectSection(SolutionItems) = preProject
+		CrossApplyWithXmlColumn.sql = CrossApplyWithXmlColumn.sql
+		DeleteNode.sql = DeleteNode.sql
+		DynamicUpdateWithVariableOrColumn.sql = DynamicUpdateWithVariableOrColumn.sql
+		ExistsQuery.sql = ExistsQuery.sql
+		InClause.sql = InClause.sql
+		Insert.sql = Insert.sql
+		InsertNode.sql = InsertNode.sql
+		QueryXMLColumnDataType.sql = QueryXMLColumnDataType.sql
+		Select.sql = Select.sql
+		Update.sql = Update.sql
+		UpdateXmlAttributeColumn.sql = UpdateXmlAttributeColumn.sql
+		UpdateXmlElementColumn.sql = UpdateXmlElementColumn.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,5 +175,8 @@ Global
 		{56DD48D1-28DD-4C36-9F4C-CB2E46645355} = {97599D6B-0D1E-46F3-AB00-C94873DAA0E8}
 		{EED4BFA1-6420-4221-B5EF-5F2DFE057E1E} = {56DD48D1-28DD-4C36-9F4C-CB2E46645355}
 		{1ADB72E4-A808-4BB3-B780-3A591197ED97} = {97599D6B-0D1E-46F3-AB00-C94873DAA0E8}
+		{8F90657A-D8C4-42AB-B97E-FB20C3F07938} = {1B62797C-EEBE-4EDA-B864-681AA01F9630}
+		{179A0B4A-7F69-464B-9FCA-823DA8ABB316} = {1B62797C-EEBE-4EDA-B864-681AA01F9630}
+		{12B59A60-1049-4DBA-97C1-59A57EF76542} = {179A0B4A-7F69-464B-9FCA-823DA8ABB316}
 	EndGlobalSection
 EndGlobal
