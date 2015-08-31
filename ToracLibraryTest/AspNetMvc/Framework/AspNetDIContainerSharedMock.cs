@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
 {
 
     /// <summary>

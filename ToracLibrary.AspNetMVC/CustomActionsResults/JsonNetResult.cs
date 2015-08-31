@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ToracLibrary.Serialization.Json;
 
-namespace ToracLibrary.AspNetMVC.CustomActionsResults
+namespace ToracLibrary.AspNet.AspNetMVC.CustomActionsResults
 {
 
     /// <summary>

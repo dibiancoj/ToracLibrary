@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
-namespace ToracLibrary.AspNetMVC.UnitTestMocking
+namespace ToracLibrary.AspNet.AspNetMVC.UnitTestMocking
 {
 
     /// <summary>

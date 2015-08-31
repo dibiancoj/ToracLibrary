@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.AspNetMVC.JqGrid;
-using ToracLibrary.AspNetMVC.JqGrid.InlineFilters;
-using ToracLibrary.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.JqGrid;
+using ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters;
+using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibraryTest.Framework;
 using ToracLibraryTest.Framework.DummyObjects;
@@ -14,7 +14,7 @@ using ToracLibraryTest.UnitsTest.Core.DataProviders;
 using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibraryTest.UnitsTest.EntityFramework.DataContext;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
 {
 
     /// <summary>

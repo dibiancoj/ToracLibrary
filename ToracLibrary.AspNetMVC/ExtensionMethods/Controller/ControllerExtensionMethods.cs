@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNetMVC.CustomActionsResults;
-using ToracLibrary.AspNetMVC.RazorViewToString;
+using ToracLibrary.AspNet.AspNetMVC.CustomActionsResults;
+using ToracLibrary.AspNet.AspNetMVC.RazorViewToString;
 
-namespace ToracLibrary.AspNetMVC.ExtensionMethods.ControllerExtensions
+namespace ToracLibrary.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions
 {
 
     /// <summary>

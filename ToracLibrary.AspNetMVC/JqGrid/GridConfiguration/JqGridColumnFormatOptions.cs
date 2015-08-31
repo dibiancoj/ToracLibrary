@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.AspNetMVC.JqGrid.GridConfiguration
+namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.GridConfiguration
 {
 
     /// <summary>

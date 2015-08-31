@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.AspNetMVC.RazorViewToString
+namespace ToracLibrary.AspNet.AspNetMVC.RazorViewToString
 {
 
     /// <summary>

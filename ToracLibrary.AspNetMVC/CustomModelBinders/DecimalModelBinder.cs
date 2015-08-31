@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.ModelBinding;
 using System.Web.Mvc;
 
-namespace ToracLibrary.AspNetMVC.CustomModelBinders
+namespace ToracLibrary.AspNet.AspNetMVC.CustomModelBinders
 {
 
     /// <summary>

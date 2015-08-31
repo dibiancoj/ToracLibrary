@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNetMVC.ExtensionMethods.ControllerExtensions;
-using ToracLibrary.AspNetMVC.RazorViewToString;
-using ToracLibrary.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions;
+using ToracLibrary.AspNet.AspNetMVC.RazorViewToString;
+using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
 {
 
     /// <summary>

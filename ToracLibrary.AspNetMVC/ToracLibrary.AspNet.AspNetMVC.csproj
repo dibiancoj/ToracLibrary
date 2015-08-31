@@ -7,8 +7,8 @@
     <ProjectGuid>{B38A458B-00B6-4EE4-9A90-26E29490F3E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToracLibrary.AspNetMVC</RootNamespace>
-    <AssemblyName>ToracLibrary.AspNetMVC</AssemblyName>
+    <RootNamespace>ToracLibrary.AspNet.AspNetMVC</RootNamespace>
+    <AssemblyName>ToracLibrary.AspNet.AspNetMVC</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -74,7 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetConstants.cs" />
+    <Compile Include="AspNetMvcConstants.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
     <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />

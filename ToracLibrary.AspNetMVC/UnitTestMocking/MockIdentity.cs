@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.AspNetMVC.UnitTestMocking
+namespace ToracLibrary.AspNet.AspNetMVC.UnitTestMocking
 {
 
     /// <summary>

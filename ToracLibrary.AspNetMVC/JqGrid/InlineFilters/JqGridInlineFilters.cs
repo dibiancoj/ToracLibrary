@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Serialization.Json;
 
-namespace ToracLibrary.AspNetMVC.JqGrid.InlineFilters
+namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
 {
 
     /// <summary>

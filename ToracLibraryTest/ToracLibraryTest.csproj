@@ -183,9 +183,9 @@
       <Project>{faa015e4-8b3a-4c97-9ab3-71d18075a8d1}</Project>
       <Name>ToracLibrary.ActiveDirectory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToracLibrary.AspNetMVC\ToracLibrary.AspNetMVC.csproj">
+    <ProjectReference Include="..\ToracLibrary.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj">
       <Project>{b38a458b-00b6-4ee4-9a90-26e29490f3e8}</Project>
-      <Name>ToracLibrary.AspNetMVC</Name>
+      <Name>ToracLibrary.AspNet.AspNetMVC</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>

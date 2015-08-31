@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNetMVC.CustomModelBinders;
+using ToracLibrary.AspNet.AspNetMVC.CustomModelBinders;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
 {
 
     /// <summary>

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNetMVC.HtmlHelpers;
-using ToracLibrary.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.HtmlHelpers;
+using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC
+namespace ToracLibraryTest.AspNet.AspNetMVC
 {
 
     /// <summary>

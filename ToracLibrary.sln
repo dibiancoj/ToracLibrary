@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Less Common Used APIs", "Le
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNet", "AspNet", "{97599D6B-0D1E-46F3-AB00-C94873DAA0E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNetMVC", "ToracLibrary.AspNetMVC\ToracLibrary.AspNetMVC.csproj", "{B38A458B-00B6-4EE4-9A90-26E29490F3E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNet.AspNetMVC", "ToracLibrary.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj", "{B38A458B-00B6-4EE4-9A90-26E29490F3E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ActiveDirectory", "ToracLibrary.ActiveDirectory\ToracLibrary.ActiveDirectory.csproj", "{FAA015E4-8B3A-4C97-9AB3-71D18075A8D1}"
 EndProject

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ToracLibrary.Core.Paging;
 using static ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions.IOrderedQueryableExtensionMethods;
 
-namespace ToracLibrary.AspNetMVC.JqGrid
+namespace ToracLibrary.AspNet.AspNetMVC.JqGrid
 {
 
     /*

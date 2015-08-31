@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ToracLibrary.Core.ExpressionTrees.API;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
-namespace ToracLibrary.AspNetMVC.JqGrid.InlineFilters
+namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
 {
 
     /// <summary>

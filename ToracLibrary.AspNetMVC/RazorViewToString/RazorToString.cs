@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
-namespace ToracLibrary.AspNetMVC.RazorViewToString
+namespace ToracLibrary.AspNet.AspNetMVC.RazorViewToString
 {
 
     /// <summary>

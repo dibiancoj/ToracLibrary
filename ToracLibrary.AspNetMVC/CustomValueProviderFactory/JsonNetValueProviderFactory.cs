@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace ToracLibrary.AspNetMVC.CustomValueProviderFactory
+namespace ToracLibrary.AspNet.AspNetMVC.CustomValueProviderFactory
 {
 
     //****there is an known issue with enums. If you pass the enum in as an int (not a string value) it wont deserialize correctly.

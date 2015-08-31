@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNetMVC;
-using ToracLibrary.AspNetMVC.CustomValueProviderFactory;
-using ToracLibrary.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC;
+using ToracLibrary.AspNet.AspNetMVC.CustomValueProviderFactory;
+using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibrary.Serialization.Json;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.UnitsTest.AspNetMVC.CustomValueProviderFactory
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.CustomValueProviderFactory
 {
 
     /// <summary>
