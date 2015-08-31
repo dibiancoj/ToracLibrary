@@ -126,8 +126,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             //check the results
             Assert.AreEqual("1", SplitTextResult[0].ColumnData.ElementAt(0));
             Assert.AreEqual("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.AreEqual("", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.AreEqual("", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.AreEqual(string.Empty, SplitTextResult[0].ColumnData.ElementAt(2));
+            Assert.AreEqual(string.Empty, SplitTextResult[0].ColumnData.ElementAt(3));
         }
 
         [TestCategory("Core.Delimiter")]

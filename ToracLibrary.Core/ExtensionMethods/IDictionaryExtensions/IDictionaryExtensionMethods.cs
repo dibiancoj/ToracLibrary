@@ -26,7 +26,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
         public static bool TryAdd<TValue, TKey>(this IDictionary<TKey, TValue> DictionaryToUse, TKey KeyToCheck, TValue ValueToAdd)
         {
             //this method is just shorthand and will save some typing
-            
+
             //let's try to get it now
             if (DictionaryToUse.ContainsKey(KeyToCheck))
             {
@@ -39,6 +39,30 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
 
             //return the positive result
             return true;
+        }
+
+        /// <summary>
+        /// Try to get the item in the dictionary. This cleans up TryGetValue syntax which makes you specify an out parameter. This will return a TValue that will be null if it's not in the dictionary
+        /// </summary>
+        /// <typeparam name="TKey">Type Of The Key Of The Dictionary</typeparam>
+        /// <typeparam name="TValue">Type Of The Value Of The Dictionary</typeparam>
+        /// <param name="DictionaryToUse">Dictionary to try to add the item too</param>
+        /// <param name="KeyToCheck">Key to try to get from the dictionary</param>
+        /// <returns>TValue. Null if not found</returns>
+        public static TValue TryGet<TValue, TKey>(this IDictionary<TKey, TValue> DictionaryToUse, TKey KeyToTryToRetrieve) where TValue : class
+        {
+            //out parameter
+            TValue ValueToTryToFetch;
+
+            //go try to find the object in the dictionary
+            if (DictionaryToUse.TryGetValue(KeyToTryToRetrieve, out ValueToTryToFetch))
+            {
+                //we found the item in the dictionary, return it
+                return ValueToTryToFetch;
+            }
+
+            //we never found it...just return null
+            return null;
         }
 
     }

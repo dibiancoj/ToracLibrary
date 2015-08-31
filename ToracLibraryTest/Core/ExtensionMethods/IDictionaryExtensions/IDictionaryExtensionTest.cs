@@ -17,6 +17,8 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
     public class IDictionaryExtensionTest
     {
 
+        #region Try Add
+
         /// <summary>
         /// Unit test for try add to a dictionary
         /// </summary>
@@ -57,6 +59,50 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             //make sure we have 2 items
             Assert.AreEqual(2, TestDictionary.Count);
         }
+
+        #endregion
+
+        #region Try Get
+
+        /// <summary>
+        /// Unit test for try get to a dictionary
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IDictionaryExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void TryGetTest1()
+        {
+            //create a test dictionary which we will use
+            var TestDictionary = new Dictionary<int, DummyObject>();
+
+            /* this saves you from declaring the out parameter which is rough with the syntax
+             * if (!TestDictionary.TryGetValue(24, out...))
+             * {
+             * 
+             * }
+             */
+
+            //let's make sure we can't find an item since we have nothing in our dictionary right now
+            Assert.IsNull(TestDictionary.TryGet(24));
+
+            //let's add an item
+            TestDictionary.Add(24, new DummyObject(24, "24"));
+
+            //make sure we have this item now
+            Assert.AreEqual(24, TestDictionary.TryGet(24).Id);
+
+            //make sure we can't find 25
+            Assert.IsNull(TestDictionary.TryGet(25));
+
+            //now add 25
+            TestDictionary.Add(25, new DummyObject(25, "25"));
+
+            //make sure we can find 25 now
+            Assert.AreEqual(25, TestDictionary.TryGet(25).Id);
+        }
+
+        #endregion
 
     }
 
