@@ -500,13 +500,13 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var DeleteAllTheseRows = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).Take(2).ToArray();
 
                 //there should be 2 rows to delete
-                Assert.AreEqual(2, DeleteAllTheseRows.Count());
+                Assert.AreEqual(2, DeleteAllTheseRows.Length);
 
                 //delete the range and save it
                 DP.DeleteRange(DeleteAllTheseRows, true);
 
                 //make sure we have default rows - how many we deleted
-                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Count(), DP.Fetch<Ref_Test>(false).Count());
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Length, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -524,13 +524,13 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var DeleteAllTheseRows = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).Take(2).ToArray();
 
                 //there should be 2 rows to delete
-                Assert.AreEqual(2, DeleteAllTheseRows.Count());
+                Assert.AreEqual(2, DeleteAllTheseRows.Length);
 
                 //delete the range and save it
                 await DP.DeleteRangeAsync(DeleteAllTheseRows, true);
 
                 //make sure we have default rows - how many we deleted
-                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Count(), DP.Fetch<Ref_Test>(false).Count());
+                Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Length, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 
@@ -874,9 +874,9 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync();
 
                 //make sure we only have 1 record
-                Assert.AreEqual(1, RecordsToFind.Count());
-                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind.First().Id);
-                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind.First().Description);
+                Assert.AreEqual(1, RecordsToFind.Length);
+                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind[0].Id);
+                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind[0].Description);
             }
         }
 
@@ -901,9 +901,9 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync();
 
                 //make sure we only have 1 record
-                Assert.AreEqual(1, RecordsToFind.Count());
-                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind.First().Id);
-                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind.First().Description);
+                Assert.AreEqual(1, RecordsToFind.Length);
+                Assert.AreEqual(LastRecordInTable.Id, RecordsToFind[0].Id);
+                Assert.AreEqual(LastRecordInTable.Description, RecordsToFind[0].Description);
             }
         }
 

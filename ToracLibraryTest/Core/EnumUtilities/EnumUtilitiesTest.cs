@@ -84,7 +84,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             var EnumValuesToTest = EnumUtility.GetValuesLazy<TestEnum>().ToArray();
 
             //make sure we have the number of enum values
-            Assert.AreEqual(4, EnumValuesToTest.Count());
+            Assert.AreEqual(4, EnumValuesToTest.Length);
 
             //make sure we have the 3 enum values now
             Assert.IsTrue(EnumValuesToTest.Any(x => x == TestEnum.City));

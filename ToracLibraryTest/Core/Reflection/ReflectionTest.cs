@@ -311,7 +311,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             var ChildPropertyResults = PropertyHelpers.GetSubPropertiesLazy(typeof(SubPropertyBase), PathToTest).ToArray();
 
             //now make sure we have 2 child property ("Child" then "ChildId")
-            Assert.AreEqual(2, ChildPropertyResults.Count());
+            Assert.AreEqual(2, ChildPropertyResults.Length);
 
             //make sure the first element data type is SubPropertyChild
             Assert.AreEqual(typeof(SubPropertyChild), ChildPropertyResults[0].PropertyType);
@@ -559,14 +559,14 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.IsNull(MethodThatCantBeFound);
 
             //now let's make sure the parameters are the same
-            Assert.AreEqual(0, MethodInfoWith0Parameters.GetParameters().Count());
+            Assert.AreEqual(0, MethodInfoWith0Parameters.GetParameters().Length);
 
             //make sure the first parameter is a string
-            Assert.AreEqual(1, MethodInfoWith1ParameterString.GetParameters().Count());
+            Assert.AreEqual(1, MethodInfoWith1ParameterString.GetParameters().Length);
             Assert.AreEqual(typeof(string), MethodInfoWith1ParameterString.GetParameters()[0].ParameterType);
 
             //make sure this overload has a boolean in the first spot
-            Assert.AreEqual(1, MethodInfoWith1ParametersBoolean.GetParameters().Count());
+            Assert.AreEqual(1, MethodInfoWith1ParametersBoolean.GetParameters().Length);
             Assert.AreEqual(typeof(bool), MethodInfoWith1ParametersBoolean.GetParameters()[0].ParameterType);
         }
 

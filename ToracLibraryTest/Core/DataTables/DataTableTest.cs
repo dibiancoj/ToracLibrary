@@ -106,7 +106,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(TableNameToUse, DataTableResult.TableName);
 
             //check how many rows we have
-            Assert.AreEqual(RowsToTest.Count(), DataTableResult.Rows.Count);
+            Assert.AreEqual(RowsToTest.Length, DataTableResult.Rows.Count);
 
             //check the column count
             Assert.AreEqual(2, DataTableResult.Columns.Count);

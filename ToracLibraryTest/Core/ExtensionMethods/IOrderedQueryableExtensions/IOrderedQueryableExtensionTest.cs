@@ -38,7 +38,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             var PagedData = DummyCreatedList.AsQueryable().OrderBy(x => x.Id).PaginateResults(2, 10).ToArray();
 
             //go check the results
-            Assert.AreEqual(10, PagedData.Count());
+            Assert.AreEqual(10, PagedData.Length);
             Assert.AreEqual(10, PagedData[0].Id);
             Assert.AreEqual(11, PagedData[1].Id);
             Assert.AreEqual(12, PagedData[2].Id);
@@ -63,7 +63,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
                 var PagedData = DP.Fetch<Ref_Test>(false).OrderBy(x => x.Id).PaginateResults(2, 10).ToArray();
 
                 //go check the results
-                Assert.AreEqual(10, PagedData.Count());
+                Assert.AreEqual(10, PagedData.Length);
                 Assert.AreEqual(11, PagedData[0].Id);
                 Assert.AreEqual(12, PagedData[1].Id);
                 Assert.AreEqual(13, PagedData[2].Id);

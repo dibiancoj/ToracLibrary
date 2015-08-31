@@ -750,6 +750,49 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>(FactoryWithNonGenericParameters).LoggerToUse.LogFile.ToString());
         }
 
+        /// <summary>
+        /// test a constructor generic parameter
+        /// </summary>    
+        [TestCategory("ToracLibrary.DIContainer")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void GenericConstructorParameterTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorParameters(new CtorParameter<string>(ConnectionStringToUse), new ResolveTypeCtorParameter<ILogger>());
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
         #endregion
 
         #region Resolve All
