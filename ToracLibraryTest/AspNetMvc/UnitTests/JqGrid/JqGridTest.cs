@@ -75,7 +75,16 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
                 var FilterOnDescription = new JqGridInlineFilter { ColumnName = nameof(Ref_Test.Description), UserEnteredValue = DescriptionToQuery };
 
                 //let's go grab the filters to use
-                var FilterQuery = JqGridInlineFilterQueryBuilder.BuildInlineFilterQuery<Ref_Test>(new JqGridInlineFilters { Filters = new JqGridInlineFilter[] { FilterOnId, FilterOnDescription }, Operation = JqGridInlineFilters.JqGridOperationType.AND }, false);
+                var FilterQuery = JqGridInlineFilterQueryBuilder.BuildInlineFilterQuery<Ref_Test>(
+                    new JqGridInlineFilters
+                    {
+                        Filters = new JqGridInlineFilter[]
+                        {
+                            FilterOnId,
+                            FilterOnDescription
+                        },
+                        Operation = JqGridInlineFilters.JqGridOperationType.AND
+                    }, false);
 
                 //now combine the filter query with the base query
                 var QueryResults = SqlQuery.Where(FilterQuery).ToArray();
@@ -112,7 +121,16 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
                 var FilterOnDescription = new JqGridInlineFilter { ColumnName = nameof(Ref_Test.Description), UserEnteredValue = DescriptionToQuery };
 
                 //let's go grab the filters to use
-                var FilterQuery = JqGridInlineFilterQueryBuilder.BuildInlineFilterQuery<Ref_Test>(new JqGridInlineFilters { Filters = new JqGridInlineFilter[] { FilterOnId, FilterOnDescription }, Operation = JqGridInlineFilters.JqGridOperationType.OR }, false);
+                var FilterQuery = JqGridInlineFilterQueryBuilder.BuildInlineFilterQuery<Ref_Test>(
+                    new JqGridInlineFilters
+                    {
+                        Filters = new JqGridInlineFilter[]
+                        {
+                            FilterOnId,
+                            FilterOnDescription
+                        },
+                        Operation = JqGridInlineFilters.JqGridOperationType.OR
+                    }, false);
 
                 //now combine the filter query with the base query
                 var QueryResults = SqlQuery.Where(FilterQuery).OrderBy(x => x.Id).ToArray();

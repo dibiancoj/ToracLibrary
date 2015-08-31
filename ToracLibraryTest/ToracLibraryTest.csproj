@@ -102,13 +102,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AspNetMvc\CustomActionsResults\JsonActionResultTest.cs" />
-    <Compile Include="AspNetMvc\CustomModelBinders\CustomModelBinderTest.cs" />
-    <Compile Include="AspNetMvc\CustomValueProviderFactory\JsonNetCustomValueProviderFactoryTest.cs" />
-    <Compile Include="AspNetMvc\DIContainerSharedMock\AspNetDIContainerSharedMock.cs" />
-    <Compile Include="AspNetMvc\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
-    <Compile Include="AspNetMvc\HtmlHelpers\HtmlHelperTest.cs" />
-    <Compile Include="AspNetMvc\JqGrid\JqGridTest.cs" />
+    <Compile Include="AspNetMvc\UnitTests\CustomActionsResults\JsonActionResultTest.cs" />
+    <Compile Include="AspNetMvc\UnitTests\CustomModelBinders\CustomModelBinderTest.cs" />
+    <Compile Include="AspNetMvc\UnitTests\CustomValueProviderFactory\JsonNetCustomValueProviderFactoryTest.cs" />
+    <Compile Include="AspNetMvc\Framework\AspNetDIContainerSharedMock.cs" />
+    <Compile Include="AspNetMvc\UnitTests\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
+    <Compile Include="AspNetMvc\UnitTests\HtmlHelpers\HtmlHelperTest.cs" />
+    <Compile Include="AspNetMvc\UnitTests\JqGrid\JqGridTest.cs" />
     <Compile Include="Core\AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Caching\InMemoryCacheTest.cs" />
     <Compile Include="Caching\SqlCacheDependencyTest.cs" />
