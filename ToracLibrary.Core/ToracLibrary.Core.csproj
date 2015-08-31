@@ -122,6 +122,7 @@
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
     <Compile Include="DataTypes\PrimitiveTypes.cs" />
     <Compile Include="ToracAttributes\ExpressionTrees\LinqToObjectsCompatibleAttribute.cs" />
+    <Compile Include="ToracAttributes\MethodIsNotTestableAttribute.cs" />
     <Compile Include="Units\ComputerSizeUnitConverter.cs" />
     <Compile Include="WebRequests\FileDownloadWebRequest.cs" />
     <Compile Include="WebRequests\FTPWebRequest.cs" />

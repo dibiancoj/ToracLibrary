@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.AspNet.SessionState
 {
@@ -23,6 +24,7 @@ namespace ToracLibrary.AspNet.SessionState
         /// Gets all the session variables ACROSS ALL USERS using reflection. ie.
         /// </summary>
         /// <returns>List Of RetrieveSessionDataAcrossUsersResult. This is lazy loaded</returns>
+        [MethodIsNotTestable("Can't Mock Session State Across Users. This Method Hacks Into Session As It Is, Trying To Test It Is Not Really Testing It")]
         public static IEnumerable<RetrieveSessionDataAcrossUsersResult> RetrieveSessionDataAcrossUsersLazy()
         {
             //grab the session data and loop through it 
@@ -46,6 +48,7 @@ namespace ToracLibrary.AspNet.SessionState
         /// <param name="SessionNameToKill">Session Key To Kill</param>
         /// <returns>True if we found the session and its deleted. False if we didn't find any session with that name</returns>
         /// <remarks>Going to keep this simple since this whole session across user is shady. Not going to try to kill multiple sessions or what not</remarks>
+        [MethodIsNotTestable("Can't Mock Session State Across Users. This Method Hacks Into Session As It Is, Trying To Test It Is Not Really Testing It")]
         public static bool KillSession(string SessionNameToKill)
         {
             //we have some sort of session item, let's loop through the keys now
