@@ -19,7 +19,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(string ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -28,7 +28,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(bool ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -37,7 +37,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(bool? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -46,7 +46,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(Int16 ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -55,7 +55,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(Int16? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -64,7 +64,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(int ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -73,7 +73,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(int? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -82,7 +82,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(Int64 ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -91,7 +91,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(Int64? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -100,7 +100,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(double ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -109,7 +109,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(double? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -118,7 +118,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(decimal ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;
@@ -127,7 +127,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ParameterValue">Parameter Value</param>
+        /// <param name="ParameterValueToSet">Parameter Value</param>
         public PrimitiveCtorParameter(decimal? ParameterValueToSet)
         {
             ParameterValue = ParameterValueToSet;

@@ -47,6 +47,7 @@
     <Compile Include="Exceptions\MultipleTypesFoundException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="Parameters\ConstructorParameters\IConstructorParameter.cs" />
+    <Compile Include="Parameters\ConstructorParameters\CtorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\PrimitiveCtorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\ResolveCtorParameter.cs" />
     <Compile Include="Parameters\ConstructorParameters\ResolveTypeNonGenericCtorParameter.cs" />
