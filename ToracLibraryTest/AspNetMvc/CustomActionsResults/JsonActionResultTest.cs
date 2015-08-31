@@ -98,7 +98,12 @@ namespace ToracLibraryTest.UnitsTest.AspNetMVC
                 var MockedController = new JsonNetActionControllerTest();
 
                 //create the Mock controller
-                MockedController.ControllerContext = new MockControllerContext(MockedController, null, null, null, DIContainer.Resolve<MockHttpResponse>(), null);
+                MockedController.ControllerContext = new MockControllerContext(MockedController, 
+                                                                               DIContainer.Resolve<MockPrincipal>(AspNetDIContainerSharedMock.AspNetMockFactoryName),
+                                                                               DIContainer.Resolve<MockIdentity>(AspNetDIContainerSharedMock.AspNetMockFactoryName),
+                                                                               DIContainer.Resolve<MockHttpRequest>(AspNetDIContainerSharedMock.AspNetMockFactoryName),
+                                                                               DIContainer.Resolve<MockHttpResponse>(AspNetDIContainerSharedMock.AspNetMockFactoryName),
+                                                                               DIContainer.Resolve<MockHttpSessionState>(AspNetDIContainerSharedMock.AspNetMockFactoryName));
 
                 //return the controller now
                 return MockedController;

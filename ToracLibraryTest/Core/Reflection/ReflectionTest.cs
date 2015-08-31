@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.Core.Reflection;
 using ToracLibrary.Core.ReflectionDynamic;
@@ -217,7 +216,7 @@ namespace ToracLibraryTest.UnitsTest.Core
                 typeof(JsonActionResultTest),
                 typeof(ControllerExtensionTest),
                 typeof(JsonNetCustomValueProviderFactoryTest),
-                typeof(DIContainerSharedMock)
+                typeof(AspNetDIContainerSharedMock)
             };
 
             //grab everything that implements IDependencyInject
