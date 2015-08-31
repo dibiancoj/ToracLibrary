@@ -118,6 +118,7 @@
     <Compile Include="AspNetMvc\UnitTests\CustomModelBinders\CustomModelBinderTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\CustomValueProviderFactory\JsonNetCustomValueProviderFactoryTest.cs" />
     <Compile Include="AspNetMvc\Framework\AspNetDIContainerSharedMock.cs" />
+    <Compile Include="AspNetMvc\UnitTests\DIContainer\AspNetDIContainerTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\HtmlHelpers\HtmlHelperTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\JqGrid\JqGridTest.cs" />
