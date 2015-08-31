@@ -210,7 +210,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             DataProviderSetupTearDown.TruncateTable();
 
             //go build the record to test
-            var RecordToTest = BuildRows(1).First();
+            var RecordToTest = BuildRows(1)[0];
 
             //store what the description is before we change it
             string OriginalDescriptionValue = RecordToTest.Description;
@@ -250,7 +250,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             DataProviderSetupTearDown.TruncateTable();
 
             //go build the record to test
-            var RecordToTest = BuildRows(1).First();
+            var RecordToTest = BuildRows(1)[0];
 
             //store what the description is before we change it
             string OriginalDescriptionValue = RecordToTest.Description;
@@ -307,7 +307,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
 
                 //first row's id to use to fetch the record
-                var FirstRowInsertedDescription = RowsToInsert.First().Description;
+                var FirstRowInsertedDescription = RowsToInsert[0].Description;
 
                 //grab the first record
                 var FirstRow = DP.EFContext.Ref_Test.First(x => x.Description == FirstRowInsertedDescription);
@@ -341,7 +341,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
 
                 //first row's id to use to fetch the record
-                var FirstRowInsertedDescription = RowsToInsert.First().Description;
+                var FirstRowInsertedDescription = RowsToInsert[0].Description;
 
                 //grab the first row
                 var FirstRow = DP.EFContext.Ref_Test.First(x => x.Description == FirstRowInsertedDescription);
@@ -815,7 +815,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DP.UpsertRange(RowsToUpsert, true);
 
                 //how many rows + the rows in the collection
-                Assert.AreEqual(RowsToUpsert.Count(), DP.Fetch<Ref_Test>(false).Count());
+                Assert.AreEqual(RowsToUpsert.Length, DP.Fetch<Ref_Test>(false).Count());
             }
         }
 

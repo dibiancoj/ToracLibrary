@@ -26,7 +26,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
         /// <summary>
         /// How many records to add by default
         /// </summary>
-        public const int DefaultRecordsToInsert = 10;
+        internal const int DefaultRecordsToInsert = 10;
 
         #endregion
 

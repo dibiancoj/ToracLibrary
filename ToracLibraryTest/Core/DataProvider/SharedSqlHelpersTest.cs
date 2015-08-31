@@ -82,6 +82,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.SqlBuilder
             Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal)));
             Assert.IsFalse(SharedSqlHelpers.DataTypeNeedsQuoteInSql(typeof(decimal?)));
         }
+
     }
 
 }
