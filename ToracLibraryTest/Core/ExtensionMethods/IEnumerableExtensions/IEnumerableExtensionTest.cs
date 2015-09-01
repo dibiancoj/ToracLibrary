@@ -383,6 +383,112 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Chunk Up list
+
+        /// <summary>
+        /// Helper method to calculate how many items should go in a bucket
+        /// </summary>
+        /// <param name="ItemsToBuild">how many items to build. Total data set count</param>
+        /// <param name="MaxItemsInABucket">the most amount of items in a bucket</param>
+        /// <returns>how many buckets there should be</returns>
+        private static int HowManyGroupsInAChunkedUpList(int ItemsToBuild, int MaxItemsInABucket)
+        {
+            //ceiling so we "round up"
+            return Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(Convert.ToDouble(ItemsToBuild) / MaxItemsInABucket)));
+        }
+
+        /// <summary>
+        /// Unit test the basic functionality of the chunk list for ienumerable
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ChunkUpListTest1()
+        {
+            //the results should be 
+            //bucket 1 = 5 items
+            //bucket 2 = 5 items
+            //bucket 3 = 5 items
+            //bucket 4 = 5 items
+
+            //how many items to build
+            const int ItemsToBuild = 20;
+
+            //how many items in a bucket
+            const int MaxItemsInABucket = 5;
+
+            //grab the dummy list
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(ItemsToBuild).ToArray();
+
+            //let's chunk it up in slabs of 5
+            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItems(MaxItemsInABucket).ToArray();
+
+            //we should have an even 4 groups
+            Assert.AreEqual(HowManyGroupsInAChunkedUpList(ItemsToBuild, MaxItemsInABucket), ChunkedInto5ElementsPerGroup.Length);
+
+            //should be an even 5 elements per group
+            ChunkedInto5ElementsPerGroup.ForEach(x => Assert.AreEqual(MaxItemsInABucket, x.Count()));
+
+            //let's make sure, the elements in each group are correct. we will just check the first element in each group
+            for (int i = 0; i < ChunkedInto5ElementsPerGroup.Length; i++)
+            {
+                Assert.AreEqual(i * MaxItemsInABucket, ChunkedInto5ElementsPerGroup[i].ElementAt(0).Id);
+            }
+        }
+
+        /// <summary>
+        /// Unit test the chunk list items, when we don't have an even aount
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ChunkUpListTest2()
+        {
+            //the results should be 
+            //bucket 1 = 5 items
+            //bucket 2 = 5 items
+            //bucket 3 = 2 items
+
+            //how many items to build
+            const int ItemsToBuild = 12;
+
+            //how many items in a bucket
+            const int MaxItemsInABucket = 5;
+
+            //grab the dummy list
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(12).ToArray();
+
+            //let's chunk it up in slabs of 5 (we should have an extra 2 guys at the end)
+            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItems(5).ToArray();
+
+            //we should have an even 3 groups
+            Assert.AreEqual(HowManyGroupsInAChunkedUpList(ItemsToBuild, MaxItemsInABucket), ChunkedInto5ElementsPerGroup.Length);
+
+            //let's make sure, the elements in each group are correct. we will just check the first element in each group
+            for (int i = 0; i < ChunkedInto5ElementsPerGroup.Length; i++)
+            {
+                //group should have the following number of elements
+                int ShouldBeXAmountOfElementsPerGroup = MaxItemsInABucket;
+
+                //let's make sure this group has the correct number (the last group should only have 2)
+                if (i == (ChunkedInto5ElementsPerGroup.Length - 1))
+                {
+                    //it's the last group, there should only be 2 items
+                    ShouldBeXAmountOfElementsPerGroup = 2;
+                }
+
+                //check how many elements in the group
+                Assert.AreEqual(ShouldBeXAmountOfElementsPerGroup, ChunkedInto5ElementsPerGroup[i].Count());
+
+                //now check the first element in the group
+                Assert.AreEqual(i * 5, ChunkedInto5ElementsPerGroup[i].ElementAt(0).Id);
+            }
+        }
+
+        #endregion
+
         #endregion
 
     }

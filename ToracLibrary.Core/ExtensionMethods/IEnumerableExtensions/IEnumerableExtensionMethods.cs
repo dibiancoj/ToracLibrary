@@ -182,10 +182,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// For Each Extension Method. Runs The Action Method For Each Element In The List
         /// </summary>
         /// <typeparam name="T">Type Of The IEnumerable. Don't Need To Pass In</typeparam>
-        /// <param name="MethodToRunOnEachElement"></param>
-        /// <param name="thisIEnumerable">This IEnumerable To Run The Action On</param>
+        /// <param name="CollectionToProcess">This IEnumerable To Run The Action On</param>
+        /// <param name="MethodToRunOnEachElement">Method to run on each element.</param>
         /// <remarks>.Net Framework Has For Each Only On List (Ext. Method). This is for anything of IEnumerable. there is a generic constraint because if you pass in a list of string or int's, it won't change it because its a value type</remarks>
-        public static void ForEach<T>(this IEnumerable<T> thisIEnumerable, Action<T> MethodToRunOnEachElement) where T : class
+        public static void ForEach<T>(this IEnumerable<T> CollectionToProcess, Action<T> MethodToRunOnEachElement) where T : class
         {
             //there is a generic constraint because if you pass in a list of string or int's, it won't change it because its a value type
 
@@ -193,7 +193,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             //lst.ForEach(x => x.Id = -1); (lst is IEnumerable of a model class)
 
             //loop through each element and invoke the item
-            foreach (T thisElement in thisIEnumerable)
+            foreach (T thisElement in CollectionToProcess)
             {
                 //let's go invoke the element
                 MethodToRunOnEachElement.Invoke(thisElement);
@@ -293,6 +293,49 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
             //if we get here then we don't have any items in the collection. At this point we will just return a blank string
             return string.Empty;
+        }
+
+        #endregion
+
+        #region Chunk List
+
+        /// <summary>
+        /// Will take the contents of the list and chunk it up into groups. This is used if you have a large number of items, and a method needs to handle it in a smaller number of items. @Html.Raw was choking on a large list, so we will pass a smaller amount of items to the method
+        /// </summary>
+        /// <typeparam name="T">Type Of The IEnumerable. Don't Need To Pass In</typeparam>
+        /// <param name="CollectionToChunk">Collection to chunk up</param>
+        /// <param name="MaxNumberOfItemsInBucket">The maximum number of elements to put in a bucket.</param>
+        /// <returns>chunked up items</returns>
+        public static IEnumerable<IEnumerable<T>> ChunkUpListItems<T>(this IEnumerable<T> CollectionToChunk, int MaxNumberOfItemsInBucket)
+        {
+            //list to add too
+            var ChunkedData = new List<List<T>>();
+
+            //the current group we are inserting into
+            var CurrentGroup = new List<T>();
+
+            //add this group to the list
+            ChunkedData.Add(CurrentGroup);
+
+            //let's loop through the elements
+            foreach (var ItemToProcess in CollectionToChunk)
+            {
+                //if we have the number of items in the collection, then add another group
+                if (CurrentGroup.Count == MaxNumberOfItemsInBucket)
+                {
+                    //let's add another group
+                    CurrentGroup = new List<T>();
+
+                    //add this to the list now
+                    ChunkedData.Add(CurrentGroup);
+                }
+
+                //add this item to the group
+                CurrentGroup.Add(ItemToProcess);
+            }
+
+            //return the list now
+            return ChunkedData;
         }
 
         #endregion
