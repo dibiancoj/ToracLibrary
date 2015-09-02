@@ -121,7 +121,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Let's make sure if we don't register an item, then when we go to resolve it, it will fail
         /// </summary>        
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(TypeNotRegisteredException))]
         [TestMethod]
@@ -137,7 +137,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test multiple types with no factory name.This should blow up with a MultipleTypesFoundException error
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(MultipleTypesFoundException))]
         [TestMethod]
@@ -169,7 +169,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor test for a transient
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorTransientTest1()
@@ -233,7 +233,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor test for a singleton
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorSingletonTest1()
@@ -297,7 +297,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor when we can't find the overload, we want to throw an error
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
@@ -316,7 +316,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the interface base transient for the DI container works
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void InterfaceBaseTransientTest1()
@@ -346,7 +345,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the interface base singleton for the DI container works
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void InterfaceBaseSingletonTest1()
@@ -376,7 +374,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterLambdaTest1()
@@ -419,7 +416,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterTransientTest1()
@@ -442,7 +438,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test multiple types with a factory name
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void MultipleFactoriesWithFactoryNameTest1()
@@ -494,7 +489,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Let's make sure generic types work. Where the method has a generic parameter
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void InterfaceBaseGenericTypeTransientTest1()
@@ -518,7 +512,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInSingletonTest1()
@@ -561,7 +554,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInTransientTest1()
@@ -604,7 +597,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInMixAndMatchTest1()
@@ -647,7 +639,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInWithResolveTypeSingletonTest1()
@@ -690,7 +682,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInWithResolveTypeTransientTest1()
@@ -753,7 +744,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// test a constructor generic parameter
         /// </summary>    
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void GenericConstructorParameterTest1()
@@ -800,7 +790,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test resolve all when you have multiple factories
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ResolveAllTest1()
@@ -852,7 +842,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test clearing of all the registrations for a specific type
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ClearAllRegistrationsForSpecificTypeTest1()
@@ -885,7 +874,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test clearing of all the registrations
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ClearAllRegistrationsTest1()
@@ -917,7 +906,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Get all the registered items in the container
         /// </summary>
-        [TestCategory("ToracLibrary.DIContainer")]
+
         [TestCategory("DIContainer")]
         [TestMethod]
         public void AllRegistrationsInContainerTest1()

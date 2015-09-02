@@ -10,7 +10,7 @@ using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.AspNet.AspNetMVC
+namespace ToracLibraryTest.AspNet.AspNetMVC.HtmlHelpers
 {
 
     /// <summary>

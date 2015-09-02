@@ -11,7 +11,7 @@ using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.DIContainer;
 using ToracLibraryTest.Framework;
 
-namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
+namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.CustomActionResults
 {
 
     /// <summary>
