@@ -40,6 +40,32 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1984E8FA-867A-4CEA-A2E4-A4618B653CD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{3913A5D4-788F-44B2-A846-56F481003C17}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Users\jdibianco\Desktop\Sql\AllSubstringsBetween2Characters.sql = ..\..\..\Users\jdibianco\Desktop\Sql\AllSubstringsBetween2Characters.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\BitMask.sql = ..\..\..\Users\jdibianco\Desktop\Sql\BitMask.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\CrossApplyWithXmlColumn.sql = ..\..\..\Users\jdibianco\Desktop\Sql\CrossApplyWithXmlColumn.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\DeleteNode.sql = ..\..\..\Users\jdibianco\Desktop\Sql\DeleteNode.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\DropManagementStudioCache.sql = ..\..\..\Users\jdibianco\Desktop\Sql\DropManagementStudioCache.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\DynamicUpdateWithVariableOrColumn.sql = ..\..\..\Users\jdibianco\Desktop\Sql\DynamicUpdateWithVariableOrColumn.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\EXECWInsert.sql = ..\..\..\Users\jdibianco\Desktop\Sql\EXECWInsert.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\ExistsQuery.sql = ..\..\..\Users\jdibianco\Desktop\Sql\ExistsQuery.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\InClause.sql = ..\..\..\Users\jdibianco\Desktop\Sql\InClause.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Insert.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Insert.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\InsertNode.sql = ..\..\..\Users\jdibianco\Desktop\Sql\InsertNode.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Merge.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Merge.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\PerformanceScripts.sql = ..\..\..\Users\jdibianco\Desktop\Sql\PerformanceScripts.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Pivot.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Pivot.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\QueryXMLColumnDataType.sql = ..\..\..\Users\jdibianco\Desktop\Sql\QueryXMLColumnDataType.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\RebuildAllIndexesInTableScript.sql = ..\..\..\Users\jdibianco\Desktop\Sql\RebuildAllIndexesInTableScript.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\RecursiveQueryWithCTE.sql = ..\..\..\Users\jdibianco\Desktop\Sql\RecursiveQueryWithCTE.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\RemoveAllForeignsInDb.sql = ..\..\..\Users\jdibianco\Desktop\Sql\RemoveAllForeignsInDb.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Select.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Select.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Transaction.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Transaction.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\Update.sql = ..\..\..\Users\jdibianco\Desktop\Sql\Update.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\UpdateWithAJoin.sql = ..\..\..\Users\jdibianco\Desktop\Sql\UpdateWithAJoin.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\UpdateXmlAttributeColumn.sql = ..\..\..\Users\jdibianco\Desktop\Sql\UpdateXmlAttributeColumn.sql
+		..\..\..\Users\jdibianco\Desktop\Sql\UpdateXmlElementColumn.sql = ..\..\..\Users\jdibianco\Desktop\Sql\UpdateXmlElementColumn.sql
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{54B50F9B-ACCC-4AC4-BBC1-4C053364A487}"
 EndProject
