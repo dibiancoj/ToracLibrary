@@ -86,8 +86,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml", "Xml", "{12B59A60-104
 		UpdateXmlElementColumn.sql = UpdateXmlElementColumn.sql
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{4C151557-45E0-450B-9AF4-AE3218503F05}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{5612872E-F53D-4E2A-B633-A326BE6BB816}"
 EndProject
 Global
