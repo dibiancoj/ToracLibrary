@@ -1,0 +1,18 @@
+﻿ colModel: [
+            //***** if you change any of the index's make sure you adjust onCellSelect******
+                { name: 'SavedSearchId', index: 'SavedSearchId', hidden: true },
+                { name: 'Run Search', index: 'Run Search', width: 65, sortable: false, fixed: true, resizable: false, formatter: Guru.searchManager.runSearchFormatter, search: false },
+                { name: 'SearchFriendlyName', index: 'SearchFriendlyName', classes: 'gridImageformatter', cellattr: function (rowId, tv, rawObject, cm, rdata) { return 'style="white-space: normal;"'; } },
+                { name: 'CreateDateFormatToLong', index: 'CreateDateFormatToLong', width: 40, align: 'center', stype: 'text', searchoptions: {
+            dataInit: function (elem) {
+                jQuery(elem).datepicker({
+                    onSelect: function (dateText) {
+                        //force a trigger on the input so jqgrid reloads the grid with the filter
+                        $('#gs_CreateDateFormatToLong').trigger('keydown');
+                    },
+                    maxDate: new Date()
+                });
+            }, attr: { title: 'Select Date' }
+                } },
+                { name: 'SelectedSectionName', index: 'SelectedSectionName', width: 40, align: 'center' }
+            ],

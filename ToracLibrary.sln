@@ -83,6 +83,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OWIN", "OWIN", "{A62FCACC-7
 		Docs\Examples\ASP\OWIN\SimpleExampleOfFormsAuthentication.txt = Docs\Examples\ASP\OWIN\SimpleExampleOfFormsAuthentication.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exchange", "Exchange", "{1B27893B-DD7E-42C3-8851-BB1D1CCA45D8}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Exchange\GettingContactsFromExchange.txt = Docs\Examples\Exchange\GettingContactsFromExchange.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IIS", "IIS", "{80C20C8B-3333-4DB3-BA5F-00AF094740E3}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt = Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JqGrid", "JqGrid", "{C7F1AA86-12F6-4218-A35F-87373F77338C}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\ASP\JqGrid\CalendarForInlineFilteringDate.txt = Docs\Examples\ASP\JqGrid\CalendarForInlineFilteringDate.txt
+		Docs\Examples\ASP\JqGrid\Example.txt = Docs\Examples\ASP\JqGrid\Example.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reflection", "Reflection", "{63F3E398-AD90-47DA-A77E-7C21205C06DC}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Reflection\ChildPropertyInfoExample.txt = Docs\Examples\Reflection\ChildPropertyInfoExample.txt
+		Docs\Examples\Reflection\SubPropertyChildMemberExpressionExample.txt = Docs\Examples\Reflection\SubPropertyChildMemberExpressionExample.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -180,5 +202,9 @@ Global
 		{20BD18E2-78EC-444C-8490-1984342B40E4} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{B601D20B-28F9-4743-B310-7AF0401ADE64} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{A62FCACC-7419-4247-86D5-E13055360C74} = {B601D20B-28F9-4743-B310-7AF0401ADE64}
+		{1B27893B-DD7E-42C3-8851-BB1D1CCA45D8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{80C20C8B-3333-4DB3-BA5F-00AF094740E3} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{C7F1AA86-12F6-4218-A35F-87373F77338C} = {B601D20B-28F9-4743-B310-7AF0401ADE64}
+		{63F3E398-AD90-47DA-A77E-7C21205C06DC} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal

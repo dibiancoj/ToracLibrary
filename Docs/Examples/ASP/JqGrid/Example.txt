@@ -1,0 +1,97 @@
+﻿<table id="EmployeeSearchGrid" style="width: 100%;">
+    </table>
+    <div id="EmployeeSearchGridPager"></div>
+
+        [HttpPost]
+        [Authorization(IsGuruAdminPage = true)]
+        public ActionResult GuruManagerSelectEmployeeSearchRecords(int page, int rows, string sidx, string sord, string filters, bool _search, int employeeId, bool resetSession)
+        {
+            Filters filter = string.IsNullOrEmpty(filters) ? null : SerializationHelper.JsonDeserialize<Filters>(filters);
+
+            return this.JsonNet(SageDataProvider.Instance.SaveSearchSelectForGuruManagerGrid(employeeId, page, rows, sidx, sord, _search, filter));
+        }
+
+
+    g.statsmanager.goSetupEmployeeSearchGrid = function (resetSession) {
+
+        var jquerySelector = "#EmployeeSearchGrid";
+
+        jQuery(jquerySelector).jqGrid('GridUnload');
+
+        jQuery(jquerySelector).jqGrid({
+            url: "/Home/GuruManagerSelectEmployeeSearchRecords",
+            datatype: 'json',
+            mtype: 'POST',
+            ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            serializeGridData: function (postData) {
+                if (postData.filters === undefined)
+                    postData.filters = null;
+
+                postData.resetSession = resetSession;
+                postData.employeeId = parseInt($('#lstEmployees').val());
+
+                //postData.historical = g.core.historical;
+                return JSON.stringify(postData);
+            },
+            jsonReader: {
+                repeatitems: false,
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                userdata: "userdata",
+                id: "Id"
+            },
+            colNames: ['SavedSearchId', 'Run Search', 'Search Name', 'Created Date', 'Section'],
+            colModel: [
+            //***** if you change any of the index's make sure you adjust onCellSelect******
+                { name: 'SavedSearchId', index: 'SavedSearchId', hidden: true },
+                { name: 'Run Search', index: 'Run Search', width: 65, sortable: false, fixed: true, resizable: false, formatter: Guru.searchManager.runSearchFormatter, search: false },
+                { name: 'SearchFriendlyName', index: 'SearchFriendlyName', classes: 'gridImageformatter', cellattr: function (rowId, tv, rawObject, cm, rdata) { return 'style="white-space: normal;"'; } },
+                { name: 'CreateDateFormatToLong', index: 'CreateDateFormatToLong', width: 40, align: 'center' },
+                { name: 'SelectedSectionName', index: 'SelectedSectionName', width: 40, align: 'center' }
+            ],
+            pager: '#EmployeeSearchGridPager',
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            sortname: 'CreatedDate',
+            sortorder: 'desc',
+            viewrecords: true,
+            gridview: true,
+            caption: 'Search Records For: ' + $('#lstEmployees  option:selected').text(),
+            loadui: 'disabled',
+            width: 700,
+            height: 500,
+            onCellSelect: function (rowid, iCol, cellContent) {
+                if (iCol == 1) {
+                    //run search
+
+                    //grab the save search id
+                    var rowData = jQuery(this).jqGrid('getRowData', rowid);
+
+                    //go grab the url to open the new link with
+                    var d = {
+                        savedSearchId: rowData.SavedSearchId,
+                        executeSearch: true
+                    };
+
+                    g.AjaxPost('Home/BuildSaveSearchLink', d, function (response) {
+                        //call the common method to go run the loading of the saved search
+                        window.open(response);
+                    });
+                }
+            },
+            loadComplete: function (data) {
+                resetSession = false;
+            }
+        });
+
+        jQuery(jquerySelector).jqGrid('filterToolbar',
+        {
+            stringResult: true,
+            searchOnEnter: false,
+            defaultSearch: 'cn'
+        });
+
+        jQuery(jquerySelector).jqGrid('navGrid', '#EmployeeSearchGridPager', { refresh: false, edit: false, add: false, del: false, search: false });
+    };

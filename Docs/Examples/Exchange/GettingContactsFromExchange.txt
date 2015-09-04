@@ -1,0 +1,186 @@
+﻿uses using Microsoft.Exchange.WebServices.Data;
+
+
+
+ public static IEnumerable<ExchangeContactModel> RetrieveContacts(string username, ExchangeVersion exchangeVersion, string exchangeSuperUser, string exchangeSuperPassword, string exchangeDomain, string exchangeServiceUrl)
+        {
+            // NOTE: Had to do this with Windows auth: http://martinnormark.com/asp-net-mvc-3-windows-authentication-problem-redirects-to-account-login/. 
+
+
+            // EWS forces paging in requests.
+            //int offset = 0; // Item in the list to start at.
+            //int pageSize = 1000; // Max number of items to return in one request.
+            //bool moreItemsRemaining = true; // Indicates that the service has more items.
+
+
+            var service = new ExchangeService(exchangeVersion); //ExchangeVersion.Exchange2010_SP2);
+
+
+
+            // http://msdn.microsoft.com/en-us/library/gg194012(v=exchg.140).aspx
+            // We are connecting to Exchange with an account that has read access to everyone's contacts.
+            // We connect to the individual accounts using impersonation.
+            service.Credentials = new NetworkCredential
+            {
+                UserName = exchangeSuperUser,
+                Password = exchangeSuperPassword,
+                Domain = exchangeDomain
+            };
+
+
+            //create the web service url
+            service.Url = new Uri(exchangeServiceUrl);
+
+
+            //set the user to impersonate
+            service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, username + "@navg.com");
+
+
+            //flag to keep checking (this is a data reader so we need to keep reading until its done)
+            bool moreItemsRemaining = true;
+
+
+            //we have more items...loop
+            while (moreItemsRemaining)
+            {
+                // Set the ItemView with the page size, offset, and result set ordering instructions.
+                var view = new ItemView(int.MaxValue, 0, OffsetBasePoint.Beginning);
+
+
+                //set the order by
+                view.OrderBy.Add(ContactSchema.Surname, SortDirection.Ascending);
+                view.OrderBy.Add(ContactSchema.GivenName, SortDirection.Ascending);
+
+
+                // To keep the request smaller, send only the display name.
+                view.PropertySet = new PropertySet(BasePropertySet.IdOnly,
+                    ContactSchema.GivenName,
+                    ContactSchema.Surname,
+                    ContactSchema.JobTitle,
+                    ContactSchema.BusinessPhone,
+                    ContactSchema.EmailAddress1,
+                    ContactSchema.EmailAddress2,
+                    ContactSchema.EmailAddress3);
+
+
+                // Retrieve the items in the Contacts folder that have the properties you've selected.
+                var contactItems = service.FindItems(WellKnownFolderName.Contacts, view);
+
+
+                // Display the display name of all the contacts. (Note that there can be a large number of contacts in the Contacts folder.)
+                foreach (Item item in contactItems.Where(x => x is Contact))
+                {
+                    var contact = item as Contact;
+
+
+                    // Here we're requiring a first and last name otherwise we skip the contact.
+                    if (string.IsNullOrWhiteSpace(contact.Surname) || string.IsNullOrWhiteSpace(contact.GivenName))
+                    {
+                        continue;
+                    }
+
+
+                    var model = new ExchangeContactModel();
+
+
+                    model.ExchangeId = contact.Id.UniqueId;
+
+
+                    if (!string.IsNullOrWhiteSpace(contact.Surname))
+                    {
+                        model.LastName = contact.Surname;
+                    }
+
+
+                    if (!string.IsNullOrWhiteSpace(contact.GivenName))
+                    {
+                        model.FirstName = contact.GivenName;
+                    }
+
+
+                    if (!string.IsNullOrWhiteSpace(contact.JobTitle))
+                    {
+                        model.Title = contact.JobTitle;
+                    }
+
+
+                    // TODO: Is there a better way? http://stackoverflow.com/questions/11453399/ews-contact-check-email-address-key
+                    EmailAddress extractedEmail = null;
+
+
+                    bool successEmail =
+                        (contact.EmailAddresses.TryGetValue(EmailAddressKey.EmailAddress1, out extractedEmail));
+
+
+                    if (!successEmail)
+                    {
+                        successEmail =
+                            (contact.EmailAddresses.TryGetValue(EmailAddressKey.EmailAddress2, out extractedEmail));
+                    }
+
+
+                    if (!successEmail)
+                    {
+                        successEmail =
+                            (contact.EmailAddresses.TryGetValue(EmailAddressKey.EmailAddress3, out extractedEmail));
+                    }
+
+
+                    if (extractedEmail != null)
+                    {
+                        model.Email = extractedEmail.Address;
+                    }
+                    // There's a potential case where, if you add a Navigators employee to your contacts and put their
+                    // work email address in there, you end up with some Outlook string, not the real address.
+                    // If we don't see an @ sign we pass back an empty string.
+                    if (!string.IsNullOrWhiteSpace(model.Email) && !model.Email.Contains("@"))
+                    {
+                        model.Email = "";
+                    }
+
+
+                    string extractedPhone = "";
+
+
+                    contact.PhoneNumbers.TryGetValue(PhoneNumberKey.BusinessPhone, out extractedPhone);
+
+
+                    if (extractedPhone != null)
+                    {
+                        model.Phone = extractedPhone;
+                    }
+
+
+                    model.DisplayName = string.Format("{1}, {0}", contact.GivenName, contact.Surname);
+
+
+                    if (!string.IsNullOrWhiteSpace(model.Email))
+                    {
+                        model.DisplayName = string.Format("{0} ({1})", model.DisplayName, model.Email);
+                    }
+
+
+                    yield return model;
+                }
+
+
+                // Set the flag to stop paging if there are no more items remaining.
+                if (!contactItems.MoreAvailable)
+                {
+                    moreItemsRemaining = false;
+                }
+
+
+                // Update the offset if there are more items to page through.
+                //if (moreItemsRemaining)
+                //{
+                //    offset += pageSize;
+                //}
+            }
+
+
+            // We shouldn't need to sort any longer since the request sets it.
+            // Some other sorting options: http://stackoverflow.com/questions/722868/sorting-a-list-using-lambda-linq-to-objects
+            //contacts.Sort((c1, c2) => c1.DisplayName.CompareTo(c2.DisplayName));
+            //service.ImpersonatedUserId = null;
+        }

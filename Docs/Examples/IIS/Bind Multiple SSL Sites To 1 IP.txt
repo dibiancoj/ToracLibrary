@@ -1,0 +1,7 @@
+﻿Used so you can use 1 ip address and bind it to the same SSL Cert
+
+cmd --> cd C:\Inetpub\AdminScripts
+ 
+Syntax...cscript.exe adsutil.vbs set /w3svc/site identifier/SecureBindings ":443:host header"
+ 
+Example for address change: cscript.exe adsutil.vbs set /w3svc/507642371/SecureBindings ":443:testaddress.quorumfcu.org"

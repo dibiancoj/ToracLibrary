@@ -1,0 +1,16 @@
+﻿			//grab the property from the object you are querying
+            PropertyInfo thisPropertyInfo1 = typeof(TPolicyHistory).GetProperty("Pol_PolicyExtensionHistory");
+            PropertyInfo thisPropertyInfo2 = thisPropertyInfo1.PropertyType.GetProperty("BasisOfIndemnityId");
+
+			//grab the inner object
+            var inner = Expression.Property(LambdaArgument, thisPropertyInfo1);
+
+            //grab the sub property off of the inner object
+            var outer = Expression.Property(inner, thisPropertyInfo2);
+
+
+			----------------------
+
+			if using just property info (basically need to get type of the object in the instanced object...get the value of that guy, then grab property off that type and grab the value off that)
+
+			parentObject.GetType().InvokeMember(childPropertyName, BindingFlags.GetProperty, null, p.GetType().GetProperty(propertyName).GetValue(thisInstancedObject), null);

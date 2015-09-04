@@ -1,0 +1,32 @@
+﻿		private static Expression<Func<TPolicyHistory, PolicyExtension>> Build<TPolicyHistory>()
+        {
+            //this method creates from scratch
+            //takes a generic type of TPolicyHistory...and creates new object of PolicyExtension { BasisOfInDemnity = myParameter1.Pol_PolicyExtensionHistory.BasisOfIndemnityId };
+
+            //**** the inner and outer has a good example of how to create member expression for child properties ie. thisObject.SubObject.Id
+
+            NewExpression newPolicyExtension = Expression.New(typeof (PolicyExtension));
+                
+            //TPolicyHistory.Pol_PolicyExtensionHistory.BasisOfIndemnityId
+
+            var thisPolicyExtensionHistory = typeof(PolicyExtension).GetProperty("BasisofIndemnity");
+
+            //Create the parameter which will go into the lambda
+            ParameterExpression LambdaArgument = Expression.Parameter(typeof(TPolicyHistory), "myParameter1");
+         
+            //grab the property from the object you are querying
+            PropertyInfo thisPropertyInfo1 = typeof(TPolicyHistory).GetProperty("Pol_PolicyExtensionHistory");
+            PropertyInfo thisPropertyInfo2 = thisPropertyInfo1.PropertyType.GetProperty("BasisOfIndemnityId");
+
+            //grab the inner object
+            var inner = Expression.Property(LambdaArgument, thisPropertyInfo1);
+
+            //grab the sub property off of the inner object
+            var outer = Expression.Property(inner, thisPropertyInfo2);
+
+            //now bind the field i want to set (BasisofIndemnity) to the value i want to set it with (the chain of properties [outer])
+            MemberBinding thisBinding = Expression.Bind(thisPolicyExtensionHistory, outer);
+
+            //combine the expression and return it
+            return Expression.Lambda<Func<TPolicyHistory, PolicyExtension>>(Expression.MemberInit(newPolicyExtension, thisBinding), LambdaArgument);
+        }
