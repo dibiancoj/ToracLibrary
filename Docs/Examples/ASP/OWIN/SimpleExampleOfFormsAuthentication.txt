@@ -1,0 +1,39 @@
+﻿Example of Owin forms authentication without all the crap that comes in vs when with the account manager and stuff
+
+		
+Startup.cs
+		public void Configuration(IAppBuilder app)
+        {
+            ConfigureAuth(app);
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+        }
+
+Home Controller.LogIn or something like that
+		    var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, "Brock"));
+            claims.Add(new Claim(ClaimTypes.Email, "brockallen@gmail.com"));
+            var id = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            var ctxAuthenticationManager = Request.GetOwinContext().Authentication;
+
+            ctxAuthenticationManager.SignIn(id);
+            //ctxAuthenticationManager.SignOut();
+
+            //put this in the startup at the end of the method. 
+            // AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+
+
+
+		[Authorize] <--authorize to make sure you are logged in
+        public ActionResult Index()
+        {
+            //if i want to get the uder
+            var user = Request.GetOwinContext().Authentication.User;
+
+            var userName = user.FindFirst(ClaimTypes.Name);
+
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
