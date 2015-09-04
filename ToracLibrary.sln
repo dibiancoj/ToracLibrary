@@ -105,8 +105,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reflection", "Reflection", 
 		Docs\Examples\Reflection\SubPropertyChildMemberExpressionExample.txt = Docs\Examples\Reflection\SubPropertyChildMemberExpressionExample.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Graphics", "ToracLibrary.Graphics\ToracLibrary.Graphics.csproj", "{6ED8D264-9390-4DA7-85B8-916600F81E9B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,10 +175,6 @@ Global
 		{B4CBCC69-E8E7-4C5B-A8F1-CE1C41ECC1D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4CBCC69-E8E7-4C5B-A8F1-CE1C41ECC1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4CBCC69-E8E7-4C5B-A8F1-CE1C41ECC1D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ED8D264-9390-4DA7-85B8-916600F81E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ED8D264-9390-4DA7-85B8-916600F81E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ED8D264-9390-4DA7-85B8-916600F81E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ED8D264-9390-4DA7-85B8-916600F81E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +206,5 @@ Global
 		{80C20C8B-3333-4DB3-BA5F-00AF094740E3} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{C7F1AA86-12F6-4218-A35F-87373F77338C} = {B601D20B-28F9-4743-B310-7AF0401ADE64}
 		{63F3E398-AD90-47DA-A77E-7C21205C06DC} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
-		{6ED8D264-9390-4DA7-85B8-916600F81E9B} = {264DB62C-6C82-490B-922A-6369B851BB37}
 	EndGlobalSection
 EndGlobal
