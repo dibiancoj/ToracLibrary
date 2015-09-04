@@ -1,0 +1,41 @@
+﻿//example changes app config setting from false (when in debug) and true (in release)...
+//it also removes the debug attribute in release mode
+
+<web.config>
+	<configuration>
+
+	<appSettings>
+		<add key="webpages:Version" value="2.0.0.0" />
+		<add key="ClientValidationEnabled" value="true" />
+		<add key="UnobtrusiveJavaScriptEnabled" value="true" />
+		<add key="UseSqlDependency" value="false" />
+		<add key="NumberOfRecentSearchesToStore" value="10" />
+		<add key="HowManyDashboardsToShow" value="6" />
+
+			<!--We don't want the web.config to be on debug = true if we have to debug. so we set it here, and either reset iis or have it reset over night. And the app will still be on debug = false. Code gets picked up in global asax - RegisterBundles at the end of the method -->
+		<add key="BundleAndMinify" value="false" /> 
+    	</appSettings>
+    
+    
+ --------------------
+ 
+ <web.debug.config>
+ 	<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+ 	 	
+ 	<appSettings>
+		<add key="BundleAndMinify" value="false" xdt:Transform="Replace" xdt:Locator="Match(key)" />
+	</appSettings>
+ 	<system.web>
+	</system.web>
+ 
+ 
+ ---------------------
+ <web.release.config>
+ 	<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+ 	
+ 	<appSettings>
+		<add key="BundleAndMinify" value="true" xdt:Transform="Replace" xdt:Locator="Match(key)"/>
+	</appSettings>
+	  <system.web>
+	    <compilation xdt:Transform="RemoveAttributes(debug)" />
+	  </system.web>

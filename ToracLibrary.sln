@@ -74,6 +74,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{20BD18E2-78E
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP", "ASP", "{B601D20B-28F9-4743-B310-7AF0401ADE64}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\ASP\WebConfigTransformation.txt = Docs\Examples\ASP\WebConfigTransformation.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OWIN", "OWIN", "{A62FCACC-7419-4247-86D5-E13055360C74}"
 	ProjectSection(SolutionItems) = preProject
