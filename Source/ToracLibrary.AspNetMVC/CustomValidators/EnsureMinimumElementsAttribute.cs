@@ -54,7 +54,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomModelBinders.CustomValidators
             }
 
             //try to case this to an ilist so we can grab the count
-            var CastedToIListTry = value as IList;
+            var CastedToIListTry = value as ICollection;
 
             //were we able to cast this?
             if (CastedToIListTry != null)
