@@ -114,6 +114,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AspNetMvc\UnitTests\CustomValidation\CustomValidationTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\CustomActionsResults\JsonActionResultTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\CustomModelBinders\CustomModelBinderTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\CustomValueProviderFactory\JsonNetCustomValueProviderFactoryTest.cs" />

@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -78,6 +79,7 @@
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
     <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="CustomValidators\EnsureMinimumElementsAttribute.cs" />
     <Compile Include="CustomValueProviderFactory\JsonNetValueProviderFactory.cs" />
     <Compile Include="ExtensionMethods\Controller\ControllerExtensionMethods.cs" />
     <Compile Include="HtmlHelpers\MvcHtmlHelpers.cs" />
