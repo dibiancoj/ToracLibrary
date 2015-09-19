@@ -65,13 +65,16 @@ namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.CustomValidationTest
         public void CustomValidationTest1()
         {
             //test that (should fail)
-            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { })));
+            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { }).IEnumerableListTest));
+            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { }).IListTest));
 
             //add 1 element should still fail
-            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1" })));
+            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1" }).IEnumerableListTest));
+            Assert.IsFalse(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1" }).IListTest));
 
             //2 elements should pass now
-            Assert.IsTrue(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1", "2" })));
+            Assert.IsTrue(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1", "2" }).IEnumerableListTest));
+            Assert.IsTrue(new EnsureMinimumElementsAttribute(CustomValidationViewModel.MinimumNumberOfElements).IsValid(new CustomValidationViewModel(new string[] { "1", "2" }).IListTest));
         }
 
         #endregion
