@@ -85,6 +85,8 @@
     <Compile Include="ExtensionMethods\XElementExtensions\XElementExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ObjectExtensions\ObjectExtensionMethods.cs" />
     <Compile Include="DISK IO\FileReader.cs" />
+    <Compile Include="Graphics\GraphicsUtilities.cs" />
+    <Compile Include="Graphics\ImageFromJsonResult.cs" />
     <Compile Include="Mathematical\Forecasting\LinearRegression\LinearRegressionCalculator.cs" />
     <Compile Include="Mathematical\Forecasting\LinearRegression\LinearRegressionLineTallyResult.cs" />
     <Compile Include="Mathematical\Forecasting\LinearRegression\LinearRegressionResults.cs" />
