@@ -111,6 +111,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml Columns", "Xml Columns"
 		Docs\Examples\Sql\UpdateXmlElementColumn.sql = Docs\Examples\Sql\UpdateXmlElementColumn.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity DI Container", "Unity DI Container", "{4658C236-FBCE-44F7-BEBD-809A0316CFE6}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\UnityDiContainer\UnityDiContainerExample.cs = Docs\Examples\UnityDiContainer\UnityDiContainerExample.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -218,5 +223,6 @@ Global
 		{63F3E398-AD90-47DA-A77E-7C21205C06DC} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{F4C01A7E-D029-41DE-983F-5709E4D5D8D7} = {264DB62C-6C82-490B-922A-6369B851BB37}
 		{42C99685-BF13-4DA7-856B-D1F4FBDC3D18} = {20BD18E2-78EC-444C-8490-1984342B40E4}
+		{4658C236-FBCE-44F7-BEBD-809A0316CFE6} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal
