@@ -14,11 +14,18 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
 
         public virtual DbSet<Ref_Test> Ref_Test { get; set; }
 
+        public virtual DbSet<Animal> Animals { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Ref_Test>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
+
+            //data inheritance examples
+            modelBuilder.Entity<Animal>().ToTable("Animal");
+            modelBuilder.Entity<Cat>().ToTable("Cat");
+            modelBuilder.Entity<Dog>().ToTable("Dog");
 
         }
     }

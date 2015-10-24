@@ -167,6 +167,7 @@
     <Compile Include="DynamicRunTime\DynamicRunTimeTest.cs" />
     <Compile Include="Email\EmailTest.cs" />
     <Compile Include="EntityFramework\DataContext\Ref_Test.cs" />
+    <Compile Include="EntityFramework\DataContext\Test.cs" />
     <Compile Include="EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />

@@ -989,6 +989,64 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
 
         #endregion
 
+        #region Data Inheritance Examples
+
+        [TestCategory("Core.DataProviders.EntityFramework")]
+        [TestCategory("EntityFramework")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public async Task DataInheritanceExample1()
+        {
+            //example of Table per Type(TPT) inheritance (which i think is the most useful out of all of them)
+
+            //these are great examples of the different types
+            //http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-1-table-per-hierarchy-tph
+            //http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-2-table-per-type-tpt
+            //http://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
+
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
+            {
+                //delete the records
+                DP.Delete<Animal>(x => true, true);
+                DP.Delete<Cat>(x => true, true);
+                DP.Delete<Dog>(x => true, true);
+
+                //size of dog
+                const string DogSize = "Size Of Dog";
+                const string CatSize = "Size Of Dog";
+
+                //go insert a dog and a cat
+                DP.Add(new Dog { Size = DogSize, Bark = 1 }, false);
+                DP.Add(new Cat { Size = CatSize, Meow = 1 }, false);
+
+                //save it now
+                await DP.SaveChangesAsync();
+
+                //grab all the dogs
+                var DogsInTable = DP.Fetch<Animal>(false).OfType<Dog>().ToArray();
+
+                //grab all the cats
+                var CatsInTable = DP.Fetch<Animal>(false).OfType<Cat>().ToArray();
+
+                //grab all the animals
+                var AnimalsInTable = DP.Fetch<Animal>(false).ToArray();
+
+                //run the tests now
+                Assert.AreEqual(2, AnimalsInTable.Length);
+                Assert.AreEqual(1, CatsInTable.Length);
+                Assert.AreEqual(1, DogsInTable.Length);
+
+                Assert.AreEqual(DogSize, DogsInTable.ElementAt(0).Size);
+                Assert.AreEqual(CatSize, CatsInTable.ElementAt(0).Size);
+
+                //make sure we have 1 of each in animals
+                Assert.AreEqual(1, AnimalsInTable.OfType<Dog>().Count());
+                Assert.AreEqual(1, AnimalsInTable.OfType<Cat>().Count());
+            }
+        }
+
+        #endregion
+
     }
 
 }
