@@ -1007,17 +1007,26 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //delete the records
-                DP.Delete<Animal>(x => true, true);
-                DP.Delete<Cat>(x => true, true);
-                DP.Delete<Dog>(x => true, true);
+                DP.Delete<Animal>(x => true, false);
+                DP.Delete<Cat>(x => true, false);
+                DP.Delete<Dog>(x => true, false);
+
+                //go save the deletes
+                await DP.SaveChangesAsync();
 
                 //size of dog
                 const string DogSize = "Size Of Dog";
                 const string CatSize = "Size Of Dog";
 
+                //bark
+                const int Bark = 25;
+
+                //meow
+                const int Meow = 30;
+
                 //go insert a dog and a cat
-                DP.Add(new Dog { Size = DogSize, Bark = 1 }, false);
-                DP.Add(new Cat { Size = CatSize, Meow = 1 }, false);
+                DP.Add(new Dog { Size = DogSize, Bark = Bark }, false);
+                DP.Add(new Cat { Size = CatSize, Meow = Meow }, false);
 
                 //save it now
                 await DP.SaveChangesAsync();
@@ -1036,12 +1045,35 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(1, CatsInTable.Length);
                 Assert.AreEqual(1, DogsInTable.Length);
 
-                Assert.AreEqual(DogSize, DogsInTable.ElementAt(0).Size);
-                Assert.AreEqual(CatSize, CatsInTable.ElementAt(0).Size);
+                //go check the size for each cat, dog
+                Assert.AreEqual(DogSize, DogsInTable[0].Size);
+                Assert.AreEqual(CatSize, CatsInTable[0].Size);
+
+                //check bark now
+                Assert.AreEqual(Bark, DogsInTable[0].Bark);
+
+                //check meow
+                Assert.AreEqual(Meow, CatsInTable[0].Meow);
+
+                //let's check the individual records in the animal collection (grab each record)
+                var DogInAnimlCollection = AnimalsInTable.OfType<Dog>().ToArray();
+
+                //grab the cat
+                var CatInAnimalCollection = AnimalsInTable.OfType<Cat>().ToArray();
 
                 //make sure we have 1 of each in animals
-                Assert.AreEqual(1, AnimalsInTable.OfType<Dog>().Count());
-                Assert.AreEqual(1, AnimalsInTable.OfType<Cat>().Count());
+                Assert.AreEqual(1, DogInAnimlCollection.Length);
+                Assert.AreEqual(1, CatInAnimalCollection.Length);
+
+                //check the size in the animal collection
+                Assert.AreEqual(DogSize, DogInAnimlCollection[0].Size);
+                Assert.AreEqual(CatSize, CatInAnimalCollection[0].Size);
+
+                //check bark now
+                Assert.AreEqual(Bark, DogInAnimlCollection[0].Bark);
+
+                //check meow
+                Assert.AreEqual(Meow, CatInAnimalCollection[0].Meow);
             }
         }
 
