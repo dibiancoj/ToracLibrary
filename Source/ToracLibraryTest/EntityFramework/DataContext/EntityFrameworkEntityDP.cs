@@ -22,7 +22,9 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
                 .Property(e => e.Description)
                 .IsUnicode(false);
 
-            //data inheritance examples
+            //data inheritance examples 
+            //Animal is the abstract class
+            //Cat and Dog are the derived classes
             modelBuilder.Entity<Animal>().ToTable("Animal");
             modelBuilder.Entity<Cat>().ToTable("Cat");
             modelBuilder.Entity<Dog>().ToTable("Dog");

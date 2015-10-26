@@ -991,7 +991,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
 
         #region Data Inheritance Examples
 
-        [TestCategory("Core.DataProviders.EntityFramework")]
+        [TestCategory("Core.DataProviders.EntityFramework.Examples")]
         [TestCategory("EntityFramework")]
         [TestCategory("Core")]
         [TestMethod]
@@ -1024,6 +1024,14 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 //meow
                 const int Meow = 30;
 
+                //declare an action to test the size
+                Action<Dog> DogSizeTester = x => Assert.AreEqual(DogSize, x.Size);
+                Action<Cat> CatSizeTester = x => Assert.AreEqual(CatSize, x.Size);
+
+                //declare an action for the bark and meow
+                Action<Dog> DogBarkTester = x => Assert.AreEqual(Bark, x.Bark);
+                Action<Cat> CatMeowTester = x => Assert.AreEqual(Meow, x.Meow);
+
                 //go insert a dog and a cat
                 DP.Add(new Dog { Size = DogSize, Bark = Bark }, false);
                 DP.Add(new Cat { Size = CatSize, Meow = Meow }, false);
@@ -1046,14 +1054,14 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(1, DogsInTable.Length);
 
                 //go check the size for each cat, dog
-                Assert.AreEqual(DogSize, DogsInTable[0].Size);
-                Assert.AreEqual(CatSize, CatsInTable[0].Size);
+                DogSizeTester.Invoke(DogsInTable[0]);
+                CatSizeTester.Invoke(CatsInTable[0]);
 
                 //check bark now
-                Assert.AreEqual(Bark, DogsInTable[0].Bark);
+                DogBarkTester.Invoke(DogsInTable[0]);
 
                 //check meow
-                Assert.AreEqual(Meow, CatsInTable[0].Meow);
+                CatMeowTester.Invoke(CatsInTable[0]);
 
                 //let's check the individual records in the animal collection (grab each record)
                 var DogInAnimlCollection = AnimalsInTable.OfType<Dog>().ToArray();
@@ -1066,14 +1074,15 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(1, CatInAnimalCollection.Length);
 
                 //check the size in the animal collection
-                Assert.AreEqual(DogSize, DogInAnimlCollection[0].Size);
-                Assert.AreEqual(CatSize, CatInAnimalCollection[0].Size);
+                //go check the size for each cat, dog
+                DogSizeTester.Invoke(DogInAnimlCollection[0]);
+                CatSizeTester.Invoke(CatInAnimalCollection[0]);
 
                 //check bark now
-                Assert.AreEqual(Bark, DogInAnimlCollection[0].Bark);
+                DogBarkTester.Invoke(DogInAnimlCollection[0]);
 
                 //check meow
-                Assert.AreEqual(Meow, CatInAnimalCollection[0].Meow);
+                CatMeowTester.Invoke(CatInAnimalCollection[0]);
             }
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
 {
+
     public abstract class Animal
     {
         /// <summary>
