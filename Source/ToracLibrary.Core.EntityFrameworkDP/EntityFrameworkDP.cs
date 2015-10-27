@@ -264,7 +264,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         #region Internal Helpers Methods
 
         /// <summary>
-        /// Internal Method To Clean Up The Transaction After It Has Been Committed Or Rollbacked...This Way We Can Get It Setup If You Want To Run Another Transaction After The Last One You Just Committed Or Rolled Back
+        /// Internal Method To Clean Up The Transaction After It Has Been Committed Or Rollbacked. This Way We Can Get It Setup If You Want To Run Another Transaction After The Last One You Just Committed Or Rolled Back
         /// </summary>
         private void CleanupTransaction()
         {
@@ -709,7 +709,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         #region Regular
 
         /// <summary>
-        /// Go Execute Raw Sql With No Results Coming Back And No Parameters. Example Would Be Update Or Insert..
+        /// Go Execute Raw Sql With No Results Coming Back And No Parameters. Example Would Be Update Or Insert.
         /// </summary>
         /// <param name="RawSqlToExecute">Raw Sql To Execute</param>
         /// <param name="TransactionType">Transaction Type To Use. Starting with EF6 Database.ExecuteSqlCommand() by default will wrap the command in a transaction if one was not already present. So do you want to run this in a transaction or not</param>
@@ -721,7 +721,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         }
 
         /// <summary>
-        /// Go Execute Raw Sql With No Results Coming Back And With Parameters. Example Would Be Update Or Insert..
+        /// Go Execute Raw Sql With No Results Coming Back And With Parameters. Example Would Be Update Or Insert.
         /// </summary>
         /// <param name="RawSqlToExecute">Raw Sql To Execute</param>
         /// <param name="Parameters">Params Of Parameters To Pass In</param>
@@ -746,7 +746,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         #region Async
 
         /// <summary>
-        /// Go Execute Raw Sql With No Results Coming Back And No Parameters. Example Would Be Update Or Insert..
+        /// Go Execute Raw Sql With No Results Coming Back And No Parameters. Example Would Be Update Or Insert.
         /// </summary>
         /// <param name="RawSqlToExecute">Raw Sql To Execute</param>
         /// <param name="TransactionType">Transaction Type To Use. Starting with EF6 Database.ExecuteSqlCommand() by default will wrap the command in a transaction if one was not already present. So do you want to run this in a transaction or not</param>
@@ -758,7 +758,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         }
 
         /// <summary>
-        /// Go Execute Raw Sql With No Results Coming Back And With Parameters. Example Would Be Update Or Insert..
+        /// Go Execute Raw Sql With No Results Coming Back And With Parameters. Example Would Be Update Or Insert.
         /// </summary>
         /// <param name="RawSqlToExecute">Raw Sql To Execute</param>
         /// <param name="TransactionType">Transaction Type To Use. Starting with EF6 Database.ExecuteSqlCommand() by default will wrap the command in a transaction if one was not already present. So do you want to run this in a transaction or not</param>
@@ -1033,7 +1033,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         #region Table Settings
 
         /// <summary>
-        /// Get a list of all the items that contain the settings for the type passed in. This is the tabl e
+        /// Get a list of all the items that contain the settings for the type passed in. This is the table
         /// </summary>
         /// <typeparam name="TEntityType">Entity Type To Lookup. Must Be Part Of The Entity Model In This Context</typeparam>
         /// <returns>Collection of all the meta data properties for this table</returns>
