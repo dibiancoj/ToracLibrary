@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +15,7 @@ namespace ToracLibraryTest.Framework.DummyObjects
     {
 
         #region Constructor
+
         public DummyObject(int IdToSet, string DescriptionToSet)
         {
             Id = IdToSet;
@@ -55,7 +55,7 @@ namespace ToracLibraryTest.Framework.DummyObjects
         /// <returns>DummyObject</returns>
         public static DummyObject CreateDummyRecord()
         {
-            return CreateDummyListLazy(1).ElementAt(0);
+            return CreateDummyListLazy(1).First();
         }
 
         #endregion

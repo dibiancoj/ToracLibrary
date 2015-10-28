@@ -97,16 +97,9 @@ namespace ToracLibrary.Core.AccountingPeriods
         private static void ValidateMonth(int MonthToTest)
         {
             //make sure the month are within the expected range
-            if (MonthToTest < 1)
+            if (MonthToTest < 1 || MonthToTest > 12)
             {
-                //our month is less than Jan throw an error
-                throw new AccountingPeriodMonthOutOfRangeException(MonthToTest);
-            }
-
-            //make sure we aren't past December
-            if (MonthToTest > 12)
-            {
-                //our month is greater than Dec throw an error
+                //the month is either earlier than Jan or later then Dec.
                 throw new AccountingPeriodMonthOutOfRangeException(MonthToTest);
             }
         }
