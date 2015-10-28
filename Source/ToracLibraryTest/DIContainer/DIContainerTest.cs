@@ -35,12 +35,18 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
         #endregion
 
+        /// <summary>
+        /// Interface Of ILogger to retrieve
+        /// </summary>
         private interface ILogger
         {
             StringBuilder LogFile { get; }
             void Log(string TextToLog);
         }
 
+        /// <summary>
+        /// Implementation of ILogger
+        /// </summary>
         private class Logger : ILogger
         {
             public StringBuilder LogFile { get; } = new StringBuilder();
@@ -51,16 +57,22 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             }
         }
 
-        private class SectionFactoryWithConstParam
+        /// <summary>
+        /// Implementation to test with a constructor parameter
+        /// </summary>
+        private class SectionFactoryWithConstructorParameter
         {
-            public SectionFactoryWithConstParam(ILogger logger)
+            public SectionFactoryWithConstructorParameter(ILogger logger)
             {
                 Log = logger;
             }
 
-            public readonly ILogger Log;
+            public ILogger Log { get; }
         }
 
+        /// <summary>
+        /// Data provider that we will pass parameters. ILogger needs to get resolved from the container. The connection string is just a primitive type
+        /// </summary>
         private class SqlDIProvider
         {
             public SqlDIProvider(string ConnectionStringToSet, ILogger LoggerToSet)
@@ -73,6 +85,10 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             internal ILogger LoggerToUse { get; }
         }
 
+        /// <summary>
+        /// Implementation with a generic type
+        /// </summary>
+        /// <typeparam name="T">Type of the data provider</typeparam>
         private class SqlDIWithTypeProvider<T>
         {
             public Type GetTypeOfT()
@@ -81,6 +97,9 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             }
         }
 
+        /// <summary>
+        /// Implementation with multiple constructors
+        /// </summary>
         private class OverloadedConstructor
         {
 
@@ -121,7 +140,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Let's make sure if we don't register an item, then when we go to resolve it, it will fail
         /// </summary>        
-
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(TypeNotRegisteredException))]
         [TestMethod]
@@ -137,7 +155,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test multiple types with no factory name.This should blow up with a MultipleTypesFoundException error
         /// </summary>
-
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(MultipleTypesFoundException))]
         [TestMethod]
@@ -169,7 +186,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor test for a transient
         /// </summary>
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorTransientTest1()
@@ -233,7 +249,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor test for a singleton
         /// </summary>
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorSingletonTest1()
@@ -297,7 +312,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test the overloaded constructor when we can't find the overload, we want to throw an error
         /// </summary>
-
         [TestCategory("DIContainer")]
         [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
@@ -429,10 +443,10 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
 
             //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SectionFactoryWithConstParam>(DIContainerScope.Transient);
+            DIContainer.Register<SectionFactoryWithConstructorParameter>(DIContainerScope.Transient);
 
             //let's grab an the data provide rnow
-            var DataProviderToUse = DIContainer.Resolve<SectionFactoryWithConstParam>();
+            var DataProviderToUse = DIContainer.Resolve<SectionFactoryWithConstructorParameter>();
         }
 
         /// <summary>
@@ -554,7 +568,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInTransientTest1()
@@ -639,7 +652,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test a concrete class to concrete class. When passing in a set of parameters
         /// </summary>    
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConcreteToConcreteWithConstructorParameterPassedInWithResolveTypeSingletonTest1()
@@ -790,7 +802,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test resolve all when you have multiple factories
         /// </summary>
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ResolveAllTest1()
@@ -874,7 +885,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Test clearing of all the registrations
         /// </summary>
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ClearAllRegistrationsTest1()
@@ -906,7 +916,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         /// <summary>
         /// Get all the registered items in the container
         /// </summary>
-
         [TestCategory("DIContainer")]
         [TestMethod]
         public void AllRegistrationsInContainerTest1()
