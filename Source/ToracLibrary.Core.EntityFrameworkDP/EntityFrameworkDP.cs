@@ -659,15 +659,8 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             //"The changes to the database were committed successfully, but an error occurred while updating the object context. The ObjectContext might be in an inconsistent state. Inner exception message: A circular relationship path has been detected while enforcing a referential integrity constraints. Referential integrity cannot be enforced on circular relationships."
             //for the add just run an Add method and that will save. The update will work in this method
 
-            //using the extension method that is in System.Data.Entity.Migrations 
-            BuildObjectSet<T>().AddOrUpdate(EntityToAddOrUpdate);
-
-            //if they want to save the changes then save them
-            if (CommitChanges)
-            {
-                //go save the changes
-                SaveChanges();
-            }
+            //going to use the UpsertRange helper method. creating an array is a little overhead more then we need, but it prevents duplicate code.
+            UpsertRange(new T[] { EntityToAddOrUpdate }, CommitChanges);
         }
 
         /// <summary>
@@ -679,22 +672,14 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         /// <remarks>Must Call Save Changes To Commit To The Database If CommitChanges is false. Save Changes is called normally. Set to false and call savechanges async if you want to async call save changes</remarks>
         public void UpsertRange<T>(IEnumerable<T> EntitiesToAddOrUpdate, bool CommitChanges) where T : class
         {
-            //make sure we have entries to loop through first
-            if (EntitiesToAddOrUpdate.AnyWithNullCheck())
-            {
-                //loop through each of the items and run the single method
-                foreach (T thisRecord in EntitiesToAddOrUpdate)
-                {
-                    //go run the method (never commit...we will commit at the end for performance reasons
-                    Upsert(thisRecord, false);
-                }
+            //go add the entities
+            BuildObjectSet<T>().AddOrUpdate(EntitiesToAddOrUpdate.ToArray());
 
-                //if they wanted to commit the changes, then do it now
-                if (CommitChanges)
-                {
-                    //all done, go save the database now
-                    SaveChanges();
-                }
+            //if they wanted to commit the changes, then do it now
+            if (CommitChanges)
+            {
+                //all done, go save the database now
+                SaveChanges();
             }
         }
 
