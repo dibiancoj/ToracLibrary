@@ -764,7 +764,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestCategory("EntityFramework")]
         [TestCategory("Core")]
         [TestMethod]
-        public void AddOrUpdateTest1()
+        public void UpsertTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
 
@@ -798,7 +798,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestCategory("EntityFramework")]
         [TestCategory("Core")]
         [TestMethod]
-        public void AddOrUpdateRangeTest1()
+        public void UpsertRangeTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
 
@@ -823,7 +823,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
         [TestCategory("EntityFramework")]
         [TestCategory("Core")]
         [TestMethod]
-        public void AddOrUpdateRangeTest2()
+        public void UpsertRangeTest2()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
 
