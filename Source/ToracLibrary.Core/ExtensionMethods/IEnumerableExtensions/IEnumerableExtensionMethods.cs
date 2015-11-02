@@ -266,7 +266,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             if (CollectionToOutput.AnyWithNullCheck())
             {
                 //declare the string builder so we can return it
-                var sb = new StringBuilder();
+                var OutputString = new StringBuilder();
 
                 //holds the index of the item we are up too
                 int i = 0;
@@ -275,20 +275,20 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
                 foreach (T thisItem in CollectionToOutput)
                 {
                     //go build up the item for this item in the collection
-                    sb.Append(SingleItemOutputMethod(thisItem, i));
+                    OutputString.Append(SingleItemOutputMethod(thisItem, i));
 
                     //now add the delimiter string
-                    sb.Append(DelimiterString);
+                    OutputString.Append(DelimiterString);
 
                     //increase the index
                     i++;
                 }
 
                 //now we need to remove the delimiter string from the end
-                sb.Remove(sb.Length - DelimiterString.Length, DelimiterString.Length);
+                OutputString.Remove(OutputString.Length - DelimiterString.Length, DelimiterString.Length);
 
                 //return the string to be consumed
-                return sb.ToString();
+                return OutputString.ToString();
             }
 
             //if we get here then we don't have any items in the collection. At this point we will just return a blank string

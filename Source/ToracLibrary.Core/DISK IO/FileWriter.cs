@@ -68,13 +68,13 @@ namespace ToracLibrary.Core.DiskIO
         /// Write A String Builder To A File On The Computer
         /// </summary>
         /// <param name="FilePath">File Path To Save The File</param>
-        /// <param name="sb">String Builder To Write. Will Call StringBuilder.ToString();</param>
+        /// <param name="StringBuilderToWrite">String Builder To Write. Will Call StringBuilder.ToString();</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
         /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>
-        public static void WriteFile(string FilePath, StringBuilder sb, FileMode FileStatus, SeekOrigin WhereToInsert)
+        public static void WriteFile(string FilePath, StringBuilder StringBuilderToWrite, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //use the overload
-            WriteFile(FilePath, sb.ToString(), FileStatus, WhereToInsert);
+            WriteFile(FilePath, StringBuilderToWrite.ToString(), FileStatus, WhereToInsert);
         }
 
         #region Async Methods
