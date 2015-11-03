@@ -91,24 +91,24 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             //we have the number formatted exactly with everything, return it
 
             //we need the string builder...so create the object (init the capacity in the sb to reduce memory a tad)
-            var sb = new StringBuilder(14);
+            var FormattedPhoneNumber = new StringBuilder(14);
 
             //set the area code
-            sb.Append("(");
-            sb.Append(PhoneNumber.Substring(0, 3));
-            sb.Append(") ");
+            FormattedPhoneNumber.Append("(");
+            FormattedPhoneNumber.Append(PhoneNumber.Substring(0, 3));
+            FormattedPhoneNumber.Append(") ");
 
             //now lets set the first 3 digits of the regular #
-            sb.Append(PhoneNumber.Substring(3, 3));
+            FormattedPhoneNumber.Append(PhoneNumber.Substring(3, 3));
 
             //add the dash
-            sb.Append("-");
+            FormattedPhoneNumber.Append("-");
 
             //add the last 4
-            sb.Append(PhoneNumber.Substring(6, 4));
+            FormattedPhoneNumber.Append(PhoneNumber.Substring(6, 4));
 
             //return the formatted string
-            return sb.ToString();
+            return FormattedPhoneNumber.ToString();
         }
 
         #endregion
@@ -143,19 +143,19 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             }
 
             //we have 9 characters, create the instance of the string builder becauase we need it (init the capacity to reduce memory just a tag)
-            StringBuilder sb = new StringBuilder(10);
+            var FormattedZipCode = new StringBuilder(10);
 
             //Add the first 5 characters
-            sb.Append(ZipCode.Substring(0, 5));
+            FormattedZipCode.Append(ZipCode.Substring(0, 5));
 
             //add the dash
-            sb.Append("-");
+            FormattedZipCode.Append("-");
 
             //return the last 4 digits
-            sb.Append(ZipCode.Substring(5, 4));
+            FormattedZipCode.Append(ZipCode.Substring(5, 4));
 
             //return the formatted zip code
-            return sb.ToString();
+            return FormattedZipCode.ToString();
         }
 
         #endregion

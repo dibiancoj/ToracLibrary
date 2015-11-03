@@ -168,26 +168,26 @@ namespace ToracLibrary.Core.AccountingPeriods
         public int ToAccountingPeriod()
         {
             //create a new string builder (only going to use 6 characters)
-            var sb = new StringBuilder(6);
+            var AccountingPeriodFormat = new StringBuilder(6);
 
             //we need to basically send it into the string builder as
             //YYYYmm
 
             //always add the year
-            sb.Append(Year);
+            AccountingPeriodFormat.Append(Year);
 
             //if we have a 1 digit month then we need to add a 0
             if (Month < 10)
             {
                 //we have a 1 digit month, so we need to a month
-                sb.Append("0");
+                AccountingPeriodFormat.Append("0");
             }
 
             //always add the month now
-            sb.Append(Month);
+            AccountingPeriodFormat.Append(Month);
 
             //push the string builder to a string, convert it to an int, then return it
-            return Convert.ToInt32(sb.ToString());
+            return Convert.ToInt32(AccountingPeriodFormat.ToString());
         }
 
         #endregion
