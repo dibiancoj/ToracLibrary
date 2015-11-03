@@ -10,7 +10,17 @@ To update your database to the latest version, run the following:
 
 "Get-Migrations" --> shows your which changes has been applied to your database
 
+-------------------
+If you get error complaining of nothing in web.config / appconfig: 
+Change context from 
+ public EntityFrameworkEntityDP()
+            : base("name=EntityFrameworkEntityDP")
 
+
+To: (remove "name=")
+  public EntityFrameworkEntityDP()
+            : base("EntityFrameworkEntityDP")
+-------------------
 
 Notes:
 
