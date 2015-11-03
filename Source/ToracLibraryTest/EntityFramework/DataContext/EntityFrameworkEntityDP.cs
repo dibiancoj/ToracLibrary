@@ -8,7 +8,7 @@ namespace ToracLibraryTest.UnitsTest.EntityFramework.DataContext
     public partial class EntityFrameworkEntityDP : DbContext
     {
         public EntityFrameworkEntityDP()
-            : base("name=EntityFrameworkEntityDP")
+            : base("EntityFrameworkEntityDP")
         {
         }
 
