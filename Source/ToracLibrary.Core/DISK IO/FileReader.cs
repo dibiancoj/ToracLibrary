@@ -121,7 +121,7 @@ namespace ToracLibrary.Core.DiskIO
         public async static Task<string> ReadFileAsync(string FilePath)
         {
             //create the file stream so we can grab the data
-            using (FileStream thisFileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
+            using (var FileStreamToWriteInto = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
             {
                 //create the string builder which we will build up the return text and return it
                 var ReturnString = new StringBuilder();
@@ -133,7 +133,7 @@ namespace ToracLibrary.Core.DiskIO
                 int NumberOfReads;
 
                 //keep reading until we run out of lines
-                while ((NumberOfReads = await thisFileStream.ReadAsync(BufferToWriteTo, 0, BufferToWriteTo.Length)) != 0)
+                while ((NumberOfReads = await FileStreamToWriteInto.ReadAsync(BufferToWriteTo, 0, BufferToWriteTo.Length)) != 0)
                 {
                     //add the text to the string builder
                     ReturnString.Append(Encoding.Unicode.GetString(BufferToWriteTo, 0, NumberOfReads));
