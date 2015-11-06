@@ -9,7 +9,7 @@ namespace ToracLibrary.Caching
 {
 
     /// <summary>
-    /// Base Abstract Class For Caching. Implementation Must Implement All Abstract Members
+    /// Base Class For Caching. 
     /// </summary>
     /// <typeparam name="T">Type Of Data That Is Stored For This Key</typeparam>
     /// <remarks>Properties are immutable</remarks>
