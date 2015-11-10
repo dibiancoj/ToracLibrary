@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.events;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -117,7 +118,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         #region Public Enums
 
         /// <summary>
-        /// Holds the map from enum to int which is used in itextsharp
+        /// Holds the map from enum to int which is used in itextsharp (Otherwise You can just use Element.ALIGN_LEFT)
         /// </summary>
         public enum HorizontalAlignmentEnum : int
         {
@@ -246,6 +247,23 @@ namespace ToracLibrary.ITextSharpPdfAPI
                 //increase the row
                 RowIndex++;
             }
+        }
+
+        /// <summary>
+        /// Make this cell editable when you are in adobe acrobat.
+        /// </summary>
+        /// <param name="CellToAddTextFieldOn">Cell to add the writable text field too</param>
+        /// <param name="FieldNameToUse">Field name to give the text field</param>
+        public void MyCellWritableTextField(PdfPCell CellToAddTextFieldOn, string FieldNameToUse)
+        {
+            //this is for acrobat, editable field
+            var textField = new TextField(Writer, new Rectangle(0, 0, 0, 0), FieldNameToUse);
+            //{
+            //    FontSize = 12
+            //};
+
+            //add the cell event so we get the adobe fill in
+            CellToAddTextFieldOn.CellEvent = new FieldPositioningEvents(Writer, textField.GetTextField());
         }
 
         #endregion
