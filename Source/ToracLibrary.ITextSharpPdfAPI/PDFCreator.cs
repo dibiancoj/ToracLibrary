@@ -342,7 +342,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         public static Image BuildPDFImage(System.Drawing.Image ImageFile, System.Drawing.Imaging.ImageFormat ImageFormatToRender)
         {
             //create the memory stream
-            using (MemoryStream ImageMemoryStream = new MemoryStream())
+            using (var ImageMemoryStream = new MemoryStream())
             {
                 //go put the image into the memory stream
                 ImageFile.Save(ImageMemoryStream, ImageFormatToRender);
