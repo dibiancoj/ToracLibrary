@@ -268,6 +268,19 @@ namespace ToracLibrary.ITextSharpPdfAPI
 
         #endregion
 
+        #region Form Editing
+
+        /// <summary>
+        /// When you open a pdf and you have form fields, this will have "show highlight fields" on by default. This will give the form the purple highlight marks
+        /// </summary>
+        public void HighlightFormsOnOpenByDefault()
+        {
+            //create this action and return it
+            Writer.AddJavaScript(PdfAction.JavaScript("app.runtimeHighlight = true;", Writer));
+        }
+
+        #endregion
+
         #endregion
 
         #region Public Static Methods
