@@ -24,17 +24,13 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <param name="Html">html to render to a pdf</param>
         /// <param name="Css">Css file (null if you dont have any css)</param>
         /// <param name="CreatorToUse">Creator to use. This way the end developer can setup the margins and landscape</param>
-        /// <returns>CreatorToUse with everything written to it</returns>
-        public static PDFCreator HtmlToPdf(string Html, PDFCreator CreatorToUse)
+        public static void HtmlToPdf(string Html, PDFCreator CreatorToUse)
         {
             //create the html stream
             using (var HtmlStream = new StringReader(Html))
             {
                 //Parse the HTML
                 XMLWorkerHelper.GetInstance().ParseXHtml(CreatorToUse.Writer, CreatorToUse.Doc, HtmlStream);
-
-                //go return the creator now
-                return CreatorToUse;
             }
         }
 
@@ -44,8 +40,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <param name="Html">html to render to a pdf</param>
         /// <param name="Css">Css file (null if you dont have any css)</param>
         /// <param name="CreatorToUse">Creator to use. This way the end developer can setup the margins and landscape</param>
-        /// <returns>CreatorToUse with everything written to it</returns>
-        public static PDFCreator HtmlToPdf(string Html, string Css, PDFCreator CreatorToUse)
+        public static void HtmlToPdf(string Html, string Css, PDFCreator CreatorToUse)
         {
             //create the pdf creator
             using (var CssStream = new MemoryStream(Encoding.UTF8.GetBytes(Css)))
@@ -55,9 +50,6 @@ namespace ToracLibrary.ITextSharpPdfAPI
                 {
                     //Parse the HTML
                     XMLWorkerHelper.GetInstance().ParseXHtml(CreatorToUse.Writer, CreatorToUse.Doc, HtmlStream, CssStream);
-
-                    //go return the creator now
-                    return CreatorToUse;
                 }
             }
         }
