@@ -1,5 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.events;
+using iTextSharp.tool.xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,7 +102,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <summary>
         /// PDF Writer
         /// </summary>
-        protected PdfWriter Writer { get; }
+        public PdfWriter Writer { get; }
 
         #region Dispose Properties
 
@@ -117,7 +119,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         #region Public Enums
 
         /// <summary>
-        /// Holds the map from enum to int which is used in itextsharp
+        /// Holds the map from enum to int which is used in itextsharp (Otherwise You can just use Element.ALIGN_LEFT)
         /// </summary>
         public enum HorizontalAlignmentEnum : int
         {
@@ -248,6 +250,36 @@ namespace ToracLibrary.ITextSharpPdfAPI
             }
         }
 
+        /// <summary>
+        /// Make this cell editable when you are in adobe acrobat.
+        /// </summary>
+        /// <param name="CellToAddTextFieldOn">Cell to add the writable text field too</param>
+        /// <param name="FieldNameToUse">Field name to give the text field</param>
+        public void MyCellWritableTextField(PdfPCell CellToAddTextFieldOn, string FieldNameToUse)
+        {
+            //this is for acrobat, editable field
+            var textField = new TextField(Writer, new Rectangle(0, 0, 0, 0), FieldNameToUse);
+            //{
+            //    FontSize = 12
+            //};
+
+            //add the cell event so we get the adobe fill in
+            CellToAddTextFieldOn.CellEvent = new FieldPositioningEvents(Writer, textField.GetTextField());
+        }
+
+        #endregion
+
+        #region Form Editing
+
+        /// <summary>
+        /// When you open a pdf and you have form fields, this will have "show highlight fields" on by default. This will give the form the purple highlight marks
+        /// </summary>
+        public void HighlightFormsOnOpenByDefault()
+        {
+            //create this action and return it
+            Writer.AddJavaScript(PdfAction.JavaScript("app.runtimeHighlight = true;", Writer));
+        }
+
         #endregion
 
         #endregion
@@ -342,7 +374,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         public static Image BuildPDFImage(System.Drawing.Image ImageFile, System.Drawing.Imaging.ImageFormat ImageFormatToRender)
         {
             //create the memory stream
-            using (MemoryStream ImageMemoryStream = new MemoryStream())
+            using (var ImageMemoryStream = new MemoryStream())
             {
                 //go put the image into the memory stream
                 ImageFile.Save(ImageMemoryStream, ImageFormatToRender);
