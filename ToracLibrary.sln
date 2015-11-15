@@ -122,6 +122,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFr
 		Docs\Examples\EntityFramework\Code First Migration Commands.txt = Docs\Examples\EntityFramework\Code First Migration Commands.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.PdfClownAPI", "Source\ToracLibrary.PdfClownAPI\ToracLibrary.PdfClownAPI.csproj", "{1BF3F816-8435-419D-B281-495F5752560D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -196,6 +198,10 @@ Global
 		{F4C01A7E-D029-41DE-983F-5709E4D5D8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C01A7E-D029-41DE-983F-5709E4D5D8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4C01A7E-D029-41DE-983F-5709E4D5D8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF3F816-8435-419D-B281-495F5752560D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF3F816-8435-419D-B281-495F5752560D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF3F816-8435-419D-B281-495F5752560D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF3F816-8435-419D-B281-495F5752560D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,5 +237,6 @@ Global
 		{42C99685-BF13-4DA7-856B-D1F4FBDC3D18} = {20BD18E2-78EC-444C-8490-1984342B40E4}
 		{4658C236-FBCE-44F7-BEBD-809A0316CFE6} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{58EBAB86-E024-4D03-8D67-06C2583ED914} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{1BF3F816-8435-419D-B281-495F5752560D} = {264DB62C-6C82-490B-922A-6369B851BB37}
 	EndGlobalSection
 EndGlobal
