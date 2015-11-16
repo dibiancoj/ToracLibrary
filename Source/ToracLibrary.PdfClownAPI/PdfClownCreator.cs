@@ -123,6 +123,15 @@ namespace ToracLibrary.PdfClownAPI
         }
 
         /// <summary>
+        /// Flush a composer so it will write all the data to the page after we build up the composer
+        /// </summary>
+        /// <param name="ComposerToFlush">comoser to flush</param>
+        public void FlushComposer(PrimitiveComposer ComposerToFlush)
+        {
+            ComposerToFlush.Flush();
+        }
+
+        /// <summary>
         /// Add an image to the page. This will return an XObject which you can add using composer.ShowXObject
         /// </summary>
         /// <param name="logoPath">path to the image</param>
