@@ -176,13 +176,21 @@ namespace ToracLibrary.PdfClownAPI
         /// <param name="YCoordinate">y coordinate</param>
         /// <param name="WidthOfTextBox">width of the text box</param>
         /// <param name="HeightOfTextBox">height of the textbox</param>
-        public void WriteFormField(string TextFieldName, string TextValue, Page PageToUse, float XCoordinate, float YCoordinate, float WidthOfTextBox, float HeightOfTextBox)
+        /// <returns>TextField. Call  Doc.Form.Fields.Add(WriteFormField());</returns>
+        public TextField WriteFormField(string TextFieldName, string TextValue, Page PageToUse, float XCoordinate, float YCoordinate, float WidthOfTextBox, float HeightOfTextBox)
         {
-            //add the field
-            var TextBoxFieldToAdd = new TextField(TextFieldName, new Widget(PageToUse, new RectangleF(XCoordinate, YCoordinate, WidthOfTextBox, HeightOfTextBox)), TextValue);
+            //add the field (when you get it back from this method call Doc.Form.Fields.Add(WriteFormToField())...
+            return new TextField(TextFieldName, new Widget(PageToUse, new RectangleF(XCoordinate, YCoordinate, WidthOfTextBox, HeightOfTextBox)), TextValue);
+
+            //to make bold
+            //var fieldStyle = new DefaultStyle();
+            //fieldStyle.FontSize = 12;
+            //fieldStyle.Apply({{The Result of this method}});
 
             //remove spell check
-            TextBoxFieldToAdd.SpellChecked = false; // Avoids text spell check.
+            //TextBoxFieldToAdd.SpellChecked = false; // Avoids text spell check.
+            
+            //add field actions
             //FieldActions fieldActions = new FieldActions(Doc);
             //field.Actions = fieldActions;
             //fieldActions.OnValidate = new JavaScript(document,
@@ -190,8 +198,7 @@ namespace ToracLibrary.PdfClownAPI
             //  );
 
             //add the field to the form
-            Doc.Form.Fields.Add(TextBoxFieldToAdd); // 4.2. Field insertion into the fields collection.
-            // fieldStyle.Apply(field); // 4.3. Appearance style applied.
+            //Doc.Form.Fields.Add(TextBoxFieldToAdd); // 4.2. Field insertion into the fields collection           
         }
 
         #region Saving Pdf
