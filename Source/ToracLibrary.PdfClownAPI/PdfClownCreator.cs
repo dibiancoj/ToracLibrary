@@ -1,7 +1,5 @@
 ﻿using org.pdfclown.documents;
 using org.pdfclown.documents.contents.composition;
-using org.pdfclown.documents.contents.entities;
-using org.pdfclown.documents.contents.objects;
 using org.pdfclown.documents.interaction.annotations;
 using org.pdfclown.documents.interaction.forms;
 using org.pdfclown.files;
