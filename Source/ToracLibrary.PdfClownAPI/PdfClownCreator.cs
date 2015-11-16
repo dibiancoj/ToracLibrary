@@ -122,6 +122,71 @@ namespace ToracLibrary.PdfClownAPI
             return new PrimitiveComposer(Page);
         }
 
+        /// <summary>
+        /// Add an image to the page. This will return an XObject which you can add using composer.ShowXObject
+        /// </summary>
+        /// <param name="logoPath">path to the image</param>
+        /// <returns>Image in an itextsharp object</returns>
+        public org.pdfclown.documents.contents.xObjects.XObject AddImage(string logoPath)
+        {
+            //go grab the image
+            using (var ImageToAdd = System.Drawing.Image.FromFile(logoPath))
+            {
+                //we need to encode the image which is specific to clown pdf
+                using (var EncodeParameters = new EncoderParameters(3))
+                {
+                    //add the specified parameters
+                    EncodeParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+                    EncodeParameters.Param[1] = new EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod, (int)EncoderValue.ScanMethodInterlaced);
+                    EncodeParameters.Param[2] = new EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod, (int)EncoderValue.RenderNonProgressive);
+
+                    //create the memory stream
+                    using (var MemoryStreamToUse = new System.IO.MemoryStream())
+                    {
+                        //if it's a jpeg we need to set the encoder info
+                        var JpegEncoder = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.MimeType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase));
+
+                        //go save the image to the memory stream
+                        ImageToAdd.Save(MemoryStreamToUse, JpegEncoder, EncodeParameters);
+
+                        //reset the memory stream
+                        MemoryStreamToUse.Position = 0;
+
+                        //grab the image from the stream and return the xobject
+                        return org.pdfclown.documents.contents.entities.Image.Get(MemoryStreamToUse).ToXObject(Doc);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Write a text box to a form field
+        /// </summary>
+        /// <param name="TextFieldName">textbox form field name</param>
+        /// <param name="TextValue">text value to set in the textbox</param>
+        /// <param name="PageToUse">page to put the textbox on</param>
+        /// <param name="XCoordinate">x coordinate</param>
+        /// <param name="YCoordinate">y coordinate</param>
+        /// <param name="WidthOfTextBox">width of the text box</param>
+        /// <param name="HeightOfTextBox">height of the textbox</param>
+        public void WriteFormField(string TextFieldName, string TextValue, Page PageToUse, float XCoordinate, float YCoordinate, float WidthOfTextBox, float HeightOfTextBox)
+        {
+            //add the field
+            var TextBoxFieldToAdd = new TextField(TextFieldName, new Widget(PageToUse, new RectangleF(XCoordinate, YCoordinate, WidthOfTextBox, HeightOfTextBox)), TextValue);
+
+            //remove spell check
+            TextBoxFieldToAdd.SpellChecked = false; // Avoids text spell check.
+            //FieldActions fieldActions = new FieldActions(Doc);
+            //field.Actions = fieldActions;
+            //fieldActions.OnValidate = new JavaScript(document,
+            //  "app.alert(\"Text '\" + this.getField(\"myText\").value + \"' has changed!\",3,0,\"Validation event\");"
+            //  );
+
+            //add the field to the form
+            Doc.Form.Fields.Add(TextBoxFieldToAdd); // 4.2. Field insertion into the fields collection.
+            // fieldStyle.Apply(field); // 4.3. Appearance style applied.
+        }
+
         #region Saving Pdf
 
         /// <summary>
@@ -171,75 +236,6 @@ namespace ToracLibrary.PdfClownAPI
         }
 
         #endregion
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Add an image to the page. This will return an XObject which you can add using composer.ShowXObject
-        /// </summary>
-        /// <param name="logoPath">path to the image</param>
-        /// <returns>Image in an itextsharp object</returns>
-        private org.pdfclown.documents.contents.xObjects.XObject AddImage(string logoPath)
-        {
-            //go grab the image
-            using (var ImageToAdd = System.Drawing.Image.FromFile(logoPath))
-            {
-                //we need to encode the image which is specific to clown pdf
-                using (var EncodeParameters = new EncoderParameters(3))
-                {
-                    //add the specified parameters
-                    EncodeParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
-                    EncodeParameters.Param[1] = new EncoderParameter(System.Drawing.Imaging.Encoder.ScanMethod, (int)EncoderValue.ScanMethodInterlaced);
-                    EncodeParameters.Param[2] = new EncoderParameter(System.Drawing.Imaging.Encoder.RenderMethod, (int)EncoderValue.RenderNonProgressive);
-
-                    //create the memory stream
-                    using (var MemoryStreamToUse = new System.IO.MemoryStream())
-                    {
-                        //if it's a jpeg we need to set the encoder info
-                        var JpegEncoder = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.MimeType.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase));
-
-                        //go save the image to the memory stream
-                        ImageToAdd.Save(MemoryStreamToUse, JpegEncoder, EncodeParameters);
-
-                        //reset the memory stream
-                        MemoryStreamToUse.Position = 0;
-
-                        //grab the image from the stream and return the xobject
-                        return org.pdfclown.documents.contents.entities.Image.Get(MemoryStreamToUse).ToXObject(Doc);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Write a text box to a form field
-        /// </summary>
-        /// <param name="TextFieldName">textbox form field name</param>
-        /// <param name="TextValue">text value to set in the textbox</param>
-        /// <param name="PageToUse">page to put the textbox on</param>
-        /// <param name="XCoordinate">x coordinate</param>
-        /// <param name="YCoordinate">y coordinate</param>
-        /// <param name="WidthOfTextBox">width of the text box</param>
-        /// <param name="HeightOfTextBox">height of the textbox</param>
-        private void WriteFormField(string TextFieldName, string TextValue, Page PageToUse, float XCoordinate, float YCoordinate, float WidthOfTextBox, float HeightOfTextBox)
-        {
-            //add the field
-            var TextBoxFieldToAdd = new TextField(TextFieldName, new Widget(PageToUse, new RectangleF(XCoordinate, YCoordinate, WidthOfTextBox, HeightOfTextBox)), TextValue);
-
-            //remove spell check
-            TextBoxFieldToAdd.SpellChecked = false; // Avoids text spell check.
-            //FieldActions fieldActions = new FieldActions(Doc);
-            //field.Actions = fieldActions;
-            //fieldActions.OnValidate = new JavaScript(document,
-            //  "app.alert(\"Text '\" + this.getField(\"myText\").value + \"' has changed!\",3,0,\"Validation event\");"
-            //  );
-
-            //add the field to the form
-            Doc.Form.Fields.Add(TextBoxFieldToAdd); // 4.2. Field insertion into the fields collection.
-            // fieldStyle.Apply(field); // 4.3. Appearance style applied.
-        }
 
         #endregion
 
