@@ -1,0 +1,58 @@
+modelBuilder.Entity<Student>().HasKey<int>(s => s.StudentKey); = Set The Primary Key ..composite key would be new { Field1, Field2}
+HasMany<TTargetEntity> = Many to Many
+HasOptional<TTargetEntity> = Left Outer Join (nullable foreign key)
+HasRequired<TTargetEntity> = Inner Join (non nullable foreign key)
+Map = Advanced Configuration
+ToTable = Maps the model to a table name
+HasDefaultSchema("Admin");
+ToTable("StudentInfo"); or modelBuilder.Entity<Standard>().ToTable("StandardInfo","dbo");
+
+-----------------------------------------------------------------------------------------------				
+1 to 0 Relationship
+		modelBuilder.Entity<StudentAddress>()
+            .HasKey(e => e.StudentId);
+        
+        // Configure StudentId as FK for StudentAddress
+        modelBuilder.Entity<Student>()
+                    .HasOptional(s => s.StudentAddress) // Mark StudentAddress is optional for Student
+                    .WithRequired(ad => ad.Student); // Create inverse relationship
+-----------------------------------------------------------------------------------------------				
+1 to 1 Relationship
+
+  modelBuilder.Entity<StudentAddress>()
+            .HasKey(e => e.StudentId);
+        
+        // Configure StudentId as FK for StudentAddress
+        modelBuilder.Entity<StudentAddress>()
+                    .HasRequired(ad => ad.Student) 
+                    .WithOptional(s => s.StudentAddress); 
+-----------------------------------------------------------------------------------------------
+1 to many relationship
+			//one-to-many 
+            modelBuilder.Entity<Student>()
+                        .HasRequired<Standard>(s => s.Standard) //with nullable (left outer...use .HasOptional()
+                        .WithMany(s => s.Students)
+                        .HasForeignKey(s => s.StdId);
+-----------------------------------------------------------------------------------------------
+many to many relationship
+			//many to many
+			modelBuilder.Entity<Student>()
+                   .HasMany<Course>(s => s.Courses)
+                   .WithMany(c => c.Students)
+                   .Map(cs =>
+                            {
+                                cs.MapLeftKey("StudentRefId");
+                                cs.MapRightKey("CourseRefId");
+                                cs.ToTable("StudentCourse");
+                            });	
+-----------------------------------------------------------------------------------------------
+Map to multiple tables
+		modelBuilder.Entity<Student>().Map(m =>
+                {
+                    m.Properties(p => new { p.StudentId, p.StudentName});
+                    m.ToTable("StudentInfo");
+
+                }).Map(m => {
+                    m.Properties(p => new { p.StudentId, p.Height, p.Weight, p.Photo, p.DateOfBirth});
+                    m.ToTable("StudentInfoDetail");
+                });
