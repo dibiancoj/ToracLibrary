@@ -30,6 +30,16 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
         #endregion
 
+        #region Disposal Properties
+
+        /// <summary>
+        /// Holds a flag if the class has been disposed yet or called to be disposed yet
+        /// </summary>
+        /// <remarks>Used IDisposable</remarks>
+        private bool Disposed { get; set; }
+
+        #endregion
+
         #region Private Transient Specific Properties
 
         /// <summary>
@@ -91,6 +101,34 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
             //we have the expression, so let's go invoke it and return the results
             return CachedActivator.Invoke(ConstructorParameters);
+        }
+
+        #endregion
+
+        #region Dispose Method
+
+        /// <summary>
+        /// Disposes My Object
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose Overload. Ensures my database connection is closed
+        /// </summary>
+        private void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                if (disposing)
+                {
+                    //transient doesn't have anything to dispose, it just needs to implement to keep the pattern
+                }
+            }
+            this.Disposed = true;
         }
 
         #endregion

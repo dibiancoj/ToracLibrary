@@ -11,7 +11,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
     /// <summary>
     /// A common interface that all scope implementations must implement
     /// </summary>
-    internal interface IScopeImplementation
+    internal interface IScopeImplementation : IDisposable
     {
 
         #region Properties

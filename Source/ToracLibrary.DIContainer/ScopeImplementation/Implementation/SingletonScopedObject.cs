@@ -24,6 +24,16 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
         #endregion
 
+        #region Disposal Properties
+
+        /// <summary>
+        /// Holds a flag if the class has been disposed yet or called to be disposed yet
+        /// </summary>
+        /// <remarks>Used IDisposable</remarks>
+        private bool Disposed { get; set; }
+
+        #endregion
+
         #region Interface Properties
 
         /// <summary>
@@ -76,6 +86,48 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
             //we have the expression, so let's go invoke it and return the results
             return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
+        }
+
+        #endregion
+
+        #region Dispose Method
+
+        /// <summary>
+        /// Disposes My Object
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose Overload. Ensures my database connection is closed
+        /// </summary>
+        private void Dispose(bool disposing)
+        {
+            if (!this.Disposed)
+            {
+                if (disposing)
+                {
+                    //for singleton's instance that implement idisposable, we want to eagerly call dispose the object
+
+                    //do we have an instance?
+                    if (Instance != null)
+                    {
+                        //so we have an instance...now does it implement idisposable?
+                        var IDisposeCheck = Instance as IDisposable;
+
+                        //does it implement IDisposable?
+                        if (IDisposeCheck != null)
+                        {
+                            //now call dispose on this object
+                            IDisposeCheck.Dispose();
+                        }
+                    }
+                }
+            }
+            this.Disposed = true;
         }
 
         #endregion
