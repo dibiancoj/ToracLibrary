@@ -27,11 +27,6 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <remarks>Only public for unit testing</remarks>
         public const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
-        /// <summary>
-        /// This is a line break in the style they need
-        /// </summary>
-        public const string LineBreak = "=0D=0A";
-
         #endregion
 
         #region Public Methods
