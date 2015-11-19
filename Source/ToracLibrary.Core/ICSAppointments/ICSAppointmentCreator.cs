@@ -34,13 +34,14 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <summary>
         /// Creates an .ics file which creates an event in outlook, google calendar, etc.
         /// </summary>
-        /// <param name="IsFullDateAppointment">Is this a full day appointment. IE: 9/10/2015 to 9/11/2015. Or will the date time include the hours and minutes</param>
+        /// <param name="IsFullDayAppointment">Is this a full day appointment. IE: 9/10/2015 to 9/11/2015. Or will the date time include the hours and minutes</param>
         /// <param name="StartDateTimeOfAppointment">Start date or time of appointment</param>
         /// <param name="EndDateTimeOfAppointment">End date or time of appointment</param>
         /// <param name="SummaryOfAppointment">Summary description of the appointment</param>
         /// <param name="LocationOfAppointment">Location of the appointment</param>
+        /// <param name="BodyOfReminder">Body of the reminder. This is the full description</param>
         /// <returns>A String. Either call  System.IO.File.WriteAllText("test.ics", result) to write it to disk. Or Encoding.ASCII.GetBytes(input) to get it into a byte array for download</returns>
-        public static string CreateICSAppointment(bool IsFullDayAppointment, DateTime StartDateTimeOfAppointment, DateTime EndDateTimeOfAppointment, string SummaryOfAppointment, string LocationOfAppointment)
+        public static string CreateICSAppointment(bool IsFullDayAppointment, DateTime StartDateTimeOfAppointment, DateTime EndDateTimeOfAppointment, string SummaryOfAppointment, string LocationOfAppointment, string BodyOfReminder)
         {
             /*Syntax should be something like this
              *BEGIN:VCALENDAR
@@ -51,6 +52,7 @@ namespace ToracLibrary.Core.ICSAppointments
              *DTEND: (Same as DTStart)
              *SUMMARY: bla bla
              *LOCATION: New York
+             *DESCRIPTION: Bla Bla Bla
              *END:VEVENT
              *END:VCALENDAR
              *
@@ -117,6 +119,9 @@ namespace ToracLibrary.Core.ICSAppointments
 
             //add the location
             ICSWriter.Append("LOCATION:").Append(LocationOfAppointment).Append(Environment.NewLine);
+
+            //add the description / body of appointment
+            ICSWriter.Append("DESCRIPTION:").Append(BodyOfReminder).Append(Environment.NewLine);
 
             //add the closing brackets
             ICSWriter.AppendLine("END:VEVENT");

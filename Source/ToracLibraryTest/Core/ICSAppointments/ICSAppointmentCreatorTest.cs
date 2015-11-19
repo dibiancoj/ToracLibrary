@@ -38,8 +38,11 @@ namespace ToracLibraryTest.UnitsTest.Core
             //location text
             const string LocationText = "Location Text";
 
+            //body
+            const string BodyOfReminder = "BodyOfReminder";
+
             //go run it and grab the results
-            var ICSCreatedFile = ICSAppointmentCreator.CreateICSAppointment(true, StartDate, EndDate, SummaryText, LocationText);
+            var ICSCreatedFile = ICSAppointmentCreator.CreateICSAppointment(true, StartDate, EndDate, SummaryText, LocationText, BodyOfReminder);
 
             //split the lines
             var SplitByLine = ICSCreatedFile.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -51,7 +54,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("DTSTART;VALUE=DATE:" + StartDate.ToString(ICSAppointmentCreator.FormatDate), SplitByLine[4]);
             Assert.AreEqual("DTEND;VALUE=DATE:" + EndDate.ToString(ICSAppointmentCreator.FormatDate), SplitByLine[5]);
             Assert.AreEqual("SUMMARY:" + SummaryText, SplitByLine[6]);
-            Assert.AreEqual("LOCATION:" + LocationText, SplitByLine[7]); 
+            Assert.AreEqual("LOCATION:" + LocationText, SplitByLine[7]);
+            Assert.AreEqual("DESCRIPTION:" + BodyOfReminder, SplitByLine[8]);
         }
 
         /// <summary>
@@ -74,8 +78,11 @@ namespace ToracLibraryTest.UnitsTest.Core
             //location text
             const string LocationText = "Location Text 123";
 
+            //body
+            const string BodyOfReminder = "BodyOfReminder 123";
+
             //go run it and grab the results
-            var ICSCreatedFile = ICSAppointmentCreator.CreateICSAppointment(false, StartDate, EndDate, SummaryText, LocationText);
+            var ICSCreatedFile = ICSAppointmentCreator.CreateICSAppointment(false, StartDate, EndDate, SummaryText, LocationText, BodyOfReminder);
 
             //split the lines
             var SplitByLine = ICSCreatedFile.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -88,6 +95,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("DTEND:" + EndDate.ToString(ICSAppointmentCreator.FormatSpecificDateTime), SplitByLine[5]);
             Assert.AreEqual("SUMMARY:" + SummaryText, SplitByLine[6]);
             Assert.AreEqual("LOCATION:" + LocationText, SplitByLine[7]);
+            Assert.AreEqual("DESCRIPTION:" + BodyOfReminder, SplitByLine[8]);
         }
 
         #endregion
@@ -101,8 +109,8 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <remarks>Will assert and raise whatever it needs too</remarks>
         private void ICSStandardFormatTest(IList<string> ResultsSplitByLine)
         {
-            //make sure we have 10 items
-            Assert.AreEqual(10, ResultsSplitByLine.Count);
+            //make sure we have 11 items
+            Assert.AreEqual(11, ResultsSplitByLine.Count);
 
             //top of the items
             Assert.AreEqual("BEGIN:VCALENDAR", ResultsSplitByLine[0]);
@@ -111,8 +119,8 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual("BEGIN:VEVENT", ResultsSplitByLine[3]);
 
             //bottom of the items
-            Assert.AreEqual("END:VEVENT", ResultsSplitByLine[8]);
-            Assert.AreEqual("END:VCALENDAR", ResultsSplitByLine[9]);
+            Assert.AreEqual("END:VEVENT", ResultsSplitByLine[9]);
+            Assert.AreEqual("END:VCALENDAR", ResultsSplitByLine[10]);
         }
 
         #endregion
