@@ -16,19 +16,6 @@ namespace ToracLibraryTest.UnitsTest.Core
     public class ICSAppointmentCreatorTest
     {
 
-        /*Syntax should be something like this
-            *BEGIN:VCALENDAR
-            *VERSION:2.0
-            *PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-            *BEGIN:VEVENT
-            *DTSTART: UTC Time  ==> if this is a full day use DTSTART;VALUE=DATE:20150930
-            *DTEND: (Same as DTStart)
-            *SUMMARY: bla bla
-            *LOCATION: New York
-            *END:VEVENT
-            *END:VCALENDAR
-            */
-
         #region Unit Test Methods
 
         /// <summary>

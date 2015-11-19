@@ -47,12 +47,19 @@ namespace ToracLibrary.Core.ICSAppointments
              *VERSION:2.0
              *PRODID:-//hacksw/handcal//NONSGML v1.0//EN
              *BEGIN:VEVENT
-             *DTSTART: UTC Time  ==> if this is a full day use DTSTART;VALUE=DATE:20150930
+             *DTSTART: UTC Time  ==> if this is a full date use DTSTART;VALUE=DATE:20150930
              *DTEND: (Same as DTStart)
              *SUMMARY: bla bla
              *LOCATION: New York
              *END:VEVENT
              *END:VCALENDAR
+             *
+             * For Dates:
+             * If for specific date time [using start as an example]:
+             *DTSTART:FormattedDateTimeYouWant
+             *
+             * If for entire day [using start as an example]
+             *DTSTART;VALUE=DATE:FormattedDateTimeYouWant
              */
 
             //we will use a string builder to write everything
