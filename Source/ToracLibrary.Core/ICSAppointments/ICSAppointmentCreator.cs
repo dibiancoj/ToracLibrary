@@ -137,7 +137,7 @@ namespace ToracLibrary.Core.ICSAppointments
         /// </summary>
         /// <param name="DateToBuild">Date to build up</param>
         /// <returns>the formatted time in a string</returns>
-        public static string GetFormattedDate(DateTime DateToBuild)
+        private static string GetFormattedDate(DateTime DateToBuild)
         {
             //add them all together now
             return DateToBuild.ToString(FormatDate);
@@ -148,7 +148,7 @@ namespace ToracLibrary.Core.ICSAppointments
         /// </summary>
         /// <param name="DateToBuild">Date to build up</param>
         /// <returns>the formatted time in a string</returns>
-        public static string GetFormattedDateTime(DateTime DateToBuild)
+        private static string GetFormattedDateTime(DateTime DateToBuild)
         {
             //just make sure if number is 1 digit, then we make it ie 09.
 
