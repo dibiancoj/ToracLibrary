@@ -27,6 +27,11 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <remarks>Only public for unit testing</remarks>
         public const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
+        /// <summary>
+        /// This is a line break in the style they need
+        /// </summary>
+        public const string LineBreak = "=0D=0A";
+
         #endregion
 
         #region Public Methods
@@ -121,7 +126,7 @@ namespace ToracLibrary.Core.ICSAppointments
             ICSWriter.Append("LOCATION:").Append(LocationOfAppointment).Append(Environment.NewLine);
 
             //add the description / body of appointment
-            ICSWriter.Append("DESCRIPTION:").Append(BodyOfReminder).Append(Environment.NewLine);
+            ICSWriter.Append("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:").Append(BodyOfReminder).Append(Environment.NewLine);
 
             //add the closing brackets
             ICSWriter.AppendLine("END:VEVENT");
