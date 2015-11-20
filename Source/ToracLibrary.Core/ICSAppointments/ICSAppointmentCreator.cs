@@ -64,6 +64,8 @@ namespace ToracLibrary.Core.ICSAppointments
              *DTSTART;VALUE=DATE:FormattedDateTimeYouWant
              */
 
+            //For line breaks use "\\n"
+
             //we will use a string builder to write everything
             var ICSWriter = new StringBuilder();
 
