@@ -69,22 +69,22 @@ namespace ToracLibrary.Core.ICSAppointments
             //we will use a string builder to write everything
             var ICSWriter = new StringBuilder();
 
-            //there are basically 4 fields tht we need to fill in...start date, end date, summary, and location.
+            //there are basically 5 fields tht we need to fill in...start date, end date, summary, location, and the body.
 
-            //I'm going to build it up instead of doing a string format for no reason
+            //let's add the first couple of lines that are static and won't change
             ICSWriter.AppendLine("BEGIN:VCALENDAR");
             ICSWriter.AppendLine("VERSION:2.0");
             ICSWriter.AppendLine("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");
             ICSWriter.AppendLine("BEGIN:VEVENT");
 
-            //start date now
+            //date lables we are going to use *the date field will start with these labels)
             const string StartDateLabel = "DTSTART";
             const string EndDateLabel = "DTEND";
 
             //is this a full day?
             if (IsFullDayAppointment)
             {
-                //full date format
+                //full date format seperator (should go after the label)
                 const string FullDateSeperator = ";";
 
                 //full date format
@@ -106,13 +106,13 @@ namespace ToracLibrary.Core.ICSAppointments
                 //"DTSTART:Date:TheFormattedDateNow"
                 //"DTEND:Date:TheFormattedDateNow"
 
-                //date time seperator
+                //date time seperator (should go after the label)
                 const string SpecificDateTimeSeperator = ":";
 
-                //add the start date time value in UTC
+                //add the start date time value in the format we need
                 ICSWriter.Append(StartDateLabel).Append(SpecificDateTimeSeperator).Append(GetFormattedDateTime(StartDateTimeOfAppointment)).Append(Environment.NewLine);
 
-                //add the end date time value in UTC
+                //add the end date time value in the format we need
                 ICSWriter.Append(EndDateLabel).Append(SpecificDateTimeSeperator).Append(GetFormattedDateTime(EndDateTimeOfAppointment)).Append(Environment.NewLine);
             }
 
@@ -123,7 +123,7 @@ namespace ToracLibrary.Core.ICSAppointments
             ICSWriter.Append("LOCATION:").Append(LocationOfAppointment).Append(Environment.NewLine);
 
             //add the description / body of appointment
-            ICSWriter.Append("DESCRIPTION;ENCODING=QUOTED-PRINTABLE:").Append(BodyOfReminder).Append(Environment.NewLine);
+            ICSWriter.Append("DESCRIPTION:").Append(BodyOfReminder).Append(Environment.NewLine);
 
             //add the closing brackets
             ICSWriter.AppendLine("END:VEVENT");
