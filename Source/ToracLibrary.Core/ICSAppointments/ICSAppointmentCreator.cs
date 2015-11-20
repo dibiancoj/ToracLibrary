@@ -27,6 +27,11 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <remarks>Only public for unit testing</remarks>
         public const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
+        /// <summary>
+        /// Mime type for the ics file
+        /// </summary>
+        public const string ICSMimeType = "text/calendar";
+
         #endregion
 
         #region Public Methods
