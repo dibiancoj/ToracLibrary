@@ -45,7 +45,7 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <param name="SummaryOfAppointment">Summary description of the appointment</param>
         /// <param name="LocationOfAppointment">Location of the appointment</param>
         /// <param name="BodyOfReminder">Body of the reminder. This is the full description</param>
-        /// <returns>A String. Either call  System.IO.File.WriteAllText("test.ics", result) to write it to disk. Or Encoding.ASCII.GetBytes(input) to get it into a byte array for download</returns>
+        /// <returns>A String. Either call  System.IO.File.WriteAllText("test.ics", result) to write it to disk. Or Encoding.ASCII.GetBytes(result) to get it into a byte array for download</returns>
         public static string CreateICSAppointment(bool IsFullDayAppointment, DateTime StartDateTimeOfAppointment, DateTime EndDateTimeOfAppointment, string SummaryOfAppointment, string LocationOfAppointment, string BodyOfReminder)
         {
             /*Syntax should be something like this
