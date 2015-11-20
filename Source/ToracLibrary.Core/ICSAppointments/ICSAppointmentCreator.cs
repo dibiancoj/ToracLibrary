@@ -18,14 +18,14 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <summary>
         /// Format to use when we just want a full day.
         /// </summary>
-        /// <remarks>Only public for unit testing</remarks>
-        public const string FormatDate = "yyyyMMdd";
+        /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
+        private const string FormatDate = "yyyyMMdd";
 
         /// <summary>
         /// Format to use when we just want a full day.
         /// </summary>
-        /// <remarks>Only public for unit testing</remarks>
-        public const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
+        /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
+        private const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
         /// <summary>
         /// Mime type for the ics file

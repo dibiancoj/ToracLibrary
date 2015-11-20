@@ -50,9 +50,12 @@ namespace ToracLibraryTest.UnitsTest.Core
             //check the standard fields
             ICSStandardFormatTest(SplitByLine);
 
+            //grab the format we need
+            var FormatOfDateTime = FormatDateFromCore();
+
             //check the values that actually change
-            Assert.AreEqual("DTSTART;VALUE=DATE:" + StartDate.ToString(ICSAppointmentCreator.FormatDate), SplitByLine[4]);
-            Assert.AreEqual("DTEND;VALUE=DATE:" + EndDate.ToString(ICSAppointmentCreator.FormatDate), SplitByLine[5]);
+            Assert.AreEqual("DTSTART;VALUE=DATE:" + StartDate.ToString(FormatOfDateTime), SplitByLine[4]);
+            Assert.AreEqual("DTEND;VALUE=DATE:" + EndDate.ToString(FormatOfDateTime), SplitByLine[5]);
             Assert.AreEqual("SUMMARY:" + SummaryText, SplitByLine[6]);
             Assert.AreEqual("LOCATION:" + LocationText, SplitByLine[7]);
             Assert.AreEqual("DESCRIPTION:" + BodyOfReminder, SplitByLine[8]);
@@ -90,9 +93,12 @@ namespace ToracLibraryTest.UnitsTest.Core
             //check the standard fields
             ICSStandardFormatTest(SplitByLine);
 
+            //grab the format we need
+            var FormatOfDateTime = FormatSpecificDateTimeFromCore();
+
             //check the values now
-            Assert.AreEqual("DTSTART:" + StartDate.ToString(ICSAppointmentCreator.FormatSpecificDateTime), SplitByLine[4]);
-            Assert.AreEqual("DTEND:" + EndDate.ToString(ICSAppointmentCreator.FormatSpecificDateTime), SplitByLine[5]);
+            Assert.AreEqual("DTSTART:" + StartDate.ToString(FormatOfDateTime), SplitByLine[4]);
+            Assert.AreEqual("DTEND:" + EndDate.ToString(FormatOfDateTime), SplitByLine[5]);
             Assert.AreEqual("SUMMARY:" + SummaryText, SplitByLine[6]);
             Assert.AreEqual("LOCATION:" + LocationText, SplitByLine[7]);
             Assert.AreEqual("DESCRIPTION:" + BodyOfReminder, SplitByLine[8]);
@@ -121,6 +127,34 @@ namespace ToracLibraryTest.UnitsTest.Core
             //bottom of the items
             Assert.AreEqual("END:VEVENT", ResultsSplitByLine[9]);
             Assert.AreEqual("END:VCALENDAR", ResultsSplitByLine[10]);
+        }
+
+        /// <summary>
+        /// Gets the constant value from the ics class in core which is private
+        /// </summary>
+        /// <returns>format value to use</returns>
+        private static string FormatDateFromCore()
+        {
+            return FormatForPrivateField("FormatDate");
+        }
+
+        /// <summary>
+        /// Gets the constant value from the ics class in core which is private
+        /// </summary>
+        /// <returns>format value to use</returns>
+        private static string FormatSpecificDateTimeFromCore()
+        {
+            return FormatForPrivateField("FormatSpecificDateTime");
+        }
+
+        /// <summary>
+        /// Helper method to grab the field for a specified name
+        /// </summary>
+        /// <param name="FieldName">field name to retrieve</param>
+        /// <returns>format string to use</returns>
+        private static string FormatForPrivateField(string FieldName)
+        {
+            return typeof(ICSAppointmentCreator).GetField(FieldName, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null).ToString();
         }
 
         #endregion
