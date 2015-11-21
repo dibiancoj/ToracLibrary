@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ICSAppointments;
+using ToracLibraryTest.Framework;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -135,7 +136,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <returns>format value to use</returns>
         private static string FormatDateFromCore()
         {
-            return FormatForPrivateField("FormatDate");
+            return FrameworkHelperMethods.GetPrivateFieldValue(typeof(ICSAppointmentCreator), "FormatDate");
         }
 
         /// <summary>
@@ -144,17 +145,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <returns>format value to use</returns>
         private static string FormatSpecificDateTimeFromCore()
         {
-            return FormatForPrivateField("FormatSpecificDateTime");
-        }
-
-        /// <summary>
-        /// Helper method to grab the field for a specified name
-        /// </summary>
-        /// <param name="FieldName">field name to retrieve</param>
-        /// <returns>format string to use</returns>
-        private static string FormatForPrivateField(string FieldName)
-        {
-            return typeof(ICSAppointmentCreator).GetField(FieldName, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).GetValue(null).ToString();
+            return FrameworkHelperMethods.GetPrivateFieldValue(typeof(ICSAppointmentCreator), "FormatSpecificDateTime");
         }
 
         #endregion
