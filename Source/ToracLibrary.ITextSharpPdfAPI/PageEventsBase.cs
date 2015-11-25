@@ -141,6 +141,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
     //    ContentByte.ShowText(text);
     //    ContentByte.EndText();
 
+    //will come back on document close (see example above and will write how many pages we have)
     //    ContentByte.AddTemplate(Template, pageSize.GetLeft(document.LeftMargin) + len, pageSize.GetBottom(BottomMargin));
 
     //    ContentByte.BeginText();
