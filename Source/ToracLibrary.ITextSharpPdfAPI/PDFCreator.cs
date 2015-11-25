@@ -24,6 +24,8 @@ namespace ToracLibrary.ITextSharpPdfAPI
 
         #region Constructor
 
+        #region From Scratch
+
         /// <summary>
         /// PDF Creator Helper With No Page Base (Don't want to write a page or report (header or footer)
         /// </summary>
@@ -84,6 +86,70 @@ namespace ToracLibrary.ITextSharpPdfAPI
             //let's open the document so the developer can do whatever they wan't with it
             Doc.Open();
         }
+
+        #endregion
+
+        #region From Reader
+
+        /// <summary>
+        /// Constructor for when you want to read an existing file into a writer
+        /// </summary>
+        /// <param name="ReaderToBuild">Reader to load into the writer</param>
+        public PDFCreator(PdfReader ReaderToBuild)
+            : this(ReaderToBuild, null)
+        {
+        }
+
+        /// <summary>
+        /// Constructor for when you want to read an existing file into a writer
+        /// </summary>
+        /// <param name="ReaderToBuild">Reader to load into the writer</param>
+        /// <param name="PageEventHandler">Page events use</param>
+        public PDFCreator(PdfReader ReaderToBuild, PageEventsBase PageEventHandler)
+        {
+            //add the document
+            Doc = new Document(ReaderToBuild.GetPageSizeWithRotation(1));
+
+            //let's build the memory stream now
+            Ms = new MemoryStream();
+
+            //add the writer
+            var Writer = PdfWriter.GetInstance(Doc, Ms);
+
+            //do we have any page events?
+            if (PageEventHandler != null)
+            {
+                Writer.PageEvent = PageEventHandler;
+            }
+
+            //open the doc
+            Doc.Open();
+
+            //go add the pages now
+            for (var i = 1; i <= ReaderToBuild.NumberOfPages; i++)
+            {
+                //add a new page
+                Doc.NewPage();
+
+                //grab the base font
+                var BaseFontToUse = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+                //import the page
+                var ImportedPage = Writer.GetImportedPage(ReaderToBuild, i);
+
+                //grab the bytes
+                var ContentByte = Writer.DirectContent;
+                ContentByte.BeginText();
+                ContentByte.SetFontAndSize(BaseFontToUse, 12);
+
+                var multiLineString = "Hello,\r\nWorld!";
+
+                ContentByte.EndText();
+                ContentByte.AddTemplate(ImportedPage, 0, 0);
+            }
+        }
+
+        #endregion
 
         #endregion
 
