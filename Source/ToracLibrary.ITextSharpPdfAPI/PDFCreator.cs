@@ -139,12 +139,8 @@ namespace ToracLibrary.ITextSharpPdfAPI
 
                 //grab the bytes
                 var ContentByte = Writer.DirectContent;
-                ContentByte.BeginText();
-                ContentByte.SetFontAndSize(BaseFontToUse, 12);
 
-                var multiLineString = "Hello,\r\nWorld!";
-
-                ContentByte.EndText();
+                //go write the imported page
                 ContentByte.AddTemplate(ImportedPage, 0, 0);
             }
         }
