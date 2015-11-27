@@ -97,10 +97,10 @@ namespace ToracLibrary.Core.EnumUtilities
             //Equals = 1
 
             //grab the type of the enum passed in, then grab the field info object from the enum value passed in
-            FieldInfo thisFieldInfo = EnumValueToRetrieve.GetType().GetField(EnumValueToRetrieve.ToString());
+            FieldInfo FieldInfoToUse = EnumValueToRetrieve.GetType().GetField(EnumValueToRetrieve.ToString());
 
             //grab the custom attributes now 
-            return thisFieldInfo.GetCustomAttribute(typeof(T)) as T;
+            return FieldInfoToUse.GetCustomAttribute(typeof(T)) as T;
         }
 
         #endregion
