@@ -114,7 +114,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
             Ms = new MemoryStream();
 
             //add the writer
-            var Writer = PdfWriter.GetInstance(Doc, Ms);
+            Writer = PdfWriter.GetInstance(Doc, Ms);
 
             //do we have any page events?
             if (PageEventHandler != null)
