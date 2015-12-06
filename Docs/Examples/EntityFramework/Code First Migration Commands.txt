@@ -33,3 +33,13 @@ Commands Without Description
 "Add-Migration MigrationName" ==> Adds a migration with the specified name
 "Update-Database" ==> Run's all the necessary migrations to get it up to the latest version
 "Get-Migrations" ==> Displays what migrations have been run against the database you are using
+
+
+------------------------------------------------------------------------
+
+EF7 In Asp.net
+
+Open a command prompt (Windows Key + R, type cmd, click OK)
+Use the cd command to navigate to the project directory (where project.json is = ie. the mvc application)
+Run dnx ef migrations add MyFirstMigration note:if you have more then 1 dbcontext (asp.net identity uses another context then add -c ToracGolfContext )
+Run dnx ef database update to apply

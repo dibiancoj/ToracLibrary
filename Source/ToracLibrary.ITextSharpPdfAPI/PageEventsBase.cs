@@ -116,39 +116,42 @@ namespace ToracLibrary.ITextSharpPdfAPI
     //    return File(pdf.ToPdfStream(), "application/pdf");
     //}
 
-    //public class jason : ToracTechnologies.Library.Pdf.Creators.PageEvents.PageEventsBase
+    //public class jason : ToracLibrary.ITextSharpPdfAPI.PageEventsBase
     //{
 
-    //    public override void OnEndPage(iTextSharp.text.pdf.PdfWriter writer, iTextSharp.text.Document document)
-    //    {
-    //        base.OnEndPage(writer, document);
+    //public override void OnEndPage(iTextSharp.text.pdf.PdfWriter writer, iTextSharp.text.Document document)
+    //{
+    //    base.OnEndPage(writer, document);
 
-    //        const int BottomMargin = 3;
+    //    const int BottomMargin = 3;
 
-    //        int pageN = writer.PageNumber;
-    //        String text = "Page " + pageN + " of ";
-    //        float len = bf.GetWidthPoint(text, 8);
+    //    int pageN = writer.PageNumber;
 
-    //        Rectangle pageSize = document.PageSize;
+    //    var text = "Page " + pageN + " of ";
 
-    //        cb.SetRGBColorFill(100, 100, 100);
+    //    float len = FontBase.GetWidthPoint(text, 8);
 
-    //        cb.BeginText();
-    //        cb.SetFontAndSize(bf, 8);
-    //        cb.SetTextMatrix(pageSize.GetLeft(document.LeftMargin), pageSize.GetBottom(BottomMargin));
-    //        cb.ShowText(text);
-    //        cb.EndText();
+    //    var pageSize = document.PageSize;
 
-    //        cb.AddTemplate(template, pageSize.GetLeft(document.LeftMargin) + len, pageSize.GetBottom(BottomMargin));
+    //    ContentByte.SetRGBColorFill(100, 100, 100);
 
-    //        cb.BeginText();
-    //        cb.SetFontAndSize(bf, 8);
-    //        cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
-    //                           "Printed On " + DateTime.Now.ToString(),
-    //                           pageSize.GetRight(document.RightMargin),
-    //                           pageSize.GetBottom(BottomMargin), 0);
-    //        cb.EndText();
-    //    }
+    //    ContentByte.BeginText();
+    //    ContentByte.SetFontAndSize(FontBase, 8);
+    //    ContentByte.SetTextMatrix(pageSize.GetLeft(document.LeftMargin), pageSize.GetBottom(BottomMargin));
+    //    ContentByte.ShowText(text);
+    //    ContentByte.EndText();
+
+    //will come back on document close (see example above and will write how many pages we have)
+    //    ContentByte.AddTemplate(Template, pageSize.GetLeft(document.LeftMargin) + len, pageSize.GetBottom(BottomMargin));
+
+    //    ContentByte.BeginText();
+    //    ContentByte.SetFontAndSize(FontBase, 8);
+    //    ContentByte.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
+    //                       "Printed On " + DateTime.Now.ToString(),
+    //                       pageSize.GetRight(document.RightMargin),
+    //                       pageSize.GetBottom(BottomMargin), 0);
+    //    ContentByte.EndText();
+    //}
 
     //}
 
