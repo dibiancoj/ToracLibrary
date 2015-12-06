@@ -32,6 +32,10 @@ namespace ToracLibraryTest.UnitsTest.Core
             DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
                 .WithFactoryName(RijndaelDIContainerName)
                 .WithConstructorParameters(new PrimitiveCtorParameter("1234567891123456"), new PrimitiveCtorParameter("1234567891123456"));
+
+            //let's register the 1 way data binding
+            DIContainer.Register<IOneWaySecurityEncryption, SHA256SecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
+                .WithFactoryName(SHA256ContainerName);
         }
 
         #endregion
@@ -47,6 +51,11 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Rijndael container name for the di container
         /// </summary>
         private const string RijndaelDIContainerName = "Rijndael";
+
+        /// <summary>
+        /// Sha 256 container name
+        /// </summary>
+        private const string SHA256ContainerName = "SHA256";
 
         /// <summary>
         /// Value to test
@@ -105,6 +114,25 @@ namespace ToracLibraryTest.UnitsTest.Core
 
             //check the decrypted value
             Assert.AreEqual(ValueToTest, DecryptedValue);
+        }
+
+        /// <summary>
+        /// Test the SHA256 Encrytion
+        /// </summary>
+        [TestCategory("Core.Security.Encryption")]
+        [TestCategory("Core.Security")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void EncryptionSHA256SecurityTest1()
+        {
+            //create the implementation of the interface
+            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<IOneWaySecurityEncryption>(SHA256ContainerName);
+
+            //go encrypt the value
+            var EncryptedValue = EncryptImplementation.Encrypt(ValueToTest);
+
+            //is it what we are expecting
+            Assert.AreEqual("ECD71870D1963316A97E3AC3408C9835AD8CF0F3C1BC703527C30265534F75AE", EncryptedValue);
         }
 
         #endregion
