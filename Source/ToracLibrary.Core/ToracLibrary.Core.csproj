@@ -75,6 +75,7 @@
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionParameterReMapper.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionReMapperShared.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
+    <Compile Include="ExtensionMethods\ByteArrays\ByteArrayExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ExpressionTress\ExpressionTreeExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IQueryableExtensions\IQueryableExtensionMethods.cs" />
@@ -122,7 +123,6 @@
     <Compile Include="Security\Encryption\Interface\IOneWaySecurityEncryption.cs" />
     <Compile Include="Security\Encryption\Interface\ISecurityEncryption.cs" />
     <Compile Include="Security\Encryption\Implementations\RijndaelSecurityEncryption.cs" />
-    <Compile Include="Security\Encryption\Shared\SecurityHelpers.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="ToracAttributes\ExpressionTrees\EntityFrameworkCompatibleAttribute.cs" />
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />

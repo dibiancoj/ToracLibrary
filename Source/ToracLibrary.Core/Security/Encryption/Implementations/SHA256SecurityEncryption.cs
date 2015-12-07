@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Security.Encryption.Shared;
+using ToracLibrary.Core.ExtensionMethods.ByteArrayExtensions;
 
 namespace ToracLibrary.Core.Security.Encryption
 {
@@ -35,7 +35,7 @@ namespace ToracLibrary.Core.Security.Encryption
             using (var Hasher = new SHA256Managed())
             {
                 //go return the hash
-                return SecurityHelpers.SecurityByteArrayToString(Hasher.ComputeHash(new UTF8Encoding().GetBytes(TextToEncrypt)));
+                return Hasher.ComputeHash(new UTF8Encoding().GetBytes(TextToEncrypt)).ToByteArrayToHexadecimalString(false);
             }
         }
 
