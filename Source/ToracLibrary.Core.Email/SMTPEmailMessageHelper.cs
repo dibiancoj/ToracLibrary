@@ -97,7 +97,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!ToEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", ToEmail, $"{ToEmail} Is An Invalid E-mail Address In The ToEmailAddress List");
+                            throw new ArgumentOutOfRangeException("ToEmail", ToEmail, $"{ToEmail} Is An Invalid E-mail Address In The ToEmailAddress List");
                         }
 
                         //it's a valid email address..add it
@@ -113,7 +113,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!CCEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", CCEmail, $"{CCEmail} Is An Invalid E-mail Address In The CCEmailAddress List");
+                            throw new ArgumentOutOfRangeException("CCEmail", CCEmail, $"{CCEmail} Is An Invalid E-mail Address In The CCEmailAddress List");
                         }
 
                         //it's a valid email address..add it
@@ -129,7 +129,7 @@ namespace ToracLibrary.Core.Email
                         //validate it's a valid e-mail address
                         if (!BCCEmail.IsValidEmailAddress())
                         {
-                            throw new ArgumentOutOfRangeException("ToEmailAddress", BCCEmail, $"{BCCEmail} Is An Invalid E-mail Address In The BCCEmailAddress List");
+                            throw new ArgumentOutOfRangeException("BCCEmail", BCCEmail, $"{BCCEmail} Is An Invalid E-mail Address In The BCCEmailAddress List");
                         }
 
                         //it's a valid email address..add it
@@ -171,16 +171,16 @@ namespace ToracLibrary.Core.Email
                 // otherwise it will blow up that its been disposed when we go to send the email. Otherwise i would have this in some generic method in IO.
 
                 //memory stream item that will be returned (is disposed when SMTP Email Message Gets disposed)
-                var ms = new MemoryStream();
+                var MemoryStreamToUse = new MemoryStream();
 
                 //write the byte array
-                ms.Write(thisAttachment, 0, thisAttachment.Length);
+                MemoryStreamToUse.Write(thisAttachment, 0, thisAttachment.Length);
 
                 //reset it back to the beg.
-                ms.Position = 0;
+                MemoryStreamToUse.Position = 0;
 
                 //return the memory stream
-                return ms;
+                return MemoryStreamToUse;
             }
 
             #endregion
