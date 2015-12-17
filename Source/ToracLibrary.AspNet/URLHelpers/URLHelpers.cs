@@ -16,10 +16,10 @@ namespace ToracLibrary.AspNet.URLHelperMethods
         /// <summary>
         /// Appends the passed in query strings to the url passed in.
         /// </summary>
-        /// <param name="QueryStringsToAppend">Query strings to add to the url</param>
         /// <param name="UrlToModify">URL to add the query strings into</param>
+        /// <param name="QueryStringsToAppend">Query strings to add to the url</param>
         /// <returns>updated url</returns>
-        public static string AppendQueryStringToUrl(IEnumerable<KeyValuePair<string, string>> QueryStringsToAppend, string UrlToModify)
+        public static string AppendQueryStringToUrl(string UrlToModify, params KeyValuePair<string, string>[] QueryStringsToAppend)
         {
             //let's build the url. Throw it into a uri builder
             var URIToBuild = new UriBuilder(UrlToModify);
