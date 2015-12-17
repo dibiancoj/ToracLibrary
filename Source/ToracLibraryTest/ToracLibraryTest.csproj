@@ -123,6 +123,7 @@
     <Compile Include="AspNetMvc\UnitTests\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\HtmlHelpers\HtmlHelperTest.cs" />
     <Compile Include="AspNetMvc\UnitTests\JqGrid\JqGridTest.cs" />
+    <Compile Include="AspNet\AspNetTest.cs" />
     <Compile Include="Core\AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Caching\InMemoryCacheTest.cs" />
     <Compile Include="Caching\SqlCacheDependencyTest.cs" />
@@ -209,6 +210,10 @@
     <ProjectReference Include="..\ToracLibrary.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj">
       <Project>{b38a458b-00b6-4ee4-9a90-26e29490f3e8}</Project>
       <Name>ToracLibrary.AspNet.AspNetMVC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.AspNet\ToracLibrary.AspNet.csproj">
+      <Project>{1adb72e4-a808-4bb3-b780-3a591197ed97}</Project>
+      <Name>ToracLibrary.AspNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Caching\ToracLibrary.Caching.csproj">
       <Project>{4b54cafc-eb31-4542-9b6c-8641d30a2c36}</Project>
