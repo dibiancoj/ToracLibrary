@@ -96,11 +96,31 @@ namespace ToracLibrary.Core.EnumUtilities
             //[TestAttribute("Equals This Number")]
             //Equals = 1
 
-            //grab the type of the enum passed in, then grab the field info object from the enum value passed in
-            FieldInfo FieldInfoToUse = EnumValueToRetrieve.GetType().GetField(EnumValueToRetrieve.ToString());
-
             //grab the custom attributes now 
-            return FieldInfoToUse.GetCustomAttribute(typeof(T)) as T;
+            return EnumFieldValueGet(EnumValueToRetrieve).GetCustomAttribute(typeof(T)) as T;
+        }
+
+        /// <summary>
+        /// Returns if the custom attribute is found off of the enum value passed in
+        /// </summary>
+        /// <typeparam name="T">Custom Attribute Type To Look For</typeparam>
+        /// <param name="EnumValueToCheck">Enum value to check if the attribute is specified on</param>
+        /// <returns>if the attribute is specified on the enum value passed in</returns>
+        public static bool HasCustomAttributeDefined<T>(Enum EnumValueToCheck) where T : Attribute
+        {
+            //return if the attibute is defined
+            return EnumFieldValueGet(EnumValueToCheck).IsDefined(typeof(T));
+        }
+
+        /// <summary>
+        /// Returns the field info for the given enum value.
+        /// </summary>
+        /// <param name="EnumValueToFetchFieldInfoFor">Enum value to get the field info for</param>
+        /// <returns>FieldInfo for the enum passed in</returns>
+        private static FieldInfo EnumFieldValueGet(Enum EnumValueToFetchFieldInfoFor)
+        {
+            //grab the type of the enum passed in, then grab the field info object from the enum value passed in
+            return EnumValueToFetchFieldInfoFor.GetType().GetField(EnumValueToFetchFieldInfoFor.ToString());
         }
 
         #endregion

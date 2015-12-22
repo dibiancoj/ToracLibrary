@@ -168,6 +168,23 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.IsNull(EnumUtility.CustomAttributeGet<DescriptionTextAttribute>(TestEnum.State));
         }
 
+        /// <summary>
+        /// Test if the custom attribute exists on an enum value
+        /// </summary>
+        [TestCategory("Core.EnumUtilities")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void CustomAttributeExistsFromEnumTest1()
+        {
+            //check the custom attribute is defined
+            Assert.IsTrue(EnumUtility.HasCustomAttributeDefined<DescriptionTextAttribute>(TestEnum.City));
+            Assert.IsTrue(EnumUtility.HasCustomAttributeDefined<DescriptionTextAttribute>(TestEnum.Country));
+
+            //make sure the custom attribute is not defined on this enum
+            Assert.IsFalse(EnumUtility.HasCustomAttributeDefined<DescriptionTextAttribute>(TestEnum.State));
+            Assert.IsFalse(EnumUtility.HasCustomAttributeDefined<DescriptionTextAttribute>(TestEnum.Planet));
+        }
+
         #endregion
 
         #region Bit Mask
