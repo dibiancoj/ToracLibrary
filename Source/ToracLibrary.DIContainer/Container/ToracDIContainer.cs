@@ -195,8 +195,11 @@ namespace ToracLibrary.DIContainer
         /// <returns>iterator of AllRegistrationResult</returns>
         public IEnumerable<AllRegistrationResult> AllRegistrationSelectLazy(Type ResolveTypeToFilterFor)
         {
+            //do we want to resolve a type?
+            bool LookForASpecificType = ResolveTypeToFilterFor != null;
+
             //loop through all the registered objects
-            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => ResolveTypeToFilterFor == null ? true : x.Key.Item2 == ResolveTypeToFilterFor))
+            foreach (var FactoryToResolve in RegisteredObjectsInContainer.Where(x => LookForASpecificType ? x.Key.Item2 == ResolveTypeToFilterFor : true))
             {
                 //return the new object using yield
                 yield return new AllRegistrationResult(FactoryToResolve.Value.FactoryName, FactoryToResolve.Value.ObjectScope, FactoryToResolve.Value.TypeToResolve, FactoryToResolve.Value.ConcreteType);
@@ -294,7 +297,8 @@ namespace ToracLibrary.DIContainer
                 //throw an exception
                 throw new TypeNotRegisteredException(TypeToResolve);
             }
-            else if (FoundRegisteredObjects.Length != 1)
+
+            if (FoundRegisteredObjects.Length != 1)
             {
                 //do we have too many items registered? They didn't use factory names
                 throw new MultipleTypesFoundException(TypeToResolve);
