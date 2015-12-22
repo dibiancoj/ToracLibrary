@@ -964,6 +964,21 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
         #endregion
 
+        #region Default Scope
+
+        /// <summary>
+        /// Test that the default scope is a transient
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void DefaultScopeTest1()
+        {
+            //what is the default scope
+            Assert.AreEqual(DIContainerScope.Transient, ToracDIContainer.DefaultScope);
+        }
+
+        #endregion
+
         #endregion
 
     }
