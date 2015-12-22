@@ -41,7 +41,9 @@ namespace ToracLibrary.Core.ExpressionTrees
             var ConstructorParameterName = Expression.Parameter(typeof(object[]), "args");
 
             //We are going build up all the types that the constructor takes
-            var ConstructorParameterTypes = ConstructorParameter.Select(x => x.ParameterType).Select((t, i) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(i)), t)).ToArray();
+            var ConstructorParameterTypes = ConstructorParameter
+                                                    .Select(x => x.ParameterType)
+                                                    .Select((TypeOfParameter, IndexOfParameterInCtor) => Expression.Convert(Expression.ArrayIndex(ConstructorParameterName, Expression.Constant(IndexOfParameterInCtor)), TypeOfParameter)).ToArray();
 
             //now build the "New Object" expression
             var NewObjectExpression = Expression.New(ConstructorInfoOfNewType, ConstructorParameterTypes);
