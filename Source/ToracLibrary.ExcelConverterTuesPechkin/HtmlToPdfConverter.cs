@@ -35,6 +35,10 @@ namespace ToracLibrary.ExcelConverterTuesPechkin
         Documentation says to use the api library in a singleton!
 
         This is for the 64 bit version. if you want the 32, download the 32 bit version and change all the references.
+
+        //had an issue where the last element on the page would get chopped off. we will avoid that by using this.
+        //basically set the div style to "style='page-break-inside: avoid'")
+        xHtml = xHtml.Replace("<div", @"<div style='page-break-inside: avoid;'");
         */
 
         #region Public Methods
