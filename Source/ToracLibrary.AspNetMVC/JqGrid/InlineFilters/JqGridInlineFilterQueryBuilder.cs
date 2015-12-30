@@ -116,17 +116,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (bool.TryParse(InlineFilterEnteredValue, out ParsedBooleanValue))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(bool))
-                    {
-                        //we parsed it...go build the boolean value
-                        return ExpressionBuilder.BuildStatement<T, bool>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedBooleanValue);
-                    }
-                    else
-                    {
-                        //we parsed it...go build the nullable boolean value
-                        return ExpressionBuilder.BuildStatement<T, bool?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedBooleanValue);
-                    }
+                    //we parsed it...go build the boolean value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedBooleanValue);
                 }
             }
             else if (ColumnDataType == typeof(int) || ColumnDataType == typeof(int?))
@@ -137,17 +128,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (int.TryParse(InlineFilterEnteredValue, out ParseInt))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(int))
-                    {
-                        //we parsed it...go build the int value
-                        return ExpressionBuilder.BuildStatement<T, int>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParseInt);
-                    }
-                    else
-                    {
-                        //we parsed it...go build the nullable int value
-                        return ExpressionBuilder.BuildStatement<T, int?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParseInt);
-                    }
+                    //we parsed it...go build the int value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParseInt);
                 }
             }
             else if (ColumnDataType == typeof(DateTime) || ColumnDataType == typeof(DateTime?))
@@ -161,29 +143,14 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                     //calculate the end date
                     DateTime ParsedEndDateCalculation = ParsedDate.AddDays(1);
 
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(DateTime))
-                    {
-                        //build the start date
-                        var StartDate = ExpressionBuilder.BuildStatement<T, DateTime>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDate);
+                    //build the start date
+                    var StartDate = ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDate);
 
-                        //build the end date
-                        var EndDate = ExpressionBuilder.BuildStatement<T, DateTime>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.LessThan, ParsedEndDateCalculation);
+                    //build the end date
+                    var EndDate = ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.LessThan, ParsedEndDateCalculation);
 
-                        //combine the 2
-                        return ExpressionCombiner.CombineExpressions(StartDate, ExpressionCombiner.CombineType.AndAlso, EndDate);
-                    }
-                    else
-                    {
-                        //build the start date
-                        var StartDate = ExpressionBuilder.BuildStatement<T, DateTime?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDate);
-
-                        //build the end date
-                        var EndDate = ExpressionBuilder.BuildStatement<T, DateTime?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.LessThan, ParsedEndDateCalculation);
-
-                        //combine the 2
-                        return ExpressionCombiner.CombineExpressions(StartDate, ExpressionCombiner.CombineType.AndAlso, EndDate);
-                    }
+                    //combine the 2
+                    return ExpressionCombiner.CombineExpressions(StartDate, ExpressionCombiner.CombineType.AndAlso, EndDate);
                 }
             }
             else if (ColumnDataType == typeof(Int16) || ColumnDataType == typeof(Int16?))
@@ -194,17 +161,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (Int16.TryParse(InlineFilterEnteredValue, out ParsedInt16))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(Int16))
-                    {
-                        //build the int16 value
-                        return ExpressionBuilder.BuildStatement<T, Int16>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt16);
-                    }
-                    else
-                    {
-                        //build the nullable int16 value
-                        return ExpressionBuilder.BuildStatement<T, Int16?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt16);
-                    }
+                    //build the int16 value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt16);
                 }
             }
             else if (ColumnDataType == typeof(Int64) || ColumnDataType == typeof(Int64?))
@@ -215,17 +173,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (Int64.TryParse(InlineFilterEnteredValue, out ParsedInt64))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(Int64))
-                    {
-                        //build the int64 value
-                        return ExpressionBuilder.BuildStatement<T, Int64>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt64);
-                    }
-                    else
-                    {
-                        //bulid the nullable int64 value
-                        return ExpressionBuilder.BuildStatement<T, Int64?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt64);
-                    }
+                    //build the int64 value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedInt64);
                 }
             }
             else if (ColumnDataType == typeof(double) || ColumnDataType == typeof(double?))
@@ -236,17 +185,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (double.TryParse(InlineFilterEnteredValue, out ParsedDouble))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(double))
-                    {
-                        //build the double value
-                        return ExpressionBuilder.BuildStatement<T, double>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDouble);
-                    }
-                    else
-                    {
-                        //build the nullable double value
-                        return ExpressionBuilder.BuildStatement<T, double?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDouble);
-                    }
+                    //build the double value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedDouble);
                 }
             }
             else if (ColumnDataType == typeof(float) || ColumnDataType == typeof(float?))
@@ -257,17 +197,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
                 //try to parse the value 
                 if (float.TryParse(InlineFilterEnteredValue, out ParsedFloat))
                 {
-                    //it is a nullable field or a regular field?
-                    if (ColumnDataType == typeof(float))
-                    {
-                        //build the float value
-                        return ExpressionBuilder.BuildStatement<T, float>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedFloat);
-                    }
-                    else
-                    {
-                        //build the nullable float value
-                        return ExpressionBuilder.BuildStatement<T, float?>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedFloat);
-                    }
+                    //build the float value
+                    return ExpressionBuilder.BuildStatement<T>(ParameterBuilder.BuildParameterFromStringName<T>(ColumnName), ExpressionBuilder.DynamicUtilitiesEquations.Equal, ParsedFloat);
                 }
             }
 

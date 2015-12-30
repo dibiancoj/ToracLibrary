@@ -54,6 +54,34 @@ namespace ToracLibraryTest.UnitsTest.Core
         }
 
         /// <summary>
+        /// build a parameter expression for linq to objects
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ExpressionTreesBuildStatementLinqToObjectsUnTypedTest1()
+        {
+            //which id's to fetch
+            const int IdToFetch = 1;
+
+            //let's go build the parameter
+            var Parameter = ParameterBuilder.BuildParameterFromLinqPropertySelector<DummyObject>(x => x.Id);
+
+            //let's go build the expression
+            var ExpressionThatWasBuilt = ExpressionBuilder.BuildStatement<DummyObject>(Parameter, ExpressionBuilder.DynamicUtilitiesEquations.Equal, IdToFetch);
+
+            //let's run the linq to objects query
+            var ResultOfQuery = DummyObject.CreateDummyListLazy(10).AsQueryable().Where(ExpressionThatWasBuilt).ToArray();
+
+            //we should have 1 records
+            Assert.AreEqual(1, ResultOfQuery.Length);
+
+            //check the id's to make sure we have the id's we want
+            Assert.IsTrue(ResultOfQuery.Any(x => x.Id == IdToFetch));
+        }
+
+        /// <summary>
         ///  build a parameter expression for ef
         /// </summary>
         [TestCategory("Core.ExpressionTrees.API")]
@@ -75,6 +103,40 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //let's go build the expression
                 var ExpressionThatWasBuilt = ExpressionBuilder.BuildStatement<Ref_Test, int>(Parameter, ExpressionBuilder.DynamicUtilitiesEquations.Equal, IdToFetch);
+
+                //let's run the ef query
+                var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();
+
+                //we should have 1 records
+                Assert.AreEqual(1, ResultOfQuery.Length);
+
+                //check the id's to make sure we have the id's we want
+                Assert.IsTrue(ResultOfQuery.Any(x => x.Id == IdToFetch));
+            }
+        }
+
+        /// <summary>
+        ///  build a parameter expression for ef
+        /// </summary>
+        [TestCategory("Core.ExpressionTrees.API")]
+        [TestCategory("Core.ExpressionTrees")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ExpressionTreesBuildStatementEntityFrameworkUnTypedTest1()
+        {
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //grab the ef data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.ReadonlyDataProviderName))
+            {
+                //which id's to fetch
+                const int IdToFetch = 1;
+
+                //let's go build the parameter
+                var Parameter = ParameterBuilder.BuildParameterFromLinqPropertySelector<Ref_Test>(x => x.Id);
+
+                //let's go build the expression
+                var ExpressionThatWasBuilt = ExpressionBuilder.BuildStatement<Ref_Test>(Parameter, ExpressionBuilder.DynamicUtilitiesEquations.Equal, IdToFetch);
 
                 //let's run the ef query
                 var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();

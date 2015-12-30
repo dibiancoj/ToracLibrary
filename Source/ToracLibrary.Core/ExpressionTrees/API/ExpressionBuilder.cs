@@ -87,6 +87,30 @@ namespace ToracLibrary.Core.ExpressionTrees.API
         }
 
         /// <summary>
+        /// Builds a statement with greater than, less than, equal, not equal, etc. This is untyped so you don't need to specify what the ValueToQuery data type is
+        /// </summary>
+        /// <typeparam name="T">Query Record Object Type</typeparam>
+        /// <param name="LeftHandSide">Property To Check Which Has Been Built Into A Member Expression</param>
+        /// <param name="Operator">Operation To Run</param>
+        /// <param name="ValueToQuery">Value To Check Against - Right Hand Side Of Equation</param>
+        /// <returns>Built Up Expression</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
+        public static Expression<Func<T, bool>> BuildStatement<T>(ParameterBuilderResults LeftHandSide, DynamicUtilitiesEquations Operator, object ValueToQuery)
+        {
+            //example on how ot call this
+            //var left = ParameterBuilder.BuildParameterFromLinqPropertySelector<Jason>(x => x.Id);
+            //var selector = ExpressionBuilder.BuildStatement<Jason>(left, ToracTechnologies.Library.Dynamic.DynamicShared.DynamicUtilitiesEquations.Equal, 5);
+            //var result = lst.AsQueryable().Where(selector).ToArray();
+
+            //let's build the right hand side of the formula
+            ConstantExpression RightHandSide = Expression.Constant(ValueToQuery, ValueToQuery.GetType());
+
+            //now go build the formula and return it
+            return Expression.Lambda<Func<T, bool>>(BuildFormula(LeftHandSide.PropertyMemberExpression, Operator, RightHandSide), LeftHandSide.ParametersForExpression);
+        }
+
+        /// <summary>
         /// Builds an IEnumerable.Contains Statement
         /// </summary>
         /// <typeparam name="T">Query Record Object Type</typeparam>
