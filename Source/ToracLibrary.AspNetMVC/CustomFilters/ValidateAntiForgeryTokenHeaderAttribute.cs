@@ -43,7 +43,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
         /// Constructor
         /// </summary>
         /// <param name="RequestHeaderKeyToLookIn">Holds the key in the header that we will search for the token with</param>
-        public ValidateAntiForgeryTokenFromHeader(string RequestHeaderKeyToLookIn)
+        public ValidateAntiForgeryTokenHeaderAttribute(string RequestHeaderKeyToLookIn)
         {
             RequestHeaderKeyToLookForToken = RequestHeaderKeyToLookIn;
         }
