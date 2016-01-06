@@ -20,12 +20,13 @@ namespace ToracLibrary.Core.Permutations
         /// </summary>
         /// <param name="CharactersToPermutate">Characters that will permutate (or numbers if T is a number)</param>
         /// <param name="LengthToPermutate">The length of each row will permutate too.</param>
+        /// <param name="ItemsAreExclusive">Are items exclusive? Meaning once they are used in the combo, they can't be used in the next items. Example: "abc". Can it be "aaa"? Or once a is used, it can't be used again.</param>
         /// <typeparam name="T">Type of items to permutate. Characters or strings</typeparam>
         /// <returns>An array with all the combinations inside</returns>
-        public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate)
+        public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate, bool ItemsAreExclusive)
         {
             //loop through all the permutations
-            foreach (var Permutations in PermuteLazy<T>(CharactersToPermutate, LengthToPermutate))
+            foreach (var Permutations in PermuteLazy<T>(CharactersToPermutate, LengthToPermutate, ItemsAreExclusive))
             {
                 //return this list now
                 yield return new PermutationBuilderResult<T>(Permutations.PermutationItems);
@@ -42,14 +43,15 @@ namespace ToracLibrary.Core.Permutations
         /// <typeparam name="T">Type of the list</typeparam>
         /// <param name="ListToPermute">List to permute </param>
         /// <param name="LengthOfPermute">Length of the word to go to</param>
+        /// <param name="ItemsAreExclusive">Are items exclusive? Meaning once they are used in the combo, they can't be used in the next items. Example: "abc". Can it be "aaa"? Or once a is used, it can't be used again.</param>
         /// <returns>An array with all the combinations inside</returns>
-        private static IEnumerable<PermutationBuilderResult<T>> PermuteLazy<T>(IEnumerable<T> ListToPermute, int LengthOfPermute)
+        private static IEnumerable<PermutationBuilderResult<T>> PermuteLazy<T>(IEnumerable<T> ListToPermute, int LengthOfPermute, bool ItemsAreExclusive)
         {
             //do we have 0 length to go to?
             if (LengthOfPermute == 0)
             {
-                //just return the 0 based index
-                yield return new PermutationBuilderResult<T>(new T[0]);
+                //just return the 0 based index so we can short circuit the rescursive function
+                yield return new PermutationBuilderResult<T>(Array.Empty<T>());
             }
             else
             {
@@ -57,16 +59,28 @@ namespace ToracLibrary.Core.Permutations
                 int StartingElementIndex = 0;
 
                 //loop through the elements
-                foreach (T startingElement in ListToPermute)
+                foreach (T StartingElement in ListToPermute)
                 {
                     //grab the remaining items
-                    IEnumerable<T> RemainingItems = AllExcept(ListToPermute, StartingElementIndex);
+                    IEnumerable<T> RemainingItems;
+
+                    //are the items exclusive?
+                    if (ItemsAreExclusive)
+                    {
+                        //grab everything but this item that is at the specified index
+                        RemainingItems = ListToPermute.Where((x, i) => i != StartingElementIndex);
+                    }
+                    else
+                    {
+                        //just use the list of items
+                        RemainingItems = ListToPermute;
+                    }
 
                     //loop through the next set recursively
-                    foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthOfPermute - 1))
+                    foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthOfPermute - 1, ItemsAreExclusive))
                     {
                         //go start from the previous call and keep looping
-                        yield return new PermutationBuilderResult<T>(ConcatItems<T>(new T[] { startingElement }, PermutationOfRemainder.PermutationItems).ToArray());
+                        yield return new PermutationBuilderResult<T>(new T[] { StartingElement }.Concat(PermutationOfRemainder.PermutationItems).ToArray());
                     }
 
                     //increase the tally
@@ -94,33 +108,6 @@ namespace ToracLibrary.Core.Permutations
             foreach (T Item in SecondSet)
             {
                 yield return Item;
-            }
-        }
-
-        /// <summary>
-        /// Enumerates over all items in the input, skipping over the item with the specified offset.
-        /// </summary>
-        /// <typeparam name="T">Type of the list</typeparam>
-        /// <param name="Input">Items to loop through to add</param>
-        /// <param name="IndexToSkip">Index to skip over</param>
-        /// <returns></returns>
-        private static IEnumerable<T> AllExcept<T>(IEnumerable<T> Input, int IndexToSkip)
-        {
-            //index to loop through
-            int Index = 0;
-
-            //loop through the items to iterate over
-            foreach (T Item in Input)
-            {
-                //do we want to skip this index?
-                if (Index != IndexToSkip)
-                {
-                    //we don't want to skip so return this item
-                    yield return Item;
-                }
-
-                //increase the tally
-                Index += 1;
             }
         }
 
