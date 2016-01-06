@@ -22,23 +22,13 @@ namespace ToracLibrary.Core.Permutations
         /// <param name="LengthToPermutate">The length of each row will permutate too.</param>
         /// <typeparam name="T">Type of items to permutate. Characters or strings</typeparam>
         /// <returns>An array with all the combinations inside</returns>
-        public static IEnumerable<IEnumerable<T>> BuildPermutationListLazy<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate)
+        public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate)
         {
             //loop through all the permutations
             foreach (var Permutations in PermuteLazy<T>(CharactersToPermutate, LengthToPermutate))
             {
-                //items in this list
-                var ItemsInThisIteration = new List<T>();
-
-                //loop through the inner permutations
-                foreach (T EachItemInPermutation in Permutations)
-                {
-                    //return this item
-                    ItemsInThisIteration.Add(EachItemInPermutation);
-                }
-
                 //return this list now
-                yield return ItemsInThisIteration;
+                yield return new PermutationBuilderResult<T>(Permutations.PermutationItems);
             }
         }
 
@@ -52,14 +42,14 @@ namespace ToracLibrary.Core.Permutations
         /// <typeparam name="T">Type of the list</typeparam>
         /// <param name="ListToPermute">List to permute </param>
         /// <param name="LengthOfPermute">Length of the word to go to</param>
-        /// <returns>enumeration of enumerators, one for each permutation of the input.</returns>
-        private static IEnumerable<IEnumerable<T>> PermuteLazy<T>(IEnumerable<T> ListToPermute, int LengthOfPermute)
+        /// <returns>An array with all the combinations inside</returns>
+        private static IEnumerable<PermutationBuilderResult<T>> PermuteLazy<T>(IEnumerable<T> ListToPermute, int LengthOfPermute)
         {
             //do we have 0 length to go to?
             if (LengthOfPermute == 0)
             {
                 //just return the 0 based index
-                yield return new T[0];
+                yield return new PermutationBuilderResult<T>(new T[0]);
             }
             else
             {
@@ -73,10 +63,10 @@ namespace ToracLibrary.Core.Permutations
                     IEnumerable<T> RemainingItems = AllExcept(ListToPermute, StartingElementIndex);
 
                     //loop through the next set recursively
-                    foreach (IEnumerable<T> PermutationOfRemainder in PermuteLazy(RemainingItems, LengthOfPermute - 1))
+                    foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthOfPermute - 1))
                     {
                         //go start from the previous call and keep looping
-                        yield return ConcatItems<T>(new T[] { startingElement }, PermutationOfRemainder);
+                        yield return new PermutationBuilderResult<T>(ConcatItems<T>(new T[] { startingElement }, PermutationOfRemainder.PermutationItems).ToArray());
                     }
 
                     //increase the tally

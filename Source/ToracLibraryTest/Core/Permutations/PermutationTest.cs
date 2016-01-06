@@ -31,27 +31,27 @@ namespace ToracLibraryTest.UnitsTest.Core
             foreach(var ResultDimension in Result)
             {
                 //make sure the items in this container are 2
-                Assert.AreEqual(2, ResultDimension.Count());
+                Assert.AreEqual(2, ResultDimension.PermutationItems.Count());
             }
 
             //now look through the values
-            Assert.AreEqual("a", Result[0].ElementAt(0));
-            Assert.AreEqual("b", Result[0].ElementAt(1));
+            Assert.AreEqual("a", Result[0].PermutationItems[0]);
+            Assert.AreEqual("b", Result[0].PermutationItems[1]);
 
-            Assert.AreEqual("a", Result[1].ElementAt(0));
-            Assert.AreEqual("c", Result[1].ElementAt(1));
+            Assert.AreEqual("a", Result[1].PermutationItems[0]);
+            Assert.AreEqual("c", Result[1].PermutationItems[1]);
 
-            Assert.AreEqual("b", Result[2].ElementAt(0));
-            Assert.AreEqual("a", Result[2].ElementAt(1));
+            Assert.AreEqual("b", Result[2].PermutationItems[0]);
+            Assert.AreEqual("a", Result[2].PermutationItems[1]);
 
-            Assert.AreEqual("b", Result[3].ElementAt(0));
-            Assert.AreEqual("c", Result[3].ElementAt(1));
+            Assert.AreEqual("b", Result[3].PermutationItems[0]);
+            Assert.AreEqual("c", Result[3].PermutationItems[1]);
 
-            Assert.AreEqual("c", Result[4].ElementAt(0));
-            Assert.AreEqual("a", Result[4].ElementAt(1));
+            Assert.AreEqual("c", Result[4].PermutationItems[0]);
+            Assert.AreEqual("a", Result[4].PermutationItems[1]);
 
-            Assert.AreEqual("c", Result[5].ElementAt(0));
-            Assert.AreEqual("b", Result[5].ElementAt(1));
+            Assert.AreEqual("c", Result[5].PermutationItems[0]);
+            Assert.AreEqual("b", Result[5].PermutationItems[1]);
         }
 
     }
