@@ -159,6 +159,8 @@
     <Compile Include="Core\Mathematical\Median\MedianTest.cs" />
     <Compile Include="Core\Mathematical\ModeCalc\ModeTest.cs" />
     <Compile Include="Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
+    <Compile Include="Core\Paging\DataSetPagingTest.cs" />
+    <Compile Include="Core\Permutations\PermutationTest.cs" />
     <Compile Include="Core\Reflection\ReflectionTest.cs" />
     <Compile Include="Core\T4Templates\T4TemplateUnitTest.cs" />
     <Compile Include="Core\T4Templates\T4TemplateTest.generated.cs">
@@ -286,9 +288,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Paging\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
