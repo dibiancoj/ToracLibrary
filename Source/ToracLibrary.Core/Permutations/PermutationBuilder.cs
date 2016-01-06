@@ -89,28 +89,6 @@ namespace ToracLibrary.Core.Permutations
             }
         }
 
-        /// <summary>
-        /// Enumerates over contents of both lists and returns them for all items
-        /// </summary>
-        /// <typeparam name="T">Type of the list</typeparam>
-        /// <param name="FirstSet">First Set To Loop Through</param>
-        /// <param name="SecondSet">Second Set To Loop Through</param>
-        /// <returns>List of items to </returns>
-        private static IEnumerable<T> ConcatItems<T>(IEnumerable<T> FirstSet, IEnumerable<T> SecondSet)
-        {
-            //return the first set
-            foreach (T Item in FirstSet)
-            {
-                yield return Item;
-            }
-
-            //return the second set
-            foreach (T Item in SecondSet)
-            {
-                yield return Item;
-            }
-        }
-
         #endregion
 
     }
