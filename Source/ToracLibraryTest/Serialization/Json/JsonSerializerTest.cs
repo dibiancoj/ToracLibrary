@@ -48,54 +48,87 @@ namespace ToracLibraryTest.UnitsTest.Serialization
 
         #region JQuery Path Test
 
+        #region Frameworks
+
         private class TestJsonPath
         {
+
+            #region Constants
+
+            internal static readonly int IdToTest = 5;
+            internal static readonly int ChildIdToTest = 10;
+
+            #endregion
+
+            #region Properties
+
             public int Id { get; set; }
             public TestJsonPath Child { get; set; }
+
+            #endregion
+
+            #region Methods
+
+            internal static TestJsonPath CreateDummyRecord()
+            {
+                return new TestJsonPath
+                {
+                    Id = IdToTest,
+                    Child = new TestJsonPath
+                    {
+                        Id = ChildIdToTest
+                    }
+                };
+            }
+
+            #endregion
+
         }
 
+        #endregion
+
+        #region Unit Tests
+
+        /// <summary>
+        /// test converting to a string
+        /// </summary>
         [TestCategory("Serializations.Json")]
         [TestCategory("Serializations")]
         [TestMethod]
         public void JsonQueryPathTest1()
         {
-            //id to test
-            const int IdToTest = 5;
-            const int ChildIdToTest = 10;
-
             //create the dummy record
-            var RecordToTest = new TestJsonPath { Id = IdToTest, Child = new TestJsonPath { Id = ChildIdToTest } };
+            var RecordToTest = TestJsonPath.CreateDummyRecord();
 
             //let's serialize it into a json string
             var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
 
             //test the base id
-            Assert.AreEqual(IdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), "Id")));
+            Assert.AreEqual(TestJsonPath.IdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id))));
 
             //go test the child id now
-            Assert.AreEqual(ChildIdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), "Child", "Id")));
+            Assert.AreEqual(TestJsonPath.ChildIdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), nameof(TestJsonPath.Id))));
         }
 
+        /// <summary>
+        /// test the conversion to an object overload
+        /// </summary>
         [TestCategory("Serializations.Json")]
         [TestCategory("Serializations")]
         [TestMethod]
         public void JsonQueryPathTest2()
         {
-            //This will test the serialization back
-
-            //id to test
-            const int IdToTest = 5;
-            const int ChildIdToTest = 10;
-
             //create the dummy record
-            var RecordToTest = new TestJsonPath { Id = IdToTest, Child = new TestJsonPath { Id = ChildIdToTest } };
+            var RecordToTest = TestJsonPath.CreateDummyRecord();
 
             //let's serialize it into a json string
             var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
 
             //go test the child id now
-            Assert.AreEqual(ChildIdToTest, JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), "Child").Id);
+            Assert.AreEqual(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).Id);
         }
+
+        #endregion
 
         #endregion
 
