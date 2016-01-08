@@ -140,17 +140,17 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             //just check random text
 
             //try negative emails addresses
-            Assert.IsFalse( "jason".IsValidEmailAddress());
-            Assert.IsFalse( "jason.com@".IsValidEmailAddress());
-            Assert.IsFalse( "jason@".IsValidEmailAddress());
-            Assert.IsFalse( "j ason@aol.com".IsValidEmailAddress());
-            Assert.IsFalse( "jason.com@".IsValidEmailAddress());
-            Assert.IsFalse( "jason@com.".IsValidEmailAddress());
-            Assert.IsFalse( "@jasoncom.".IsValidEmailAddress());
+            Assert.IsFalse("jason".IsValidEmailAddress());
+            Assert.IsFalse("jason.com@".IsValidEmailAddress());
+            Assert.IsFalse("jason@".IsValidEmailAddress());
+            Assert.IsFalse("j ason@aol.com".IsValidEmailAddress());
+            Assert.IsFalse("jason.com@".IsValidEmailAddress());
+            Assert.IsFalse("jason@com.".IsValidEmailAddress());
+            Assert.IsFalse("@jasoncom.".IsValidEmailAddress());
 
             //try positive email addresses
-            Assert.IsTrue( "jason@aol.com".IsValidEmailAddress());
-            Assert.IsTrue( "JoeJ@gmail.com".IsValidEmailAddress());
+            Assert.IsTrue("jason@aol.com".IsValidEmailAddress());
+            Assert.IsTrue("JoeJ@gmail.com".IsValidEmailAddress());
         }
 
         #endregion
@@ -276,6 +276,33 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         {
             //loop through the elements to test using the helper method for this
             UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
+        }
+
+        #endregion
+
+        #region String To Byte Array
+
+        /// <summary>
+        /// Test to make sure the index of all returns the correct value
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void IndexesOfAllLazyTest1()
+        {
+            //test string to look through
+            string TestLookThroughString = "<html><img src='relative/test.jpg' /><img src='www.google.com' /></html>";
+
+            //go run the method
+            var Results = TestLookThroughString.IndexesOfAllLazy("src='").ToArray();
+
+            //test this value
+            Assert.AreEqual(2, Results.Count());
+
+            //test the indexes
+            Assert.IsTrue(Results.Any(x => x == 11));
+            Assert.IsTrue(Results.Any(x => x == 42));
         }
 
         #endregion

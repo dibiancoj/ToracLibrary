@@ -326,6 +326,49 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
+        #region Index Of All Items
+
+        /// <summary>
+        /// Looks through the string for the specific string to look for. Will return the index of for each item found
+        /// </summary>
+        /// <param name="StringToLookThrough">The string to look through for the specific characters</param>
+        /// <param name="StringValueToLookFor">String value to find in the StringToLookThrough</param>
+        /// <returns>List of all the index of the StringValueToLookFor.</returns>
+        public static IEnumerable<int> IndexesOfAllLazy(this string StringToLookThrough, string StringValueToLookFor)
+        {
+            //make sure the string value is not null
+            if (string.IsNullOrEmpty(StringValueToLookFor))
+            {
+                throw new ArgumentException("The string value is null", "StringValueToLookFor");
+            }
+
+            //working index that we found the item with
+            int? WorkingIndex = null;
+
+            //loop through the string until we are done
+            while (WorkingIndex >= 0 || !WorkingIndex.HasValue)
+            {
+                //if this is the first element search at 0
+                if (!WorkingIndex.HasValue)
+                {
+                    //Set it to 0
+                    WorkingIndex = 0;
+                }
+
+                //grab the index of for this value
+                WorkingIndex = StringToLookThrough.IndexOf(StringValueToLookFor, WorkingIndex.Value + 1);
+
+                //if we have a match the return it
+                if (WorkingIndex > 0)
+                {
+                    //return this record
+                    yield return WorkingIndex.Value;
+                }
+            }
+        }
+
+        #endregion
+
     }
 
 }
