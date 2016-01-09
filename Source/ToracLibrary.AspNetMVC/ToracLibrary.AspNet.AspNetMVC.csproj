@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="AspNetMvcConstants.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
+    <Compile Include="CustomFilters\NoBrowserCacheAttribute.cs" />
     <Compile Include="CustomFilters\ValidateAntiForgeryTokenHeaderAttribute.cs" />
     <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
     <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />
