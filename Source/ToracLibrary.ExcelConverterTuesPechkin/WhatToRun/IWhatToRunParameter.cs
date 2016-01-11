@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TuesPechkin;
 
-namespace ToracLibrary.ExcelConverterTuesPechkin.WhatToRun
+namespace ToracLibrary.HtmlToPdfConverterTuesPechkin.WhatToRun
 {
 
     /// <summary>

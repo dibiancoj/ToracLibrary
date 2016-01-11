@@ -126,7 +126,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.PdfClownAPI", "Source\ToracLibrary.PdfClownAPI\ToracLibrary.PdfClownAPI.csproj", "{1BF3F816-8435-419D-B281-495F5752560D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.ExcelConverterTuesPechkin", "Source\ToracLibrary.ExcelConverterTuesPechkin\ToracLibrary.ExcelConverterTuesPechkin.csproj", "{1B01542F-B7D8-4AB6-AB53-FBBBAC178FB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HtmlToPdfConverterTuesPechkin", "Source\ToracLibrary.ExcelConverterTuesPechkin\ToracLibrary.HtmlToPdfConverterTuesPechkin.csproj", "{1B01542F-B7D8-4AB6-AB53-FBBBAC178FB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.ExcelConverterTuesPechkin.WhatToRun;
+using ToracLibrary.HtmlToPdfConverterTuesPechkin.WhatToRun;
 using TuesPechkin;
 
-namespace ToracLibrary.ExcelConverterTuesPechkin
+namespace ToracLibrary.HtmlToPdfConverterTuesPechkin
 {
 
     /// <summary>
