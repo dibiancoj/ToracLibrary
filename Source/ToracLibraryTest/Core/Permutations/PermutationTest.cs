@@ -52,23 +52,12 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(Result.LongCount(), PermutationBuilder.TotalNumberOfPermutationCombinations(Choices.Length, LengthToTest, IsExclusive));
 
             //now look through the values
-            Assert.AreEqual("a", Result[0].PermutationItems[0]);
-            Assert.AreEqual("b", Result[0].PermutationItems[1]);
-
-            Assert.AreEqual("a", Result[1].PermutationItems[0]);
-            Assert.AreEqual("c", Result[1].PermutationItems[1]);
-
-            Assert.AreEqual("b", Result[2].PermutationItems[0]);
-            Assert.AreEqual("a", Result[2].PermutationItems[1]);
-
-            Assert.AreEqual("b", Result[3].PermutationItems[0]);
-            Assert.AreEqual("c", Result[3].PermutationItems[1]);
-
-            Assert.AreEqual("c", Result[4].PermutationItems[0]);
-            Assert.AreEqual("a", Result[4].PermutationItems[1]);
-
-            Assert.AreEqual("c", Result[5].PermutationItems[0]);
-            Assert.AreEqual("b", Result[5].PermutationItems[1]);
+            Assert.AreEqual("ab", Result[0].PermutationItemsTogether());
+            Assert.AreEqual("ac", Result[1].PermutationItemsTogether());
+            Assert.AreEqual("ba", Result[2].PermutationItemsTogether());
+            Assert.AreEqual("bc", Result[3].PermutationItemsTogether());
+            Assert.AreEqual("ca", Result[4].PermutationItemsTogether());
+            Assert.AreEqual("cb", Result[5].PermutationItemsTogether());
         }
 
         /// <summary>
@@ -108,32 +97,15 @@ namespace ToracLibraryTest.UnitsTest.Core
             Assert.AreEqual(Result.LongCount(), PermutationBuilder.TotalNumberOfPermutationCombinations(Choices.Length, LengthToTest, IsExclusive));
 
             //now look through the values
-            Assert.AreEqual("a", Result[0].PermutationItems[0]);
-            Assert.AreEqual("a", Result[0].PermutationItems[1]);
-
-            Assert.AreEqual("a", Result[1].PermutationItems[0]);
-            Assert.AreEqual("b", Result[1].PermutationItems[1]);
-
-            Assert.AreEqual("a", Result[2].PermutationItems[0]);
-            Assert.AreEqual("c", Result[2].PermutationItems[1]);
-
-            Assert.AreEqual("b", Result[3].PermutationItems[0]);
-            Assert.AreEqual("a", Result[3].PermutationItems[1]);
-
-            Assert.AreEqual("b", Result[4].PermutationItems[0]);
-            Assert.AreEqual("b", Result[4].PermutationItems[1]);
-
-            Assert.AreEqual("b", Result[5].PermutationItems[0]);
-            Assert.AreEqual("c", Result[5].PermutationItems[1]);
-
-            Assert.AreEqual("c", Result[6].PermutationItems[0]);
-            Assert.AreEqual("a", Result[6].PermutationItems[1]);
-
-            Assert.AreEqual("c", Result[7].PermutationItems[0]);
-            Assert.AreEqual("b", Result[7].PermutationItems[1]);
-
-            Assert.AreEqual("c", Result[8].PermutationItems[0]);
-            Assert.AreEqual("c", Result[8].PermutationItems[1]);
+            Assert.AreEqual("aa", Result[0].PermutationItemsTogether());
+            Assert.AreEqual("ab", Result[1].PermutationItemsTogether());
+            Assert.AreEqual("ac", Result[2].PermutationItemsTogether());
+            Assert.AreEqual("ba", Result[3].PermutationItemsTogether());
+            Assert.AreEqual("bb", Result[4].PermutationItemsTogether());
+            Assert.AreEqual("bc", Result[5].PermutationItemsTogether());
+            Assert.AreEqual("ca", Result[6].PermutationItemsTogether());
+            Assert.AreEqual("cb", Result[7].PermutationItemsTogether());
+            Assert.AreEqual("cc", Result[8].PermutationItemsTogether());
         }
 
         #endregion

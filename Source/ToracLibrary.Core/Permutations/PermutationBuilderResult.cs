@@ -21,7 +21,7 @@ namespace ToracLibrary.Core.Permutations
         /// Constructor
         /// <param name="ItemsThatMakeUpTheResult">Holds the items that make up the different permutation. ie. if you get back "A", "B", "C"...the word would be "ABC". Leaving it like this for numbers to see what you want to do with the numbers individually.</param>
         /// </summary>
-        public PermutationBuilderResult(IList<T> ItemsThatMakeUpTheResult)
+        public PermutationBuilderResult(IEnumerable<T> ItemsThatMakeUpTheResult)
         {
             PermutationItems = ItemsThatMakeUpTheResult;
         }
@@ -33,7 +33,31 @@ namespace ToracLibrary.Core.Permutations
         /// <summary>
         /// Holds the items that make up the different permutation. ie. if you get back "A", "B", "C"...the word would be "ABC". Leaving it like this for numbers to see what you want to do with the numbers individually.
         /// </summary>
-        public IList<T> PermutationItems { get; }
+        public IEnumerable<T> PermutationItems { get; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Combines all the permutation items that make up this result. It just does a string builder concat and returns it. One right after the other. If you have numbers and you need something you will need to implement that yourself
+        /// </summary>
+        /// <returns>All the combined permutation items that make up this result</returns>
+        public string PermutationItemsTogether()
+        {
+            //start the string builder
+            var Result = new StringBuilder();
+
+            //loop through all the items
+            foreach (var ItemToAdd in PermutationItems)
+            {
+                //add the item
+                Result.Append(ItemToAdd);
+            }
+
+            //return the result
+            return Result.ToString();
+        }
 
         #endregion
 
