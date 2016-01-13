@@ -65,7 +65,7 @@ namespace ToracLibrary.Core.Permutations
             Int64 RunningTally = 1;
 
             //running characters to permutate
-            Int32 CharacterCountToPermutate = NumberOfCharactersToPermutate;
+            int CharacterCountToPermutate = NumberOfCharactersToPermutate;
 
             //loop through the length we want to permutate
             for (int i = 0; i < LengthToPermutate; i++)
@@ -100,7 +100,7 @@ namespace ToracLibrary.Core.Permutations
         public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> ListToPermute, int LengthToPermutate, bool ItemsAreExclusive)
         {
             //loop through all the permutations
-            foreach (var Permutations in PermuteLazy<T>(ListToPermute, LengthToPermutate, ItemsAreExclusive))
+            foreach (var Permutations in PermuteLazy(ListToPermute, LengthToPermutate, ItemsAreExclusive))
             {
                 //return this list now
                 yield return new PermutationBuilderResult<T>(Permutations.PermutationItems);
