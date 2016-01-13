@@ -36,6 +36,50 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #endregion
 
         /// <summary>
+        /// Used to make sure resolving with multiple levels deep to resolve
+        /// </summary>
+        private interface IBaseLogger
+        {
+            ILogger Logger { get; set; }
+        }
+
+        /// <summary>
+        /// Used to make sure resolving with multiple levels deep to resolve
+        /// </summary>
+        private class BaseLogger : IBaseLogger
+        {
+
+            #region Constructor
+
+            public BaseLogger(ILogger LoggerToSet)
+            {
+                Logger = LoggerToSet;
+            }
+
+            #endregion
+
+            #region Properties
+
+            public ILogger Logger { get; set; }
+
+            #endregion
+
+        }
+
+        /// <summary>
+        /// Multiple level test
+        /// </summary>
+        private class SqlDIProviderWithBaseLogger
+        {
+            public SqlDIProviderWithBaseLogger(IBaseLogger BaseLoggerToSet)
+            {
+                BaseLogger = BaseLoggerToSet;
+            }
+
+            internal IBaseLogger BaseLogger { get; }
+        }
+
+        /// <summary>
         /// Interface Of ILogger to retrieve
         /// </summary>
         private interface ILogger
@@ -446,7 +490,30 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             DIContainer.Register<SectionFactoryWithConstructorParameter>(DIContainerScope.Transient);
 
             //let's grab an the data provide rnow
-            var DataProviderToUse = DIContainer.Resolve<SectionFactoryWithConstructorParameter>();
+            Assert.IsNotNull(DIContainer.Resolve<SectionFactoryWithConstructorParameter>());
+        }
+
+        /// <summary>
+        /// Test multiple levels of resolving. This is 2 levels deep
+        /// </summary>    
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void MultipleResolveLevelsTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //add the regular logger now
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient);
+
+            //add the base logger now
+            DIContainer.Register<IBaseLogger, BaseLogger>(DIContainerScope.Transient);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProviderWithBaseLogger>(DIContainerScope.Transient);
+
+            //let's grab an the data provide rnow
+            Assert.IsNotNull(DIContainer.Resolve<SqlDIProviderWithBaseLogger>());
         }
 
         /// <summary>
