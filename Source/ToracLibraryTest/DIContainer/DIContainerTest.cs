@@ -6,7 +6,6 @@ using System.Text;
 using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Exceptions;
 using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
-using ToracLibrary.DIContainer.RegisteredObjects;
 using static ToracLibrary.DIContainer.ToracDIContainer;
 
 namespace ToracLibraryTest.UnitsTest.DIContainer
