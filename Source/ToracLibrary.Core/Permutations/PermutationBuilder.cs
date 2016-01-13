@@ -21,24 +21,24 @@ namespace ToracLibrary.Core.Permutations
         /// Calculates the total number of permutations possible. Overload when you have the list of characters. 
         /// </summary>
         /// <typeparam name="T">Type of items to permutate. Characters or strings</typeparam>
-        /// <param name="CharactersToPermutate">Characters that will permutate (or numbers if T is a number)</param>
+        /// <param name="ListToPermute">Characters that will permutate (or numbers if T is a number)</param>
         /// <param name="LengthToPermutate">The length of each row will permutate too.</param>
         /// <param name="ItemsAreExclusive">Are items exclusive? Meaning once they are used in the combo, they can't be used in the next items. Example: "abc". Can it be "aaa"? Or once a is used, it can't be used again.</param>
         /// <returns>An array with all the combinations inside</returns>
         /// <returns></returns>
-        public static Int64 TotalNumberOfPermutationCombinations<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate, bool ItemsAreExclusive)
+        public static Int64 TotalNumberOfPermutationCombinations<T>(IEnumerable<T> ListToPermute, int LengthToPermutate, bool ItemsAreExclusive)
         {
             //holds the number of items in the collection
             int ItemCountToPermutate;
 
             //try to cast the list so we don't have to count it
-            ICollection<T> TryCastAttempt = CharactersToPermutate as ICollection<T>;
+            ICollection<T> TryCastAttempt = ListToPermute as ICollection<T>;
 
             //did we cast it?
             if (TryCastAttempt == null)
             {
                 //use the statement to count
-                ItemCountToPermutate = CharactersToPermutate.Count();
+                ItemCountToPermutate = ListToPermute.Count();
             }
             else
             {
@@ -54,7 +54,7 @@ namespace ToracLibrary.Core.Permutations
         /// Calculates the total number of permutations possible. Overload when you know the number of characters you need to permutate
         /// </summary>
         /// <typeparam name="T">Type of items to permutate. Characters or strings</typeparam>
-        /// <param name="NumberOfCharactersToPermutate">Number of characters to permutate</param>
+        /// <param name="ListToPermute">Number of characters to permutate</param>
         /// <param name="LengthToPermutate">The length of each row will permutate too.</param>
         /// <param name="ItemsAreExclusive">Are items exclusive? Meaning once they are used in the combo, they can't be used in the next items. Example: "abc". Can it be "aaa"? Or once a is used, it can't be used again.</param>
         /// <returns>An array with all the combinations inside</returns>
@@ -93,14 +93,14 @@ namespace ToracLibrary.Core.Permutations
         /// Builds the list of possible permutations for a give set of characters for the given length
         /// </summary>
         /// <typeparam name="T">Type of items to permutate. Characters or strings</typeparam>
-        /// <param name="CharactersToPermutate">Characters that will permutate (or numbers if T is a number)</param>
+        /// <param name="ListToPermute">Characters that will permutate (or numbers if T is a number)</param>
         /// <param name="LengthToPermutate">The length of each row will permutate too.</param>
         /// <param name="ItemsAreExclusive">Are items exclusive? Meaning once they are used in the combo, they can't be used in the next items. Example: "abc". Can it be "aaa"? Or once a is used, it can't be used again.</param>
         /// <returns>An array with all the combinations inside</returns>
-        public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> CharactersToPermutate, int LengthToPermutate, bool ItemsAreExclusive)
+        public static IEnumerable<PermutationBuilderResult<T>> BuildPermutationListLazy<T>(IEnumerable<T> ListToPermute, int LengthToPermutate, bool ItemsAreExclusive)
         {
             //loop through all the permutations
-            foreach (var Permutations in PermuteLazy<T>(CharactersToPermutate, LengthToPermutate, ItemsAreExclusive))
+            foreach (var Permutations in PermuteLazy<T>(ListToPermute, LengthToPermutate, ItemsAreExclusive))
             {
                 //return this list now
                 yield return new PermutationBuilderResult<T>(Permutations.PermutationItems);
