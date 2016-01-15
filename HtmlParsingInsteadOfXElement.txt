@@ -1,0 +1,21 @@
+Instead of using xelement which doesn't really handle malformed html.
+
+Use the https://www.nuget.org/packages/HtmlAgilityPack
+
+I would write a wrapper but it's not neccessary because it's pretty simple.
+
+//declare the html document
+var htmlDoc = new HtmlDocument();
+
+//go load the html now
+htmlDoc.LoadHtml(htmlToCleanup);
+
+//loop through all the a href tags
+ foreach (var imgTag in htmlToCleanup.DocumentNode.Descendants().Where(x => string.Equals(x.Name, "a", StringComparison.OrdinalIgnoreCase))
+            {
+                //set the target attribute value
+                imgTag.SetAttributeValue("target", targetToSet);
+            }
+
+//return the updated html in a string
+htmlDoc.DocumentNode.OuterHtml;
