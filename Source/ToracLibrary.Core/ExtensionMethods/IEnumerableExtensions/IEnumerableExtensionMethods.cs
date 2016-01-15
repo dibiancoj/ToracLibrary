@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExpressionTrees;
 
 namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 {
@@ -297,6 +296,32 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
+        #region Count With Cast To List
+
+        /// <summary>
+        /// Retrieves the count by first trying to cast it to a list. If that works just grab the indexer. If that doesn't work then run a linq statement
+        /// </summary>
+        /// <typeparam name="T">Type of record to count</typeparam>
+        /// <param name="CollectionToCount">Collection object to count</param>
+        /// <returns>Count of elements</returns>
+        public static int CountWithCastAttempt<T>(this IEnumerable<T> CollectionToCount)
+        {
+            //first try to cast this a icollection
+            var ICollectionAttempt = CollectionToCount as ICollection<T>;
+
+            //did we cast this?
+            if (ICollectionAttempt != null)
+            {
+                //we have a collection, return the number
+                return ICollectionAttempt.Count;
+            }
+
+            //just go ahead and run the linq statement now
+            return CollectionToCount.Count<T>();
+        }
+
+        #endregion
+
         #region Chunk List
 
         /// <summary>
@@ -306,16 +331,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <param name="CollectionToChunk">Collection to chunk up</param>
         /// <param name="MaxNumberOfItemsInBucket">The maximum number of elements to put in a bucket.</param>
         /// <returns>chunked up items</returns>
-        public static IEnumerable<IEnumerable<T>> ChunkUpListItems<T>(this IEnumerable<T> CollectionToChunk, int MaxNumberOfItemsInBucket)
+        public static IEnumerable<IEnumerable<T>> ChunkUpListItemsLazy<T>(this IEnumerable<T> CollectionToChunk, int MaxNumberOfItemsInBucket)
         {
-            //list to add too
-            var ChunkedData = new List<List<T>>();
-
             //the current group we are inserting into
             var CurrentGroup = new List<T>();
-
-            //add this group to the list
-            ChunkedData.Add(CurrentGroup);
 
             //let's loop through the elements
             foreach (var ItemToProcess in CollectionToChunk)
@@ -323,19 +342,22 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
                 //if we have the number of items in the collection, then add another group
                 if (CurrentGroup.Count == MaxNumberOfItemsInBucket)
                 {
+                    //return the current group
+                    yield return CurrentGroup;
+
                     //let's add another group
                     CurrentGroup = new List<T>();
-
-                    //add this to the list now
-                    ChunkedData.Add(CurrentGroup);
                 }
 
                 //add this item to the group
                 CurrentGroup.Add(ItemToProcess);
             }
 
-            //return the list now
-            return ChunkedData;
+            //yield return the current group if we have less then the max
+            if (CurrentGroup.AnyWithNullCheck())
+            {
+                yield return CurrentGroup;
+            }
         }
 
         #endregion

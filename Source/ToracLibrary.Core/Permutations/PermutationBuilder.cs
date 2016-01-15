@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions.IEnumerableExtensionMethods;
 
 namespace ToracLibrary.Core.Permutations
 {
@@ -28,26 +29,8 @@ namespace ToracLibrary.Core.Permutations
         /// <returns></returns>
         public static Int64 TotalNumberOfPermutationCombinations<T>(IEnumerable<T> ListToPermute, int LengthToPermutate, bool ItemsAreExclusive)
         {
-            //holds the number of items in the collection
-            int ItemCountToPermutate;
-
-            //try to cast the list so we don't have to count it
-            ICollection<T> TryCastAttempt = ListToPermute as ICollection<T>;
-
-            //did we cast it?
-            if (TryCastAttempt == null)
-            {
-                //use the statement to count
-                ItemCountToPermutate = ListToPermute.Count();
-            }
-            else
-            {
-                //we have the collection, just use the count property
-                ItemCountToPermutate = TryCastAttempt.Count;
-            }
-
             //use the overload
-            return TotalNumberOfPermutationCombinations(ItemCountToPermutate, LengthToPermutate, ItemsAreExclusive);
+            return TotalNumberOfPermutationCombinations(ListToPermute.CountWithCastAttempt(), LengthToPermutate, ItemsAreExclusive);
         }
 
         /// <summary>

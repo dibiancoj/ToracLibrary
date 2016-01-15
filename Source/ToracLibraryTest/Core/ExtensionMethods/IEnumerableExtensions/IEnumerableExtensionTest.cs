@@ -383,6 +383,40 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Count With Cast
+
+        /// <summary>
+        /// Create a real enumerable so we can test that part of the CountWithCastAttempt
+        /// </summary>
+        /// <returns>ienumerable of int</returns>
+        private static IEnumerable<int> CountWithTryCastYield()
+        {
+            yield return 1;
+            yield return 2;
+            yield return 3;
+        }
+
+        /// <summary>
+        /// Unit test the basic functionality of count with a try cast attempt first
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void CountWithTryCastFirstTest1()
+        {
+            //create a array which is ICollection
+            var ICollectionImplementationTest = new int[] { 1, 2, 3, 4, 5 };
+
+            //grab the count for this
+            Assert.AreEqual(ICollectionImplementationTest.Count(), ICollectionImplementationTest.CountWithCastAttempt());
+
+            //now try with a real enumerable
+            Assert.AreEqual(CountWithTryCastYield().Count(), CountWithTryCastYield().CountWithCastAttempt());
+        }
+
+        #endregion
+
         #region Chunk Up list
 
         /// <summary>
@@ -422,7 +456,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             var DummyCreatedList = DummyObject.CreateDummyListLazy(ItemsToBuild).ToArray();
 
             //let's chunk it up in slabs of 5
-            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItems(MaxItemsInABucket).ToArray();
+            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItemsLazy(MaxItemsInABucket).ToArray();
 
             //we should have an even 4 groups
             Assert.AreEqual(HowManyGroupsInAChunkedUpList(ItemsToBuild, MaxItemsInABucket), ChunkedInto5ElementsPerGroup.Length);
@@ -461,7 +495,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             var DummyCreatedList = DummyObject.CreateDummyListLazy(12).ToArray();
 
             //let's chunk it up in slabs of 5 (we should have an extra 2 guys at the end)
-            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItems(5).ToArray();
+            var ChunkedInto5ElementsPerGroup = DummyCreatedList.ChunkUpListItemsLazy(5).ToArray();
 
             //we should have an even 3 groups
             Assert.AreEqual(HowManyGroupsInAChunkedUpList(ItemsToBuild, MaxItemsInABucket), ChunkedInto5ElementsPerGroup.Length);
