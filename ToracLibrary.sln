@@ -128,11 +128,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.PdfClownAPI", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HtmlToPdfConverterTuesPechkin", "Source\ToracLibrary.ExcelConverterTuesPechkin\ToracLibrary.HtmlToPdfConverterTuesPechkin.csproj", "{1B01542F-B7D8-4AB6-AB53-FBBBAC178FB3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html Parsing", "Html Parsing", "{BE9D8DFE-B022-4598-B6D1-EA934ED123CC}"
-	ProjectSection(SolutionItems) = preProject
-		HtmlParsingInsteadOfXElement.txt = HtmlParsingInsteadOfXElement.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -252,6 +247,5 @@ Global
 		{58EBAB86-E024-4D03-8D67-06C2583ED914} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{1BF3F816-8435-419D-B281-495F5752560D} = {264DB62C-6C82-490B-922A-6369B851BB37}
 		{1B01542F-B7D8-4AB6-AB53-FBBBAC178FB3} = {264DB62C-6C82-490B-922A-6369B851BB37}
-		{BE9D8DFE-B022-4598-B6D1-EA934ED123CC} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal
