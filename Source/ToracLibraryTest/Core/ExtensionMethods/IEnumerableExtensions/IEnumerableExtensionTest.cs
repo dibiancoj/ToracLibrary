@@ -383,40 +383,6 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
-        #region Count With Cast
-
-        /// <summary>
-        /// Create a real enumerable so we can test that part of the CountWithCastAttempt
-        /// </summary>
-        /// <returns>ienumerable of int</returns>
-        private static IEnumerable<int> CountWithTryCastYield()
-        {
-            yield return 1;
-            yield return 2;
-            yield return 3;
-        }
-
-        /// <summary>
-        /// Unit test the basic functionality of count with a try cast attempt first
-        /// </summary>
-        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
-        [TestCategory("ExtensionMethods")]
-        [TestCategory("Core")]
-        [TestMethod]
-        public void CountWithTryCastFirstTest1()
-        {
-            //create a array which is ICollection
-            var ICollectionImplementationTest = new int[] { 1, 2, 3, 4, 5 };
-
-            //grab the count for this
-            Assert.AreEqual(ICollectionImplementationTest.Count(), ICollectionImplementationTest.CountWithCastAttempt());
-
-            //now try with a real enumerable
-            Assert.AreEqual(CountWithTryCastYield().Count(), CountWithTryCastYield().CountWithCastAttempt());
-        }
-
-        #endregion
-
         #region Chunk Up list
 
         /// <summary>

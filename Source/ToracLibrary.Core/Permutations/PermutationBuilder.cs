@@ -29,8 +29,8 @@ namespace ToracLibrary.Core.Permutations
         /// <returns></returns>
         public static Int64 TotalNumberOfPermutationCombinations<T>(IEnumerable<T> ListToPermute, int LengthToPermutate, bool ItemsAreExclusive)
         {
-            //use the overload
-            return TotalNumberOfPermutationCombinations(ListToPermute.CountWithCastAttempt(), LengthToPermutate, ItemsAreExclusive);
+            //use the overload (count() does a cast to icollection for optimizations, we don't need to run the same logic)
+            return TotalNumberOfPermutationCombinations(ListToPermute.Count(), LengthToPermutate, ItemsAreExclusive);
         }
 
         /// <summary>

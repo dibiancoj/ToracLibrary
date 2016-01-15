@@ -296,32 +296,6 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
-        #region Count With Cast To List
-
-        /// <summary>
-        /// Retrieves the count by first trying to cast it to a list. If that works just grab the indexer. If that doesn't work then run a linq statement
-        /// </summary>
-        /// <typeparam name="T">Type of record to count</typeparam>
-        /// <param name="CollectionToCount">Collection object to count</param>
-        /// <returns>Count of elements</returns>
-        public static int CountWithCastAttempt<T>(this IEnumerable<T> CollectionToCount)
-        {
-            //first try to cast this a icollection
-            var ICollectionAttempt = CollectionToCount as ICollection<T>;
-
-            //did we cast this?
-            if (ICollectionAttempt != null)
-            {
-                //we have a collection, return the number
-                return ICollectionAttempt.Count;
-            }
-
-            //just go ahead and run the linq statement now
-            return CollectionToCount.Count<T>();
-        }
-
-        #endregion
-
         #region Chunk List
 
         /// <summary>
