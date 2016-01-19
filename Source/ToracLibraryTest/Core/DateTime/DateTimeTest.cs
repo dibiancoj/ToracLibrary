@@ -197,6 +197,34 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #endregion
 
+        #region Age
+
+        /// <summary>
+        /// Test Age
+        /// </summary>
+        [TestCategory("Core.DateTimeHelpers")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void AgeTest1()
+        {
+            //should be exactly 10
+            Assert.AreEqual(10, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10)));
+
+            //not there birthday yet for the current year..subtract 1
+            Assert.AreEqual(9, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10).AddDays(1)));
+
+            //birthday passed for the current year
+            Assert.AreEqual(10, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10).AddDays(-1)));
+
+            //birthday passed for the current year
+            Assert.AreEqual(20, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-20).AddDays(-1)));
+
+            //birthday passed for the current year
+            Assert.AreEqual(25, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-25).AddDays(-1)));
+        }
+
+        #endregion
+
     }
 
 }
