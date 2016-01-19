@@ -153,6 +153,7 @@
     <Compile Include="Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="Core\ExtensionMethods\ISetExtensions\ISetExtensionTest.cs" />
     <Compile Include="Core\ICSAppointments\ICSAppointmentCreatorTest.cs" />
+    <Compile Include="Core\Mathematical\Age\AgeTest.cs" />
     <Compile Include="Core\Mathematical\Forecasting\ForecastingTest.cs" />
     <Compile Include="Core\Mathematical\GeometricAverage\GeometricAverageTest.cs" />
     <Compile Include="Core\Mathematical\Growth\GrowthTest.cs" />
