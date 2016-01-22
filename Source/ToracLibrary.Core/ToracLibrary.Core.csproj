@@ -48,6 +48,7 @@
     <Compile Include="AccountingPeriod\AccountingPeriod.cs" />
     <Compile Include="AccountingPeriod\Exceptions\AccountingPeriodMonthOutOfRangeException.cs" />
     <Compile Include="AccountingPeriod\Exceptions\AccountingPeriodYearOutOfRangeException.cs" />
+    <Compile Include="CharacterMapping\Characters.cs" />
     <Compile Include="Countries\Country.cs" />
     <Compile Include="Countries\CountryCodeInfo.cs" />
     <Compile Include="DataProviders\ADO.NET\Implementation\SQLDataProvider.cs" />

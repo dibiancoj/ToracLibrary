@@ -127,6 +127,7 @@
     <Compile Include="Core\AccountingPeriod\AccountingPeriodTest.cs" />
     <Compile Include="Caching\InMemoryCacheTest.cs" />
     <Compile Include="Caching\SqlCacheDependencyTest.cs" />
+    <Compile Include="Core\CharacterMapping\CharacterMappingTest.cs" />
     <Compile Include="Core\Countries\CountryTest.cs" />
     <Compile Include="Core\DataProvider\DataProviderSetupTearDown.cs" />
     <Compile Include="Core\DataProvider\SharedSqlHelpersTest.cs" />
