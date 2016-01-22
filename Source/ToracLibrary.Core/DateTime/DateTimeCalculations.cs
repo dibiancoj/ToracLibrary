@@ -31,7 +31,9 @@ namespace ToracLibrary.Core.DateTimeHelpers
 
             //validate that the start date is older than the end date
             if (StartDate > EndDate)
+            {
                 throw new ArgumentException("Start Date Can't Be After End Date");
+            }
 
             //get how many years between the 2
             int YearDifference = EndDate.Year - StartDate.Year;
@@ -44,7 +46,7 @@ namespace ToracLibrary.Core.DateTimeHelpers
 
             //add the number of months then the remainder of days (need to convert it to a double)
             //we subtract 1 because the 1st day of the month is essentially 0 remainder
-            return WorkingFigure + (((double)EndDate.Day - 1) / (double)DateTime.DaysInMonth(EndDate.Year, EndDate.Month));
+            return WorkingFigure + (((double)EndDate.Day - 1) / DateTime.DaysInMonth(EndDate.Year, EndDate.Month));
         }
 
         /// <summary>
