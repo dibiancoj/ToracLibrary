@@ -212,6 +212,102 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region IQueryable Init Merging
+
+        /// <summary>
+        /// Test class
+        /// </summary>
+        private class IQueryableInitMergeTest
+        {
+            public int Id { get; set; }
+            public string NewMappingField { get; set; }
+        }
+
+        /// <summary>
+        /// Unit test for merging a select statement in iqueryable (linq to objects)
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IQueryableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void IQueryableMemberInitMergeForLinqToObjectsTest1()
+        {
+            //create a dummy list
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(10).AsQueryable();
+
+            //let's run a select with the same object just setting the id. (going to test it with a where in front to make sure it works with chaining)
+            var OnePropertySet = DummyCreatedList.Where(x => x.Id <= 4).Select(x => new IQueryableInitMergeTest { Id = x.Id });
+
+            //now the only thing that should be populated is the id...
+            //we want to merge the txt field into the new NewMappingField
+            var MergeQueryable = OnePropertySet.AddBindingToSelectInQuery(nameof(DummyObject.Description), nameof(IQueryableInitMergeTest.NewMappingField));
+
+            //now execute the query
+            var Results = MergeQueryable.ToArray();
+
+            //make sure we
+            RunIQueryableMemberInitTest(Results, "Test_{0}");
+        }
+
+        /// <summary>
+        /// Unit test for merging a select statement in iqueryable (entity framework)
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IQueryableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void IQueryableMemberInitMergeForEntityFrameworkTest1()
+        {
+            //tear down the table
+            DataProviderSetupTearDown.TruncateTable();
+
+            //add 5 records now
+            DataProviderSetupTearDown.AddRows(10, false);
+
+            //build the base query
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.WritableDataProviderName))
+            {
+                //build the base query
+                var BaseQuery = DP.Fetch<Ref_Test>(false).AsQueryable().Where(x => x.Id <= 5).Select(x => new IQueryableInitMergeTest { Id = x.Id });
+
+                //we want to merge the txt field into the new NewMappingField
+                var MergeQueryable = BaseQuery.AddBindingToSelectInQuery(nameof(DummyObject.Description), nameof(IQueryableInitMergeTest.NewMappingField));
+
+                //now execute the query
+                var Results = MergeQueryable.ToArray();
+
+                //make sure we
+                RunIQueryableMemberInitTest(Results, "{0}");
+            }
+        }
+
+        /// <summary>
+        /// Runs the actually assertion for both the ef query and the linq to objects
+        /// </summary>
+        /// <param name="UnitTestResults">Items that were built from the actual result of the method</param>
+        /// <param name="TextFormat">Format to use to test the value. Will work with {0} = i</param>
+        /// <remarks>Will raise an error if it fails</remarks>
+        private static void RunIQueryableMemberInitTest(IEnumerable<IQueryableInitMergeTest> UnitTestResults, string TextFormat)
+        {
+            //should be 5 items
+            Assert.AreEqual(5, UnitTestResults.Count());
+
+            //counter 
+            int i = 0;
+
+            //make sure the new field is mapped
+            foreach (var ItemToTest in UnitTestResults)
+            {
+                //is the new mapping field correct
+                Assert.AreEqual(ItemToTest.NewMappingField, string.Format(TextFormat, i));
+
+                //increase the counter
+                i++;
+            }
+        }
+
+        #endregion
+
     }
 
 }

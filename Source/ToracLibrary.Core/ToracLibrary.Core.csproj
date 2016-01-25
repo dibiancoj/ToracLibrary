@@ -75,6 +75,8 @@
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionMemberInitSubPropertyObjectMerger.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionParameterReMapper.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ExpressionReMapperShared.cs" />
+    <Compile Include="ExpressionTrees\API\ReMappers\IQueryableMemberInitMerger.cs" />
+    <Compile Include="ExpressionTrees\API\ReMappers\ParameterExpressionFinder.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
     <Compile Include="ExtensionMethods\ByteArrays\ByteArrayExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ExpressionTress\ExpressionTreeExtensionMethods.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExpressionTrees;
+using ToracLibrary.Core.ExpressionTrees.API.ReMappers;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
@@ -113,6 +114,38 @@ namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
         public static IOrderedQueryable<T> OrderByDescending<T>(this IQueryable<T> QueryToModify, string PropertyNameToSortBy)
         {
             return ExpressionTreeHelpers.OrderBy(QueryToModify, PropertyNameToSortBy, false, true);
+        }
+
+        #endregion
+
+        #region Inject Another Binding Into A Select Statement
+
+        /// <summary>
+        /// Let's say i have an IQueryable. Essentially a ef query. I want to tack on a field to my select. My select looks like x => new Record { Id = x.Id};. I want to tack on { Txt = x.Txt} inside the new Record call.
+        /// </summary>
+        /// <typeparam name="T">Queryable Record Type</typeparam>
+        /// <param name="QueryToModify">Query to modify</param>
+        /// <param name="FieldNameToSetTheValue">The name of the field you are mapping from. So the table.FieldName</param>
+        /// <param name="PropertyNameToSetInSelectProjection">The name of the property you want to set</param>
+        /// <returns>New Query with the modified binding</returns>
+        [LinqToObjectsCompatible]
+        [EntityFrameworkCompatible]
+        public static IQueryable<T> AddBindingToSelectInQuery<T>(this IQueryable<T> QueryToModify, string FieldNameToSetTheValue, string PropertyNameToSetInSelectProjection)
+        {
+            //go build some query to test this out
+            //var query = MapTableRecord.Build().AsQueryable().Where(x => x.Id < 3).Select(x => new GridRecord { MapId = x.Id });
+
+            /* There needs to be a select at the end. This is a select merger!!! */
+            //this isn't tested with multiple select's either
+
+            //go build the new query ...add the user to the query
+            var MergeQueryBuilder = new IQueryableMemberInitMerger<T>(FieldNameToSetTheValue, PropertyNameToSetInSelectProjection);
+
+            //go visit the query so we can rebuild this
+            var NewQuery = MergeQueryBuilder.Visit(QueryToModify.Expression);
+
+            //go create the new IQueryable
+            return QueryToModify.Provider.CreateQuery(NewQuery) as IQueryable<T>;
         }
 
         #endregion
