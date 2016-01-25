@@ -39,6 +39,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
 
         #endregion
 
+        #region Method Overrides
+
         /// <summary>
         /// Override the visitor for a parameter expression
         /// </summary>
@@ -52,6 +54,8 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             //keep going down the tree
             return base.VisitParameter(Node);
         }
+
+        #endregion
 
     }
 
