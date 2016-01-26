@@ -44,11 +44,14 @@ namespace ToracLibraryTest.UnitsTest.Core
             //loop through all the characters and test it
             var ResultOfCall = AllAlphaBetCharactersLazy().ToArray();
 
-            //characters to test
-            var CharactersInAlphaBet = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
+            //holds an independent string incase characters.constant gets modified by accident
+            const string Alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-            //test all the characters now
-            foreach(var RequiredCharacter in CharactersInAlphaBet)
+            //we are first going to test the constant in the characters.cs module to make sure we are in sync. 
+            Assert.AreEqual(Alphabet, AlphabetCharacters);
+
+            //test all the characters now (we are not going to call Characters
+            foreach (var RequiredCharacter in Alphabet)
             {
                 //make sure its there
                 Assert.IsTrue(ResultOfCall.Any(y => y == RequiredCharacter));

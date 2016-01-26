@@ -13,6 +13,17 @@ namespace ToracLibrary.Core.CharacterMapping
     public static class Characters
     {
 
+        #region Constants
+
+        /// <summary>
+        /// Holds the alphabet in a string. Call .ToCharArray() if you want it in a char array or run a foreach loop. 
+        /// </summary>
+        public const string AlphabetCharacters = "abcdefghijklmnopqrstuvwxyz";
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Returns the number characters in the english language
         /// </summary>
@@ -35,12 +46,14 @@ namespace ToracLibrary.Core.CharacterMapping
         public static IEnumerable<char> AllAlphaBetCharactersLazy()
         {
             //loop through each character
-            foreach (var Character in "abcdefghijklmnopqrstuvwxyz")
+            foreach (var Character in AlphabetCharacters)
             {
                 //return the character
                 yield return Character;
             }
         }
+
+        #endregion
 
     }
 
