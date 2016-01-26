@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.ICSAppointments
 {
@@ -19,12 +20,14 @@ namespace ToracLibrary.Core.ICSAppointments
         /// Format to use when we just want a full day.
         /// </summary>
         /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
+        [UnitTestUsedAtRunTime]
         private const string FormatDate = "yyyyMMdd";
 
         /// <summary>
         /// Format to use when we just want a full day.
         /// </summary>
         /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
+        [UnitTestUsedAtRunTime]
         private const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
         /// <summary>
