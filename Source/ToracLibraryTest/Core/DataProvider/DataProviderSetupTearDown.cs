@@ -81,15 +81,25 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
             //create the data provider
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.WritableDataProviderName))
             {
-                //loop through however many records you want to add
-                for (var i = 0; i < HowManyRowsToAdd; i++)
-                {
-                    //push the record to the context (don't save yet)
-                    DP.Add(new Ref_Test { Description = i.ToString() }, false);
-                }
+                //add the number of rows we need
+                DP.AddRange(BuildRowsToInsertLazy(HowManyRowsToAdd), false);
 
                 //let's save now
                 DP.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Build the rows with an iterator to be inserted into ef. This way we can use addrange
+        /// </summary>
+        /// <param name="HowManyRowsToAdd"></param>
+        /// <returns>Iterator of Ref_Test</returns>
+        private static IEnumerable<Ref_Test> BuildRowsToInsertLazy(int HowManyRowsToAdd)
+        {
+            for (var i = 0; i < HowManyRowsToAdd; i++)
+            {
+                //push the record to the context (don't save yet)
+                yield return new Ref_Test { Description = i.ToString() };
             }
         }
 
