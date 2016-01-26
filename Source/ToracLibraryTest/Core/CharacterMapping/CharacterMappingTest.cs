@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static ToracLibrary.Core.CharacterMapping.Characters;
+using System.Collections.Generic;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -42,7 +43,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void AlphabetCharactersTest1()
         {
             //loop through all the characters and test it
-            var ResultOfCall = AllAlphaBetCharactersLazy().ToArray();
+            var ResultOfCall = new HashSet<char>(AllAlphaBetCharactersLazy());
 
             //holds an independent string incase characters.constant gets modified by accident
             const string Alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -54,7 +55,7 @@ namespace ToracLibraryTest.UnitsTest.Core
             foreach (var RequiredCharacter in Alphabet)
             {
                 //make sure its there
-                Assert.IsTrue(ResultOfCall.Any(y => y == RequiredCharacter));
+                Assert.IsTrue(ResultOfCall.Contains(RequiredCharacter));
             }
         }
 
