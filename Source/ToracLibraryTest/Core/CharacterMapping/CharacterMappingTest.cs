@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static ToracLibrary.Core.CharacterMapping.Characters;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using static ToracLibrary.Core.CharacterMapping.Characters;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
