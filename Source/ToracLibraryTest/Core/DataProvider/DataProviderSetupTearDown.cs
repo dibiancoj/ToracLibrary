@@ -81,11 +81,8 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders
             //create the data provider
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(EntityFrameworkTest.WritableDataProviderName))
             {
-                //add the number of rows we need
-                DP.AddRange(BuildRowsToInsertLazy(HowManyRowsToAdd), false);
-
-                //let's save now
-                DP.SaveChanges();
+                //add the number of rows we need and save it
+                DP.AddRange(BuildRowsToInsertLazy(HowManyRowsToAdd), true);
             }
         }
 
