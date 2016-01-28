@@ -14,28 +14,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
     internal interface IScopeImplementation : IDisposable
     {
 
-        #region Properties
-
-        /// <summary>
-        /// Does this scope support eager loading of objects
-        /// </summary>
-        bool SupportsEagerCachingOfObjects { get; }
-
-        #endregion
-
         #region Methods
-
-        /// <summary>
-        /// Attempt to try to get the eager cached object
-        /// </summary>
-        /// <returns>object if found. Otherwise returns null</returns>
-        object EagerResolveObject();
-
-        /// <summary>
-        /// Store the object if the scope supports it
-        /// </summary>
-        /// <param name="ObjectInstanceToStore">Object instance to store</param>
-        void StoreInstance(object ObjectInstanceToStore);
 
         /// <summary>
         /// Creates the actual instance when we are ready to resolve an object
@@ -43,7 +22,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <param name="RegisteredObjectToBuild">Registered object to build</param>
         /// <param name="ConstructorParameters">The parameters to pass into the constructor</param>
         /// <returns>The instance of the resolved object</returns>
-        object CreateInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters);
+        object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters);
 
         #endregion
 

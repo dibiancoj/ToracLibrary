@@ -1045,6 +1045,66 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
         #endregion
 
+        #region Per Thread Lifetime
+
+        /// <summary>
+        /// Test that we can resolve a per thread lifetime
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void PerThreadLifeTimeTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.PerThreadLifetime);
+
+            //let's grab an instance now
+            var LoggerToUse = DIContainer.Resolve<ILogger>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(LoggerToUse);
+
+            //write test to the log
+            LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
+
+            //let's ensure the log has the value we wrote to it.
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's resolve another logger...this should be the same logger
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's kill the reference to the logger...so this way we can cleanup the memory and have gc collect it
+            LoggerToUse = null;
+
+            //run gc a few times
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+
+            //let's try to grab a new logger...and see if we still have the same log text we wrote into it....we most likely shouldn't
+            var NewLoggerReference = DIContainer.Resolve<ILogger>();
+
+            //we should be expecting a blank string because this should be a new logger
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's try to gc collect and see if the new logger reference is gone
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+
+            //make sure we still have a logger
+            Assert.IsNotNull(NewLoggerReference);
+        }
+
+        #endregion
+
         #endregion
 
     }

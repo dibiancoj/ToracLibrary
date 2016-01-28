@@ -49,41 +49,15 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
         #endregion
 
-        #region Interface Properties
-
-        /// <summary>
-        /// We don't want to support caching of objects since they want a new instance of each resolve call
-        /// </summary>
-        public bool SupportsEagerCachingOfObjects { get { return false; } }
-
-        #endregion
-
         #region Interface Methods
 
         /// <summary>
-        /// We don't implement this interface so throw an exception if this gets called. We want a new instance each time we resolve an issue
-        /// </summary>
-        /// <returns>null</returns>
-        public object EagerResolveObject()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// We don't want to cache the object. We want a new instance each time we resolve an issue
-        /// </summary>
-        /// <param name="ObjectInstanceToStore">Object instance to store</param>
-        public void StoreInstance(object ObjectInstanceToStore)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// create an instance of this type
+        /// resolves an instance of this type
         /// </summary>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
         /// <param name="ConstructorParameters">Constructor Parameters</param>
-        public object CreateInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        /// <returns>The resolved instance</returns>
+        public object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
             //use the activator and go create the instance
             //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);

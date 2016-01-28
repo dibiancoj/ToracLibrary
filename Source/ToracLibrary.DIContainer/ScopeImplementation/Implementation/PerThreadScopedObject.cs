@@ -4,24 +4,45 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExpressionTrees;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
 namespace ToracLibrary.DIContainer.ScopeImplementation
 {
 
     /// <summary>
-    /// Singleton registered object
+    /// Is a mix of a transient and a sington. Will hold a weak reference to the "singleton" object
     /// </summary>
-    internal class SingletonScopedObject : IScopeImplementation
+    internal class PerThreadScopedObject : IScopeImplementation
     {
 
-        #region Singleton Specific Properties
+        // **** since this could be created many times depending on what the application does and how many times gc run's...we are going to use expression tree's to cache the activator ****
+
+        #region Constructor
 
         /// <summary>
-        /// if they want a singleton, then we store the instance here so we can reuse it
+        /// Constructor
         /// </summary>
-        /// <remarks>protected so PerThread can reference this</remarks>
-        protected object Instance { get; set; }
+        /// <param name="ConstructorToCreateObjectsWith">Constructor information to use to create the object with</param>
+        internal PerThreadScopedObject(ConstructorInfo ConstructorToCreateObjectsWith)
+        {
+            //go create the cached activator. With the fluent style we dont know if they will pass in there own constructor lambda. so we just build this each time. This is cached only when the app starts so it isn't a performance issue
+            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorToCreateObjectsWith, ConstructorToCreateObjectsWith.GetParameters()).Compile();
+        }
+
+        #endregion
+
+        #region Private Properties
+
+        /// <summary>
+        /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
+        /// </summary>
+        private Func<object[], object> CachedActivator { get; }
+
+        /// <summary>
+        /// Holds the weak reference to the object
+        /// </summary>
+        private WeakReference Instance { get; set; }
 
         #endregion
 
@@ -35,7 +56,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
         #endregion
 
-        #region Interface Methods     
+        #region Interface Methods
 
         /// <summary>
         /// resolves an instance of this type
@@ -45,45 +66,15 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <returns>The resolved instance</returns>
         public object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
         {
-            //**so expression tree is slower if you are just running resolve a handful of times. You would need to get into the 10,000 resolves before it starts getting faster.
-            //**since an asp.net mvc site will handle request after request the pool won't get recycled before 10,000. So we are going to build it for scalability with expression trees
-
-            //instead of using activator, we are going to use an expression tree which is a ton faster.
-
-            //so we are going to build a func that takes a params object[] and then we just set it to each item.
-
-            //if we haven't already built the expression, then let's build and compile it now   
-
-            //singleton will only create it once, so singleton's will use the regular activator because it won't benefit of creating the object once. The cost
-            //of the expression tree compile is too hight.
-
-            //do we need to create an instance? This handles the derived per thread scoped object
-            if (!NeedToCreateObject(Instance))
+            //if we have a valid object and its still alive then return it
+            if (Instance == null || !Instance.IsAlive)
             {
-                //we have a valid instance, return it
-                return Instance;
+                //at this point we don't have a valid object, we need to create it and put it in the property
+                Instance = new WeakReference(CachedActivator.Invoke(ConstructorParameters));
             }
 
-            //go build the instance and store it
-            Instance = Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
-
-            //now return the object we created. Don't return the instance which could be a derived typed
-            return Instance;
-        }
-
-        #endregion
-
-        #region Protected Virtual Methods
-
-        /// <summary>
-        /// Determines if we need to create a new object. 
-        /// </summary>
-        /// <param name="ObjectFound">Object found in the singleton property</param>
-        /// <returns>Yes if we need to create a new object</returns>
-        private bool NeedToCreateObject(object ObjectFound)
-        {
-            //this is the singleton implementation...this is just a null check
-            return ObjectFound == null;
+            //now just return the instance's target.
+            return Instance.Target;
         }
 
         #endregion

@@ -141,6 +141,11 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
                 return new SingletonScopedObject();
             }
 
+            if (Scope == ToracDIContainer.DIContainerScope.PerThreadLifetime)
+            {
+                return new PerThreadScopedObject(ConstructorToUse);
+            }
+
             return new TransientScopedObject(ConstructorToUse);
         }
 

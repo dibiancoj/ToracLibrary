@@ -67,7 +67,12 @@ namespace ToracLibrary.DIContainer
             /// <summary>
             /// Only 1 object will every be created. The same object will always be returned from the container when being resolved
             /// </summary>
-            Singleton = 1
+            Singleton = 1,
+
+            /// <summary>
+            /// Holds a weak reference to the object. So a mix between a transient and a singleton.
+            /// </summary>
+            PerThreadLifetime = 2
 
         }
 
@@ -217,44 +222,16 @@ namespace ToracLibrary.DIContainer
         /// <returns>The object for the consumer to use</returns>
         private object GetInstance(RegisteredUnTypedObject RegisteredObjectToBuild)
         {
-            //does this registered type support eager loading?
-            if (RegisteredObjectToBuild.ScopeImplementation.SupportsEagerCachingOfObjects)
-            {
-                //try to grab the instance without creating it
-                var EagerResolveObject = RegisteredObjectToBuild.ScopeImplementation.EagerResolveObject();
-
-                //do we have an instance
-                if (EagerResolveObject != null)
-                {
-                    //they want a singleton, so just return the instance we have stored
-                    return EagerResolveObject;
-                }
-            }
-
-            //object to return
-            object ObjectToReturn;
-
             //first we will try to build it using the func
             if (RegisteredObjectToBuild.CreateObjectWithThisConstructor == null)
             {
                 //they never passed in the func, so go create an instance
-                ObjectToReturn = RegisteredObjectToBuild.ScopeImplementation.CreateInstance(RegisteredObjectToBuild, RegisteredObjectToBuild.ResolveConstructorParametersLazy(this).ToArray());
-            }
-            else
-            {
-                //we have the func that creates the object, go invoke it and return the result
-                ObjectToReturn = RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke(this);
+                return RegisteredObjectToBuild.ScopeImplementation.ResolveInstance(RegisteredObjectToBuild, RegisteredObjectToBuild.ResolveConstructorParametersLazy(this).ToArray());
             }
 
-            //if we support eager loading, then go store this item
-            if (RegisteredObjectToBuild.ScopeImplementation.SupportsEagerCachingOfObjects)
-            {
-                //if this is a singleton, go store it
-                RegisteredObjectToBuild.ScopeImplementation.StoreInstance(ObjectToReturn);
-            }
+            //we have the func that creates the object, go invoke it and return the result
+            return RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke(this);
 
-            //all done return the object
-            return ObjectToReturn;
         }
 
         #endregion
