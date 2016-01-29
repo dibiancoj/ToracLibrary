@@ -377,6 +377,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <param name="StringToSplit">String to split</param>
         /// <param name="Seperator">Character to split on</param>
         /// <returns>Iterator of strings that are split</returns>
+        /// <remarks>Leaving this just a char. If i have to peek at characters then i need to build a string using a string builder and this method looses it's performance value.</remarks>
         public static IEnumerable<string> SplitLazy(this string StringToSplit, char Seperator)
         {
             //start of the phrase
