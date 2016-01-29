@@ -22,7 +22,8 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
     /// </summary>
     /// <remarks>Works with Entity Framework 6.0 DbContext. Properties are immutable</remarks>
     /// <typeparam name="TEfContextType">Is the specific context type. Mainly used so we can type the specific entity model if you want to call stored procedures</typeparam>
-    public class EntityFrameworkDP<TEfContextType> : IDisposable where TEfContextType : DbContext, new()
+    public class EntityFrameworkDP<TEfContextType> : IDisposable
+        where TEfContextType : DbContext, new()
     {
 
         #region Example on how to create the Data Provider
