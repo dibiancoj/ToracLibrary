@@ -280,7 +280,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
-        #region String To Byte Array
+        #region Indexes Of All Lazy
 
         /// <summary>
         /// Test to make sure the index of all returns the correct value
@@ -306,6 +306,8 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         }
 
         #endregion
+
+
 
     }
 
