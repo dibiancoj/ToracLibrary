@@ -372,7 +372,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         #region Lazy String Split
 
         /// <summary>
-        /// Splits a string in a lazy fashion. This way you don't need to allocate the string array if there will be a large number of elements
+        /// Splits a string in a lazy fashion. This way you don't need to allocate the string array if there will be a large number of elements. Saves on memory if you only need the last element or a specific element and not the entire dataset
         /// </summary>
         /// <param name="StringToSplit">String to split</param>
         /// <param name="Seperator">Character to split on</param>
