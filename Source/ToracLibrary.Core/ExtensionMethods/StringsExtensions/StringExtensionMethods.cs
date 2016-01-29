@@ -369,6 +369,40 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
+        #region Lazy String Split
+
+        /// <summary>
+        /// Splits a string in a lazy fashion. This way you don't need to allocate the string array if there will be a large number of elements
+        /// </summary>
+        /// <param name="StringToSplit">String to split</param>
+        /// <param name="Seperator">Character to split on</param>
+        /// <returns>Iterator of strings that are split</returns>
+        public static IEnumerable<string> SplitLazy(this string StringToSplit, char Seperator)
+        {
+            //start of the phrase
+            int StartPhraseIndex = 0;
+
+            //loop through all the characters
+            for (int i = 0; i < StringToSplit.Length; i++)
+            {
+                //is this the character we are looking for?
+                if (StringToSplit[i] == Seperator)
+                {
+                    //this is the character we are looking for...return everything from the working character to this character we are on
+                    yield return StringToSplit.Substring(StartPhraseIndex, i - StartPhraseIndex);
+
+                    //now we want to increment the start of the next phrase  (we increment by 1 so we can skip over the delimiter. i hasn't incremented yet
+                    StartPhraseIndex = i + 1;
+                }
+            }
+
+            //always return the last string "column0,column1,column2,column3,column4"
+            //we need to return 4.
+            yield return StringToSplit.Substring(StartPhraseIndex, StringToSplit.Length - StartPhraseIndex);
+        }
+
+        #endregion
+
     }
 
 }

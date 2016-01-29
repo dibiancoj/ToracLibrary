@@ -307,7 +307,41 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region String Split Lazy
 
+        /// <summary>
+        /// Test to make sure the string split lazy works
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void StringSplitLazyTest1()
+        {
+            //test string to look through
+            string StringToTest = "column0,column1,column2,column3,column4";
+
+            //delimiter to test with
+            const char Delimiter = ',';
+
+            //we are going to use string.split to check our results against
+            string[] StringSplitExpected = StringToTest.Split(Delimiter);
+
+            //go run the method
+            var Results = StringToTest.SplitLazy(Delimiter).ToArray();
+
+            //test to make sure we have the correct count
+            Assert.AreEqual(StringSplitExpected.Length, Results.Length);
+
+            //loop through each of the elements returned
+            for (int i = 0; i < StringSplitExpected.Length; i++)
+            {
+                //test the value
+                Assert.AreEqual(StringSplitExpected[i], Results[i]);
+            }
+        }
+
+        #endregion
 
     }
 

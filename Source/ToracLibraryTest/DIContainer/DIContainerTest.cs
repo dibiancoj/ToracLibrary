@@ -222,6 +222,248 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
         #endregion
 
+        #region Resolve All
+
+        /// <summary>
+        /// Test resolve all when you have multiple factories
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ResolveAllTest1()
+        {
+            //this example would be for factories
+            //PolicyFactory implements SectionFactory
+            //ClaimFactory implements SectionFactory
+
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //prefix for factory
+            const string FactoryNamePrefix = "Factory";
+
+            //store the factory names
+            const string FactoryName1 = FactoryNamePrefix + "0";
+            const string FactoryName2 = FactoryNamePrefix + "1";
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
+
+            //count how many resolve all items we have
+            int ResolveAllResultCount = 0;
+
+            //lets loop through the resolve all
+            foreach (var FactoryToResolve in DIContainer.ResolveAllLazy<ILogger>().OrderBy(x => x.Key))
+            {
+                //let's resolve based on the index (so index 0 is the first factory)
+                Assert.AreEqual($"{FactoryNamePrefix}{ResolveAllResultCount}", FactoryToResolve.Key);
+
+                //and just make sure the actual instance is not null
+                Assert.IsNotNull(FactoryToResolve.Value);
+
+                //increase the count
+                ResolveAllResultCount++;
+            }
+
+            //make sure we have 2 factories that resolved
+            Assert.AreEqual(2, ResolveAllResultCount);
+        }
+
+        #endregion
+
+        #region Clear All
+
+        /// <summary>
+        /// Test clearing of all the registrations for a specific type
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ClearAllRegistrationsForSpecificTypeTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //we are mixing up the order below to make sure the removal works correctly
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                 .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
+
+            //let's make sure we have 2 instances of ilogger
+            Assert.AreEqual(2, DIContainer.AllRegistrationSelectLazy(typeof(ILogger)).Count());
+
+            //clear all the registrations
+            DIContainer.ClearAllRegistrationsForSpecificType<ILogger>();
+
+            //make sure we have 1 item left in the container, we can't resolve sql di provider because ilogger is a dependency!!!!!
+            Assert.AreEqual(1, DIContainer.AllRegistrationSelectLazy().Count(x => x.ConcreteType == typeof(SqlDIProvider)));
+        }
+
+        /// <summary>
+        /// Test clearing of all the registrations
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ClearAllRegistrationsTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
+
+            //clear all the registrations
+            DIContainer.ClearAllRegistrations();
+
+            //make sure we have 0 items in the container
+            Assert.AreEqual(0, DIContainer.AllRegistrationSelectLazy().Count());
+        }
+
+        #endregion
+
+        #region Get All Items In The Container
+
+        /// <summary>
+        /// Get all the registered items in the container
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void AllRegistrationsInContainerTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //store the factory names
+            const string FactoryName1 = "FactoryName1";
+            const string FactoryName2 = "FactoryName2";
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
+
+            //register a second instance
+            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
+
+            //now let's check what items we have registered
+            var ItemsRegistered = DIContainer.AllRegistrationSelectLazy().ToArray();
+
+            //make sure we have 3 items
+            Assert.AreEqual(3, ItemsRegistered.Length);
+
+            //make sure we have factory 1
+            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
+
+            //make sure the logger is a transient
+            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
+
+            //make sure the second factory is a transient
+            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName2).ObjectScope);
+
+            //make sure the sql di provider is a singleton
+            Assert.AreEqual(DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
+
+            //make sure we have factory 2
+            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));
+
+            //make sure we have the sql di provider now
+            Assert.IsTrue(ItemsRegistered.Any(x => x.ConcreteType == typeof(SqlDIProvider)));
+        }
+
+        #endregion
+
+        #region Default Scope
+
+        /// <summary>
+        /// Test that the default scope is a transient
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void DefaultScopeTest1()
+        {
+            //what is the default scope
+            Assert.AreEqual(DIContainerScope.Transient, ToracDIContainer.DefaultScope);
+        }
+
+        #endregion
+
+        #region Per Thread Lifetime
+
+        /// <summary>
+        /// Test that we can resolve a per thread lifetime
+        /// </summary>
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void PerThreadLifeTimeTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.PerThreadLifetime);
+
+            //let's grab an instance now
+            var LoggerToUse = DIContainer.Resolve<ILogger>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(LoggerToUse);
+
+            //write test to the log
+            LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
+
+            //let's ensure the log has the value we wrote to it.
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's resolve another logger...this should be the same logger
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's kill the reference to the logger...so this way we can cleanup the memory and have gc collect it
+            LoggerToUse = null;
+
+            //run gc a few times
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+
+            //let's try to grab a new logger...and see if we still have the same log text we wrote into it....we most likely shouldn't
+            var NewLoggerReference = DIContainer.Resolve<ILogger>();
+
+            //we should be expecting a blank string because this should be a new logger
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
+
+            //let's try to gc collect and see if the new logger reference is gone
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+            GC.Collect();
+
+            //make sure we still have a logger
+            Assert.IsNotNull(NewLoggerReference);
+        }
+
+        #endregion
+
         #region Resolve
 
         //1. Simple Interface To Concrete
@@ -1275,248 +1517,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         #endregion
-
-        #endregion
-
-        #region Resolve All
-
-        /// <summary>
-        /// Test resolve all when you have multiple factories
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void ResolveAllTest1()
-        {
-            //this example would be for factories
-            //PolicyFactory implements SectionFactory
-            //ClaimFactory implements SectionFactory
-
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //prefix for factory
-            const string FactoryNamePrefix = "Factory";
-
-            //store the factory names
-            const string FactoryName1 = FactoryNamePrefix + "0";
-            const string FactoryName2 = FactoryNamePrefix + "1";
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
-
-            //register a second instance
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
-
-            //count how many resolve all items we have
-            int ResolveAllResultCount = 0;
-
-            //lets loop through the resolve all
-            foreach (var FactoryToResolve in DIContainer.ResolveAllLazy<ILogger>().OrderBy(x => x.Key))
-            {
-                //let's resolve based on the index (so index 0 is the first factory)
-                Assert.AreEqual($"{FactoryNamePrefix}{ResolveAllResultCount}", FactoryToResolve.Key);
-
-                //and just make sure the actual instance is not null
-                Assert.IsNotNull(FactoryToResolve.Value);
-
-                //increase the count
-                ResolveAllResultCount++;
-            }
-
-            //make sure we have 2 factories that resolved
-            Assert.AreEqual(2, ResolveAllResultCount);
-        }
-
-        #endregion
-
-        #region Clear All
-
-        /// <summary>
-        /// Test clearing of all the registrations for a specific type
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void ClearAllRegistrationsForSpecificTypeTest1()
-        {
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //we are mixing up the order below to make sure the removal works correctly
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
-
-            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                 .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
-
-            //register a second instance
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
-
-            //let's make sure we have 2 instances of ilogger
-            Assert.AreEqual(2, DIContainer.AllRegistrationSelectLazy(typeof(ILogger)).Count());
-
-            //clear all the registrations
-            DIContainer.ClearAllRegistrationsForSpecificType<ILogger>();
-
-            //make sure we have 1 item left in the container, we can't resolve sql di provider because ilogger is a dependency!!!!!
-            Assert.AreEqual(1, DIContainer.AllRegistrationSelectLazy().Count(x => x.ConcreteType == typeof(SqlDIProvider)));
-        }
-
-        /// <summary>
-        /// Test clearing of all the registrations
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void ClearAllRegistrationsTest1()
-        {
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
-
-            //register a second instance
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(Guid.NewGuid().ToString());
-
-            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
-
-            //clear all the registrations
-            DIContainer.ClearAllRegistrations();
-
-            //make sure we have 0 items in the container
-            Assert.AreEqual(0, DIContainer.AllRegistrationSelectLazy().Count());
-        }
-
-        #endregion
-
-        #region Get All Items In The Container
-
-        /// <summary>
-        /// Get all the registered items in the container
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void AllRegistrationsInContainerTest1()
-        {
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //store the factory names
-            const string FactoryName1 = "FactoryName1";
-            const string FactoryName2 = "FactoryName2";
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName1);
-
-            //register a second instance
-            DIContainer.Register<ILogger, Logger>().WithFactoryName(FactoryName2);
-
-            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
-            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
-                .WithConstructorImplementation((di) => new SqlDIProvider(ConnectionStringToUse, di.Resolve<ILogger>()));
-
-            //now let's check what items we have registered
-            var ItemsRegistered = DIContainer.AllRegistrationSelectLazy().ToArray();
-
-            //make sure we have 3 items
-            Assert.AreEqual(3, ItemsRegistered.Length);
-
-            //make sure we have factory 1
-            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
-
-            //make sure the logger is a transient
-            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
-
-            //make sure the second factory is a transient
-            Assert.AreEqual(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName2).ObjectScope);
-
-            //make sure the sql di provider is a singleton
-            Assert.AreEqual(DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
-
-            //make sure we have factory 2
-            Assert.IsTrue(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));
-
-            //make sure we have the sql di provider now
-            Assert.IsTrue(ItemsRegistered.Any(x => x.ConcreteType == typeof(SqlDIProvider)));
-        }
-
-        #endregion
-
-        #region Default Scope
-
-        /// <summary>
-        /// Test that the default scope is a transient
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void DefaultScopeTest1()
-        {
-            //what is the default scope
-            Assert.AreEqual(DIContainerScope.Transient, ToracDIContainer.DefaultScope);
-        }
-
-        #endregion
-
-        #region Per Thread Lifetime
-
-        /// <summary>
-        /// Test that we can resolve a per thread lifetime
-        /// </summary>
-        [TestCategory("DIContainer")]
-        [TestMethod]
-        public void PerThreadLifeTimeTest1()
-        {
-            //declare my container
-            var DIContainer = new ToracDIContainer();
-
-            //register my item now with no overloads
-            DIContainer.Register<ILogger, Logger>(DIContainerScope.PerThreadLifetime);
-
-            //let's grab an instance now
-            var LoggerToUse = DIContainer.Resolve<ILogger>();
-
-            //make sure the logger is not null
-            Assert.IsNotNull(LoggerToUse);
-
-            //write test to the log
-            LoggerToUse.Log(WriteToLog);
-
-            //now let's check the log
-            Assert.AreEqual(WriteToLog, LoggerToUse.LogFile.ToString());
-
-            //let's ensure the log has the value we wrote to it.
-            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
-
-            //let's resolve another logger...this should be the same logger
-            Assert.AreEqual(WriteToLog, DIContainer.Resolve<ILogger>().LogFile.ToString());
-
-            //let's kill the reference to the logger...so this way we can cleanup the memory and have gc collect it
-            LoggerToUse = null;
-
-            //run gc a few times
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
-
-            //let's try to grab a new logger...and see if we still have the same log text we wrote into it....we most likely shouldn't
-            var NewLoggerReference = DIContainer.Resolve<ILogger>();
-
-            //we should be expecting a blank string because this should be a new logger
-            Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
-
-            //let's try to gc collect and see if the new logger reference is gone
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
-
-            //make sure we still have a logger
-            Assert.IsNotNull(NewLoggerReference);
-        }
 
         #endregion
 
