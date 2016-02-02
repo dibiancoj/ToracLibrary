@@ -377,9 +377,11 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <param name="StringToSplit">String to split</param>
         /// <param name="Seperator">Character to split on</param>
         /// <returns>Iterator of strings that are split</returns>
-        /// <remarks>Leaving this just a char. If i have to peek at characters then i need to build a string using a string builder and this method looses it's performance value.</remarks>
+        /// <remarks>Leaving this just a char parameter. If i have to peek at characters then i need to build a string using a string builder and parsing strings and this method looses it's performance value.</remarks>
         public static IEnumerable<string> SplitLazy(this string StringToSplit, char Seperator)
         {
+            //method is good if you are splitting for a large amount of items. Or if you want to grab the first item where the first 2 characters are "yz". Then you can just run a FirstOrDefault and not allocated every single string[] 
+
             //start of the phrase
             int StartPhraseIndex = 0;
 
