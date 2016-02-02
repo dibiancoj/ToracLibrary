@@ -135,6 +135,9 @@ namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
             //go build some query to test this out
             //var query = MapTableRecord.Build().AsQueryable().Where(x => x.Id < 3).Select(x => new GridRecord { MapId = x.Id });
 
+            //now we can merge the select by merging the description into the mix so the select ends up being Select(x => new GridRecord { MapId = x.Id, Description = x.DescriptionFrom});
+            //var MergeQueryable = BaseQuery.AddBindingToSelectInQuery(nameof(DummyObject.DescriptionFrom), nameof(GridRecord.Description));
+
             /* There needs to be a select at the end. This is a select merger!!! */
             //this isn't tested with multiple select's either
 
