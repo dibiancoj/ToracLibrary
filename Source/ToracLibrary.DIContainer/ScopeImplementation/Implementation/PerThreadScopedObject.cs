@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExpressionTrees;
 using ToracLibrary.DIContainer.RegisteredObjects;
+using ToracLibrary.DIContainer.ScopeImplementation.Implementation.CacheActivatorBase;
 
 namespace ToracLibrary.DIContainer.ScopeImplementation
 {
@@ -13,7 +13,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
     /// <summary>
     /// Is a mix of a transient and a sington. Will hold a weak reference to the "singleton" object
     /// </summary>
-    internal class PerThreadScopedObject : IScopeImplementation
+    internal class PerThreadScopedObject : CacheActivatorBaseScopedObject, IScopeImplementation
     {
 
         // **** since this could be created many times depending on what the application does and how many times gc run's...we are going to use expression tree's to cache the activator ****
@@ -25,19 +25,14 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// </summary>
         /// <param name="ConstructorToCreateObjectsWith">Constructor information to use to create the object with</param>
         internal PerThreadScopedObject(ConstructorInfo ConstructorToCreateObjectsWith)
+            : base(ConstructorToCreateObjectsWith)
+
         {
-            //go create the cached activator. With the fluent style we dont know if they will pass in there own constructor lambda. so we just build this each time. This is cached only when the app starts so it isn't a performance issue
-            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorToCreateObjectsWith, ConstructorToCreateObjectsWith.GetParameters()).Compile();
         }
 
         #endregion
 
         #region Private Properties
-
-        /// <summary>
-        /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
-        /// </summary>
-        private Func<object[], object> CachedActivator { get; }
 
         /// <summary>
         /// Holds the weak reference to the object

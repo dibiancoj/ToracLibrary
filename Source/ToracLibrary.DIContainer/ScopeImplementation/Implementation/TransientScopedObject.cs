@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExpressionTrees;
 using ToracLibrary.DIContainer.RegisteredObjects;
+using ToracLibrary.DIContainer.ScopeImplementation.Implementation.CacheActivatorBase;
 
 namespace ToracLibrary.DIContainer.ScopeImplementation
 {
@@ -13,7 +13,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
     /// <summary>
     /// Registered Object for a transient
     /// </summary>
-    internal class TransientScopedObject : IScopeImplementation
+    internal class TransientScopedObject : CacheActivatorBaseScopedObject, IScopeImplementation
     {
 
         #region Constructor
@@ -23,9 +23,8 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// </summary>
         /// <param name="ConstructorToCreateObjectsWith">Constructor information to use to create the object with</param>
         internal TransientScopedObject(ConstructorInfo ConstructorToCreateObjectsWith)
+            : base(ConstructorToCreateObjectsWith)
         {
-            //go create the cached activator. With the fluent style we dont know if they will pass in there own constructor lambda. so we just build this each time. This is cached only when the app starts so it isn't a performance issue
-            CachedActivator = ExpressionTreeHelpers.BuildNewObject(ConstructorToCreateObjectsWith, ConstructorToCreateObjectsWith.GetParameters()).Compile();
         }
 
         #endregion
@@ -37,15 +36,6 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// </summary>
         /// <remarks>Used IDisposable</remarks>
         private bool Disposed { get; set; }
-
-        #endregion
-
-        #region Private Transient Specific Properties
-
-        /// <summary>
-        /// Instead of using Activator.CreateInstance, we are going to an expression tree to create a new object. This gets compiled on the first time we request the item
-        /// </summary>
-        private Func<object[], object> CachedActivator { get; }
 
         #endregion
 

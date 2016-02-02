@@ -442,9 +442,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //run gc a few times
             GC.Collect();
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
 
             //let's try to grab a new logger...and see if we still have the same log text we wrote into it....we most likely shouldn't
             var NewLoggerReference = DIContainer.Resolve<ILogger>();
@@ -453,9 +450,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
 
             //let's try to gc collect and see if the new logger reference is gone
-            GC.Collect();
-            GC.Collect();
-            GC.Collect();
             GC.Collect();
 
             //make sure we still have a logger
@@ -566,8 +560,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
             //run gc to cleanup
             GC.Collect();
-            GC.Collect();
-            GC.Collect();
 
             //Logger should be null now
             Assert.AreEqual(string.Empty, DIContainer.Resolve<ILogger>().LogFile.ToString());
@@ -664,8 +656,6 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
             LoggerToUse = null;
 
             //run gc to cleanup
-            GC.Collect();
-            GC.Collect();
             GC.Collect();
 
             //Logger should be null now

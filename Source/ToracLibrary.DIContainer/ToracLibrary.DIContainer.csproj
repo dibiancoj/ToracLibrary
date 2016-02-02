@@ -54,6 +54,7 @@
     <Compile Include="Parameters\ConstructorParameters\Implementation\ResolveTypeCtorParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredObjects\RegisteredUnTypedObject.cs" />
+    <Compile Include="ScopeImplementation\Implementation\CacheActivatorBase\CacheActivatorBaseScopedObject.cs" />
     <Compile Include="ScopeImplementation\Implementation\PerThreadScopedObject.cs" />
     <Compile Include="ScopeImplementation\Implementation\TransientScopedObject.cs" />
     <Compile Include="ScopeImplementation\Implementation\SingletonScopedObject.cs" />
