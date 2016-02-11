@@ -1,3 +1,9 @@
+/*
+This really wasn't done for the purpose of building a json serializer. More for just playing around with expression tree's.
+The serializer is really limited. I stopped once i got 1 object to serialize. However, using expression tree's this is faster then json.net by 50%!
+*/
+
+
 using Newtonsoft.Json;
 using System;
 using System.Collections;
