@@ -180,6 +180,7 @@
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\IDependencyInject.cs" />
+    <Compile Include="JasonSerializer\JasonSerializerTest.cs" />
     <Compile Include="Migrations\201511030011544_InitialCreate.cs" />
     <Compile Include="Migrations\201511030011544_InitialCreate.Designer.cs">
       <DependentUpon>201511030011544_InitialCreate.cs</DependentUpon>
@@ -241,6 +242,10 @@
     <ProjectReference Include="..\ToracLibrary.DynamicRunTime\ToracLibrary.DynamicRunTime.csproj">
       <Project>{f70021e8-ef11-4418-88bc-7bddc310e0e2}</Project>
       <Name>ToracLibrary.DynamicRunTime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Serialization.JasonSerializer\ToracLibrary.Serialization.JasonSerializer.csproj">
+      <Project>{ad38f21a-8a57-45b0-a3da-5e85a9038c2b}</Project>
+      <Name>ToracLibrary.Serialization.JasonSerializer</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Serialization\ToracLibrary.Serialization.csproj">
       <Project>{34cc1c49-3b3c-44a1-8183-d2c25b1be8ce}</Project>
