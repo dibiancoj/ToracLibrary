@@ -262,14 +262,15 @@ namespace ToracLibrary.DIContainer
             //are we checking for factory names (let's cache this in a variable
             bool CheckingForFactoryNames = !string.IsNullOrEmpty(FactoryName);
 
-            //easier and cleaner to write in linq
+            //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
+            //so we just grab 2..if there are 2 we don't need to loop through the rest of the items in the container
             var FoundRegisteredObjects = (from DataSet in RegisteredObjectsInContainer
                                           where DataSet.Key.Item2 == TypeToResolve
                                           && (CheckingForFactoryNames ? FactoryName == DataSet.Key.Item1 : true)
-                                          select DataSet.Value).ToArray();
+                                          select DataSet.Value).Take(2).ToArray();
 
-            //did we find any items?
-            if (!FoundRegisteredObjects.Any())
+            //did we find any items? (decided to use length since it's a property rather then Any() which will have to create an enumerator)
+            if (FoundRegisteredObjects.Length == 0)
             {
                 //throw an exception
                 throw new TypeNotRegisteredException(TypeToResolve);
