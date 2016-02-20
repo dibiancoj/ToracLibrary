@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,10 +29,10 @@ namespace ToracLibrary.Serialization.JasonSerializer
         public JasonSerializerContainer()
         {
             //Create the singular cache func. Used an object as a value because i need to way to be dynamic with all the different func types in a single collection
-            Cache = new Dictionary<string, object>();
+            Cache = new ConcurrentDictionary<string, object>();
 
             //cache for SerializeIEnumerable
-            GenericSerializeIEnumerableCache = new Dictionary<string, MethodInfo>();
+            GenericSerializeIEnumerableCache = new ConcurrentDictionary<string, MethodInfo>();
         }
 
         #endregion
@@ -41,12 +42,12 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <summary>
         /// Create the singular cache func. Used an object as a value because i need to way to be dynamic with all the different func types in a single collection
         /// </summary>
-        private Dictionary<string, object> Cache { get; set; }
+        private ConcurrentDictionary<string, object> Cache { get; set; }
 
         /// <summary>
         /// Holds the caches for the method info when we go to use SerializeIEnumerable
         /// </summary>
-        private Dictionary<string, MethodInfo> GenericSerializeIEnumerableCache { get; set; }
+        private ConcurrentDictionary<string, MethodInfo> GenericSerializeIEnumerableCache { get; set; }
 
         #endregion
 
@@ -98,7 +99,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 var BuiltSerializer = SerializerTreeBuilder.SerializeBuilder<TClass>().Compile();
 
                 //add it to the cache
-                Cache.Add(TypeOfT.Name, BuiltSerializer);
+                Cache.TryAdd(TypeOfT.Name, BuiltSerializer);
 
                 //return it
                 return BuiltSerializer;
@@ -129,7 +130,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
             var MethodInfo = typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(ElementType);
 
             //stick it in the cache
-            GenericSerializeIEnumerableCache.Add(ElementType.Name, MethodInfo);
+            GenericSerializeIEnumerableCache.TryAdd(ElementType.Name, MethodInfo);
 
             //return it now
             return MethodInfo;
