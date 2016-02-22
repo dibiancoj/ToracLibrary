@@ -18,6 +18,45 @@ namespace ToracLibraryTest.UnitsTest.Serialization
     public class JasonSerializerTest
     {
 
+        #region Framework
+
+        private class JasonSerializerTestObject
+        {
+
+            #region Properties
+
+            public int Id { get; set; }
+            public string Txt { get; set; }
+            public SubObject SubObject { get; set; }
+
+            #endregion
+
+            #region Methods
+
+            public static IEnumerable<JasonSerializerTestObject> BuildObjects(int HowMany)
+            {
+                for (int i = 0; i < HowMany; i++)
+                {
+                    yield return new JasonSerializerTestObject
+                    {
+                        Id = i,
+                        Txt = "Test" + HowMany,
+                        SubObject = new SubObject { SubObjectId = i }
+                    };
+                }
+            }
+
+            #endregion
+
+        }
+
+        private class SubObject
+        {
+            public int SubObjectId { get; set; }
+        }
+
+        #endregion
+
         #region Unit Test
 
         [TestCategory("Serializations.Jason.Json")]
@@ -26,7 +65,7 @@ namespace ToracLibraryTest.UnitsTest.Serialization
         public void JasonSerializeSingleObjectTest1()
         {
             //go build the data to set test
-            var SingleObjectToTest = DummyObject.CreateDummyRecord(); //TestObject.BuildObjectsLazy(1).First();
+            var SingleObjectToTest = JasonSerializerTestObject.BuildObjects(1).First();
 
             //go render this in json.net...we will test my json serializer against the value in json.net
             var JsonNetResult = JsonNetSerializer.Serialize(SingleObjectToTest);
@@ -44,7 +83,7 @@ namespace ToracLibraryTest.UnitsTest.Serialization
         public void JasonSerializeArrayObjectTest1()
         {
             //go build the data to set test
-            var SingleObjectToTest = DummyObject.CreateDummyListLazy(2).ToArray();
+            var SingleObjectToTest = JasonSerializerTestObject.BuildObjects(2).ToArray();
 
             //go render this in json.net...we will test my json serializer against the value in json.net
             var JsonNetResult = JsonNetSerializer.Serialize(SingleObjectToTest);
