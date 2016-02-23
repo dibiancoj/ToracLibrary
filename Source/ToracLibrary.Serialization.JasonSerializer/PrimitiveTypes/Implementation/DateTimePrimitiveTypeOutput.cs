@@ -19,7 +19,7 @@ namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
 
         public DateTimePrimitiveTypeOutput()
         {
-            ToStringMethod = typeof(DateTime).GetMethods().First(x => x.Name == nameof(DateTime.ToString));
+            ToStringMethod = typeof(DateTime).GetMethod(nameof(DateTime.ToString), new Type[] { typeof(string) });
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
         internal override Expression OutputValue(MemberExpression PropertySelector)
         {
             //go call the ToString() method
-            return Expression.Call(PropertySelector, ToStringMethod);
+            return Expression.Call(PropertySelector, ToStringMethod, Expression.Constant("YYYY-MM-DDTHH:mm:ss.sssZ"));
         }
 
         #endregion
