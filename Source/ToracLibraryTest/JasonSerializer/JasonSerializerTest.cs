@@ -28,6 +28,7 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             public int Id { get; set; }
             public string Txt { get; set; }
             public SubObject SubObject { get; set; }
+            public SubObject NullSubObject { get; set; }
 
             #endregion
 
@@ -41,7 +42,8 @@ namespace ToracLibraryTest.UnitsTest.Serialization
                     {
                         Id = i,
                         Txt = "Test" + HowMany,
-                        SubObject = new SubObject { SubObjectId = i }
+                        SubObject = new SubObject { SubObjectId = i },
+                        NullSubObject = null
                     };
                 }
             }

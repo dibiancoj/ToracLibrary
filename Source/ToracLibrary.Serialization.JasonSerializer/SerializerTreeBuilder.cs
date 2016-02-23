@@ -22,6 +22,8 @@ namespace ToracLibrary.Serialization.JasonSerializer
         private static readonly ConstantExpression QuoteLiteral = Expression.Constant(@"""");
         private static readonly ConstantExpression Colon = Expression.Constant(":");
         private static readonly ConstantExpression Comma = Expression.Constant(",");
+        private static readonly ConstantExpression NullCheckExpression = Expression.Constant(null);
+        private static readonly ConstantExpression NullOutputExpression = Expression.Constant("null");
 
         //grab the append methods off of the string builder
         private static readonly MethodInfo AppendInt = typeof(StringBuilder).GetMethod("Append", new Type[] { typeof(int) });
@@ -91,7 +93,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 var CurrentPropertyToSerialize = Properties[i];
 
                 //grab the property into a property expression
-                var propertyGet = Expression.Property(TypeToSerialize, CurrentPropertyToSerialize);
+                var PropertyGetter = Expression.Property(TypeToSerialize, CurrentPropertyToSerialize);
 
                 //add the first quote for the property name
                 WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
@@ -121,7 +123,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
                     }
 
                     //append the property name to the string builder
-                    WorkingExpression = Expression.Call(WorkingExpression, appendMethodToUse, propertyGet);
+                    WorkingExpression = Expression.Call(WorkingExpression, appendMethodToUse, PropertyGetter);
 
                     //if string add the end quote
                     if (IsStringDataType)
@@ -132,15 +134,30 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 else if (IsEnumerableLikeType(CurrentPropertyToSerialize.PropertyType))
                 {
                     //is array
-                    var typeOfElements = CurrentPropertyToSerialize.PropertyType.IsGenericType ? CurrentPropertyToSerialize.PropertyType.GetGenericArguments()[0] : CurrentPropertyToSerialize.PropertyType.GetElementType();
+                    var TypeOfElements = CurrentPropertyToSerialize.PropertyType.IsGenericType ? CurrentPropertyToSerialize.PropertyType.GetGenericArguments()[0] : CurrentPropertyToSerialize.PropertyType.GetElementType();
 
                     //go call the ienumerable overload
-                    WorkingExpression = Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(typeOfElements), propertyGet));
+                    WorkingExpression = Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter));
                 }
                 else
                 {
-                    //regular object...go build this object in the recursion
-                    WorkingExpression = BuildSingleItemTree(CurrentPropertyToSerialize.PropertyType.GetProperties(), StringBuilderVariable, WorkingExpression, Expression.Property(TypeToSerialize, CurrentPropertyToSerialize), SerializerArgument);
+                    //we are at an object here...we need to keep building out of this object recursively
+
+                    //expression condition returns the actual result of the if statement. ExpressionIfThen.. returns a void which we don't want to use
+
+                    //basically
+                    //if (property == null)
+                    //{
+                    //  Add "null"
+                    //}
+                    //else
+                    //{
+                    //  Add the rest of the object's properties to serialize
+                    //}
+
+                    WorkingExpression = Expression.Condition(Expression.Equal(PropertyGetter, NullCheckExpression),
+                        Expression.Call(WorkingExpression, AppendString, NullOutputExpression),
+                        BuildSingleItemTree(CurrentPropertyToSerialize.PropertyType.GetProperties(), StringBuilderVariable, WorkingExpression, PropertyGetter, SerializerArgument));
                 }
 
                 //add the comma (only if it's not the last property)
