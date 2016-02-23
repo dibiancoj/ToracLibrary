@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes;
 
 namespace ToracLibrary.Serialization.JasonSerializer
 {
@@ -28,8 +29,9 @@ namespace ToracLibrary.Serialization.JasonSerializer
         private static readonly string QuoteStringLiteral = @"""";
         private static readonly string QuoteAndColonStringLiteral = @""":";
 
-        //grab the append methods off of the string builder
-        private static readonly MethodInfo AppendInt = typeof(StringBuilder).GetMethod("Append", new Type[] { typeof(int) });
+        /// <summary>
+        /// Used for the common writes since a static readonly property will be faster then the dictionary lookup
+        /// </summary>
         private static readonly MethodInfo AppendString = typeof(StringBuilder).GetMethod("Append", new Type[] { typeof(string) });
 
         #endregion
@@ -40,8 +42,9 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// This is the entry point for the recursion through each object. BuildSingleItemTree will actually build the object
         /// </summary>
         /// <typeparam name="TClass">Class to serialize</typeparam>
+        /// <param name="TypeLookup">Lookup values for each primitive type</param>
         /// <returns>Expression tree to use to serialize the object</returns>
-        internal static Expression<Func<TClass, JasonSerializerContainer, string>> SerializeBuilder<TClass>() where TClass : class
+        internal static Expression<Func<TClass, JasonSerializerContainer, string>> SerializeBuilder<TClass>(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup) where TClass : class
         {
             //grab the type we want to serliaze
             var TypeOfT = typeof(TClass);
@@ -59,7 +62,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
             var PropertiesOfFirstObject = TypeOfT.GetProperties();
 
             //go start building the first tree node
-            var WorkingExpression = BuildSingleItemTree(PropertiesOfFirstObject, StringBuilderVariable, null, TypeToSerialize, SerializerArgument);
+            var WorkingExpression = BuildSingleItemTree(TypeLookup, PropertiesOfFirstObject, StringBuilderVariable, null, TypeToSerialize, SerializerArgument);
 
             //when we are done we are going to call ToString() so we can return the json
             WorkingExpression = Expression.Call(WorkingExpression, typeof(StringBuilder).GetMethod("ToString", new Type[0] { }));
@@ -75,13 +78,14 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <summary>
         /// Builds a single tree item and returns it to build off of
         /// </summary>
+        /// <param name="TypeLookup">Lookup values for each primitive type</param>
         /// <param name="Properties">properties of the object to serialize</param>
         /// <param name="StringBuilderVariable">string builder expression to write too</param>
         /// <param name="WorkingExpression">working expression. Which will change from the recursion. null of first call as it starts the tree building</param>
         /// <param name="TypeToSerialize">Type to serialize</param>
         /// <param name="SerializerArgument">The JsonSerializer object as a parameter into the func</param>
         /// <returns>Expression to build off of</returns>
-        private static Expression BuildSingleItemTree(PropertyInfo[] Properties, NewExpression StringBuilderVariable, Expression WorkingExpression, Expression TypeToSerialize, ParameterExpression SerializerArgument)
+        private static Expression BuildSingleItemTree(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup, PropertyInfo[] Properties, NewExpression StringBuilderVariable, Expression WorkingExpression, Expression TypeToSerialize, ParameterExpression SerializerArgument)
         {
             //which expression do we want to build off of. Is this the first call?
             Expression expressionToUse = WorkingExpression ?? StringBuilderVariable;
@@ -104,17 +108,17 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 //add the 2nd quote for the property name...and the : in 1 call to make it less calls
                 WorkingExpression = Expression.Call(WorkingExpression, AppendString, PropertyNameLeftHandInJson);
 
-                //write the value
-                if (IsPrimitiveType(CurrentPropertyToSerialize.PropertyType))
+                //write the value. Is this a primitive type?
+                if (TypeLookup.ContainsKey(CurrentPropertyToSerialize.PropertyType))
                 {
-                    //is string
-                    var IsStringDataType = CurrentPropertyToSerialize.PropertyType == typeof(string);
+                    //go grab the type lookup
+                    var TypeReference = TypeLookup[CurrentPropertyToSerialize.PropertyType];
 
                     //append method to use
-                    var appendMethodToUse = IsStringDataType ? AppendString : AppendInt;
+                    var appendMethodToUse = TypeReference.StringBuilderWriteMethod;
 
                     //if a string we need to add a quote
-                    if (IsStringDataType)
+                    if (TypeReference.NeedsQuotesAroundValue)
                     {
                         WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
                     }
@@ -123,7 +127,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
                     WorkingExpression = Expression.Call(WorkingExpression, appendMethodToUse, PropertyGetter);
 
                     //if string add the end quote
-                    if (IsStringDataType)
+                    if (TypeReference.NeedsQuotesAroundValue)
                     {
                         WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
                     }
@@ -156,7 +160,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
 
                     WorkingExpression = Expression.Condition(Expression.Equal(PropertyGetter, NullCheckExpression),
                         Expression.Call(WorkingExpression, AppendString, NullOutputExpression),
-                        BuildSingleItemTree(CurrentPropertyToSerialize.PropertyType.GetProperties(), StringBuilderVariable, WorkingExpression, PropertyGetter, SerializerArgument));
+                        BuildSingleItemTree(TypeLookup, CurrentPropertyToSerialize.PropertyType.GetProperties(), StringBuilderVariable, WorkingExpression, PropertyGetter, SerializerArgument));
                 }
 
                 //add the comma (only if it's not the last property)
@@ -205,7 +209,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         private static bool IsPrimitiveType(Type TypeToCheck)
         {
             //this is only what we handle now
-            return TypeToCheck == typeof(string) || TypeToCheck == typeof(int);
+            return TypeToCheck == typeof(string) || TypeToCheck == typeof(int) || TypeToCheck == typeof(DateTime);
         }
 
         #endregion

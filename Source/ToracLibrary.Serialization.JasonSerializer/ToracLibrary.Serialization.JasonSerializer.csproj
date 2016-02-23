@@ -42,6 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JasonJsonSerializer.cs" />
+    <Compile Include="PrimitiveTypes\Implementation\DateTimePrimitiveTypeOutput.cs" />
+    <Compile Include="PrimitiveTypes\BaseAbstractClass\BasePrimitiveTypeOutput.cs" />
+    <Compile Include="PrimitiveTypes\Implementation\IntPrimitiveTypeOutput.cs" />
+    <Compile Include="PrimitiveTypes\Implementation\StringPrimitiveTypeOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializerTreeBuilder.cs" />
   </ItemGroup>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes;
 
 namespace ToracLibrary.Serialization.JasonSerializer
 {
@@ -33,6 +34,14 @@ namespace ToracLibrary.Serialization.JasonSerializer
 
             //cache for SerializeIEnumerable
             GenericSerializeIEnumerableCache = new ConcurrentDictionary<string, MethodInfo>();
+
+            //go build the type lookup
+            TypeLookup = new List<BasePrimitiveTypeOutput>
+            {
+                new StringPrimitiveTypeOutput(),
+                new IntPrimitiveTypeOutput(),
+                new DateTimePrimitiveTypeOutput()
+            }.ToDictionary(x => x.TypeToOutput);
         }
 
         #endregion
@@ -48,6 +57,11 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// Holds the caches for the method info when we go to use SerializeIEnumerable
         /// </summary>
         private ConcurrentDictionary<string, MethodInfo> GenericSerializeIEnumerableCache { get; set; }
+         
+        /// <summary>
+        /// Holds the type lookup with it's rules
+        /// </summary>
+        private Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup { get; }
 
         #endregion
 
@@ -96,7 +110,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
             if (!Cache.TryGetValue(TypeOfT.Name, out CacheSerializerTryGet))
             {
                 //we don't have it in the cache...go build it
-                var BuiltSerializer = SerializerTreeBuilder.SerializeBuilder<TClass>().Compile();
+                var BuiltSerializer = SerializerTreeBuilder.SerializeBuilder<TClass>(TypeLookup).Compile();
 
                 //add it to the cache
                 Cache.TryAdd(TypeOfT.Name, BuiltSerializer);
