@@ -22,7 +22,7 @@ namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
         public BasePrimitiveTypeOutput()
         {
             //go build the string builder write method
-            StringBuilderWriteMethod = typeof(StringBuilder).GetMethod("Append", new Type[] { TypeToOutput });
+            StringBuilderWriteMethod = typeof(StringBuilder).GetMethod(nameof(StringBuilder.Append), new Type[] { TypeToOutput });
         }
 
         #endregion
