@@ -29,6 +29,7 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             public string Txt { get; set; }
             public SubObject SubObject { get; set; }
             public SubObject NullSubObject { get; set; }
+            public IEnumerable<SubObject> SubEnumerable { get; set; }
 
             #endregion
 
@@ -43,8 +44,19 @@ namespace ToracLibraryTest.UnitsTest.Serialization
                         Id = i,
                         Txt = "Test" + HowMany,
                         SubObject = new SubObject { SubObjectId = i },
-                        NullSubObject = null
+                        NullSubObject = null,
+                        SubEnumerable = BuildSubObject(2, i)
                     };
+                }
+            }
+
+            private static IEnumerable<SubObject> BuildSubObject(int HowMany, int SubObjectIdStartValue)
+            {
+                //loop through the number of items we want
+                for (int i = 0; i < HowMany; i++)
+                {
+                    //return the object...we will set the value based on the start value plus the number we are on
+                    yield return new SubObject { SubObjectId = SubObjectIdStartValue + i };
                 }
             }
 
