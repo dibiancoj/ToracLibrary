@@ -19,8 +19,9 @@ namespace ToracLibrary.Serialization.JasonSerializer
 
         private static readonly ConstantExpression StartObject = Expression.Constant("{");
         private static readonly ConstantExpression EndObject = Expression.Constant("}");
-        private static readonly ConstantExpression QuoteLiteral = Expression.Constant(@"""");
-        private static readonly ConstantExpression Colon = Expression.Constant(":");
+        private static readonly ConstantExpression QuoteLiteral = Expression.Constant(@""":");
+        private static readonly ConstantExpression QuoteAndColonLiteral = Expression.Constant(@""":");
+        //private static readonly ConstantExpression Colon = Expression.Constant(":");
         private static readonly ConstantExpression Comma = Expression.Constant(",");
         private static readonly ConstantExpression NullCheckExpression = Expression.Constant(null);
         private static readonly ConstantExpression NullOutputExpression = Expression.Constant("null");
@@ -101,11 +102,8 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 //add the property name
                 WorkingExpression = Expression.Call(WorkingExpression, AppendString, Expression.Constant(CurrentPropertyToSerialize.Name));
 
-                //add the 2nd quote for the property name
-                WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
-
-                //add the :
-                WorkingExpression = Expression.Call(WorkingExpression, AppendString, Colon);
+                //add the 2nd quote for the property name...and the : in 1 call to make it less calls
+                WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteAndColonLiteral);
 
                 //write the value
                 if (IsPrimitiveType(CurrentPropertyToSerialize.PropertyType))
