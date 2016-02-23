@@ -123,8 +123,11 @@ namespace ToracLibrary.Serialization.JasonSerializer
                         WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
                     }
 
+                    //go build the value expression we want to output
+                    Expression ValueToOutput = TypeReference.OutputValue(PropertyGetter);
+
                     //append the property name to the string builder
-                    WorkingExpression = Expression.Call(WorkingExpression, appendMethodToUse, PropertyGetter);
+                    WorkingExpression = Expression.Call(WorkingExpression, appendMethodToUse, ValueToOutput);
 
                     //if string add the end quote
                     if (TypeReference.NeedsQuotesAroundValue)

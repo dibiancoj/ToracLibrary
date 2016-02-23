@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,16 @@ namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
         /// </summary>
         /// <returns>Method Info to use</returns>
         internal MethodInfo StringBuilderWriteMethod { get; }
+
+        /// <summary>
+        /// Allows the class to modify the value before it outputs
+        /// </summary>
+        /// <returns>Returns the updated expression</returns>
+        internal virtual Expression OutputValue(MemberExpression PropertySelector)
+        {
+            //just return the property selector
+            return PropertySelector;
+        }
 
     }
 

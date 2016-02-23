@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,29 @@ using System.Threading.Tasks;
 namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
 {
 
-    /* need to finish this....need to call ToString() when setting the string builder append value....*/ 
-
     /// <summary>
     /// Output for DateTime
     /// </summary>
     internal class DateTimePrimitiveTypeOutput : BasePrimitiveTypeOutput
     {
+
+        #region Constructor
+
+        public DateTimePrimitiveTypeOutput()
+        {
+            ToStringMethod = typeof(DateTime).GetMethods().First(x => x.Name == nameof(DateTime.ToString));
+        }
+
+        #endregion
+
+        #region Private Properties
+
+        /// <summary>
+        /// Holds the tostring method
+        /// </summary>
+        private MethodInfo ToStringMethod { get; }
+
+        #endregion
 
         #region Interface Properties
 
@@ -38,7 +55,18 @@ namespace ToracLibrary.Serialization.JasonSerializer.PrimitiveTypes
             {
                 return true;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Allow the way we output the property. For Date time we need to call "ToString()" on the date
+        /// </summary>
+        /// <param name="PropertySelector">property selector</param>
+        /// <returns>new expression</returns>
+        internal override Expression OutputValue(MemberExpression PropertySelector)
+        {
+            //go call the ToString() method
+            return Expression.Call(PropertySelector, ToStringMethod);
+        }
 
         #endregion
 
