@@ -136,8 +136,10 @@ namespace ToracLibrary.Serialization.JasonSerializer
                     //is array
                     var TypeOfElements = CurrentPropertyToSerialize.PropertyType.IsGenericType ? CurrentPropertyToSerialize.PropertyType.GetGenericArguments()[0] : CurrentPropertyToSerialize.PropertyType.GetElementType();
 
-                    //go call the ienumerable overload
-                    WorkingExpression = Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter));
+                    //go call the ienumerable overload (add the null check overload)
+                    WorkingExpression = Expression.Condition(Expression.Equal(PropertyGetter, NullCheckExpression),
+                        Expression.Call(WorkingExpression, AppendString, NullOutputExpression),
+                        Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter)));
                 }
                 else
                 {

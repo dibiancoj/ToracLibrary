@@ -30,6 +30,7 @@ namespace ToracLibraryTest.UnitsTest.Serialization
             public SubObject SubObject { get; set; }
             public SubObject NullSubObject { get; set; }
             public IEnumerable<SubObject> SubEnumerable { get; set; }
+            public IEnumerable<SubObject> NullSubEnumerable { get; set; }
 
             #endregion
 
@@ -45,7 +46,8 @@ namespace ToracLibraryTest.UnitsTest.Serialization
                         Txt = "Test" + HowMany,
                         SubObject = new SubObject { SubObjectId = i },
                         NullSubObject = null,
-                        SubEnumerable = BuildSubObject(2, i)
+                        SubEnumerable = BuildSubObject(2, i),
+                        NullSubEnumerable = null
                     };
                 }
             }
