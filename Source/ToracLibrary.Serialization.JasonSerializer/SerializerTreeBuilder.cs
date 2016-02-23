@@ -19,12 +19,14 @@ namespace ToracLibrary.Serialization.JasonSerializer
 
         private static readonly ConstantExpression StartObject = Expression.Constant("{");
         private static readonly ConstantExpression EndObject = Expression.Constant("}");
-        private static readonly ConstantExpression QuoteLiteral = Expression.Constant(@""":");
-        private static readonly ConstantExpression QuoteAndColonLiteral = Expression.Constant(@""":");
+        private static readonly ConstantExpression QuoteLiteral = Expression.Constant(@"""");
         //private static readonly ConstantExpression Colon = Expression.Constant(":");
         private static readonly ConstantExpression Comma = Expression.Constant(",");
         private static readonly ConstantExpression NullCheckExpression = Expression.Constant(null);
         private static readonly ConstantExpression NullOutputExpression = Expression.Constant("null");
+
+        private static readonly string QuoteStringLiteral = @"""";
+        private static readonly string QuoteAndColonStringLiteral = @""":";
 
         //grab the append methods off of the string builder
         private static readonly MethodInfo AppendInt = typeof(StringBuilder).GetMethod("Append", new Type[] { typeof(int) });
@@ -96,14 +98,11 @@ namespace ToracLibrary.Serialization.JasonSerializer
                 //grab the property into a property expression
                 var PropertyGetter = Expression.Property(TypeToSerialize, CurrentPropertyToSerialize);
 
-                //add the first quote for the property name
-                WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteLiteral);
-
-                //add the property name
-                WorkingExpression = Expression.Call(WorkingExpression, AppendString, Expression.Constant(CurrentPropertyToSerialize.Name));
+                //combine the property name with the quotes and the colon. This way we make less calls at runtime. This is much faster then doing 3 expression.calls
+                var PropertyNameLeftHandInJson = Expression.Constant(QuoteStringLiteral + CurrentPropertyToSerialize.Name + QuoteAndColonStringLiteral);
 
                 //add the 2nd quote for the property name...and the : in 1 call to make it less calls
-                WorkingExpression = Expression.Call(WorkingExpression, AppendString, QuoteAndColonLiteral);
+                WorkingExpression = Expression.Call(WorkingExpression, AppendString, PropertyNameLeftHandInJson);
 
                 //write the value
                 if (IsPrimitiveType(CurrentPropertyToSerialize.PropertyType))
