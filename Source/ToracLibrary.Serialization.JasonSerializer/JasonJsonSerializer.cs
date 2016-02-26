@@ -30,7 +30,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         public JasonSerializerContainer()
         {
             //Create the singular cache func. Used an object as a value because i need to way to be dynamic with all the different func types in a single collection
-            Cache = new ConcurrentDictionary<string, object>();
+            SingleObjectCachedSerializer = new ConcurrentDictionary<string, object>();
 
             //cache for SerializeIEnumerable
             GenericSerializeIEnumerableCache = new ConcurrentDictionary<string, MethodInfo>();
@@ -51,7 +51,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <summary>
         /// Create the singular cache func. Used an object as a value because i need to way to be dynamic with all the different func types in a single collection
         /// </summary>
-        private ConcurrentDictionary<string, object> Cache { get; set; }
+        private ConcurrentDictionary<string, object> SingleObjectCachedSerializer { get; set; }
 
         /// <summary>
         /// Holds the caches for the method info when we go to use SerializeIEnumerable
@@ -107,13 +107,13 @@ namespace ToracLibrary.Serialization.JasonSerializer
             object CacheSerializerTryGet;
 
             //go try to grab the item from the cache
-            if (!Cache.TryGetValue(TypeOfT.Name, out CacheSerializerTryGet))
+            if (!SingleObjectCachedSerializer.TryGetValue(TypeOfT.Name, out CacheSerializerTryGet))
             {
                 //we don't have it in the cache...go build it
                 var BuiltSerializer = SerializerTreeBuilder.SerializeBuilder<TClass>(TypeLookup).Compile();
 
                 //add it to the cache
-                Cache.TryAdd(TypeOfT.Name, BuiltSerializer);
+                SingleObjectCachedSerializer.TryAdd(TypeOfT.Name, BuiltSerializer);
 
                 //return it
                 return BuiltSerializer;
