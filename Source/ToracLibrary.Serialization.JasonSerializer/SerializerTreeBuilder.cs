@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -191,7 +192,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <returns>is enumerable</returns>
         internal static bool IsEnumerableLikeType(Type TypeToCheck)
         {
-            return TypeToCheck.IsArray || (TypeToCheck.IsGenericType && TypeToCheck.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            return TypeToCheck.IsArray || (TypeToCheck.IsGenericType && TypeToCheck.GetGenericTypeDefinition().GetMethods().Any(x => x.Name == nameof(IEnumerable.GetEnumerator)));
         }
 
         /// <summary>
