@@ -45,7 +45,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <typeparam name="TClass">Class to serialize</typeparam>
         /// <param name="TypeLookup">Lookup values for each primitive type</param>
         /// <returns>Expression tree to use to serialize the object</returns>
-        internal static Expression<Func<TClass, JasonSerializerContainer, string>> SerializeBuilder<TClass>(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup) where TClass : class
+        internal static Expression<Func<TClass, JasonSerializerContainer, StringBuilder, StringBuilder>> SerializeBuilder<TClass>(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup) where TClass : class
         {
             //grab the type we want to serliaze
             var TypeOfT = typeof(TClass);
@@ -57,19 +57,19 @@ namespace ToracLibrary.Serialization.JasonSerializer
             var SerializerArgument = Expression.Parameter(typeof(JasonSerializerContainer), "serializer");
 
             //create the string builder which will write the json
-            var StringBuilderVariable = Expression.New(typeof(StringBuilder));
+            //Expression.New(typeof(StringBuilder));
+            var StringBuilderArgument = Expression.Parameter(typeof(StringBuilder), "jsonWriter");
 
             //brab the properties for this type...so we can start the recursion
             var PropertiesOfFirstObject = TypeOfT.GetProperties();
 
             //go start building the first tree node
-            var WorkingExpression = BuildSingleItemTree(TypeLookup, PropertiesOfFirstObject, StringBuilderVariable, null, TypeToSerialize, SerializerArgument);
+            var WorkingExpression = BuildSingleItemTree(TypeLookup, PropertiesOfFirstObject, StringBuilderArgument, null, TypeToSerialize, SerializerArgument);
 
-            //when we are done we are going to call ToString() so we can return the json
-            WorkingExpression = Expression.Call(WorkingExpression, typeof(StringBuilder).GetMethod("ToString", new Type[0] { }));
+            //since the last call will always be an append...it will return the string builder. we don't need to add a return statement
 
             //go create the lambda and return it
-            return Expression.Lambda<Func<TClass, JasonSerializerContainer, string>>(WorkingExpression, new ParameterExpression[] { TypeToSerialize, SerializerArgument });
+            return Expression.Lambda<Func<TClass, JasonSerializerContainer, StringBuilder, StringBuilder>>(WorkingExpression, new ParameterExpression[] { TypeToSerialize, SerializerArgument, StringBuilderArgument });
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <param name="TypeToSerialize">Type to serialize</param>
         /// <param name="SerializerArgument">The JsonSerializer object as a parameter into the func</param>
         /// <returns>Expression to build off of</returns>
-        private static Expression BuildSingleItemTree(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup, PropertyInfo[] Properties, NewExpression StringBuilderVariable, Expression WorkingExpression, Expression TypeToSerialize, ParameterExpression SerializerArgument)
+        private static Expression BuildSingleItemTree(Dictionary<Type, BasePrimitiveTypeOutput> TypeLookup, PropertyInfo[] Properties, ParameterExpression StringBuilderVariable, Expression WorkingExpression, Expression TypeToSerialize, ParameterExpression SerializerArgument)
         {
             //which expression do we want to build off of. Is this the first call?
             Expression expressionToUse = WorkingExpression ?? StringBuilderVariable;
