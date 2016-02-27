@@ -176,10 +176,10 @@ namespace ToracLibrary.Serialization.JasonSerializer
             JsonWriter.Append("[");
 
             //loop through each row and add to it
-            foreach (var item in EnumerableToSerialize)
+            foreach (var ItemToAdd in EnumerableToSerialize)
             {
                 //add this row item
-                SingleObjectSerializer(item, this, JsonWriter).Append(",");
+                SingleObjectSerializer(ItemToAdd, this, JsonWriter).Append(",");
             }
 
             //remove the last comma
