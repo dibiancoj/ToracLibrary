@@ -51,7 +51,7 @@ namespace ToracLibrary.Serialization.JasonSerializer
             var TypeOfT = typeof(TClass);
 
             //declare the parameter into the lambda
-            var TypeToSerialize = Expression.Parameter(TypeOfT, "x");
+            var TypeToSerialize = Expression.Parameter(TypeOfT, "typeToSerialize");
 
             //declare the serializer so we can call it for the ienumerable objects
             var SerializerArgument = Expression.Parameter(typeof(JasonSerializerContainer), "serializer");
@@ -144,8 +144,10 @@ namespace ToracLibrary.Serialization.JasonSerializer
                     //go call the ienumerable overload (add the null check overload)
                     WorkingExpression = Expression.Condition(Expression.Equal(PropertyGetter, NullCheckExpression),
                         Expression.Call(WorkingExpression, AppendString, NullOutputExpression),
-                        Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter)));
-                }
+                        Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter, WorkingExpression));
+              
+                    //Expression.Call(WorkingExpression, AppendString, Expression.Call(SerializerArgument, typeof(JasonSerializerContainer).GetMethod(nameof(JasonSerializerContainer.SerializeIEnumerable), BindingFlags.NonPublic | BindingFlags.Instance).MakeGenericMethod(TypeOfElements), PropertyGetter)));
+        }
                 else
                 {
                     //we are at an object here...we need to keep building out of this object recursively
