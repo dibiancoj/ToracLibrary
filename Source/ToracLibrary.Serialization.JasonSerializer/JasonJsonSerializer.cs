@@ -75,9 +75,6 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// <returns>string which is the json result of the serialization</returns>
         public string SerializeJson<T>(T ObjectToSerialize) where T : class
         {
-            //we are going to pass the json writer to each method. This way we don't need to allocate any more string builders as we go through the method
-            var JsonWriter = new StringBuilder();
-
             //throw type of t into a variable
             var TypeOfT = typeof(T);
 
@@ -85,11 +82,11 @@ namespace ToracLibrary.Serialization.JasonSerializer
             if (SerializerTreeBuilder.IsEnumerableLikeType(TypeOfT))
             {
                 //grab the generic type serializer
-                return (string)GetRootLevelSerializeIEnumerable(SerializerTreeBuilder.ElementTypeInEnumerable(TypeOfT)).Invoke(this, new object[] { ObjectToSerialize, JsonWriter });
+                return (string)GetRootLevelSerializeIEnumerable(SerializerTreeBuilder.ElementTypeInEnumerable(TypeOfT)).Invoke(this, new object[] { ObjectToSerialize });
             }
 
             //it's a regular object...go serialize this
-            return GetSingleObjectSerializer<T>().Invoke(ObjectToSerialize, this, JsonWriter).ToString();
+            return GetSingleObjectSerializer<T>().Invoke(ObjectToSerialize, this, new StringBuilder()).ToString();
         }
 
         #endregion
@@ -162,34 +159,33 @@ namespace ToracLibrary.Serialization.JasonSerializer
         /// </summary>
         /// <typeparam name="T">Type of each element in the array</typeparam>
         /// <param name="EnumerableToSerialize">enumerable to serialize</param>
-        /// <param name="JsonWriter">string builder to write into</param>
         /// <returns>Json that was serialized from the enumerable</returns>
-        internal string SerializeIEnumerable<T>(IEnumerable<T> EnumerableToSerialize, StringBuilder JsonWriter) where T : class
+        internal string SerializeIEnumerable<T>(IEnumerable<T> EnumerableToSerialize) where T : class
         {
             //go grab the serializer for T.
             var SingleObjectSerializer = GetSingleObjectSerializer<T>();
 
+            //create the string builder
+            var JsonBuilder = new StringBuilder();
+
             //add the start of the array
-            JsonWriter.Append("[");
+            JsonBuilder.Append("[");
 
             //loop through each row and add to it
             foreach (var item in EnumerableToSerialize)
             {
                 //add this row item
-                JsonWriter = SingleObjectSerializer(item, this, JsonWriter);
-
-                //add the next item to the builder
-                JsonWriter.Append(",");
+                SingleObjectSerializer(item, this, JsonBuilder).Append(",");
             }
 
             //remove the last comma
-            JsonWriter = JsonWriter.Remove(JsonWriter.Length - 1, 1);
+            JsonBuilder = JsonBuilder.Remove(JsonBuilder.Length - 1, 1);
 
             //tack on the end array item
-            JsonWriter.Append("]");
+            JsonBuilder.Append("]");
 
             //return the json value
-            return JsonWriter.ToString();
+            return JsonBuilder.ToString();
         }
 
         #endregion
