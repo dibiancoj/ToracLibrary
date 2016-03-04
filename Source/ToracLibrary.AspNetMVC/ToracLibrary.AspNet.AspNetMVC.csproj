@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetMvcConstants.cs" />
+    <Compile Include="ControllerCreation\ControllerHelpers.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFilters\NoBrowserCacheAttribute.cs" />
     <Compile Include="CustomFilters\ValidateAntiForgeryTokenHeaderAttribute.cs" />
