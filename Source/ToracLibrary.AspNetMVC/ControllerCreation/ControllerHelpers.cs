@@ -30,30 +30,32 @@ namespace ToracLibrary.AspNet.AspNetMVC.ControllerCreation
         /// Create a controller from the current httpcontext when we aren't in the mvc realm
         /// </summary>
         /// <typeparam name="TController">Controller type to create</typeparam>
+        /// <param name="CurrentContext">Current Context. Ie: HttpContext.Current</param>
         /// <returns>controller instance that was created</returns>
-        [MethodIsNotTestable("Didn't feel like adding a unit test now")]
-        public static TController CreateControllerWithContext<TController>()
+        [MethodIsNotTestable("Regular Asp.Net uses HttpContext. Mvc Uses contextBase. The regular context is hard to mock. I'm going to leave this as no unit testing")]
+        public static TController CreateControllerWithContext<TController>(HttpContext CurrentContext)
            where TController : Controller, new()
         {
             //use the overload
-            return CreateControllerWithContext<TController>(null);
+            return CreateControllerWithContext<TController>(CurrentContext, null);
         }
 
         /// <summary>
         /// Create a controller from the current httpcontext when we aren't in the mvc realm
         /// </summary>
         /// <typeparam name="TController">Controller type to create</typeparam>
+        /// <param name="CurrentContext">Current Context. Ie: HttpContext.Current</param>
         /// <param name="RouteData ">route data if any</param>
         /// <returns>controller instance that was created</returns>
-        [MethodIsNotTestable("Didn't feel like adding a unit test now")]
-        public static TController CreateControllerWithContext<TController>(RouteData RouteData)
+        [MethodIsNotTestable("Regular Asp.Net uses HttpContext. Mvc Uses contextBase. The regular context is hard to mock. I'm going to leave this as no unit testing")]
+        public static TController CreateControllerWithContext<TController>(HttpContext CurrentContext, RouteData RouteData)
            where TController : Controller, new()
         {
             //create the new controller instance
             var ControllerInstance = new TController();
 
             // Create a context wrapper so we can create the context
-            var ContextWrapper = new HttpContextWrapper(HttpContext.Current);
+            var ContextWrapper = new HttpContextWrapper(CurrentContext);
 
             //do we have any route data
             if (RouteData == null)
