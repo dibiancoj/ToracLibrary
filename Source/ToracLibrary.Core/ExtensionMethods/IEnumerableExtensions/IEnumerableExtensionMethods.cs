@@ -240,6 +240,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <param name="SingleItemOutputMethod">Method used to build the text for each item. ie builds the text for a singular item</param>
         /// <param name="DelimiterString">Between each item in the collection, output this string. Usually a comma.</param>
         /// <returns>output string. Handles nulls and return's an empty string if the list is null or has no items</returns>
+        [Obsolete("Use String.Join If Possible")]
         public static string ToOutputString<T>(this IEnumerable<T> CollectionToOutput, Func<T, string> SingleItemOutputMethod, string DelimiterString)
         {
             //break the func into a variable for read ability
@@ -257,6 +258,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <param name="SingleItemOutputMethod">Method used to build the text for each item. This overload passes in the index of the item so you can do 1. this item, 2. this item ie builds the text for a singular item</param>
         /// <param name="DelimiterString">Between each item in the collection, output this string. Usually a comma.</param>
         /// <returns>output string. Handles nulls and return's an empty string if the list is null or has no items</returns>
+        [Obsolete("Use String.Join If Possible")]
         public static string ToOutputString<T>(this IEnumerable<T> CollectionToOutput, Func<T, int, string> SingleItemOutputMethod, string DelimiterString)
         {
             //method takes the list and basically does item 1, item 2, item 3 (when , is pass in as delimiter)
