@@ -1,0 +1,8 @@
+
+
+
+var url = new Uri(decodedUrl).GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped) <-- this would return http://hpdesktop
+
+Or you can exclude the port by using the bit mask...using the exclude "~UriComponents.Port"
+var clean = uri.GetComponents( UriComponents.AbsoluteUri & ~UriComponents.Port,
+                               UriFormat.UriEscaped );
