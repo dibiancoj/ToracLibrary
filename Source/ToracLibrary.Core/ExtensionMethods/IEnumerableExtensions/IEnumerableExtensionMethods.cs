@@ -242,6 +242,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <returns>output string. Handles nulls and return's an empty string if the list is null or has no items</returns>
         public static string ToOutputString<T>(this IEnumerable<T> CollectionToOutput, Func<T, string> SingleItemOutputMethod, string DelimiterString)
         {
+            //alternative would be to use string join
+
             //break the func into a variable for read ability
             Func<T, int, string> TextBuilder = (thisItem, thisIndex) => SingleItemOutputMethod(thisItem);
 
@@ -259,6 +261,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <returns>output string. Handles nulls and return's an empty string if the list is null or has no items</returns>
         public static string ToOutputString<T>(this IEnumerable<T> CollectionToOutput, Func<T, int, string> SingleItemOutputMethod, string DelimiterString)
         {
+            //alternative would be to use string join
+
             //method takes the list and basically does item 1, item 2, item 3 (when , is pass in as delimiter)
 
             //make sure the list is not null and has items

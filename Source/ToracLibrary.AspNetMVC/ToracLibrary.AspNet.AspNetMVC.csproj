@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetMvcConstants.cs" />
+    <Compile Include="ControllerCreation\ControllerHelpers.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFilters\NoBrowserCacheAttribute.cs" />
     <Compile Include="CustomFilters\ValidateAntiForgeryTokenHeaderAttribute.cs" />
@@ -121,7 +122,9 @@
       <Name>ToracLibrary.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ControllerHelpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
