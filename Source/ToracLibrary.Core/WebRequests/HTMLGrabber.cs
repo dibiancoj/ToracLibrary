@@ -42,7 +42,7 @@ namespace ToracLibrary.Core.WebRequests
         /// <param name="PostBodyParameters">Parameters into the post. If using application/x-www-form-urlencoded then key value pair ("UserName=peterppp&Password=password1"). Else if json, it would be json</param>
         /// <param name="ContentType">content type such as application/x-www-form-urlencoded or json</param>
         /// <param name="CookieJar">CookieCollection so we can keep session on multiple requests. use new CookieCollection and keep passing in the parameters</param>
-        /// <returns></returns>
+        /// <returns>Html of the web request</returns>
         [MethodIsNotTestable("Not going to simulate a web request")]
         public static string PostWebRequest(string UrlToPost, string PostBodyParameters, string ContentType, CookieContainer CookieJar)
         {
