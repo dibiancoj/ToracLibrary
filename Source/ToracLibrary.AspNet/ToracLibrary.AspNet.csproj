@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionState\RetrieveSessionDataAcrossUsersResult.cs" />
+    <Compile Include="SessionState\SessionStateCarryOverInWebRequest.cs" />
     <Compile Include="SessionState\SessionStateUtilitiesAcrossUsers.cs" />
     <Compile Include="URLHelpers\URLHelpers.cs" />
   </ItemGroup>

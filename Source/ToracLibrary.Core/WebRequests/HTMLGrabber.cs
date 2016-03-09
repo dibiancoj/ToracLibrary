@@ -31,6 +31,8 @@ namespace ToracLibrary.Core.WebRequests
 
         #endregion
 
+        //to see how you can carry session state over in a web request, view ToracLibrary.AspNet.SessionState.SessionStateCarryOverInWebRequest
+
         #region Public Static Methods
 
         #region Post
@@ -191,6 +193,8 @@ namespace ToracLibrary.Core.WebRequests
         [MethodIsNotTestable("Not going to simulate a web request")]
         private static string GatherHTMLForWebSiteHelper(string URL, string UserAgent, int? CommandTimeout, ICredentials ProxyCredentials, CookieContainer CookieJar)
         {
+            //to see how you can carry session state over in a web request, view ToracLibrary.AspNet.SessionState.SessionStateCarryOverInWebRequest.CarrySessionStateOverInWebRequest
+
             //Validation
             if (string.IsNullOrEmpty(URL))
             {
