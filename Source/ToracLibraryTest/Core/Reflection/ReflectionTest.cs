@@ -19,6 +19,7 @@ using ToracLibraryTest.UnitsTest.Caching;
 using ToracLibraryTest.UnitsTest.Core.DataProviders;
 using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibraryTest.UnitsTest.EmailSMTP;
+using ToracLibraryTest.UnitsTest.HtmlParsing;
 using static ToracLibrary.Core.ReflectionDynamic.ImplementingClasses;
 
 namespace ToracLibraryTest.UnitsTest.Core
@@ -219,7 +220,9 @@ namespace ToracLibraryTest.UnitsTest.Core
                 typeof(JsonActionResultTest),
                 typeof(ControllerExtensionTest),
                 typeof(JsonNetCustomValueProviderFactoryTest),
-                typeof(AspNetDIContainerSharedMock)
+                typeof(AspNetDIContainerSharedMock),
+                typeof(HtmlHelperTest),
+                typeof(HtmlParsingTest),
             };
 
             //grab everything that implements IDependencyInject
