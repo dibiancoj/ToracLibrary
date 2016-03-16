@@ -13,8 +13,17 @@ namespace ToracLibrary.AspNet.SessionState
     /// <summary>
     /// Carry session state over in a web request.
     /// </summary>
-    public static class CarryOverCurrentSessionState
+    public static class ExportCurrentSessionState
     {
+
+        #region Constants
+
+        /// <summary>
+        /// Holds the session state cookie name.
+        /// </summary>
+        public const string SessionStateCookieName = "ASP.NET_SessionId";
+
+        #endregion
 
         #region Public Methods
 
@@ -25,8 +34,8 @@ namespace ToracLibrary.AspNet.SessionState
         /// <param name="Request">Request where we can pull in the session state cookie so we can transfer it</param>
         /// <param name="DomainNameOfCookieToUse">Domain name to use Use Request.Url.Host or something else (generally a sub domain so you can share the cookies).</param>
         /// <returns>The cookie which you can add to the cookie container. CookieContainer.Add(Result)</returns>
-        [MethodIsNotTestable("No real reason except I don't want to mock the request right now.")]
-        public static Cookie CarrySessionStateOverInWebRequest(HttpRequest Request, string DomainNameOfCookieToUse)
+        [MethodIsNotTestable("HttpRequest Has Readonly Cookies. Not Sure How To Mock It. As Long As We Test The HttpRequestBase Overload We Should Be Ok.")]
+        public static Cookie ExportSessionState(HttpRequest Request, string DomainNameOfCookieToUse)
         {
             //remember this is only for in proc session state. in a web server farm, with stick sessions you could land on the other server
             //this will transfer your asp.net session id cookie which will get picked up when the web request is made
@@ -34,7 +43,7 @@ namespace ToracLibrary.AspNet.SessionState
             //this only works if your calling the same server with the same domain!!!
 
             //grab the session id cookie and return it
-            return BuildCookie(Request.Cookies["ASP.NET_SessionId"], DomainNameOfCookieToUse);
+            return BuildCookie(Request.Cookies[SessionStateCookieName], DomainNameOfCookieToUse);
         }
 
         /// <summary>
@@ -44,11 +53,10 @@ namespace ToracLibrary.AspNet.SessionState
         /// <param name="Request">Request where we can pull in the session state cookie so we can transfer it</param>
         /// <param name="DomainNameOfCookieToUse">Domain name to use Use Request.Url.Host or something else (generally a sub domain so you can share the cookies).</param>
         /// <returns>The cookie which you can add to the cookie container. CookieContainer.Add(Result)</returns>
-        [MethodIsNotTestable("No real reason except I don't want to mock the request right now.")]
-        public static Cookie CarrySessionStateOverInWebRequest(HttpRequestBase Request, string DomainNameOfCookieToUse)
+        public static Cookie ExportSessionState(HttpRequestBase Request, string DomainNameOfCookieToUse)
         {
             //grab the session id cookie and return it
-            return BuildCookie(Request.Cookies["ASP.NET_SessionId"], DomainNameOfCookieToUse);
+            return BuildCookie(Request.Cookies[SessionStateCookieName], DomainNameOfCookieToUse);
         }
 
         #endregion
