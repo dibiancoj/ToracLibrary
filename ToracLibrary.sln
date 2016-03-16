@@ -137,6 +137,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpressionTrees", "Expressi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Serialization.JasonSerializer", "Source\ToracLibrary.Serialization.JasonSerializer\ToracLibrary.Serialization.JasonSerializer.csproj", "{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HtmlParsing", "Source\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj", "{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,10 @@ Global
 		{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,5 +268,6 @@ Global
 		{1B01542F-B7D8-4AB6-AB53-FBBBAC178FB3} = {264DB62C-6C82-490B-922A-6369B851BB37}
 		{699639FD-86BE-4493-83D7-1811A6CBCC95} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B} = {264DB62C-6C82-490B-922A-6369B851BB37}
+		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 	EndGlobalSection
 EndGlobal

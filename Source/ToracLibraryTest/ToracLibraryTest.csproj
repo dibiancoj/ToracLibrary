@@ -44,6 +44,10 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -180,6 +184,7 @@
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\IDependencyInject.cs" />
+    <Compile Include="HtmlParsing\HtmlParsingTest.cs" />
     <Compile Include="JasonSerializer\JasonSerializerTest.cs" />
     <Compile Include="Migrations\201511030011544_InitialCreate.cs" />
     <Compile Include="Migrations\201511030011544_InitialCreate.Designer.cs">
@@ -242,6 +247,10 @@
     <ProjectReference Include="..\ToracLibrary.DynamicRunTime\ToracLibrary.DynamicRunTime.csproj">
       <Project>{f70021e8-ef11-4418-88bc-7bddc310e0e2}</Project>
       <Name>ToracLibrary.DynamicRunTime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj">
+      <Project>{20f8ae75-74f3-4a3e-8e17-5e3e2cdbac88}</Project>
+      <Name>ToracLibrary.HtmlParsing</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Serialization.JasonSerializer\ToracLibrary.Serialization.JasonSerializer.csproj">
       <Project>{ad38f21a-8a57-45b0-a3da-5e85a9038c2b}</Project>
