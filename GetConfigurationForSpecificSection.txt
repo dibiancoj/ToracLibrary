@@ -1,0 +1,3 @@
+
+
+var cookieSectionInConfig = ConfigurationManager.GetSection("system.web/httpCookies") as System.Web.Configuration.HttpCookiesSection; <-- each section is a different class
