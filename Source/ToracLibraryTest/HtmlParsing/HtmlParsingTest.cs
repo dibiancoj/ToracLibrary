@@ -26,7 +26,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             //let's register my dummy cache container
             DIContainer.Register<HtmlParserWrapper>()
                 .WithFactoryName(HtmlParserFactoryName)
-                .WithConstructorImplementation((di) => new HtmlParserWrapper(string.Format($"<html><span class='{ClassNameInSpan}'>SpanText</span></html>")));
+                .WithConstructorImplementation((di) => new HtmlParserWrapper(string.Format($"<html><span class='{ClassNameInSpan}'>{SpanInnerTextValue}</span></html>")));
         }
 
         #endregion
@@ -43,6 +43,11 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
         /// </summary>
         private const string ClassNameInSpan = "TestClass1";
 
+        /// <summary>
+        /// Hold the inner text for the span
+        /// </summary>
+        private const string SpanInnerTextValue = "SpanText";
+
         #endregion
 
         #region Unit Test
@@ -55,10 +60,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             var HDoc = DIUnitTestContainer.DIContainer.Resolve<HtmlParserWrapper>(HtmlParserFactoryName);
 
             //grab my span
-            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").FirstOrDefault();
-
-            //make sure we have an element
-            Assert.IsNotNull(SpanToTest);
+            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").First();
 
             //does this have a positive class
             Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
@@ -75,10 +77,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             var HDoc = DIUnitTestContainer.DIContainer.Resolve<HtmlParserWrapper>(HtmlParserFactoryName);
 
             //grab my span
-            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").FirstOrDefault();
-
-            //make sure we have an element
-            Assert.IsNotNull(SpanToTest);
+            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").First();
 
             //make sure we see test class 1
             Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
@@ -107,16 +106,19 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             var HDoc = DIUnitTestContainer.DIContainer.Resolve<HtmlParserWrapper>(HtmlParserFactoryName);
 
             //grab my span
-            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").FirstOrDefault();
+            var SpanToTest = HDoc.HtmlDoc.DocumentNode.Descendants("span").First();
 
-            //make sure we have an element
-            Assert.IsNotNull(SpanToTest);
+            //make sure it has the span text that we started with
+            Assert.AreEqual(SpanInnerTextValue, SpanToTest.InnerText);
 
-            //does this have a positive class
-            Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
+            //value to change the inner text to
+            const string NewValueOfInnerText = "NewValue";
 
-            //negative result
-            Assert.IsFalse(SpanToTest.ElementHasClassValue("noclassmatch"));
+            //go change the value
+            SpanToTest.SetTextElement(NewValueOfInnerText);
+
+            //test the value that it has changed
+            Assert.AreEqual(NewValueOfInnerText, SpanToTest.InnerText);
         }
 
         #endregion
