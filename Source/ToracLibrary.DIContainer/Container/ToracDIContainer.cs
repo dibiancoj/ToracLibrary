@@ -244,8 +244,7 @@ namespace ToracLibrary.DIContainer
         /// <param name="RegisteredObjectsInContainer">Registered objects in the container</param>
         /// <param name="FactoryName">Factory name if there are more</param>
         /// <param name="TypeToResolve">Type to resolve</param>
-        /// <returns>BaseRegisteredObject. Null if not found</returns>
-        /// <remarks>will throw errors if more then 1 registered object is found</remarks>
+        /// <returns>BaseRegisteredObject. Throws an TypeNotRegisteredException exception if no item is found</returns>
         private static RegisteredUnTypedObject FindRegisterdObject(IDictionary<Tuple<string, Type>, RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
         {
             //configuration to try to get from the dictionary
@@ -258,32 +257,8 @@ namespace ToracLibrary.DIContainer
                 return TryToGetConfiguration;
             }
 
-            //if we still can't find it, check just for the type. This scenario would be a secondary type doesn't know which factory name it's set with
-            //are we checking for factory names (let's cache this in a variable
-            bool CheckingForFactoryNames = !string.IsNullOrEmpty(FactoryName);
-
-            //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
-            //so we just grab 2..if there are 2 we don't need to loop through the rest of the items in the container
-            var FoundRegisteredObjects = (from DataSet in RegisteredObjectsInContainer
-                                          where DataSet.Key.Item2 == TypeToResolve
-                                          && (CheckingForFactoryNames ? FactoryName == DataSet.Key.Item1 : true)
-                                          select DataSet.Value).Take(2).ToArray();
-
-            //did we find any items? (decided to use length since it's a property rather then Any() which will have to create an enumerator)
-            if (FoundRegisteredObjects.Length == 0)
-            {
-                //throw an exception
-                throw new TypeNotRegisteredException(TypeToResolve);
-            }
-
-            if (FoundRegisteredObjects.Length != 1)
-            {
-                //do we have too many items registered? They didn't use factory names
-                throw new MultipleTypesFoundException(TypeToResolve);
-            }
-
-            //we have a found registered object
-            return FoundRegisteredObjects[0];
+            //can't find any items
+            throw new TypeNotRegisteredException(TypeToResolve);
         }
 
         #endregion
