@@ -29,7 +29,7 @@ namespace ToracLibrary.HtmlParsing
             }
 
             //go try to grab the class attribute
-            var ClassCheck = NodeToLookIn.Attributes.FirstOrDefault(x => x.Name.Equals("class", StringComparison.OrdinalIgnoreCase));
+            var ClassCheck = NodeToLookIn.Attributes["class"];
 
             //did we find it?
             if (ClassCheck == null)
@@ -49,17 +49,14 @@ namespace ToracLibrary.HtmlParsing
         /// <param name="AttributeValue">attribute value to set</param>
         public static void AddClassValueToClass(this HtmlNode NodeToAddClassInto, string AttributeValue)
         {
-            //method handles multiple "class" values. The default in html agility pack just jacks up the class and add's multiple class attributes
-            const string ClassName = "class";
-
             //go check if we have that attribute
-            var ClassAttribute = NodeToAddClassInto.Attributes.FirstOrDefault(x => x.Name.Equals(ClassName, StringComparison.OrdinalIgnoreCase));
+            var ClassAttribute = NodeToAddClassInto.Attributes["class"];
 
             //do we have a class attribute already specified?
             if (ClassAttribute == null)
             {
                 //we can just use the default method
-                NodeToAddClassInto.Attributes.Add(ClassName, AttributeValue);
+                NodeToAddClassInto.Attributes.Add("class", AttributeValue);
 
                 //exit the method
                 return;
