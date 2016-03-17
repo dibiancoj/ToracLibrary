@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace ToracLibrary.Core.Countries
         /// </summary>
         /// <returns>IImmutableDictionary of int (country id) - Country Code Info</returns>
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
-        public static IImmutableDictionary<int, CountryCodeInfo> CountryListing()
+        public static IDictionary<int, CountryCodeInfo> CountryListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
             //because this is a really small xml document, an xml reader is actually slower!
@@ -67,7 +66,7 @@ namespace ToracLibrary.Core.Countries
             }
 
             //return the dictionary
-            return ReturnObject.ToImmutableDictionary();
+            return ReturnObject;
         }
 
         #endregion

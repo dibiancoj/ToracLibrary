@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace ToracLibrary.Core.Mathematical.Mode
             HowManyTimesUsed = HowManyTimesTheModeWasUsedToSet;
 
             //set the mean
-            Mean = MeanMostUsedItemsInDataSetToSet.ToImmutableHashSet();
+            Mean = new HashSet<T>(MeanMostUsedItemsInDataSetToSet);
         }
 
         #endregion
@@ -44,7 +43,7 @@ namespace ToracLibrary.Core.Mathematical.Mode
         /// <summary>
         /// The mean. The numbers which were the most used numbers in the dataset
         /// </summary>
-        public IImmutableSet<T> Mean { get; }
+        public ISet<T> Mean { get; }
 
         #endregion
 

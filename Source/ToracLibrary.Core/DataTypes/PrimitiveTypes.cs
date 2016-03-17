@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,10 +17,10 @@ namespace ToracLibrary.Core.DataTypes
         /// Gives you the base types. The PropertyInfo.PropertyType.IsPrimitive doesnt give you string and the nullable types. This class will give you all the primitive types include nullable values
         /// </summary>
         /// <returns>List Of Types</returns>
-        public static IImmutableSet<Type> PrimitiveTypesSelect()
+        public static ISet<Type> PrimitiveTypesSelect()
         {
             //go return the types
-            return ImmutableHashSet.Create(
+            return new HashSet<Type>(new Type[] {
                 typeof(string),
                 typeof(bool),
                 typeof(bool?),
@@ -38,8 +37,7 @@ namespace ToracLibrary.Core.DataTypes
                 typeof(float),
                 typeof(float?),
                 typeof(decimal),
-                typeof(decimal?)
-            );
+                typeof(decimal?) });
         }
 
     }

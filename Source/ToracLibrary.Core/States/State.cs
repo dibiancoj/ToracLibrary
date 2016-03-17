@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +42,7 @@ namespace ToracLibrary.Core.States
         /// </summary>
         /// <returns>IImmutableDictionary of string - string</returns>
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
-        public static IImmutableDictionary<string, string> UnitedStatesStateListing()
+        public static IDictionary<string, string> UnitedStatesStateListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
             //because this is a really small xml document, an xml reader is actually slower!
@@ -59,7 +58,7 @@ namespace ToracLibrary.Core.States
             }
 
             //return the dictionary
-            return ReturnObject.ToImmutableDictionary();
+            return ReturnObject;
         }
 
         #endregion
@@ -89,7 +88,7 @@ namespace ToracLibrary.Core.States
         /// </summary>
         /// <returns>IImmutableDictionary of string - string</returns>
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
-        public static IImmutableDictionary<string, string> CanadaProvincesListing()
+        public static IDictionary<string, string> CanadaProvincesListing()
         {
             //xml is validated in a unit test against the schema. We don't need to keep validating it on each method call. This will make the method faster
             //because this is a really small xml document, an xml reader is actually slower!
@@ -105,7 +104,7 @@ namespace ToracLibrary.Core.States
             }
 
             //return the dictionary
-            return ReturnObject.ToImmutableDictionary();
+            return ReturnObject;
         }
 
         #endregion
