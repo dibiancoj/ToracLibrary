@@ -60,11 +60,11 @@ namespace ToracLibrary.Core.Mathematical.Forecasting.LinearRegression
         public static LinearRegressionResults CalculateLinearRegression(IEnumerable<double> X, IEnumerable<double> Y)
         {
             //let's push the IEnumerable to arrays so we can validate the count and then pass it into Tally Up Figures (need something where we can use the index)
-            IList<double> XValues = X.ToArray();
-            IList<double> YValues = Y.ToArray();
+            var XValues = X.ToArray();
+            var YValues = Y.ToArray();
 
             //Validate to make sure they are the same size
-            if (XValues.Count != YValues.Count)
+            if (XValues.Length != YValues.Length)
             {
                 throw new ArgumentOutOfRangeException("The X And Y Data Points Are Not The Same Length. Please Verify Your Data Points");
             }
