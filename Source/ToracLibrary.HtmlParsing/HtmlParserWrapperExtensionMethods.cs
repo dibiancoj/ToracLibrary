@@ -22,12 +22,6 @@ namespace ToracLibrary.HtmlParsing
         /// <returns>does it contain that class</returns>
         public static bool ElementHasClassValue(this HtmlNode NodeToLookIn, string ClassNameToLookFor)
         {
-            //do we have any attributes
-            if (!NodeToLookIn.HasAttributes)
-            {
-                return false;
-            }
-
             //go try to grab the class attribute
             var ClassCheck = NodeToLookIn.Attributes["class"];
 

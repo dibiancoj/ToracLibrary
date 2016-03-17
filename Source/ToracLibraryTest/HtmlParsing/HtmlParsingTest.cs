@@ -26,7 +26,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             //let's register my dummy cache container
             DIContainer.Register<HtmlParserWrapper>()
                 .WithFactoryName(HtmlParserFactoryName)
-                .WithConstructorImplementation((di) => new HtmlParserWrapper("<html><span class='TestClass1'>SpanText</span></html>"));
+                .WithConstructorImplementation((di) => new HtmlParserWrapper(string.Format($"<html><span class='{ClassNameInSpan}'>SpanText</span></html>")));
         }
 
         #endregion
@@ -37,6 +37,11 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
         /// factory name for the di container
         /// </summary>
         private const string HtmlParserFactoryName = "HtmlParserFactoryName";
+
+        /// <summary>
+        /// Class name in span that we can test with
+        /// </summary>
+        private const string ClassNameInSpan = "TestClass1";
 
         #endregion
 
@@ -56,7 +61,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             Assert.IsNotNull(SpanToTest);
 
             //does this have a positive class
-            Assert.IsTrue(SpanToTest.ElementHasClassValue("testclass1"));
+            Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
 
             //negative result
             Assert.IsFalse(SpanToTest.ElementHasClassValue("noclassmatch"));
@@ -76,16 +81,16 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             Assert.IsNotNull(SpanToTest);
 
             //make sure we see test class 1
-            Assert.IsTrue(SpanToTest.ElementHasClassValue("testclass1"));
+            Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
 
             //add a class that is already there (make sure it doesn't blow up
-            SpanToTest.AddClassValueToClass("testclass1");
+            SpanToTest.AddClassValueToClass(ClassNameInSpan);
 
             //make sure it's still there
-            Assert.IsTrue(SpanToTest.ElementHasClassValue("testclass1"));
+            Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
 
             //use a variable
-            var ClassNameToAdd = "testclass100";
+            const string ClassNameToAdd = "testclass100";
 
             //add another class
             SpanToTest.AddClassValueToClass(ClassNameToAdd);
@@ -108,7 +113,7 @@ namespace ToracLibraryTest.UnitsTest.HtmlParsing
             Assert.IsNotNull(SpanToTest);
 
             //does this have a positive class
-            Assert.IsTrue(SpanToTest.ElementHasClassValue("testclass1"));
+            Assert.IsTrue(SpanToTest.ElementHasClassValue(ClassNameInSpan));
 
             //negative result
             Assert.IsFalse(SpanToTest.ElementHasClassValue("noclassmatch"));
