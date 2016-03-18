@@ -53,8 +53,9 @@ namespace ToracLibrary.Log4NetAPI
         /// <summary>
         /// Constructor - Set up the log file
         /// </summary>
+        /// <param name="UseCallerMemberInfoInOutputTextToSet">Use the caller member stuff from the compiler services. This will give you line number and method name</param>
         /// <remarks>Class has immutable propeties</remarks>
-        public Log4NetWrapper(bool thisUseCallerMemberInfoInOutputText)
+        public Log4NetWrapper(bool UseCallerMemberInfoInOutputTextToSet)
         {
             //set the logger (when re-writting this was a static property. if this blows up move it below the XmlConfigurator.Configure() call)
             Logger = LogManager.GetLogger(typeof(Log4NetWrapper));
@@ -63,7 +64,7 @@ namespace ToracLibrary.Log4NetAPI
             XmlConfigurator.Configure();
 
             //set the boolean property
-            UseCallerMemberInfoInOutputText = thisUseCallerMemberInfoInOutputText;        
+            UseCallerMemberInfoInOutputText = UseCallerMemberInfoInOutputTextToSet;        
         }
 
         #endregion
