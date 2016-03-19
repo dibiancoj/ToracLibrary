@@ -48,6 +48,22 @@ namespace ToracLibrary.Log4NetAPI
 
         #endregion
 
+        #region Static Constructor
+
+        /// <summary>
+        /// Static constructor
+        /// </summary>
+        static Log4NetWrapper()
+        {
+            //set the logger
+            Logger = LogManager.GetLogger(typeof(Log4NetWrapper));
+
+            //go grab the configuration
+            XmlConfigurator.Configure();
+        }
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -57,14 +73,11 @@ namespace ToracLibrary.Log4NetAPI
         /// <remarks>Class has immutable propeties</remarks>
         public Log4NetWrapper(bool UseCallerMemberInfoInOutputTextToSet)
         {
-            //set the logger (when re-writting this was a static property. if this blows up move it below the XmlConfigurator.Configure() call)
-            Logger = LogManager.GetLogger(typeof(Log4NetWrapper));
-
             //go configure the log file
-            XmlConfigurator.Configure();
+            // XmlConfigurator.Configure();
 
             //set the boolean property
-            UseCallerMemberInfoInOutputText = UseCallerMemberInfoInOutputTextToSet;        
+            UseCallerMemberInfoInOutputText = UseCallerMemberInfoInOutputTextToSet;
         }
 
         #endregion
@@ -74,7 +87,7 @@ namespace ToracLibrary.Log4NetAPI
         /// <summary>
         /// Holds the logging mechanism to write to the log file
         /// </summary>
-        public ILog Logger { get; }
+        public static ILog Logger { get; }
 
         /// <summary>
         /// If true will use the caller member info and append your output text to show you calling method name and line number
