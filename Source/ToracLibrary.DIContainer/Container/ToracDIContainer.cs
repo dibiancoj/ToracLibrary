@@ -257,8 +257,45 @@ namespace ToracLibrary.DIContainer
                 return TryToGetConfiguration;
             }
 
-            //can't find any items
-            throw new TypeNotRegisteredException(TypeToResolve);
+            //**** so you are asking how do we get down there... ****
+            //when we go through the dependencies for an item. So Class 1's constructor takes a ViewContext. We need to go through
+            //the container for a view context. Since we don't know the factory name if there was one.
+            //so what we do is search for a single item of that type and return it!!!!
+            //don't remove the code below
+
+            //if we still can't find it, check just for the type. This scenario would be a secondary type doesn't know which factory name it's set with
+            //are we checking for factory names (let's cache this in a variable
+
+            //go start the query and try to grab the specific type we are looking for
+            var FoundRegisteredObjectsQuery = RegisteredObjectsInContainer.Where(x => x.Key.Item2 == TypeToResolve).AsQueryable();
+
+            //do we have a factory name we want to search with?
+            if (!string.IsNullOrEmpty(FactoryName))
+            {
+                //add to the where clause
+                FoundRegisteredObjectsQuery = FoundRegisteredObjectsQuery.Where(x => x.Key.Item1 == FactoryName);
+            }
+
+            //now go grab the results
+            //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
+            var FoundRegisteredObjectsResults = FoundRegisteredObjectsQuery.Select(x => x.Value).Take(2).ToArray();
+
+            //did we find any items? (decided to use length since it's a property rather then Any() which will have to create an enumerator)
+            if (FoundRegisteredObjectsResults.Length == 0)
+            {
+                //throw an exception
+                throw new TypeNotRegisteredException(TypeToResolve);
+            }
+
+            //do we have more then 1? we need to blow this up and tell the calling code that we have more then 1 type found.
+            if (FoundRegisteredObjectsResults.Length != 1)
+            {
+                //do we have too many items registered? They didn't use factory names
+                throw new MultipleTypesFoundException(TypeToResolve);
+            }
+
+            //we have a found registered object
+            return FoundRegisteredObjectsResults[0];
         }
 
         #endregion

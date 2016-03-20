@@ -13,7 +13,7 @@ namespace ToracLibrary.Log4NetAPI
     /// <summary>
     /// Wrapper Class For Log 4 Net. Provides Ability To Use Log 4 Net. (http://logging.apache.org/log4net/)
     /// </summary>
-    public class Log4NetWrapper
+    public static class Log4NetWrapper
     {
 
         //this uses features from .net 4.5 (System.Runtime.CompilerServices -- > CallerMemberName, & CallerLineNumber
@@ -64,24 +64,6 @@ namespace ToracLibrary.Log4NetAPI
 
         #endregion
 
-        #region Constructor
-
-        /// <summary>
-        /// Constructor - Set up the log file
-        /// </summary>
-        /// <param name="UseCallerMemberInfoInOutputTextToSet">Use the caller member stuff from the compiler services. This will give you line number and method name</param>
-        /// <remarks>Class has immutable propeties</remarks>
-        public Log4NetWrapper(bool UseCallerMemberInfoInOutputTextToSet)
-        {
-            //go configure the log file
-            // XmlConfigurator.Configure();
-
-            //set the boolean property
-            UseCallerMemberInfoInOutputText = UseCallerMemberInfoInOutputTextToSet;
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -89,140 +71,18 @@ namespace ToracLibrary.Log4NetAPI
         /// </summary>
         public static ILog Logger { get; }
 
-        /// <summary>
-        /// If true will use the caller member info and append your output text to show you calling method name and line number
-        /// </summary>
-        public bool UseCallerMemberInfoInOutputText { get; set; }
-
         #endregion
 
-        #region Methods
+        //Level's you can write. 
+        //ALL
+        //DEBUG
+        //INFO
+        //WARN
+        //ERROR
+        //FATAL
+        //OFF
 
-        #region Debug
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Debug Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void DebugMessageToLog(string MessageToWrite,
-                                     [CallerMemberName]string SourceMemberName = "",
-                                     [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Debug(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber));
-        }
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Debug Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="ExceptionToWrite">Exception To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void DebugMessageToLog(string MessageToWrite, Exception ExceptionToWrite,
-                                      [CallerMemberName]string SourceMemberName = "",
-                                      [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Debug(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber), ExceptionToWrite);
-        }
-
-        #endregion
-
-        #region Error
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Error Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void ErrorMessageToLog(string MessageToWrite,
-                                     [CallerMemberName]string SourceMemberName = "",
-                                     [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Error(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber));
-        }
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Error Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="ExceptionToWrite">Exception To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void ErrorMessageToLog(string MessageToWrite, Exception ExceptionToWrite,
-                                     [CallerMemberName]string SourceMemberName = "",
-                                     [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Error(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber), ExceptionToWrite);
-        }
-
-        #endregion
-
-        #region Warning
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Warn Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void WarnMessageToLog(string MessageToWrite,
-                                    [CallerMemberName]string SourceMemberName = "",
-                                    [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Warn(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber));
-        }
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Warn Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="ExceptionToWrite">Exception To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void WarnMessageToLog(string MessageToWrite, Exception ExceptionToWrite,
-                                    [CallerMemberName]string SourceMemberName = "",
-                                    [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Warn(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber), ExceptionToWrite);
-        }
-
-        #endregion
-
-        #region Fatal
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Fatal Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void FatalMessageToLog(string MessageToWrite,
-                                     [CallerMemberName]string SourceMemberName = "",
-                                     [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Fatal(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber));
-        }
-
-        /// <summary>
-        /// Writes to the Log 4 Net Log. (Fatal Notification)
-        /// </summary>
-        /// <param name="MessageToWrite">Message To Write</param>
-        /// <param name="ExceptionToWrite">Exception To Write</param>
-        /// <param name="SourceMemberName">Source Member Name - Don't Pass In, Compiler Will Set It At Run Time</param>
-        /// <param name="SourceLineNumber">Source Line Number</param>
-        public void FatalMessageToLog(string MessageToWrite, Exception ExceptionToWrite,
-                                     [CallerMemberName]string SourceMemberName = "",
-                                     [CallerLineNumber]int SourceLineNumber = -1)
-        {
-            Logger.Fatal(BuildOutputHeader(MessageToWrite, SourceMemberName, SourceLineNumber), ExceptionToWrite);
-        }
-
-        #endregion
-
-        #region Helper Methods
+        #region Public Helper Methods
 
         /// <summary>
         /// Builds the output text which contains more informaiton (method name, source line number)
@@ -231,22 +91,14 @@ namespace ToracLibrary.Log4NetAPI
         /// <param name="SourceMemberName">Source Member Name</param>
         /// <param name="SourceLineNumber">Source Line Number</param>
         /// <returns>Output Message</returns>
-        private string BuildOutputHeader(string MessageToWrite, string SourceMemberName, int SourceLineNumber)
+        public static string BuildOutputHeader(string MessageToWrite, [CallerMemberName]string SourceMemberName = "", [CallerLineNumber]int SourceLineNumber = -1)
         {
-            //do we want to use the calling member info 
-            if (UseCallerMemberInfoInOutputText)
-            {
-                //return the formatted string
-                return $"MethodInfo: {SourceMemberName} [{SourceLineNumber}] - {MessageToWrite}";
-            }
-
-            //don't want to format, just output whatever the end developer wanted
-            return MessageToWrite;
+            //return the formatted string
+            return $"MethodInfo: {SourceMemberName} [{SourceLineNumber}] - {MessageToWrite}";
         }
 
         #endregion
 
-        #endregion
     }
 
 }
