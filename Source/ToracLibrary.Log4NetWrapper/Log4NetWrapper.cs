@@ -46,6 +46,28 @@ namespace ToracLibrary.Log4NetAPI
         //    </appender>
         //</log4net>
 
+        /*if you want to archive the files by date use (see rolling style and date pattern below
+         <log4net>
+            <root>
+              <level value = "DEBUG" />
+              < appender -ref ref="LogFileAppender" />
+            </root>
+            <appender name = "LogFileAppender" type="log4net.Appender.RollingFileAppender">
+              <param name = "File" value="C:\PortalTestWebUIErrors\log.txt" />
+              <param name = "AppendToFile" value="true" />
+              <rollingStyle value = "Date" />
+              < datePattern value="yyyyMMdd" />
+              <!--<rollingStyle value = "Size" />
+              < maxSizeRollBackups value="10" />
+              <maximumFileSize value = "1MB" /> -->
+              < staticLogFileName value="true" />
+              <layout type = "log4net.Layout.PatternLayout" >
+                < param name="ConversionPattern" value="%-5p - %d{yyyy-MM-dd hh:mm:ss} | %m%n - %C{1}.%M " />
+              </layout>
+            </appender>
+            </log4net>
+        */
+
         #endregion
 
         #region Static Constructor
