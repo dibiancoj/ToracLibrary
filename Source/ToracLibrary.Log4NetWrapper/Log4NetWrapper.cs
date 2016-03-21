@@ -68,6 +68,27 @@ namespace ToracLibrary.Log4NetAPI
             </log4net>
         */
 
+        /* you can set the property of the path or file name at run time using run time parameters...
+          <appender name="LogFileAppender" type="log4net.Appender.RollingFileAppender">
+            <file type="log4net.Util.PatternString" value="%property{Bla}/log.txt" />     <------ notice the %property{Bla}....
+            <!--<param name="File" value="%property{Bla}/log.txt" />-->
+            <param name="AppendToFile" value="true" />
+            <rollingStyle value="Size" />
+            <maxSizeRollBackups value="10" />
+            <maximumFileSize value="10MB" />
+            <staticLogFileName value="true" />
+            <layout type="log4net.Layout.PatternLayout">
+            <param name="ConversionPattern" value="%-5p - %d{yyyy-MM-dd hh:mm:ss} | %m%n - %C{1}.%M " />
+            </layout>
+            </appender>
+
+            then in code before you call anything
+            log4net.GlobalContext.Properties["Bla"] = "Jason";
+            var Logger = LogManager.GetLogger(typeof(Program));
+            XmlConfigurator.Configure();
+
+        */
+
         #endregion
 
         #region Static Constructor
