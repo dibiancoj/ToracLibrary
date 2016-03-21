@@ -46,24 +46,6 @@ namespace ToracLibrary.Log4NetAPI
         //    </appender>
         //</log4net>
 
-        /*
-        You can also add dynamic runtime properties such as
-         <param name="File" value="{LogDirectory}/log.txt" />
-
-            Then call the following to set it
-            
-            //set the logger
-            Logger = LogManager.GetLogger(typeof(LoggingService));
-
-            //reuse the web ui errors folder to write to the log. We know this is writable
-            log4net.GlobalContext.Properties["LogDirectory"] = System.Configuration.ConfigurationManager.AppSettings["WebUIErrors"];
-
-            //go grab the configuration
-            XmlConfigurator.Configure();
-
-
-        */
-
         #endregion
 
         #region Static Constructor
