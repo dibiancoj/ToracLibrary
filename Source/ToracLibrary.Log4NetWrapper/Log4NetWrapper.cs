@@ -87,6 +87,12 @@ namespace ToracLibrary.Log4NetAPI
             var Logger = LogManager.GetLogger(typeof(Program));
             XmlConfigurator.Configure();
 
+
+            you can also output session variables or session id by using ([%aspnet-request....
+            <layout type="log4net.Layout.PatternLayout">
+                <param name="ConversionPattern" value="%-5p - %d{yyyy-MM-dd hh:mm:ss} | %m%n - %C{1}.%M [%aspnet-request{ASP.NET_SessionId}]" />
+            </layout>
+
         */
 
         #endregion
