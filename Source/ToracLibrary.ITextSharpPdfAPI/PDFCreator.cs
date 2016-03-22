@@ -320,13 +320,13 @@ namespace ToracLibrary.ITextSharpPdfAPI
         public void MyCellWritableTextField(PdfPCell CellToAddTextFieldOn, string FieldNameToUse)
         {
             //this is for acrobat, editable field
-            var textField = new TextField(Writer, new Rectangle(0, 0, 0, 0), FieldNameToUse);
+            var TextFieldToUse = new TextField(Writer, new Rectangle(0, 0, 0, 0), FieldNameToUse);
             //{
             //    FontSize = 12
             //};
 
             //add the cell event so we get the adobe fill in
-            CellToAddTextFieldOn.CellEvent = new FieldPositioningEvents(Writer, textField.GetTextField());
+            CellToAddTextFieldOn.CellEvent = new FieldPositioningEvents(Writer, TextFieldToUse.GetTextField());
         }
 
         #endregion
