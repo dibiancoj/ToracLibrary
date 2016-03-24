@@ -64,6 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{20BD18E2-78E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP", "ASP", "{B601D20B-28F9-4743-B310-7AF0401ADE64}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt = Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt
 		GetConfigurationForSpecificSection.txt = GetConfigurationForSpecificSection.txt
 		ModifyUrlsOrGetSpecificPartOfUrl.txt = ModifyUrlsOrGetSpecificPartOfUrl.txt
 		Docs\Examples\ASP\WebConfigTransformation.txt = Docs\Examples\ASP\WebConfigTransformation.txt
@@ -138,6 +139,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Serialization.JasonSerializer", "Source\ToracLibrary.Serialization.JasonSerializer\ToracLibrary.Serialization.JasonSerializer.csproj", "{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HtmlParsing", "Source\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj", "{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FormsAuthWithRoles", "FormsAuthWithRoles", "{E91307DA-AF3D-4C86-B35D-7CDD705B72ED}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt = Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -269,5 +275,6 @@ Global
 		{699639FD-86BE-4493-83D7-1811A6CBCC95} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{AD38F21A-8A57-45B0-A3DA-5E85A9038C2B} = {264DB62C-6C82-490B-922A-6369B851BB37}
 		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
+		{E91307DA-AF3D-4C86-B35D-7CDD705B72ED} = {B601D20B-28F9-4743-B310-7AF0401ADE64}
 	EndGlobalSection
 EndGlobal
