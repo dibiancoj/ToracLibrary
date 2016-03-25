@@ -10,7 +10,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation.Implementation.CacheActiv
 {
 
     /// <summary>
-    /// Base class for any implementation that wan'ts to cache the constructor activator. Mainly used so we don't duplicate code
+    /// Base class for any implementation that want's to cache the constructor activator. Mainly used so we don't duplicate code
     /// </summary>
     /// <remarks>Only abstract so we can make this class be inherited. I guess it doesn't need to be, but for now it was designed to be inherited for per thread scope and transient scope</remarks>
     internal abstract class CacheActivatorBaseScopedObject
