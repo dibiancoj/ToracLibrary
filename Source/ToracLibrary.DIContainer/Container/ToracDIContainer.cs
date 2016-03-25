@@ -231,7 +231,6 @@ namespace ToracLibrary.DIContainer
 
             //we have the func that creates the object, go invoke it and return the result
             return RegisteredObjectToBuild.CreateObjectWithThisConstructor.Invoke(this);
-
         }
 
         #endregion
@@ -258,9 +257,16 @@ namespace ToracLibrary.DIContainer
             }
 
             //**** so you are asking how do we get down there... ****
-            //when we go through the dependencies for an item. So Class 1's constructor takes a ViewContext. We need to go through
-            //the container for a view context. Since we don't know the factory name if there was one.
-            //so what we do is search for a single item of that type and return it!!!!
+
+            //the only child in the container has a factory name. So if we have 1 and only 1 item with a factory name we need to resolve the child. 
+
+            //Container1.Register<Child>().WithFactoryName("F1");
+            //Container1.Register<Tester>();
+
+            //class Tester
+            //{
+            //      Tester(Child child)
+            //}
             //don't remove the code below
 
             //if we still can't find it, check just for the type. This scenario would be a secondary type doesn't know which factory name it's set with
