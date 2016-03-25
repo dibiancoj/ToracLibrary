@@ -284,7 +284,7 @@ namespace ToracLibrary.DIContainer
 
             //now go grab the results
             //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
-            var FoundRegisteredObjectsResults = FoundRegisteredObjectsQuery.Select(x => x.Value).Take(2).ToArray();
+            var FoundRegisteredObjectsResults = FoundRegisteredObjectsQuery.Take(2).Select(x => x.Value).ToArray();
 
             //did we find any items? (decided to use length since it's a property rather then Any() which will have to create an enumerator)
             if (FoundRegisteredObjectsResults.Length == 0)
