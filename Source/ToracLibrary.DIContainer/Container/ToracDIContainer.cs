@@ -267,20 +267,23 @@ namespace ToracLibrary.DIContainer
             //{
             //      Tester(Child child)
             //}
-            //don't remove the code below
 
-            //if we still can't find it, check just for the type. This scenario would be a secondary type doesn't know which factory name it's set with
-            //are we checking for factory names (let's cache this in a variable
+            //at this point we should not have a factory name!
+            if (!string.IsNullOrEmpty(FactoryName))
+            {
+                //this is only called when we are resolving a single child with a factory name.
+                throw new ArgumentOutOfRangeException("Factory Name Should Not Be Filled In This Part Of The Method");
+            }
 
             //go start the query and try to grab the specific type we are looking for
             var FoundRegisteredObjectsQuery = RegisteredObjectsInContainer.Where(x => x.Key.Item2 == TypeToResolve).AsQueryable();
 
             //do we have a factory name we want to search with?
-            if (!string.IsNullOrEmpty(FactoryName))
-            {
-                //add to the where clause
-                FoundRegisteredObjectsQuery = FoundRegisteredObjectsQuery.Where(x => x.Key.Item1 == FactoryName);
-            }
+            //if (!string.IsNullOrEmpty(FactoryName))
+            //{
+            //    //add to the where clause
+            //    FoundRegisteredObjectsQuery = FoundRegisteredObjectsQuery.Where(x => x.Key.Item1 == FactoryName);
+            //}
 
             //now go grab the results
             //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
