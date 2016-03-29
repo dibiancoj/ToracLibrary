@@ -1,0 +1,5 @@
+Nuget Commands
+Get-Package -ListAvailable -filter MSKCC.Portal.Common -allversion (get the version listing)
+Install-Package MYMSKCC.Portal.Common -Version 1.2.0 (install a specific version)
+Update-Package -Reinstall (reinstalls all packages)
+Update-Package -Reinstall MYMSKCC.Portal.Common (reinstalls a specific package)
