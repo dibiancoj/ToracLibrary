@@ -1,0 +1,2 @@
+1. query user /server server123		 (find out who is logged into the server)
+2. reset session <sessionid> /server:servername (boot them off the server - session id is from #1) 
