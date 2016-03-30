@@ -3,3 +3,25 @@ Get-Package -ListAvailable -filter MSKCC.Portal.Common -allversion (get the vers
 Install-Package MYMSKCC.Portal.Common -Version 1.2.0 (install a specific version)
 Update-Package -Reinstall (reinstalls all packages)
 Update-Package -Reinstall MYMSKCC.Portal.Common (reinstalls a specific package)
+Update-Package -Reinstall --Project ToracGolf
+
+
+
+ NuGet.Config (if you want specific settings at a project level)
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <config>
+    <add key="repositoryPath" value="../../NuGetPackages" />
+  </config>
+  <solution>
+    <add key="disableSourceControlIntegration" value="true" />
+  </solution>
+  <activePackageSource>
+    <add key="All" value="(Aggregate source)" />
+  </activePackageSource>
+  <packageSources>
+    <add key="Sitefinity" value="http://nuget.sitefinity.com/nuget" />
+    <add key="PortalProd" value="http://vsmsktwebprtl3/PortalNuget/nuget" />
+    <add key="PortalDev" value="http://vsmsktwebprtl3/PortalNugetDEV/nuget" />
+  </packageSources>
+</configuration>
