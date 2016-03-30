@@ -3,7 +3,7 @@ Get-Package -ListAvailable -filter MSKCC.Portal.Common -allversion (get the vers
 Install-Package MYMSKCC.Portal.Common -Version 1.2.0 (install a specific version)
 Update-Package -Reinstall (reinstalls all packages)
 Update-Package -Reinstall MYMSKCC.Portal.Common (reinstalls a specific package)
-Update-Package -Reinstall --Project ToracGolf
+Update-Package -Reinstall -Project ToracGolf
 
 
 
