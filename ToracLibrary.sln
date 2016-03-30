@@ -101,18 +101,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Graphics", "So
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml Columns", "Xml Columns", "{42C99685-BF13-4DA7-856B-D1F4FBDC3D18}"
 	ProjectSection(SolutionItems) = preProject
-		Docs\Examples\Sql\CrossApplyWithXmlColumn.sql = Docs\Examples\Sql\CrossApplyWithXmlColumn.sql
-		Docs\Examples\Sql\DeleteNode.sql = Docs\Examples\Sql\DeleteNode.sql
-		Docs\Examples\Sql\DynamicUpdateWithVariableOrColumn.sql = Docs\Examples\Sql\DynamicUpdateWithVariableOrColumn.sql
-		Docs\Examples\Sql\ExistsQuery.sql = Docs\Examples\Sql\ExistsQuery.sql
-		Docs\Examples\Sql\InClause.sql = Docs\Examples\Sql\InClause.sql
-		Docs\Examples\Sql\Insert.sql = Docs\Examples\Sql\Insert.sql
-		Docs\Examples\Sql\InsertNode.sql = Docs\Examples\Sql\InsertNode.sql
-		Docs\Examples\Sql\QueryXMLColumnDataType.sql = Docs\Examples\Sql\QueryXMLColumnDataType.sql
-		Docs\Examples\Sql\Select.sql = Docs\Examples\Sql\Select.sql
-		Docs\Examples\Sql\Update.sql = Docs\Examples\Sql\Update.sql
-		Docs\Examples\Sql\UpdateXmlAttributeColumn.sql = Docs\Examples\Sql\UpdateXmlAttributeColumn.sql
-		Docs\Examples\Sql\UpdateXmlElementColumn.sql = Docs\Examples\Sql\UpdateXmlElementColumn.sql
+		Docs\Examples\Sql\Xml Column\CrossApplyWithXmlColumn.sql = Docs\Examples\Sql\Xml Column\CrossApplyWithXmlColumn.sql
+		Docs\Examples\Sql\Xml Column\DeleteNode.sql = Docs\Examples\Sql\Xml Column\DeleteNode.sql
+		Docs\Examples\Sql\Xml Column\ExistsQuery.sql = Docs\Examples\Sql\Xml Column\ExistsQuery.sql
+		Docs\Examples\Sql\Xml Column\InClause.sql = Docs\Examples\Sql\Xml Column\InClause.sql
+		Docs\Examples\Sql\Xml Column\Insert.sql = Docs\Examples\Sql\Xml Column\Insert.sql
+		Docs\Examples\Sql\Xml Column\InsertNode.sql = Docs\Examples\Sql\Xml Column\InsertNode.sql
+		Docs\Examples\Sql\Xml Column\QueryXMLColumnDataType.sql = Docs\Examples\Sql\Xml Column\QueryXMLColumnDataType.sql
+		Docs\Examples\Sql\Xml Column\Select.sql = Docs\Examples\Sql\Xml Column\Select.sql
+		Docs\Examples\Sql\Xml Column\Update.sql = Docs\Examples\Sql\Xml Column\Update.sql
+		Docs\Examples\Sql\Xml Column\UpdateXmlAttributeColumn.sql = Docs\Examples\Sql\Xml Column\UpdateXmlAttributeColumn.sql
+		Docs\Examples\Sql\Xml Column\UpdateXmlElementColumn.sql = Docs\Examples\Sql\Xml Column\UpdateXmlElementColumn.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity DI Container", "Unity DI Container", "{4658C236-FBCE-44F7-BEBD-809A0316CFE6}"
