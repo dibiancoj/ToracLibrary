@@ -190,6 +190,13 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
                 return false;
             }
 
+            //make sure there is something after the . (last index) 
+            //last index is a 0 based index...length is a 1 based index (putting this here incase it fails we don't need to go find the @ symbol - little faster)
+            if (LastIndexOfDot == (EmailAddressToValidate.Length - 1))
+            {
+                return false;
+            }
+
             //can't contain any spaces
             if (EmailAddressToValidate.Contains(" "))
             {
@@ -207,13 +214,6 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
             // Needs the @ symbol before the .
             if (IndexOfAtSymbol > LastIndexOfDot)
-            {
-                return false;
-            }
-
-            //make sure there is something after the . (last index) 
-            //last index is a 0 based index...length is a 1 based index
-            if (LastIndexOfDot == (EmailAddressToValidate.Length - 1))
             {
                 return false;
             }
