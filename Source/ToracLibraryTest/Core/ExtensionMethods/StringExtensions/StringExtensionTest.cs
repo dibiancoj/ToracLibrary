@@ -151,6 +151,9 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             //try positive email addresses
             Assert.IsTrue("jason@aol.com".IsValidEmailAddress());
             Assert.IsTrue("JoeJ@gmail.com".IsValidEmailAddress());
+
+            //test a sub domain
+            Assert.IsTrue("jason@my.torac.com".IsValidEmailAddress());
         }
 
         #endregion
