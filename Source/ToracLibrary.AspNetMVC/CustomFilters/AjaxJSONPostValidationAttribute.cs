@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
 {
@@ -93,6 +94,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
         /// On the method executing it will run this method. 
         /// </summary>
         /// <param name="filterContext">filter context running</param>
+        [MethodIsNotTestable("Unit Test Not Implemented Yet")]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //make sure you tack on this to your method you want to run this for
