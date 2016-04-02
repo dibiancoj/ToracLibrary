@@ -15,6 +15,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
     /// </summary>
     public class AjaxJSONPostValidationAttribute : ActionFilterAttribute
     {
+        //* note: jquery.validate updates the validation as the user types. Adding to solution will have the real time response for the user
 
         /* javascript needed
          *    $(document).ready(function () {
@@ -39,17 +40,52 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
         });
 
         function RunValidationCheck(errObject) {
-            debugger;
+
+            //grab all the validation elements
+            var validationElements = $('.field-validation-valid');
+
+            //if we have no errors the clear all the errors
             if (errObject == null) {
-                $('.field-validation-valid').html('');
+                validationElements.html('');
             }
             else if (errObject.HasValidationErrors) {
-                $.each(errObject.ErrorLookup, function (key, value) {
-                    if (value != null) {
-                        $('[data-valmsg-for=' + value.Key + ']').html(value.Errors[0]);
+
+                //loop through the validation elements
+                for (var i = 0; i < validationElements.length; i++) {
+                    
+                    //grab the element
+                    var element = $(validationElements[i]);
+
+                    //go try to find this error span in the list
+                    var errorFound = FindInList(element.attr('data-valmsg-for'), errObject.ErrorLookup);
+
+                    //did we find it in the list?
+                    if (errorFound == null) {
+
+                        //this element is not an error anymore...clear it out
+                        element.html('');
                     }
-                });
+                    else {
+
+                        //this element has an error...set the text
+                        element.html(errorFound.Errors[0]);
+                    }
+
+                }
             }
+        }
+
+        function FindInList(key, list) {
+            //loop through the list and try to find the error by element key
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].Key == key) {
+                    //this element has an error
+                    return list[i];
+                }
+            }
+
+            //this element doesn't have an error
+            return null;
         }
          */
 
