@@ -16,7 +16,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
     /// </summary>
     public class AjaxJSONPostValidationAttribute : ActionFilterAttribute
     {
-        //* note: jquery.validate updates the validation as the user types. Adding to solution will have the real time response for the user
+        //* note: jquery.validate updates the validation as the user types. Adding to solution will have the real time response for the user.
+        //you will also need the elements to be in a form if you want the real time as you type. If they aren't in a form then it will be updated only when going to the server
 
         /* javascript needed
          *    $(document).ready(function () {
