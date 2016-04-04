@@ -67,6 +67,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP", "ASP", "{B601D20B-28F
 		Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt = Docs\Examples\ASP\FormsAuthenticationWithRoles\FormsAuthenticationWithRoles.txt
 		GetConfigurationForSpecificSection.txt = GetConfigurationForSpecificSection.txt
 		ModifyUrlsOrGetSpecificPartOfUrl.txt = ModifyUrlsOrGetSpecificPartOfUrl.txt
+		Docs\Examples\ASP\OtherFileTransforms.txt = Docs\Examples\ASP\OtherFileTransforms.txt
 		Docs\Examples\ASP\WebConfigTransformation.txt = Docs\Examples\ASP\WebConfigTransformation.txt
 	EndProjectSection
 EndProject
