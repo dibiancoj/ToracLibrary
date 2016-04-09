@@ -1,0 +1,38 @@
+If you have a scenario where you need to flip between MyAppDebug.config and MyAppProd.config
+
+
+In solution, right click, properties
+
+in the post build: 
+copy "$(ProjectDir)\\test$(ConfigurationName).txt" "$(ProjectDir)\\testNew.txt"
+
+Use the macro button to view other variables you could use
+
+When the testNew.txt is there...include it in project.
+
+Then when you go to publish whichever the env is. (either debug or release) that config will be there
+
+
+Or you can put this in the .pubxml
+
+  <!-- copy external file and rename -->
+  <Target Name="CopyAndRename">
+    <ItemGroup>
+      <!-- path is relative to project root -->
+      <_CustomFiles Include="..\SitefinityEnvConfigs\QA\SiteSyncConfig.config" />
+      <_CustomFiles Include="..\SitefinityEnvConfigs\QA\DataConfig.config" />
+      <FilesForPackagingFromProject Include="%(_CustomFiles.Identity)">
+        <DestinationRelativePath>\App_Data\Sitefinity\Configuration\%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CopyAndRename;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CopyAndRename;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
