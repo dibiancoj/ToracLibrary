@@ -24,22 +24,8 @@ namespace ToracLibrary.Core.Exceptions
             //example on how to call this
             //var foundSqlException = ExceptionTypeFinder.RetrieveExceptionType<System.Data.SqlClient.SqlException>(ex);
 
-            //go cache the exception type so we don't have to keep casting it
-            Type TypeToCheckFor = typeof(T);
-
             //we are going to re-use the RetrieveExceptionHistory which will return all the exceptions in the tree.
-            foreach (Exception ExceptionFoundInTree in RetrieveExceptionHistoryLazy(ExceptionToLookIn))
-            {
-                //is this the type we are looking for?
-                if (ExceptionFoundInTree.GetType() == TypeToCheckFor)
-                {
-                    //this is the exception type we are looking for, so return it
-                    return (T)ExceptionFoundInTree;
-                }
-            }
-
-            //if we get here we couldn't find it...return null
-            return null;
+            return RetrieveExceptionHistoryLazy(ExceptionToLookIn).OfType<T>().FirstOrDefault();
         }
 
         /// <summary>
