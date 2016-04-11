@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.Email
 {
@@ -76,7 +77,7 @@ namespace ToracLibrary.Core.Email
         public SMTPEmailServer(string EmailServerAddressToSet, int PortNumberToSet, bool UseSSLConnectionToSet, string EmailServerUserNameToSet, string EmailServerUserPWToSet)
         {
             //Validate
-            if (string.IsNullOrEmpty(EmailServerAddressToSet))
+            if (EmailServerAddressToSet.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("No Email Server Address Specified.");
             }
@@ -86,12 +87,12 @@ namespace ToracLibrary.Core.Email
                 throw new ArgumentNullException("No Port Number Specified.");
             }
 
-            if (string.IsNullOrEmpty(EmailServerUserNameToSet))
+            if (EmailServerUserNameToSet.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("No Email User Name Specified.");
             }
 
-            if (string.IsNullOrEmpty(EmailServerUserPWToSet))
+            if (EmailServerUserPWToSet.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("No Email User's Password Specified.");
             }

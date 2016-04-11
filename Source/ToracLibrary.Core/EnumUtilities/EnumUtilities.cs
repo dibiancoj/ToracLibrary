@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.EnumUtilities
 {
@@ -61,7 +62,7 @@ namespace ToracLibrary.Core.EnumUtilities
             ValidateEnum<T>(false);
 
             //make sure the input value is filled out
-            if (!string.IsNullOrEmpty(InputToConvertToEnum))
+            if (InputToConvertToEnum.HasValue())
             {
                 //out value to try to cast it too
                 T ConvertedEnum;

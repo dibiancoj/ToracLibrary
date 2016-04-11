@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.WebRequests
@@ -196,7 +197,7 @@ namespace ToracLibrary.Core.WebRequests
             //to see how you can carry session state over in a web request, view ToracLibrary.AspNet.SessionState.SessionStateCarryOverInWebRequest.CarrySessionStateOverInWebRequest
 
             //Validation
-            if (string.IsNullOrEmpty(URL))
+            if (URL.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("URL Can't Be Null.");
             }
@@ -213,7 +214,7 @@ namespace ToracLibrary.Core.WebRequests
             }
 
             //if the user agent is not set then set it
-            if (!string.IsNullOrEmpty(UserAgent))
+            if (UserAgent.HasValue())
             {
                 //set the user agent
                 ((HttpWebRequest)RequestToMake).UserAgent = UserAgent;

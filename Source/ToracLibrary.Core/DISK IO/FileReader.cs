@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.DiskIO
 {
@@ -24,7 +25,7 @@ namespace ToracLibrary.Core.DiskIO
         public static string ReadFile(string FilePath)
         {
             //validate
-            if (string.IsNullOrEmpty(FilePath))
+            if (FilePath.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("File Path Can't Be Null.");
             }
@@ -52,7 +53,7 @@ namespace ToracLibrary.Core.DiskIO
         public static IEnumerable<string> ReadFileToIEnumerableLazy(string FilePath)
         {
             //validate
-            if (string.IsNullOrEmpty(FilePath))
+            if (FilePath.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("File Path Can't Be Null.");
             }

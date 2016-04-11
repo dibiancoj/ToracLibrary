@@ -175,17 +175,17 @@ namespace ToracLibrary.Caching
         /// <returns>Passes Validation</returns>
         private static bool PassesValidation(string ConnectionStringToTest, string SqlQueryToTest, string DatabaseSchemaToTest)
         {
-            if (string.IsNullOrEmpty(ConnectionStringToTest))
+            if (ConnectionStringToTest.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("ConnectionString", "Property Connection String Is Not Set.");
             }
 
-            if (string.IsNullOrEmpty(DatabaseSchemaToTest))
+            if (DatabaseSchemaToTest.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("DatabaseSchema", "Property DatabaseSchema Is Not Set. Default Is dbo In Sql Server");
             }
 
-            if (string.IsNullOrEmpty(SqlQueryToTest))
+            if (SqlQueryToTest.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("SqlToRun", "Must Pass In A Database Schema. Default Is dbo In Sql Server");
             }

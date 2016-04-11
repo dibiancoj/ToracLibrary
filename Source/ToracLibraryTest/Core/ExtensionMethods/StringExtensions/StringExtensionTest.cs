@@ -71,6 +71,46 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region String Is Null Or Empty - Instance
+
+        /// <summary>
+        /// Test if a string has a value in a string instance extension method
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void HasValueTest1()
+        {
+            Assert.IsTrue("Test".HasValue());
+            Assert.IsTrue("123".HasValue());
+            Assert.IsTrue("12345 Teasdfsd".HasValue());
+
+            Assert.IsFalse(string.Empty.HasValue());
+            Assert.IsFalse("".HasValue());
+            Assert.IsFalse(((string)null).HasValue());
+        }
+
+        /// <summary>
+        /// Test is a string is null or empty in a string instance extension method
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void IsNullOrEmptyTest1()
+        {
+            Assert.IsFalse("Test".IsNullOrEmpty());
+            Assert.IsFalse("123".IsNullOrEmpty());
+            Assert.IsFalse("12345 Teasdfsd".IsNullOrEmpty());
+
+            Assert.IsTrue(string.Empty.IsNullOrEmpty());
+            Assert.IsTrue("".IsNullOrEmpty());
+            Assert.IsTrue(((string)null).IsNullOrEmpty());
+        }
+
+        #endregion
+
         #region Format USA Phone Number
 
         /// <summary>

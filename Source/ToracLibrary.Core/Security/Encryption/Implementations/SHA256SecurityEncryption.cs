@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.ByteArrayExtensions;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.Security.Encryption
 {
@@ -26,7 +27,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public string Encrypt(string TextToEncrypt)
         {
             //Validate First
-            if (string.IsNullOrEmpty(TextToEncrypt))
+            if (TextToEncrypt.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Text To Encrypt Can't Be Null.");
             }

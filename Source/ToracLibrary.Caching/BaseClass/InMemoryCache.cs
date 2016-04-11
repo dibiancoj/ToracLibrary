@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Caching
 {
@@ -54,7 +55,7 @@ namespace ToracLibrary.Caching
             //we want a developer to inherit off either Generic Cache Or Sql Cache Dep. and not this class
 
             //make sure the cache key is not null
-            if (string.IsNullOrEmpty(KeyForCache))
+            if (KeyForCache.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Cache Key Can't Be Null");
             }

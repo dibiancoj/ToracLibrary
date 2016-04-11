@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.AspNet.AspNetMVC.CustomValueProviderFactory
 {
@@ -160,7 +161,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomValueProviderFactory
         private static string MakePropertyKey(string Prefix, string PropertyName)
         {
             //is the prefix null?
-            if (string.IsNullOrEmpty(Prefix))
+            if (Prefix.IsNullOrEmpty())
             {
                 //no prefix, just return the property name
                 return PropertyName;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.ExtensionMethods.XElementExtensions
 {
@@ -31,7 +32,7 @@ namespace ToracLibrary.Core.ExtensionMethods.XElementExtensions
 
             //xml serialization can't handle nullable types. if the nil=true is there you don't need this. If it isn't there and you try to deserialize an item that is a blank string it will fail into a nullable type datetime?, bool?, decimal?, etc.
             //let's loop through all the descendants and where the value is null, remove it
-            XElementToRemoveBlanksFrom.Descendants().Where(x => string.IsNullOrEmpty(x.Value)).Remove();
+            XElementToRemoveBlanksFrom.Descendants().Where(x => x.Value.IsNullOrEmpty()).Remove();
         }
 
     }

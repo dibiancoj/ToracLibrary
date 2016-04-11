@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.DataProviders.ADO
 {
@@ -29,7 +30,7 @@ namespace ToracLibrary.Core.DataProviders.ADO
         public SQLDataProvider(string ConnectionString)
         {
             //Check to make sure the connection string is not blank
-            if (string.IsNullOrEmpty(ConnectionString))
+            if (ConnectionString.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("You Must Pass In A Connection String That Is Not Blank Or Null");
             }
@@ -140,17 +141,25 @@ namespace ToracLibrary.Core.DataProviders.ADO
         public static string BuildMyConnectionString(string ServerAddress, string DatabaseName, string UserName, string Password, bool IsSQLExpress)
         {
             //Lets Validate All My Parameters First Just To Make Sure
-            if (string.IsNullOrEmpty(ServerAddress))
+            if (ServerAddress.IsNullOrEmpty())
+            {
                 throw new ArgumentNullException("You Must Pass In A Server Address If You Are Trying To Build Your Connection String");
+            }
 
-            if (string.IsNullOrEmpty(DatabaseName))
+            if (DatabaseName.IsNullOrEmpty())
+            {
                 throw new ArgumentNullException("You Must Pass In A Database Name If You Are Trying To Build Your Connection String");
+            }
 
-            if (string.IsNullOrEmpty(UserName))
+            if (UserName.IsNullOrEmpty())
+            {
                 throw new ArgumentNullException("You Must Pass In A User Name If You Are Trying To Build Your Connection String");
+            }
 
-            if (string.IsNullOrEmpty(Password))
+            if (Password.IsNullOrEmpty())
+            {
                 throw new ArgumentNullException("You Must Pass In A User Password If You Are Trying To Build Your Connection String");
+            }
             //End Of Validation
 
             //We Pass Validation...Lets Create The String Builder Object

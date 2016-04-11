@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExpressionTrees.API;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
 {
@@ -93,7 +94,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
             if (ColumnDataType == typeof(string))
             {
                 //its a string filter, make sure they aren't trying to search with a blank string
-                if (!string.IsNullOrEmpty(InlineFilterEnteredValue))
+                if (InlineFilterEnteredValue.HasValue())
                 {
                     //special scenarios where we need to run where we need to pull it in and use the linq to objects (translation db)
                     if (IsLinqToObjectQuery)

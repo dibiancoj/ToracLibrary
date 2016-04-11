@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataTypes;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.DataProviders.SqlBuilder
 {
@@ -51,7 +52,7 @@ namespace ToracLibrary.Core.DataProviders.SqlBuilder
                     string QuoteCheck = DataTypeQuoteCheck(thisProperty.PropertyType);
 
                     //do we need a quote
-                    bool NeedsAQuote = !string.IsNullOrEmpty(QuoteCheck);
+                    bool NeedsAQuote = QuoteCheck.HasValue();
 
                     //do we need a quote?
                     if (NeedsAQuote)
@@ -141,7 +142,7 @@ namespace ToracLibrary.Core.DataProviders.SqlBuilder
                     string QuoteCheck = DataTypeQuoteCheck(thisProperty.PropertyType);
 
                     //do we need a quote
-                    bool NeedsAQuote = !string.IsNullOrEmpty(QuoteCheck);
+                    bool NeedsAQuote = QuoteCheck.HasValue();
 
                     //do we need a quote?
                     if (NeedsAQuote)

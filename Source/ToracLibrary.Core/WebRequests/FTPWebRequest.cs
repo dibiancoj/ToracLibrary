@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DiskIO;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.WebRequests
 {
@@ -63,7 +64,7 @@ namespace ToracLibrary.Core.WebRequests
             }
 
             //Validate the user name and pw
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(UserPW))
+            if (UserName.IsNullOrEmpty() || UserPW.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Missing User Name Or Password. If You Are Using Anonymous Access Please Use The Other Constructor Overload.");
             }
@@ -221,7 +222,7 @@ namespace ToracLibrary.Core.WebRequests
             Uri FTPServerPath = FTPserverURI;
 
             //if we want something off of the base path, then add it
-            if (!string.IsNullOrEmpty(PathOffOfBaseDirectory))
+            if (PathOffOfBaseDirectory.HasValue())
             {
                 //add the 2 paths together
                 FTPServerPath = new Uri(FTPServerPath + PathOffOfBaseDirectory);

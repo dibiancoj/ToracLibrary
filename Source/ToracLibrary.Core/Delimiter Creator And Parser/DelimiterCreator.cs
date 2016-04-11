@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.Delimiter
 {
@@ -136,7 +137,7 @@ namespace ToracLibrary.Core.Delimiter
             foreach (string ColumnToWriteOut in ColumnsOfDataToOutput.ColumnData)
             {
                 //let's just make sure we don't have a null column
-                if (!string.IsNullOrEmpty(ColumnToWriteOut))
+                if (ColumnToWriteOut.HasValue())
                 {
                     //add the column data
                     WorkingOutputWriter.Append(ColumnToWriteOut.Replace(ColumnDelimiter, string.Empty));

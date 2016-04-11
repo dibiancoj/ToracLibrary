@@ -4,6 +4,7 @@ using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.ActiveDirectory
 {
@@ -25,7 +26,7 @@ namespace ToracLibrary.ActiveDirectory
         public ActiveDirectoryServer(string DomainName)
         {
             //validate the parameters passed in
-            if (string.IsNullOrEmpty(DomainName))
+            if (DomainName.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Domain Name Can't Be Null");
             }

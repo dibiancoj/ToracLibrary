@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.DiskIO
 {
@@ -115,7 +116,7 @@ namespace ToracLibrary.Core.DiskIO
         private static void WriteFileHelper(string FilePath, IEnumerable<string> LinesToOutput, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //validate
-            if (string.IsNullOrEmpty(FilePath))
+            if (FilePath.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("File Path Can't Be Null.");
             }

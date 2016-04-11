@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Serialization.Json;
 
 namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
@@ -62,7 +63,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters
         public static JqGridInlineFilters Deserialize(string JsonStringToConvert)
         {
             //if the string is null or empty just return null
-            if (string.IsNullOrEmpty(JsonStringToConvert))
+            if (JsonStringToConvert.IsNullOrEmpty())
             {
                 return null;
             }

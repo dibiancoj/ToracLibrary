@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.Security.Encryption
 {
@@ -24,7 +25,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public MD5HashSecurityEncryption(string KeyToBaseEncryptionOffOf)
         {
             //Validate
-            if (string.IsNullOrEmpty(KeyToBaseEncryptionOffOf))
+            if (KeyToBaseEncryptionOffOf.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Key Must Not Be Null");
             }
@@ -54,7 +55,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public string Encrypt(string TextToEncrypt)
         {
             //Validate First
-            if (string.IsNullOrEmpty(TextToEncrypt))
+            if (TextToEncrypt.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Text To Encrypt Can't Be Null.");
             }
@@ -90,7 +91,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public string Decrypt(string TextToDecrypt)
         {
             //Validate
-            if (string.IsNullOrEmpty(TextToDecrypt))
+            if (TextToDecrypt.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Text To Decrypt Can't Be Null.");
             }

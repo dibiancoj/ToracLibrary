@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Serialization.Json;
 
 namespace ToracLibrary.AspNet.AspNetMVC.CustomActionsResults
@@ -143,17 +144,10 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomActionsResults
                 throw new ArgumentNullException("context");
             }
 
-            //if we set a content type, then set the value with that property
-            if (string.IsNullOrEmpty(ContentType))
-            {
-                //we didn't set a content type...set it with the json type
-                context.HttpContext.Response.ContentType = JsonContentType;
-            }
-            else
-            {
-                //set the content type
-                context.HttpContext.Response.ContentType = ContentType;
-            }
+            //we didn't set a content type...set it with the json type
+            context.HttpContext.Response.ContentType = ContentType.IsNullOrEmpty() ?
+                JsonContentType :
+                ContentType;
 
             //if the content encoding property is set then set the response content encoding
             if (ContentEncoding != null)

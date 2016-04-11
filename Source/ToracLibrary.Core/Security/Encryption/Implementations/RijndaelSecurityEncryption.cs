@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 
 namespace ToracLibrary.Core.Security.Encryption
 {
@@ -26,12 +27,12 @@ namespace ToracLibrary.Core.Security.Encryption
         public RijndaelSecurityEncryption(string InitializedVectorToSet, string PublicKeyToSet)
         {
             //Validate The Parameters For The Constructor
-            if (string.IsNullOrEmpty(InitializedVectorToSet))
+            if (InitializedVectorToSet.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Initialized Vector Must Not Be Blank");
             }
 
-            if (string.IsNullOrEmpty(PublicKeyToSet))
+            if (PublicKeyToSet.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Public Key Must Not Be Blank");
             }
@@ -77,7 +78,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public string Encrypt(string ValueToEncrypt)
         {
             //Validate the string to encrypt
-            if (string.IsNullOrEmpty(ValueToEncrypt))
+            if (ValueToEncrypt.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Value To Encrypt Can't Be Null.");
             }
@@ -118,7 +119,7 @@ namespace ToracLibrary.Core.Security.Encryption
         public string Decrypt(string EncryptedText)
         {
             //Validate the text to encrypt
-            if (string.IsNullOrEmpty(EncryptedText))
+            if (EncryptedText.IsNullOrEmpty())
             {
                 throw new ArgumentNullException("Value TO Decrypt Can't Be Null.");
             }
