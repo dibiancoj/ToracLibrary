@@ -98,7 +98,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// </summary>
         /// <param name="FieldName">Field name to set</param>
         /// <param name="FontSize">Font size to set</param>
-        public void SetFieldFont(string FieldName, int FontSize)
+        public void SetFieldFont(string FieldName, float FontSize)
         {
             GetFieldsInPdf().SetFieldProperty(FieldName, "textsize", FontSize, null);
         }
