@@ -469,6 +469,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         //7. Factory Names
         //8. Overload Constructors
         //9. Constructor with object set parameters
+        //10. Constructor With ResolveCtorParameter And Factory Name
 
         #region Simple Interface To Concrete
 
