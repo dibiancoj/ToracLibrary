@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.DIContainer.Exceptions;
 using ToracLibrary.DIContainer.RegisteredObjects;
 
@@ -269,7 +270,7 @@ namespace ToracLibrary.DIContainer
             //}
 
             //at this point we should not have a factory name!
-            if (!string.IsNullOrEmpty(FactoryName))
+            if (FactoryName.HasValue())
             {
                 //this is only called when we are resolving a single child with a factory name.
                 throw new ArgumentOutOfRangeException("Factory Name Should Not Be Filled In This Part Of The Method");
