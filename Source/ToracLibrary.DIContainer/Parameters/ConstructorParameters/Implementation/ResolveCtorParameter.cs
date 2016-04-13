@@ -33,7 +33,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Holds the expression which will fetch the object from the container
         /// </summary>
-        public Func<ToracDIContainer, object> ResolveExpression { get; }
+        private Func<ToracDIContainer, object> ResolveExpression { get; }
 
         #endregion
 

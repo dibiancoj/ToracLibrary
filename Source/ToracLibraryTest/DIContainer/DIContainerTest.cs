@@ -1508,6 +1508,154 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
 
         #endregion
 
+        #region Constructor With ResolveCtorParameter And Factory Name
+
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.Transient")]
+        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConstructorWithResolveWithFactoryNameTransientTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //factory name
+            var FactoryName = Guid.NewGuid().ToString();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient)
+                .WithFactoryName(FactoryName);
+
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Transient)
+                .WithFactoryName("LoggerVersion2");
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Transient)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>(FactoryName)));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
+            Assert.AreEqual(string.Empty, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.Singleton")]
+        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConstructorWithResolveWithFactoryNameSingletonTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //factory name
+            var FactoryName = Guid.NewGuid().ToString();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton)
+                .WithFactoryName(FactoryName);
+
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.Singleton)
+             .WithFactoryName("LoggerVersion2");
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.Singleton)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>(FactoryName)));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.PerThreadLifetime")]
+        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer")]
+        [TestMethod]
+        public void ConstructorWithResolveWithFactoryNamePerThreadLifetimeTest1()
+        {
+            //declare my container
+            var DIContainer = new ToracDIContainer();
+
+            //factory name
+            var FactoryName = Guid.NewGuid().ToString();
+
+            //register my item now with no overloads
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.PerThreadLifetime)
+                .WithFactoryName(FactoryName);
+
+            DIContainer.Register<ILogger, Logger>(DIContainerScope.PerThreadLifetime)
+                .WithFactoryName("LoggerVersion2");
+
+            //let's register the data provider (since a string get's passed in, we need to specify how to create this guy)
+            DIContainer.Register<SqlDIProvider>(DIContainerScope.PerThreadLifetime)
+                .WithConstructorParameters(new PrimitiveCtorParameter(ConnectionStringToUse), new ResolveCtorParameter(x => x.Resolve<ILogger>(FactoryName)));
+
+            //let's grab an the data provide rnow
+            var DataProviderToUse = DIContainer.Resolve<SqlDIProvider>();
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse);
+
+            //make sure the logger is not null
+            Assert.IsNotNull(DataProviderToUse.LoggerToUse);
+
+            //make sure the connection string is not null
+            Assert.IsFalse(string.IsNullOrEmpty(DataProviderToUse.ConnectionString));
+
+            //make sure the connection string is correct
+            Assert.AreEqual(ConnectionStringToUse, DataProviderToUse.ConnectionString);
+
+            //write test to the log
+            DataProviderToUse.LoggerToUse.Log(WriteToLog);
+
+            //now let's check the log
+            Assert.AreEqual(WriteToLog, DataProviderToUse.LoggerToUse.LogFile.ToString());
+
+            //its a singleton, so it should return the same instance which already has the text we wrote into it
+            Assert.AreEqual(WriteToLog, DIContainer.Resolve<SqlDIProvider>().LoggerToUse.LogFile.ToString());
+        }
+
+        #endregion
+
         #endregion
 
         #endregion

@@ -33,7 +33,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Holds the parameter value that we will use to pass into the constructor
         /// </summary>
-        public object ParameterValue { get; }
+        private T ParameterValue { get; }
 
         #endregion
 

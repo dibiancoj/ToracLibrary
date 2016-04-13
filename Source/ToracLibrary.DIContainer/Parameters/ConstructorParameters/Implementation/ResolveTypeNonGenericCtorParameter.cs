@@ -32,7 +32,7 @@ namespace ToracLibrary.DIContainer.Parameters.ConstructorParameters
         /// <summary>
         /// Type to resolve
         /// </summary>
-        public Type TypeToResolve { get; }
+        private Type TypeToResolve { get; }
 
         #endregion
 

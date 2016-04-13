@@ -136,17 +136,19 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         internal IScopeImplementation CreateScopeImplementation(ToracDIContainer.DIContainerScope Scope, ConstructorInfo ConstructorToUse)
         {
             //which scope is it?
+
+            //this is probably the most used, so we will put it first
+            if (Scope == ToracDIContainer.DIContainerScope.Transient)
+            {
+                return new TransientScopedObject(ConstructorToUse);
+            }
+
             if (Scope == ToracDIContainer.DIContainerScope.Singleton)
             {
                 return new SingletonScopedObject();
             }
 
-            if (Scope == ToracDIContainer.DIContainerScope.PerThreadLifetime)
-            {
-                return new PerThreadScopedObject(ConstructorToUse);
-            }
-
-            return new TransientScopedObject(ConstructorToUse);
+            return new PerThreadScopedObject(ConstructorToUse);
         }
 
         #endregion
