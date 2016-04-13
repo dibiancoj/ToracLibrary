@@ -1043,7 +1043,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #region Factory Names
 
         [TestCategory("DIContainer.FactoryNames.Transient")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.FactoryNames")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void FactoryNamesTransientTest1()
@@ -1093,7 +1093,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.FactoryNames.Singleton")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.FactoryNames")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void FactoryNamesSingletonTest1()
@@ -1143,7 +1143,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.FactoryNames.PerThreadLifetime")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.FactoryNames")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void FactoryNamesPerThreadLifeTimeTest1()
@@ -1197,7 +1197,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #region Overload Constructors
 
         [TestCategory("DIContainer.OverloadConstructors.Transient")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.OverloadConstructors")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorTransientTest1()
@@ -1259,7 +1259,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.OverloadConstructors.Singleton")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.OverloadConstructors")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorSingletonTest1()
@@ -1320,7 +1320,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.OverloadConstructors.PerThreadLifetime")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.OverloadConstructors")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void OverloadedConstructorPerThreadLifetimeTest1()
@@ -1385,7 +1385,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #region Constructor With Object Set Parameters
 
         [TestCategory("DIContainer.ConstructorWithObjectSetParameters.Transient")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithObjectSetParameters")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithObjectSetParametersTransientTest1()
@@ -1426,7 +1426,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.ConstructorWithObjectSetParameters.Singleton")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithObjectSetParameters")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithObjectSetParametersSingletonTest1()
@@ -1467,7 +1467,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.ConstructorWithObjectSetParameters.PerThreadLifetime")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithObjectSetParameters")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithObjectSetParametersPerThreadLifetimeTest1()
@@ -1512,7 +1512,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         #region Constructor With ResolveCtorParameter And Factory Name
 
         [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.Transient")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithResolveWithFactoryNameTransientTest1()
@@ -1560,7 +1560,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.Singleton")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithResolveWithFactoryNameSingletonTest1()
@@ -1608,7 +1608,7 @@ namespace ToracLibraryTest.UnitsTest.DIContainer
         }
 
         [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName.PerThreadLifetime")]
-        [TestCategory("DIContainer.GenericTypes")]
+        [TestCategory("DIContainer.ConstructorWithResolveWithFactoryName")]
         [TestCategory("DIContainer")]
         [TestMethod]
         public void ConstructorWithResolveWithFactoryNamePerThreadLifetimeTest1()
