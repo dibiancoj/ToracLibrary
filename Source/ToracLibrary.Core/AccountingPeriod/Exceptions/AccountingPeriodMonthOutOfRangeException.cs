@@ -45,7 +45,7 @@ namespace ToracLibrary.Core.AccountingPeriods.Exceptions
         /// <returns>string output to display</returns>
         public override string ToString()
         {
-            return "Accounting Period Month Is Not In The Correct Format. Year Should Be MM. MOnth That Passed Validation Is = " + MonthThatFailedValidation;
+            return "Accounting Period Month Is Not In The Correct Format. Year Should Be MM. Month That Passed Validation Is = " + MonthThatFailedValidation;
         }
 
         #endregion
