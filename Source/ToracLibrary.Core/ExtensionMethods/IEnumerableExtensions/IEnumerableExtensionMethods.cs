@@ -117,10 +117,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             int IndexTally = 0;
 
             //let's loop through the collection now
-            foreach (T thisItem in Collection)
+            foreach (T ItemToCheck in Collection)
             {
                 //let's test if the predicate returns true
-                if (Predicate(thisItem))
+                if (Predicate(ItemToCheck))
                 {
                     //we found the item so just return the index
                     return IndexTally;
@@ -217,13 +217,13 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             HashSet<TKey> PropertyValuesFound = new HashSet<TKey>();
 
             //loop through each of the records
-            foreach (TSource thisRecord in DataSource)
+            foreach (TSource RecordToCheck in DataSource)
             {
                 //did we store this guy yet? (if true then we haven't and the add was successful)
-                if (PropertyValuesFound.Add(PropertySelector(thisRecord)))
+                if (PropertyValuesFound.Add(PropertySelector(RecordToCheck)))
                 {
                     //it was added...so return the element
-                    yield return thisRecord;
+                    yield return RecordToCheck;
                 }
             }
         }
@@ -275,10 +275,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
                 int i = 0;
 
                 //let's loop though the collection
-                foreach (T thisItem in CollectionToOutput)
+                foreach (T ItemToAppend in CollectionToOutput)
                 {
                     //go build up the item for this item in the collection
-                    OutputString.Append(SingleItemOutputMethod(thisItem, i));
+                    OutputString.Append(SingleItemOutputMethod(ItemToAppend, i));
 
                     //now add the delimiter string
                     OutputString.Append(DelimiterString);
