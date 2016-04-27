@@ -40,7 +40,7 @@ namespace ToracLibrary.Core.States
         /// <summary>
         /// Get a listing of states along (Key Value Pair)
         /// </summary>
-        /// <returns>IImmutableDictionary of string - string</returns>
+        /// <returns>IDictionary of string - string</returns>
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
         public static IDictionary<string, string> UnitedStatesStateListing()
         {
@@ -86,7 +86,7 @@ namespace ToracLibrary.Core.States
         /// <summary>
         /// Get a listing of provinces (Canada) (Key Value Pair)
         /// </summary>
-        /// <returns>IImmutableDictionary of string - string</returns>
+        /// <returns>IDictionary of string - string</returns>
         /// <remarks>Is validated before returning data. It will raise any errors if there were errors found</remarks>
         public static IDictionary<string, string> CanadaProvincesListing()
         {
