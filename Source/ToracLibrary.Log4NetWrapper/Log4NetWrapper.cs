@@ -124,6 +124,18 @@ namespace ToracLibrary.Log4NetAPI
 
         #endregion
 
+        /// <summary>
+        /// log4net has Level but I don't like how they did it. I want us to spell out which level
+        /// </summary>
+        public enum LogLevel
+        {
+            Debug,
+            Info,
+            Warn,
+            Error,
+            Fatal
+        }
+
         //Level's you can write. 
         //ALL
         //DEBUG
@@ -134,6 +146,40 @@ namespace ToracLibrary.Log4NetAPI
         //OFF
 
         #region Public Helper Methods
+
+        /// <summary>
+        /// Write to the log. This method checks to ensure the log level is going to write into log 4 net. This way we don't need to call the method if log4net isn't going to write it.
+        /// </summary>
+        /// <param name="Level">Level to write</param>
+        /// <param name="MessageToWrite">Message to write</param>
+        public static void WriteToLog(LogLevel Level, string MessageToWrite)
+        {
+            //just avoids having to call the method if the level we want to write into is off
+            if (Logger.IsDebugEnabled && Level == LogLevel.Debug)
+            {
+                Logger.Debug(MessageToWrite);
+            }
+
+            else if (Logger.IsInfoEnabled && Level == LogLevel.Info)
+            {
+                Logger.Info(MessageToWrite);
+            }
+
+            else if (Logger.IsWarnEnabled && Level == LogLevel.Warn)
+            {
+                Logger.Warn(MessageToWrite);
+            }
+
+            else if (Logger.IsErrorEnabled && Level == LogLevel.Error)
+            {
+                Logger.Error(MessageToWrite);
+            }
+
+            else if (Logger.IsFatalEnabled && Level == LogLevel.Fatal)
+            {
+                Logger.Fatal(MessageToWrite);
+            }
+        }
 
         /// <summary>
         /// Builds the output text which contains more informaiton (method name, source line number)
