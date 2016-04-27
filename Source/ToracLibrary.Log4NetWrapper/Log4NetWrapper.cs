@@ -93,6 +93,8 @@ namespace ToracLibrary.Log4NetAPI
                 <param name="ConversionPattern" value="%-5p - %d{yyyy-MM-dd hh:mm:ss} | %m%n - %C{1}.%M [%aspnet-request{ASP.NET_SessionId}]" />
             </layout>
 
+
+            ***a pretty good pattern i used  <param name="ConversionPattern" value="%-5p - %d{yyyy-MM-dd hh:mm:ss}%newline     SessionId = [%aspnet-request{ASP.NET_SessionId}] %newline     %message %newline" />
         */
 
         #endregion
