@@ -156,6 +156,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RemoteDesktop", "RemoteDesk
 		Docs\Examples\RemoteDesktop\RemoteDesktopNotes.txt = Docs\Examples\RemoteDesktop\RemoteDesktopNotes.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TFS", "TFS", "{C7323988-B22E-4B50-AA8B-6279528B7CBD}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Tfs\BaselessMerge.txt = Docs\Examples\Tfs\BaselessMerge.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -289,5 +294,6 @@ Global
 		{E91307DA-AF3D-4C86-B35D-7CDD705B72ED} = {B601D20B-28F9-4743-B310-7AF0401ADE64}
 		{4A6E596F-60F5-4908-A576-5C21406098E6} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{43E1348F-A391-44E2-923D-36850F0C86CE} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{C7323988-B22E-4B50-AA8B-6279528B7CBD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal
