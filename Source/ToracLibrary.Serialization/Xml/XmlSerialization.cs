@@ -17,6 +17,18 @@ namespace ToracLibrary.Serialization.Xml
         // Add [System.Xml.Serialization.XmlRoot("Transaction")] To The Top Of The Class To Control The Root Or The Node You Are Serializing
         // Also use this for properties to serialize as attribute[System.Xml.Serialization.XmlAttribute("TheAttributeName")]
 
+        //if you have a list of interfaces or base classes. 
+        //[Serializable()]
+        //[XmlInclude(typeof(FormQuestionAnswerMultiStringValue))]
+        //[XmlInclude(typeof(FormQuestionAnswerDateRangeValue))]
+        //[XmlInclude(typeof(FormQuestionAnswerDateValue))]
+        //[XmlInclude(typeof(FormQuestionAnswerNameValue))]
+        //[XmlInclude(typeof(FormQuestionAnswerStringValue))]
+        //public class SavedSurveyData
+        //{
+            //List<BaseClass> Answers { get; set; }
+        //}
+
         #region Documentation On How To Remove Null Xml Output For Nullable Data Types
 
         // if you have a property that is a nullable int or a nullable enum...
