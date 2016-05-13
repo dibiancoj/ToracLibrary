@@ -111,6 +111,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CustomModelBinders\AbstractOrInterfaceListBinder.txt" />
     <Content Include="UnitTestMocking\Documentation.txt" />
   </ItemGroup>
   <ItemGroup>

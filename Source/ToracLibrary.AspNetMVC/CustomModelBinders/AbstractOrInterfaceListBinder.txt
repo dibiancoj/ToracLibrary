@@ -1,0 +1,168 @@
+﻿This example is using www encoding not json being passed. 
+
+We have a list<BaseClass> or list<Interface>...this will loop through each and key off of AnswerTypeId..and add the correct class to the list
+
+    public class FormQuestionAnswerModelBinder : IModelBinder
+    {
+
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            //build up the list of answers
+            var model = new List<FormQuestionAnswer>();
+
+            //grab the form
+            var form = controllerContext.HttpContext.Request.Form;
+
+            //we will increment as we go up so we can combine everything
+            int i = 0;
+
+            //keep looping until we don't have any more questions answers
+            while (!string.IsNullOrEmpty(form.GetFormValue(i, "QuestionId")))
+            {
+                //holds the answer type...this keys which type of answer it is
+                FormQuestionAnswer.FormQuestionAnswerTypeId answerTypeIdTry;
+
+                //parse the answer type...throw an exception if we can't parse it
+                if (!Enum.TryParse(form.GetFormValue(i, "AnswerTypeId"), out answerTypeIdTry))
+                {
+                    throw new ArgumentOutOfRangeException("Can't Parse AnswerTypeId In FormQuestionAnswerModelBinder");
+                }
+
+                //which question id is this?
+                int questionId = Convert.ToInt32(form.GetFormValue(i, "QuestionId"));
+
+                //this should be an interface...but that is a little much. Want to keep it simple since we only have 4 types
+
+                //based on the answer type...go get the answer
+                if (answerTypeIdTry == FormQuestionAnswer.FormQuestionAnswerTypeId.StringValue)
+                {
+                    model.Add(BuildStringAnswer(questionId, i, form));
+                }
+                else if (answerTypeIdTry == FormQuestionAnswer.FormQuestionAnswerTypeId.DateValue)
+                {
+                    model.Add(BuildDateAnswer(questionId, i, form));
+                }
+                else if (answerTypeIdTry == FormQuestionAnswer.FormQuestionAnswerTypeId.DateRange)
+                {
+                    model.Add(BuildDateRangeAnswer(questionId, i, form));
+                }
+                else if (answerTypeIdTry == FormQuestionAnswer.FormQuestionAnswerTypeId.NameValue)
+                {
+                    model.Add(BuildNameValueAnswer(questionId, i, form));
+                }
+                else
+                {
+                    throw new NotImplementedException("Answer Type Id Is Not Implemented. AnswerTypeId = " + answerTypeIdTry.ToString());
+                }
+
+                i++;
+            }
+
+            return model;
+        }
+
+        #region Each Answer Type
+
+        private static FormQuestionAnswer BuildStringAnswer(int questionId, int id, NameValueCollection form)
+        {
+            return new FormQuestionAnswerStringValue(questionId, form.GetFormAnswer(id));
+        }
+
+        private static FormQuestionAnswer BuildDateAnswer(int questionId, int id, NameValueCollection form)
+        {
+            //is this a valid date
+            DateTime tryDate;
+
+            if (DateTime.TryParse(form.GetFormAnswer(id), out tryDate))
+            {
+                return new FormQuestionAnswerDateValue(questionId, tryDate);
+            }
+
+            return new FormQuestionAnswerDateValue(questionId, null);
+        }
+
+        private static FormQuestionAnswer BuildDateRangeAnswer(int questionId, int id, NameValueCollection form)
+        {
+            //is this a valid date
+            DateTime fromTryDate;
+            DateTime toTryDate;
+
+            DateTime? fromDate = null;
+            DateTime? toDate = null;
+
+            if (DateTime.TryParse(form.GetFormAnswer(id, "FromDate"), out fromTryDate))
+            {
+                fromDate = fromTryDate;
+            }
+
+            if (DateTime.TryParse(form.GetFormAnswer(id, "ToDate"), out toTryDate))
+            {
+                toDate = toTryDate;
+            }
+
+            return new FormQuestionAnswerDateRangeValue(questionId, fromDate, toDate);
+        }
+
+        private static FormQuestionAnswer BuildNameValueAnswer(int questionId, int id, NameValueCollection form)
+        {
+            return new FormQuestionAnswerNameValue(questionId, form.GetFormAnswer(id, "FirstName"), form.GetFormAnswer(id, "LastName"));
+        }
+
+        #endregion
+
+    }
+
+    public static class FormCollectionExtensionMethod
+    {
+
+        #region Public Methods
+
+        public static string GetFormValue(this NameValueCollection form, int id, params string[] addProperty)
+        {
+            return form[FormPath(id, addProperty)];
+        }
+
+        /// <summary>
+        /// Easier sytnax then messing with [][]...Don't need to mess around with strings.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetFormAnswer(this NameValueCollection form, int id, params string[] addProperty)
+        {
+            var properties = new List<string>(new string[] { "Value" });
+
+            if (addProperty.AnyWithNullCheck())
+            {
+                properties.AddRange(addProperty);
+            }
+
+            return form.GetFormValue(id, properties.ToArray());
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static string FormPath(int requestIncrementCounter, params string[] addProperty)
+        {
+            var sb = new StringBuilder();
+
+            //add the item to the value
+            sb.AppendFormat("formAnswers[{0}]", requestIncrementCounter);
+
+            //do we have any additional properties?
+            if (addProperty.AnyWithNullCheck())
+            {
+                //add the rest of the properties
+                foreach (var addOn in addProperty)
+                {
+                    sb.AppendFormat("[{0}]", addOn);
+                }
+            }
+
+            //return the path
+            return sb.ToString();
+        }
+
+        #endregion
+
+    }
