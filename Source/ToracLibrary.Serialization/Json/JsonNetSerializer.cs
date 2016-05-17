@@ -146,10 +146,10 @@ namespace ToracLibrary.Serialization.Json
             JToken CurrentNode = JsonObject;
 
             //let's loop through the values you are searching for
-            foreach (var currentPathToSearch in JPathQuerySelector)
+            foreach (var PathToSearch in JPathQuerySelector)
             {
                 //try to find the node (this is a string selector)
-                CurrentNode = CurrentNode[currentPathToSearch];
+                CurrentNode = CurrentNode[PathToSearch];
 
                 //did we find a node?
                 if (CurrentNode == null)
