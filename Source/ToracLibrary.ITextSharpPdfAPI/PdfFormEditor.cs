@@ -85,11 +85,15 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <param name="FieldValueToSet">field value to set</param>
         public void SetFieldValue<T>(string FieldName, T FieldValueToSet)
         {
+            //to set a radio set it to "On" or "Off".
+            //checkbox would be whatever the value in the pdf is
+            //i'm passing in a true here because the checkbox / radio style gets altered by itextsharp.
+
             //make sure we have a value
             if (FieldValueToSet != null)
             {
                 //go set the fields
-                GetFieldsInPdf().SetField(FieldName, FieldValueToSet.ToString());
+                GetFieldsInPdf().SetField(FieldName, FieldValueToSet.ToString(), true);
             }
         }
 
