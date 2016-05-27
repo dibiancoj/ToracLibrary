@@ -64,21 +64,21 @@ namespace ToracLibrary.Core.DateTimeHelpers.BusinessHours
             if (!HourPassesValidation24HourValue(BusinessDayStartHour))
             {
                 //start hour is not between 1 and 24
-                throw new ArgumentOutOfRangeException("BusinessDayStartHour", "Start Hour Must Be Between 0-24 (Hour Value In A Day)");
+                throw new ArgumentOutOfRangeException(nameof(BusinessDayStartHour), "Start Hour Must Be Between 0-24 (Hour Value In A Day)");
             }
 
             //make sure the start hour and end hour are between and 1 and 24
             if (!HourPassesValidation24HourValue(BusinessDayEndHour))
             {
                 //end hour is not between 1 and 24
-                throw new ArgumentOutOfRangeException("BusinessDayEndHour", "End Hour Must Be Between 0-24 (Hour Value In A Day)");
+                throw new ArgumentOutOfRangeException(nameof(BusinessDayEndHour), "End Hour Must Be Between 0-24 (Hour Value In A Day)");
             }
 
             //make sure the end hour is not earlier then the start hour
             if (BusinessDayEndHour < BusinessDayStartHour)
             {
                 //throw an out of range argument exception because the end of the day needs to be after the start of the day
-                throw new ArgumentOutOfRangeException("BusinessDayEndHour Can't Be Before BusinessDayStartHour");
+                throw new ArgumentOutOfRangeException(nameof(BusinessDayEndHour), "Can't Be Before " + nameof(BusinessDayStartHour));
             }
 
             //are we going backwards? (start date is after end date)
