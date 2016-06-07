@@ -64,7 +64,7 @@ namespace ToracLibraryTest.UnitsTest.EmailSMTP
             Assert.IsNotNull(EmailServerToUse);
 
             //now run the method
-            await EmailServerToUse.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null);
+            await EmailServerToUse.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null).ConfigureAwait(false);
 
             //now we will just pass it 
             Assert.IsTrue(true);

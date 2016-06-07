@@ -258,7 +258,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
             {
                 //let's test the "add" part when there is no record
-                var InsertedRecord = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false);
+                var InsertedRecord = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false).ConfigureAwait(false);
 
                 //check the inserted record
                 Assert.AreEqual(RecordToTest.Id, InsertedRecord.Id);
@@ -270,7 +270,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 RecordToTest.Description = "New Description";
 
                 //now go run a get or add
-                var insertedRecord2 = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false);
+                var insertedRecord2 = await DP.GetOrAddAsync(RecordToTest, x => x.Id == RecordToTest.Id, false).ConfigureAwait(false);
 
                 //check the record
                 Assert.AreEqual(OriginalDescriptionValue, insertedRecord2.Description);
@@ -335,7 +335,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var RowsToInsert = BuildRows(HowManyRows);
 
                 //go build 500 rows and insert them
-                await DP.BulkInsertAsync("dbo", RowsToInsert, System.Data.SqlClient.SqlBulkCopyOptions.Default, 100);
+                await DP.BulkInsertAsync("dbo", RowsToInsert, System.Data.SqlClient.SqlBulkCopyOptions.Default, 100).ConfigureAwait(false);
 
                 //make sure we have the 500 rows to insert
                 Assert.AreEqual(HowManyRows, DP.Fetch<Ref_Test>(false).Count());
@@ -387,7 +387,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DataProviderSetupTearDown.TruncateTable();
 
                 //go insert the raw sql
-                await DP.ExecuteRawSqlAsync(@"Insert Into Ref_Test (Description) Values ({0});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1");
+                await DP.ExecuteRawSqlAsync(@"Insert Into Ref_Test (Description) Values ({0});", TransactionalBehavior.DoNotEnsureTransaction, "Ref Test 1").ConfigureAwait(false);
 
                 //make sure there is 1 record
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
@@ -476,7 +476,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var DeleteEverythingButThisId = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First().Id;
 
                 //delete everything but this id
-                await DP.DeleteAsync<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true);
+                await DP.DeleteAsync<Ref_Test>(x => x.Id != DeleteEverythingButThisId, true).ConfigureAwait(false);
 
                 //grab the records so we can test
                 var RecordsAfterDelete = DP.Fetch<Ref_Test>(false);
@@ -527,7 +527,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(2, DeleteAllTheseRows.Length);
 
                 //delete the range and save it
-                await DP.DeleteRangeAsync(DeleteAllTheseRows, true);
+                await DP.DeleteRangeAsync(DeleteAllTheseRows, true).ConfigureAwait(false);
 
                 //make sure we have default rows - how many we deleted
                 Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - DeleteAllTheseRows.Length, DP.Fetch<Ref_Test>(false).Count());
@@ -569,7 +569,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var RecordToDelete = DP.Fetch<Ref_Test>(true).OrderBy(x => x.Id).Skip(2).First();
 
                 //delete that record and save it
-                await DP.DeleteAsync(RecordToDelete, true);
+                await DP.DeleteAsync(RecordToDelete, true).ConfigureAwait(false);
 
                 //make sure we have x amount of records
                 Assert.AreEqual(DataProviderSetupTearDown.DefaultRecordsToInsert - 1, DP.Fetch<Ref_Test>(false).Count());
@@ -688,7 +688,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(0, DP.Fetch<Ref_Test>(false).Count());
 
                 //now save the changes, there should be 1 row after we have
-                await DP.SaveChangesAsync();
+                await DP.SaveChangesAsync().ConfigureAwait(false);
 
                 //make sure we have 1 row saved
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
@@ -701,7 +701,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 Assert.AreEqual(1, DP.Fetch<Ref_Test>(false).Count());
 
                 //save the changes now
-                await DP.SaveChangesAsync();
+                await DP.SaveChangesAsync().ConfigureAwait(false);
 
                 //make sure we have 3 rows now
                 Assert.AreEqual(3, DP.Fetch<Ref_Test>(false).Count());
@@ -871,7 +871,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var LastRecordInTable = DP.EFContext.Ref_Test.OrderByDescending(x => x.Id).First();
 
                 //find the records where the id is greater then the last record
-                var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync();
+                var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync().ConfigureAwait(false);
 
                 //make sure we only have 1 record
                 Assert.AreEqual(1, RecordsToFind.Length);
@@ -898,7 +898,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 var LastRecordInTable = DP.EFContext.Ref_Test.OrderByDescending(x => x.Id).First();
 
                 //find the records where the id is greater then the last record
-                var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync();
+                var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync().ConfigureAwait(false);
 
                 //make sure we only have 1 record
                 Assert.AreEqual(1, RecordsToFind.Length);
@@ -1012,7 +1012,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DP.Delete<Dog>(x => true, false);
 
                 //go save the deletes
-                await DP.SaveChangesAsync();
+                await DP.SaveChangesAsync().ConfigureAwait(false);
 
                 //size of dog
                 const string DogSize = "Size Of Dog";
@@ -1037,7 +1037,7 @@ namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
                 DP.Add(new Cat { Size = CatSize, Meow = Meow }, false);
 
                 //save it now
-                await DP.SaveChangesAsync();
+                await DP.SaveChangesAsync().ConfigureAwait(false);
 
                 //grab all the dogs
                 var DogsInTable = DP.Fetch<Animal>(false).OfType<Dog>().ToArray();

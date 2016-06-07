@@ -424,7 +424,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             IDbSet<T> ObjectSet = BuildObjectSet<T>();
 
             //let's go to try to find a record in the db
-            T RecordToFindItDbAttempt = await SetTrackRecords(ObjectSet, TrackRecords).FirstOrDefaultAsync(RecordSelector);
+            T RecordToFindItDbAttempt = await SetTrackRecords(ObjectSet, TrackRecords).FirstOrDefaultAsync(RecordSelector).ConfigureAwait(false);
 
             //if we didn't find a record, then add it
             if (RecordToFindItDbAttempt == null)
@@ -433,7 +433,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
                 RecordToFindItDbAttempt = ObjectSet.Add(RecordToInsertIfNotFound);
 
                 //save the record
-                await SaveChangesAsync();
+                await SaveChangesAsync().ConfigureAwait(false);
             }
 
             //now return the record
@@ -488,7 +488,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             if (CommitChanges)
             {
                 //go save the changes now
-                await SaveChangesAsync();
+                await SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -527,13 +527,13 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         public async Task DeleteAsync<T>(Expression<Func<T, bool>> Predicate, bool CommitChanges) where T : class
         {
             //grab the records to delete, then pass it into the helper method
-            DeleteRange(await BuildObjectSet<T>().Where(Predicate).ToArrayAsync(), false);
+            DeleteRange(await BuildObjectSet<T>().Where(Predicate).ToArrayAsync().ConfigureAwait(false), false);
 
             //if we want to commit the changes then go save it now
             if (CommitChanges)
             {
                 //go save the changes
-                await SaveChangesAsync();
+                await SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -585,7 +585,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             if (CommitChanges)
             {
                 //go save the changes now
-                await SaveChangesAsync();
+                await SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
