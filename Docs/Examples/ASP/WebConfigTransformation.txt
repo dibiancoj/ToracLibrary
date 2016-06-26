@@ -39,3 +39,23 @@
 	  <system.web>
 	    <compilation xdt:Transform="RemoveAttributes(debug)" />
 	  </system.web>
+
+
+
+-----------------------
+** you can transform anything in the web.config **
+
+you need the same exact path from the web.config
+
+Then in the transform like test.web.config duplicate the exact path and run the transform
+
+  <system.webServer >
+    <!-- used for the custom warm / upgrade screen. Replaces the line above -->
+    <!-- Replace -->
+    <!-- <add name="Sitefinity" type="Telerik.Sitefinity.Web.SitefinityHttpModule, Telerik.Sitefinity" /> -->
+    <!-- With -->
+    <!-- add name="Sitefinity" type="MYMSKCC.WebUI.SitefinityBootUpScreenOverride" />-->
+    <modules runAllManagedModulesForAllRequests="true">
+      <add name="Sitefinity" type="MYMSKCC.WebUI.SitefinityBootUpScreenOverride" xdt:Transform="Replace" xdt:Locator="Match(name)"  />
+    </modules>
+  </system.webServer>
