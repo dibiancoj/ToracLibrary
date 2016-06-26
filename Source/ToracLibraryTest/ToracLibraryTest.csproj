@@ -207,6 +207,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Redis\RedisTest.cs" />
     <Compile Include="Serialization\Binary\BinarySerializerTest.cs" />
     <Compile Include="Serialization\Json\JsonSerializerTest.cs" />
     <Compile Include="Serialization\Xml\XmlSerializerTest.cs" />
@@ -251,6 +252,10 @@
     <ProjectReference Include="..\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj">
       <Project>{20f8ae75-74f3-4a3e-8e17-5e3e2cdbac88}</Project>
       <Name>ToracLibrary.HtmlParsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Redis\ToracLibrary.Redis.csproj">
+      <Project>{7556230b-f7a2-4899-a1c4-cd40ef768c87}</Project>
+      <Name>ToracLibrary.Redis</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Serialization.JasonSerializer\ToracLibrary.Serialization.JasonSerializer.csproj">
       <Project>{ad38f21a-8a57-45b0-a3da-5e85a9038c2b}</Project>

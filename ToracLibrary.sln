@@ -167,6 +167,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JSON", "JSON", "{D350B534-F
 		Docs\Examples\Sql\Json\Documentation.sql = Docs\Examples\Sql\Json\Documentation.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Redis", "Source\ToracLibrary.Redis\ToracLibrary.Redis.csproj", "{7556230B-F7A2-4899-A1C4-CD40EF768C87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,10 @@ Global
 		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20F8AE75-74F3-4A3E-8E17-5E3E2CDBAC88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7556230B-F7A2-4899-A1C4-CD40EF768C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7556230B-F7A2-4899-A1C4-CD40EF768C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7556230B-F7A2-4899-A1C4-CD40EF768C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7556230B-F7A2-4899-A1C4-CD40EF768C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -302,5 +308,6 @@ Global
 		{43E1348F-A391-44E2-923D-36850F0C86CE} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{C7323988-B22E-4B50-AA8B-6279528B7CBD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{D350B534-F0A2-4C8C-9368-076E53435B83} = {20BD18E2-78EC-444C-8490-1984342B40E4}
+		{7556230B-F7A2-4899-A1C4-CD40EF768C87} = {264DB62C-6C82-490B-922A-6369B851BB37}
 	EndGlobalSection
 EndGlobal
