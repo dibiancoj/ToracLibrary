@@ -259,6 +259,27 @@ namespace ToracLibraryTest.UnitsTest.Core
         }
 
         /// <summary>
+        /// Decrement a number
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelDecrementInt()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelDecrementInt) + " with space";
+
+                //should be -1 because there is no key there yet
+                Assert.AreEqual(-1, Redis.DecrementInt(Key));
+
+                //should be -1 because we already set it to 0
+                Assert.AreEqual(-2, Redis.DecrementInt(Key));
+            }
+        }
+
+        /// <summary>
         /// remove a cache item
         /// </summary>
         [TestCategory("Redis")]
@@ -279,6 +300,36 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //should be 0 now because there are no more items to remove now
                 Assert.AreEqual(0, Redis.RemoveItemFromCache(Key));
+            }
+        }
+
+        /// <summary>
+        /// key exists
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelKeyExistsItem()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelKeyExistsItem) + " with space";
+
+                //key shouldn't exist
+                Assert.IsFalse(Redis.KeyExists(Key));
+
+                //add the item
+                Redis.StringSet(Key, "Test");
+
+                //key should exist now
+                Assert.IsTrue(Redis.KeyExists(Key));
+
+                //remove the key
+                Redis.RemoveItemFromCache(Key);
+
+                //it shouldn't exist now
+                Assert.IsFalse(Redis.KeyExists(Key));
             }
         }
 

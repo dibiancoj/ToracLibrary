@@ -17,6 +17,12 @@ namespace ToracLibrary.Redis
        * client.SendCommand("set", "FavoriteTeamKey", "Mets"); 
        */
 
+    /* High Level Command Sytnax
+     * Redis.StringSet(Key, ValueToTest)
+     * or
+     * Redis.StringGet(Key)
+     */
+
     /// <summary>
     /// Raw Redis socket client. Incase you don't want to use the stackexchange or stackoverflow api's. Those api's provide more functionality. This is more of a r and d class
     /// </summary>
@@ -64,11 +70,6 @@ namespace ToracLibrary.Redis
         #region Constants
 
         /// <summary>
-        /// Terminate Strings 
-        /// </summary>
-        private const string TerminateStrings = "\r\n";
-
-        /// <summary>
         /// Default Redis Port
         /// </summary>
         private const int DefaultRedisPort = 6379;
@@ -83,6 +84,23 @@ namespace ToracLibrary.Redis
         /// </summary>
         private static readonly Encoding RedisEncoding = Encoding.UTF8;
 
+        #region Performance Based Constants
+
+        /// <summary>
+        /// Response to a set or command
+        /// </summary>
+        public const string OKCommandResult = "OK";
+
+        /// <summary>
+        /// Terminate Strings 
+        /// </summary>
+        private const string TerminateStrings = "\r\n";
+
+        /// <summary>
+        /// Holds the terminated string in bytes so we don't have to keep computing this
+        /// </summary>
+        private static readonly byte[] TerminateStringsInBytes = RedisEncoding.GetBytes(TerminateStrings);
+
         /// <summary>
         /// Constant for r so we don't have to keep creating the same variable. Saves on memory
         /// </summary>
@@ -94,9 +112,11 @@ namespace ToracLibrary.Redis
         private const char NChar = '\n';
 
         /// <summary>
-        /// Response to a set or command
+        /// Default buffer size
         /// </summary>
-        public const string OKCommandResult = "OK";
+        private const int BufferSize = 16 * 1024;
+
+        #endregion
 
         #endregion
 
@@ -185,8 +205,6 @@ namespace ToracLibrary.Redis
         #endregion
 
         #region Methods
-
-        #region Send Commands
 
         #region Low Level Send Commands
 
@@ -311,7 +329,7 @@ namespace ToracLibrary.Redis
         {
             //try parse value
             int TryParseValue;
-            
+
             //go try to parase this
             if (int.TryParse(StringGet(Key), out TryParseValue))
             {
@@ -325,7 +343,7 @@ namespace ToracLibrary.Redis
 
         #endregion
 
-        #region Increment Int
+        #region Increment - Decrement Int
 
         /// <summary>
         /// Increment an int value that is stored
@@ -335,6 +353,32 @@ namespace ToracLibrary.Redis
         public int IncrementInt(string Key)
         {
             return Convert.ToInt32(SendCommand("INCR", Key));
+        }
+
+        /// <summary>
+        /// Decrement an int value that is stored
+        /// </summary>
+        /// <param name="Key">Key to decrement</param>
+        /// <returns>new value. If key is not found the value will increment to -1 (redis default functionality)</returns>
+        public int DecrementInt(string Key)
+        {
+            return Convert.ToInt32(SendCommand("DECR", Key));
+        }
+
+        #endregion
+
+        #region Key Exists
+
+        /// <summary>
+        /// Check if the key exists
+        /// </summary>
+        /// <param name="KeyToCheck">Key to check if it exists</param>
+        /// <returns>Yes if it exists</returns>
+        public bool KeyExists(string KeyToCheck)
+        {
+            //1 = it exists
+            //0 = it does not exist
+            return Convert.ToInt32(SendCommand("EXISTS", KeyToCheck)) == 1;
         }
 
         #endregion
@@ -351,8 +395,6 @@ namespace ToracLibrary.Redis
             //go delete the item
             return Convert.ToInt32(SendCommand("DEL", KeyToRemove));
         }
-
-        #endregion
 
         #endregion
 
@@ -546,7 +588,7 @@ namespace ToracLibrary.Redis
                 var HeadValue = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{ByteArrayConverted.Length.ToString()}{TerminateStrings}"));
 
                 //go return after concat
-                return HeadValue.Concat(ByteArrayConverted).Concat(RedisEncoding.GetBytes(TerminateStrings)).ToArray();
+                return HeadValue.Concat(ByteArrayConverted).Concat(TerminateStringsInBytes).ToArray();
             });
 
             //go return each of them
@@ -567,18 +609,15 @@ namespace ToracLibrary.Redis
             //if not connected them cleanup the socket
             if (!SocketConnection.Connected)
             {
-                //close the socket
-                SocketConnection.Close();
-
                 //dispose of it
                 SocketConnection.Dispose();
 
-                //exit the method
-                return;
+                //throw an error
+                throw new Exception("Socket Not Able To Connect");
             }
 
             //go create the response stream
-            ResponseStream = new BufferedStream(new NetworkStream(SocketConnection), 16 * 1024);
+            ResponseStream = new BufferedStream(new NetworkStream(SocketConnection), BufferSize);
         }
 
         #endregion
