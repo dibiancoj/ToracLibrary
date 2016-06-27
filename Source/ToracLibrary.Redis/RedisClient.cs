@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 namespace ToracLibrary.Redis
 {
 
-    /* Command Syntax 
+    /* Low Level Command Syntax 
        * client.SendCommand("ping");
        * or
        * client.SendCommand("set a 100", Encoding.UTF8.GetString);
        * or
-       * client.SendCommand("set", new[] { Encoding.UTF8.GetBytes("test"), Encoding.UTF8.GetBytes("abcde") }, Encoding.UTF8.GetString);
-       * or
-       * result = Encoding.UTF8.GetString((byte[])client.SendCommand("get", new[] { Encoding.UTF8.GetBytes("test") }));
+       * client.SendCommand("set", "FavoriteTeamKey", "Mets"); 
        */
 
     /// <summary>
@@ -85,6 +83,21 @@ namespace ToracLibrary.Redis
         /// </summary>
         private static readonly Encoding RedisEncoding = Encoding.UTF8;
 
+        /// <summary>
+        /// Constant for r so we don't have to keep creating the same variable. Saves on memory
+        /// </summary>
+        private const char RChar = '\r';
+
+        /// <summary>
+        /// Constant for n so we don't have to keep creating the same variable. Saves on memory
+        /// </summary>
+        private const char NChar = '\n';
+
+        /// <summary>
+        /// Response to a set or command
+        /// </summary>
+        public const string OKCommandResult = "OK";
+
         #endregion
 
         #region Properties
@@ -139,7 +152,7 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Response type
         /// </summary>
-        public enum ResponseType : byte
+        private enum ResponseType : byte
         {
 
             /// <summary>
@@ -175,6 +188,8 @@ namespace ToracLibrary.Redis
 
         #region Send Commands
 
+        #region Low Level Send Commands
+
         /// <summary>
         /// Send a command to the redis server
         /// </summary>
@@ -207,7 +222,7 @@ namespace ToracLibrary.Redis
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="Arguments">Arguments</param>
         /// <returns></returns>
-        public object SendCommand(string CommandToSend, params byte[][] Arguments)
+        public object SendCommand(string CommandToSend, params string[] Arguments)
         {
             //Send the request  and return the result
             return SendCommand(CommandToSend, Arguments, null);
@@ -220,7 +235,7 @@ namespace ToracLibrary.Redis
         /// <param name="Arguments">Arguments</param>
         /// <param name="BinaryDecoder">BinaryDecoder</param>
         /// <returns></returns>
-        public object SendCommand(string CommandToSend, byte[][] Arguments, Func<byte[], object> BinaryDecoder)
+        public object SendCommand(string CommandToSend, string[] Arguments, Func<byte[], object> BinaryDecoder)
         {
             //build the send command
             var SendCommand = BuildBinarySafeCommand(CommandToSend, Arguments);
@@ -231,6 +246,115 @@ namespace ToracLibrary.Redis
             // return the result
             return FetchResponse(BinaryDecoder);
         }
+
+        #endregion
+
+        #region High Level - Abstracted Commands
+
+        #region String Based
+
+        /// <summary>
+        /// Add a string based record.
+        /// </summary>
+        /// <param name="Key">Key to use for the record</param>
+        /// <param name="Value">String value to set</param>
+        /// <returns>Response command if you need it</returns>
+        public string StringSet(string Key, string Value)
+        {
+            //use the low level overload
+            return (string)SendCommand("SET", Key, Value);
+        }
+
+        /// <summary>
+        /// Retrieve a string based record
+        /// </summary>
+        /// <param name="Key">Key to retrieve</param>
+        /// <returns>Value of item</returns>
+        public string StringGet(string Key)
+        {
+            //need to account if the item is not found in the cache
+            var Response = SendCommand("GET", Key);
+
+            //found in cache
+            if (Response == null)
+            {
+                //no value...return the null
+                return null;
+            }
+
+            //use the low level overload
+            return ByteArrayToString((byte[])Response);
+        }
+
+        #endregion
+
+        #region Int Based
+
+        /// <summary>
+        /// Add an int based record.
+        /// </summary>
+        /// <param name="Key">Key to use for the record</param>
+        /// <param name="Value">String value to set</param>
+        /// <returns>Response command if you need it</returns>
+        public string IntSet(string Key, int Value)
+        {
+            //use the overload. Redis stores int in the same manner. so just call ToString(). increment will work
+            return StringSet(Key, Value.ToString());
+        }
+
+        /// <summary>
+        /// Retrieve an int based record
+        /// </summary>
+        /// <param name="Key">Key to retrieve</param>
+        /// <returns>Value of item</returns>
+        public int? IntGet(string Key)
+        {
+            //try parse value
+            int TryParseValue;
+            
+            //go try to parase this
+            if (int.TryParse(StringGet(Key), out TryParseValue))
+            {
+                //return the parsed value
+                return TryParseValue;
+            }
+
+            //return the null
+            return null;
+        }
+
+        #endregion
+
+        #region Increment Int
+
+        /// <summary>
+        /// Increment an int value that is stored
+        /// </summary>
+        /// <param name="Key">Key to increment</param>
+        /// <returns>new value. If key is not found the value will increment to 1 (redis default functionality)</returns>
+        public int IncrementInt(string Key)
+        {
+            return Convert.ToInt32(SendCommand("INCR", Key));
+        }
+
+        #endregion
+
+        #region Remove A Cache Item
+
+        /// <summary>
+        /// Remove A Cache Item
+        /// </summary>
+        /// <param name="KeyToRemove">Key to remove</param>
+        /// <returns>How many records it deleted. 1 if it removed the item in the cache. 0 if there were no items found for the specified key</returns>
+        public int RemoveItemFromCache(string KeyToRemove)
+        {
+            //go delete the item
+            return Convert.ToInt32(SendCommand("DEL", KeyToRemove));
+        }
+
+        #endregion
+
+        #endregion
 
         #endregion
 
@@ -307,49 +431,47 @@ namespace ToracLibrary.Redis
                     }
                 case ResponseType.BulkStrings:
                     {
-                        var length = int.Parse(ReadFirstLine());
+                        var Length = int.Parse(ReadFirstLine());
 
-                        if (length == -1)
+                        if (Length == -1)
                         {
                             return null;
                         }
 
-                        var buffer = new byte[length];
+                        var Buffer = new byte[Length];
 
-                        ResponseStream.Read(buffer, 0, length);
+                        ResponseStream.Read(Buffer, 0, Length);
 
                         ReadFirstLine(); // read terminate
 
                         if (BinaryDecoder == null)
                         {
-                            return buffer;
+                            return Buffer;
                         }
-                        else
-                        {
-                            return BinaryDecoder(buffer);
-                        }
+
+                        return BinaryDecoder(Buffer);
                     }
                 case ResponseType.Arrays:
                     {
-                        var length = int.Parse(ReadFirstLine());
+                        var Length = int.Parse(ReadFirstLine());
 
-                        if (length == 0)
+                        if (Length == 0)
                         {
-                            return new object[0];
+                            return Array.Empty<object>();
                         }
-                        if (length == -1)
+                        if (Length == -1)
                         {
                             return null;
                         }
 
-                        var objects = new object[length];
+                        var ArrayOfObjects = new List<object>();
 
-                        for (int i = 0; i < length; i++)
+                        for (int i = 0; i < Length; i++)
                         {
-                            objects[i] = FetchResponse(BinaryDecoder);
+                            ArrayOfObjects.Add(FetchResponse(BinaryDecoder));
                         }
 
-                        return objects;
+                        return ArrayOfObjects;
                     }
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -377,16 +499,16 @@ namespace ToracLibrary.Redis
                 //grab the current character
                 var CharacterToChar = (char)CurrentCharacter;
 
-                if (PreviousCharacter == '\r' && CharacterToChar == '\n') // reach at TerminateLine
+                if (PreviousCharacter == RChar && CharacterToChar == NChar) // reach at TerminateLine
                 {
                     break;
                 }
-                else if (PreviousCharacter == '\r' && CharacterToChar == '\r')
+                else if (PreviousCharacter == RChar && CharacterToChar == RChar)
                 {
                     ResponseString.Append(PreviousCharacter); // append prev '\r'
                     continue;
                 }
-                else if (CharacterToChar == '\r')
+                else if (CharacterToChar == RChar)
                 {
                     PreviousCharacter = CharacterToChar; // not append '\r'
                     continue;
@@ -406,24 +528,26 @@ namespace ToracLibrary.Redis
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="Arguments">Argument</param>
         /// <returns>byte array for this safe command</returns>
-        private byte[] BuildBinarySafeCommand(string CommandToSend, byte[][] Arguments)
+        private byte[] BuildBinarySafeCommand(string CommandToSend, string[] Arguments)
         {
             //grab the first line
-            var FirstLine = RedisEncoding.GetBytes((char)ResponseType.Arrays + (Arguments.Length + 1).ToString() + TerminateStrings);
+            var FirstLine = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.Arrays}{(Arguments.Length + 1).ToString()}{TerminateStrings}"));
 
             //Grab the second line
-            var SecondLine = RedisEncoding.GetBytes((char)ResponseType.BulkStrings + RedisEncoding.GetBytes(CommandToSend).Length.ToString() + TerminateStrings + CommandToSend + TerminateStrings);
+            var SecondLine = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{RedisEncoding.GetBytes(CommandToSend).Length.ToString()}{TerminateStrings}{CommandToSend}{TerminateStrings}"));
 
             //grab the 3rd line
             var ThirdLine = Arguments.Select(x =>
             {
+                //convert the string to a byte array
+                var ByteArrayConverted = StringToByteArray(x);
+
                 //grab the head value
-                var HeadValue = RedisEncoding.GetBytes((char)ResponseType.BulkStrings + x.Length.ToString() + TerminateStrings);
+                var HeadValue = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{ByteArrayConverted.Length.ToString()}{TerminateStrings}"));
 
                 //go return after concat
-                return HeadValue.Concat(x).Concat(RedisEncoding.GetBytes(TerminateStrings)).ToArray();
-
-            }).ToArray();
+                return HeadValue.Concat(ByteArrayConverted).Concat(RedisEncoding.GetBytes(TerminateStrings)).ToArray();
+            });
 
             //go return each of them
             return new[] { FirstLine, SecondLine }.Concat(ThirdLine).SelectMany(xs => xs).ToArray();

@@ -8,6 +8,7 @@ namespace ToracLibraryTest.UnitsTest.Core
     /// <summary>
     /// Unit test for redis
     /// </summary>
+    /// <remarks>not using the di container so we can exclude these tests without issues</remarks>
     [TestClass]
     public class RedisTest
     {
@@ -18,11 +19,6 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Redis server ip address
         /// </summary>
         const string RedisServerIpAddress = "192.168.1.8";
-
-        /// <summary>
-        /// Response to a set or command
-        /// </summary>
-        const string OKCommandResult = "OK";
 
         #endregion
 
@@ -39,16 +35,31 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #endregion
 
+        #region Test Init (Class Init)
+
+        [ClassInitialize()]
+        public static void RedisTestInit(TestContext Context)
+        {
+            using (var Redis = BuildClient())
+            {
+                //remove everything
+                Redis.SendCommand("FLUSHALL");
+            }
+        }
+
+        #endregion
+
         #region Main Tests
 
-        /* not using the di container so we can exclude these tests without issues */
+        #region Low Level Tests
 
         /// <summary>
         /// Simple Ping Command
         /// </summary>
         [TestCategory("Redis")]
+        [TestCategory("Redis.LowLevel")]
         [TestMethod]
-        public void RedisPingTest()
+        public void RedisLowLevelPingTest()
         {
             using (var Redis = BuildClient())
             {
@@ -61,19 +72,20 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Simple Set and Get For A String
         /// </summary>
         [TestCategory("Redis")]
+        [TestCategory("Redis.LowLevel")]
         [TestMethod]
-        public void RedisSetGetSimpleStringTest()
+        public void RedisLowLevelSetGetSimpleStringTest()
         {
             using (var Redis = BuildClient())
             {
                 //key to use
-                const string Key = "TestString";
+                string Key = nameof(RedisLowLevelSetGetSimpleStringTest);
 
                 //value to test
                 const string ValueToTest = "TestStringValue123";
 
                 //go save the test value
-                Assert.AreEqual(OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
 
                 //get the test value
                 var Response = Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
@@ -87,19 +99,20 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Simple Set and Get For A String With A Space
         /// </summary>
         [TestCategory("Redis")]
+        [TestCategory("Redis.LowLevel")]
         [TestMethod]
-        public void RedisSetGetSimpleStringWithSpaceTest()
+        public void RedisLowLevelSetGetSimpleStringWithSpaceTest()
         {
             using (var Redis = BuildClient())
             {
                 //key to use
-                const string Key = "TestString";
+                string Key = nameof(RedisLowLevelSetGetSimpleStringWithSpaceTest);
 
                 //value to test
                 const string ValueToTest = "Test StringValue 123";
 
                 //go save the test value
-                Assert.AreEqual(OKCommandResult, Redis.SendCommand("Set", new[] { Redis.StringToByteArray(Key), Redis.StringToByteArray(ValueToTest) }));
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.SendCommand("Set", Key, ValueToTest));
 
                 //get the test value
                 var Response = Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
@@ -113,19 +126,20 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// Simple Set and Get For A Number
         /// </summary>
         [TestCategory("Redis")]
+        [TestCategory("Redis.LowLevel")]
         [TestMethod]
-        public void RedisSetGetSimpleNumberTest()
+        public void RedisLowLevelSetGetSimpleNumberTest()
         {
             using (var Redis = BuildClient())
             {
                 //key to use
-                const string Key = "TestNumber";
+                string Key = nameof(RedisLowLevelSetGetSimpleNumberTest);
 
                 //value to test
                 const int ValueToTest = 123;
 
                 //go save the test value
-                Assert.AreEqual(OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
 
                 //get the test value
                 var Response = Convert.ToInt32(Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}"))));
@@ -134,6 +148,141 @@ namespace ToracLibraryTest.UnitsTest.Core
                 Assert.AreEqual(ValueToTest, Response);
             }
         }
+
+        #endregion
+
+        #region Higher Level - Abstracted Methods
+
+        /// <summary>
+        /// Simple Set and Get For A String
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelSetString()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelSetString) + " with space";
+
+                //value to test
+                const string ValueToTest = "HighLevel 123 abc";
+
+                //go save the test value
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.StringSet(Key, ValueToTest));
+
+                //make sure we get a pong back
+                Assert.AreEqual(ValueToTest, Redis.StringGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Try to get a value in the cache when the key is not found
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelGetStringWhenNotInCache()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelGetStringWhenNotInCache) + " with space";
+
+                //make sure we get a null back
+                Assert.IsNull(Redis.StringGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Simple Set and Get For An Int
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelSetInt()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelSetInt) + " with space";
+
+                //value to test
+                const int ValueToTest = 123;
+
+                //go save the test value
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.IntSet(Key, ValueToTest));
+
+                //make sure we get a pong back
+                Assert.AreEqual(ValueToTest, Redis.IntGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Try to get a value in the cache when the key is not found
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelGetIntWhenNotInCache()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelGetIntWhenNotInCache) + " with space";
+
+                //if we make it here we are ok
+                Assert.AreEqual(new int?(), Redis.IntGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Increment a number
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelIncrementInt()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelIncrementInt) + " with space";
+
+                //should be 1 because there is no key there yet
+                Assert.AreEqual(1, Redis.IncrementInt(Key));
+
+                //should be 2 because we already incremented it
+                Assert.AreEqual(2, Redis.IncrementInt(Key));
+            }
+        }
+
+        /// <summary>
+        /// remove a cache item
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelRemoveCacheItem()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelRemoveCacheItem) + " with space";
+
+                //add an item
+                Redis.StringSet(Key, "Test");
+
+                //go remove it. Should be 1 because we removed 1 item
+                Assert.AreEqual(1, Redis.RemoveItemFromCache(Key));
+
+                //should be 0 now because there are no more items to remove now
+                Assert.AreEqual(0, Redis.RemoveItemFromCache(Key));
+            }
+        }
+
+        #endregion
 
         #endregion
 
