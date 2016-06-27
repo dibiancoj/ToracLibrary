@@ -75,7 +75,7 @@ namespace ToracLibrary.Redis
         private const int DefaultRedisPort = 6379;
 
         /// <summary>
-        /// Default redis timeout. Which is no time out
+        /// Default redis timeout. 0 or -1 is no time out)
         /// </summary>
         private const int DefaultRedisTimeout = -1;
 
@@ -438,8 +438,7 @@ namespace ToracLibrary.Redis
             }
             catch (SocketException)
             {
-                //clean up incase we throw an error
-                SocketConnection.Close();
+                //clean up incase we throw an error (dispose will close the connection)
                 SocketConnection.Dispose();
 
                 //throw the error now
@@ -457,20 +456,20 @@ namespace ToracLibrary.Redis
             //read the first byte so we can determine the response type
             var ResponseTypeBeingReturned = (ResponseType)ResponseStream.ReadByte();
 
+            //switch response type is this call that we just made? This depends on what we get back from the socket
             switch (ResponseTypeBeingReturned)
             {
                 case ResponseType.SimpleStrings:
-                    {
-                        return ReadFirstLine();
-                    }
                 case ResponseType.Erorrs:
                     {
                         return ReadFirstLine();
                     }
+
                 case ResponseType.Integers:
                     {
                         return long.Parse(ReadFirstLine());
                     }
+
                 case ResponseType.BulkStrings:
                     {
                         var Length = int.Parse(ReadFirstLine());
@@ -493,6 +492,7 @@ namespace ToracLibrary.Redis
 
                         return BinaryDecoder(Buffer);
                     }
+
                 case ResponseType.Arrays:
                     {
                         var Length = int.Parse(ReadFirstLine());
@@ -501,6 +501,7 @@ namespace ToracLibrary.Redis
                         {
                             return Array.Empty<object>();
                         }
+
                         if (Length == -1)
                         {
                             return null;
@@ -515,8 +516,11 @@ namespace ToracLibrary.Redis
 
                         return ArrayOfObjects;
                     }
+
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    {
+                        throw new ArgumentOutOfRangeException();
+                    }
             }
         }
 
@@ -541,7 +545,8 @@ namespace ToracLibrary.Redis
                 //grab the current character
                 var CharacterToChar = (char)CurrentCharacter;
 
-                if (PreviousCharacter == RChar && CharacterToChar == NChar) // reach at TerminateLine
+                // reach at TerminateLine?
+                if (PreviousCharacter == RChar && CharacterToChar == NChar)
                 {
                     break;
                 }
@@ -556,7 +561,10 @@ namespace ToracLibrary.Redis
                     continue;
                 }
 
+                //set the previous character
                 PreviousCharacter = CharacterToChar;
+
+                //append the character to the response string
                 ResponseString.Append(CharacterToChar);
             }
 
@@ -572,12 +580,6 @@ namespace ToracLibrary.Redis
         /// <returns>byte array for this safe command</returns>
         private byte[] BuildBinarySafeCommand(string CommandToSend, string[] Arguments)
         {
-            //grab the first line
-            var FirstLine = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.Arrays}{(Arguments.Length + 1).ToString()}{TerminateStrings}"));
-
-            //Grab the second line
-            var SecondLine = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{RedisEncoding.GetBytes(CommandToSend).Length.ToString()}{TerminateStrings}{CommandToSend}{TerminateStrings}"));
-
             //grab the 3rd line
             var ThirdLine = Arguments.Select(x =>
             {
@@ -592,7 +594,15 @@ namespace ToracLibrary.Redis
             });
 
             //go return each of them
-            return new[] { FirstLine, SecondLine }.Concat(ThirdLine).SelectMany(xs => xs).ToArray();
+            return new[] {
+
+                 //go build the first line
+                 RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.Arrays}{(Arguments.Length + 1).ToString()}{TerminateStrings}")),
+
+                 //build the second line
+                 RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{RedisEncoding.GetBytes(CommandToSend).Length.ToString()}{TerminateStrings}{CommandToSend}{TerminateStrings}"))
+
+            }.Concat(ThirdLine).SelectMany(xs => xs).ToArray();
         }
 
         /// <summary>
@@ -647,12 +657,14 @@ namespace ToracLibrary.Redis
                     //dispose of the stream
                     if (ResponseStream != null)
                     {
+                        //dispose calls close - verified in .net source code
                         ResponseStream.Dispose();
                     }
 
                     //dispose of the socket
                     if (SocketConnection != null)
                     {
+                        //this should close the socket as well
                         SocketConnection.Dispose();
                     }
                 }
