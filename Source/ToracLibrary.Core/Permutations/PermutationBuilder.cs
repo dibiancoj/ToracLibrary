@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions.IEnumerableExtensionMethods;
 
 namespace ToracLibrary.Core.Permutations
 {
