@@ -224,7 +224,7 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="binaryDecoder"></param>
-        /// <returns></returns>
+        /// <returns>Response</returns>
         public object SendCommand(string CommandToSend, Func<byte[], object> BinaryDecoder)
         {
             //Send the request
@@ -239,7 +239,7 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="Arguments">Arguments</param>
-        /// <returns></returns>
+        /// <returns>Response</returns>
         public object SendCommand(string CommandToSend, params string[] Arguments)
         {
             //Send the request  and return the result
@@ -252,7 +252,7 @@ namespace ToracLibrary.Redis
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="Arguments">Arguments</param>
         /// <param name="BinaryDecoder">BinaryDecoder</param>
-        /// <returns></returns>
+        /// <returns>Response</returns>
         public object SendCommand(string CommandToSend, string[] Arguments, Func<byte[], object> BinaryDecoder)
         {
             //build the send command
