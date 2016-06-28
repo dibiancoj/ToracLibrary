@@ -433,6 +433,40 @@ namespace ToracLibrary.Redis
 
         #endregion
 
+        #region Pipeline Test
+
+        /// <summary>
+        /// Send a pipeline command to the server. 
+        /// </summary>
+        /// <param name="CommandToSend">Command to send</param>
+        /// <param name="Arguments">Arguments</param>
+        /// <remarks>Right now the pipeline command will be raw commands until ensure everything works</remarks>
+        public void SendPipelineCommand(string CommandToSend, params string[] Arguments)
+        {
+            //send the command...no response..client can keep call this method. They will then call CommitPipelineCommand when all don
+            SendCommand(CommandToSend, Arguments, null);
+        }
+
+        /// <summary>
+        /// Returns all the results of the pipeline command. 
+        /// </summary>
+        /// <returns>response of all the commands.</returns>
+        /// <remarks>Right now the pipeline command will be raw commands until ensure everything works</remarks>
+        public IEnumerable<object> CommitPipelineCommandLazy()
+        {
+            //response place holder
+            object Response;
+
+            //loop until we are done
+            while ((Response = FetchResponse(null)) != null)
+            {
+                //return the response
+                yield return Response;
+            }
+        }
+
+        #endregion
+
         #region Helper Methods
 
         /// <summary>

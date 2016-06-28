@@ -1,7 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToracLibrary.Redis;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using ToracLibrary.Redis;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -404,6 +406,42 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //it shouldn't exist now
                 Assert.IsFalse(Redis.KeyExists(Key));
+            }
+        }
+
+        #endregion
+
+        #region Pipeline Test
+
+        /// <summary>
+        /// Pipeline test
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.Pipeline")]
+        [TestMethod]
+        public void RedisPipelineTest()
+        {
+            using (var Redis = BuildClient())
+            {
+                //how many calls
+                const int NumberOfCalls = 5;
+
+                //go make multiple ping commands
+                for (int i = 0; i < NumberOfCalls; i++)
+                {
+                    //go send a ping
+                    Redis.SendPipelineCommand("PING");
+                }
+
+                //go save and commit the pipeline
+                var Result = Redis.CommitPipelineCommandLazy().ToArray();
+
+                //now commit the pipeline
+                for (int i = 0; i < NumberOfCalls; i++)
+                {
+                    //make sure we get back the correct number of pings
+                    Assert.AreEqual("PONG", Result[i]);
+                }
             }
         }
 
