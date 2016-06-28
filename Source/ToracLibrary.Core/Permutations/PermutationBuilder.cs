@@ -116,6 +116,9 @@ namespace ToracLibrary.Core.Permutations
                 //starting element index
                 int StartingElementIndex = 0;
 
+                //calculate the length -1 so we don't have to keep calculating it
+                int LengthMinus1 = LengthOfPermute - 1;
+
                 //loop through the elements
                 foreach (T StartingElement in ListToPermute)
                 {
@@ -126,7 +129,7 @@ namespace ToracLibrary.Core.Permutations
                     if (ItemsAreExclusive)
                     {
                         //grab everything but this item that is at the specified index
-                        RemainingItems = ListToPermute.Where((x, i) => i != StartingElementIndex);
+                        RemainingItems = ExcludeAtIndexLazy(ListToPermute, StartingElementIndex);
                     }
                     else
                     {
@@ -135,7 +138,7 @@ namespace ToracLibrary.Core.Permutations
                     }
 
                     //loop through the next set recursively
-                    foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthOfPermute - 1, ItemsAreExclusive))
+                    foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthMinus1, ItemsAreExclusive))
                     {
                         //go start from the previous call and keep looping
                         yield return new PermutationBuilderResult<T>(new T[] { StartingElement }.Concat(PermutationOfRemainder.PermutationItems));
@@ -143,6 +146,40 @@ namespace ToracLibrary.Core.Permutations
 
                     //increase the tally
                     StartingElementIndex += 1;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Return all items except the item at the IndexToExclude. Used for perfomance reasons instead of ListToPermute.Where((x, i) => i != StartingElementIndex); This is better on memory
+        /// </summary>
+        /// <typeparam name="T">Type of the collection</typeparam>
+        /// <param name="Collection">Collection to iterate</param>
+        /// <param name="IndexToExclude">index of the item to exclude</param>
+        /// <returns>ienumerable of T except for the item at the specified index</returns>
+        /// <remarks>Used BenchmarkDotNet for performance diag. This is better on memory then linq where</remarks>
+        private static IEnumerable<T> ExcludeAtIndexLazy<T>(IEnumerable<T> Collection, int IndexToExclude)
+        {
+            //this method is essentially ListToPermute.Where((x, i) => i != StartingElementIndex) but uses less memory
+
+            //holds the index that we are up to
+            int CurrentIndex = 0;
+
+            //grab the enumerator
+            using (var EnumeratorToUse = Collection.GetEnumerator())
+            {
+                //move next
+                while (EnumeratorToUse.MoveNext())
+                {
+                    //is this the index we want to exclude?
+                    if (CurrentIndex != IndexToExclude)
+                    {
+                        //it is not..so return this item
+                        yield return EnumeratorToUse.Current;
+                    }
+
+                    //always increment the counter
+                    CurrentIndex++;
                 }
             }
         }
