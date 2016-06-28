@@ -35,7 +35,7 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Constructor when you use the default port of 6379 and you don't want a time out
         /// </summary>
-        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local</param>
+        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local. You can use either Ip or Dns. ie "Fedora"</param>
         public RedisClient(string RedisHostIPAddressToSet) : this(RedisHostIPAddressToSet, DefaultRedisPort, DefaultRedisTimeout)
         {
         }
@@ -43,7 +43,7 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Constructor when you need to change the port address
         /// </summary>
-        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local</param>
+        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local. You can use either Ip or Dns. ie "Fedora"</param>
         /// <param name="PortToSet">Port number of the Redis server</param>
         public RedisClient(string RedisHostIPAddressToSet, int PortToSet) : this(RedisHostIPAddressToSet, PortToSet, DefaultRedisTimeout)
         {
@@ -52,7 +52,7 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local</param>
+        /// <param name="RedisHostIPAddressToSet">Redis server ip address. "127.0.0.1" for local. You can use either Ip or Dns. ie "Fedora"</param>
         /// <param name="PortToSet">Port number of the Redis server. Default is 6379</param>
         /// <param name="CommandTimeOut">The time-out value, in milliseconds. If you set the property with a value between 1 and 499, the value will be changed to 500. The default value is 0, which indicates an infinite time-out period. Specifying -1 also indicates an infinite time-out period.</param>
         public RedisClient(string RedisHostIPAddressToSet, int PortToSet, int CommandTimeOut)
@@ -272,13 +272,33 @@ namespace ToracLibrary.Redis
         #region String Based
 
         /// <summary>
-        /// Add a string based record.
+        /// Add a string based record with no expiration
         /// </summary>
         /// <param name="Key">Key to use for the record</param>
         /// <param name="Value">String value to set</param>
         /// <returns>Response command if you need it</returns>
         public string StringSet(string Key, string Value)
         {
+            //use the overload
+            return StringSet(Key, Value, null);
+        }
+
+        /// <summary>
+        /// Add a string based record.
+        /// </summary>
+        /// <param name="Key">Key to use for the record</param>
+        /// <param name="Value">String value to set</param>
+        /// <param name="ExpirationInSeconds">Expiration in seconds</param>
+        /// <returns>Response command if you need it</returns>
+        public string StringSet(string Key, string Value, int? ExpirationInSeconds)
+        {
+            //if we have an expiration use it
+            if (ExpirationInSeconds.HasValue)
+            {
+                //use the call with the expiration
+                return (string)SendCommand("SET", Key, Value, "EX", ExpirationInSeconds.Value.ToString());
+            }
+
             //use the low level overload
             return (string)SendCommand("SET", Key, Value);
         }
@@ -317,7 +337,20 @@ namespace ToracLibrary.Redis
         public string IntSet(string Key, int Value)
         {
             //use the overload. Redis stores int in the same manner. so just call ToString(). increment will work
-            return StringSet(Key, Value.ToString());
+            return IntSet(Key, Value, null);
+        }
+
+        /// <summary>
+        /// Add an int based record.
+        /// </summary>
+        /// <param name="Key">Key to use for the record</param>
+        /// <param name="Value">String value to set</param>
+        /// <param name="ExpirationInSeconds">Expiration in seconds</param>
+        /// <returns>Response command if you need it</returns>
+        public string IntSet(string Key, int Value, int? ExpirationInSeconds)
+        {
+            //use the overload. Redis stores int in the same manner. so just call ToString(). increment will work
+            return StringSet(Key, Value.ToString(), ExpirationInSeconds);
         }
 
         /// <summary>

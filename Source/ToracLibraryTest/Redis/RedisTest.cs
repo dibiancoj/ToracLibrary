@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToracLibrary.Redis;
+using System.Threading;
 
 namespace ToracLibraryTest.UnitsTest.Core
 {
@@ -18,11 +19,11 @@ namespace ToracLibraryTest.UnitsTest.Core
         /// <summary>
         /// Redis server ip address
         /// </summary>
-        const string RedisServerIpAddress = "192.168.1.8";
+        const string RedisServerIpAddress = "Fedora";
 
         #endregion
 
-        #region Build Redis Client
+        #region Framework Stuff
 
         /// <summary>
         /// Builds the Redis client
@@ -31,6 +32,19 @@ namespace ToracLibraryTest.UnitsTest.Core
         private static RedisClient BuildClient()
         {
             return new RedisClient(RedisServerIpAddress);
+        }
+
+        /// <summary>
+        /// Spin for x amount of seconds
+        /// </summary>
+        /// <param name="SecondsToSpin">Seconds to spin</param>
+        private static void SpinWaitForXSeconds(int SecondsToSpin)
+        {
+            //grab the time now
+            var StartNow = DateTime.Now;
+
+            //spin until we are ready
+            SpinWait.SpinUntil(() => DateTime.Now > StartNow.AddSeconds(SecondsToSpin));
         }
 
         #endregion
@@ -159,12 +173,12 @@ namespace ToracLibraryTest.UnitsTest.Core
         [TestCategory("Redis")]
         [TestCategory("Redis.HighLevel")]
         [TestMethod]
-        public void RedisHigherLevelSetString()
+        public void RedisHigherLevelSetStringNoExpiration()
         {
             using (var Redis = BuildClient())
             {
                 //key to use
-                string Key = nameof(RedisHigherLevelSetString) + " with space";
+                string Key = nameof(RedisHigherLevelSetStringNoExpiration) + " with space";
 
                 //value to test
                 const string ValueToTest = "HighLevel 123 abc";
@@ -174,6 +188,36 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //make sure we get a pong back
                 Assert.AreEqual(ValueToTest, Redis.StringGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Simple Set and Get For A String with an expiration
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelSetStringWithExpiration()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelSetStringWithExpiration) + " with space";
+
+                //value to test
+                const string ValueToTest = "HighLevel 123 abc";
+
+                //go save the test value
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.StringSet(Key, ValueToTest, 1));
+
+                //make sure we have a key
+                Assert.IsTrue(Redis.KeyExists(Key));
+
+                //spin wait for a second so we can wait for the key to expire
+                SpinWaitForXSeconds(2);
+
+                //make sure we don't have a key now
+                Assert.IsFalse(Redis.KeyExists(Key));
             }
         }
 
@@ -196,17 +240,17 @@ namespace ToracLibraryTest.UnitsTest.Core
         }
 
         /// <summary>
-        /// Simple Set and Get For An Int
+        /// Simple Set and Get For An Int with no expiration
         /// </summary>
         [TestCategory("Redis")]
         [TestCategory("Redis.HighLevel")]
         [TestMethod]
-        public void RedisHigherLevelSetInt()
+        public void RedisHigherLevelSetIntNoExpiration()
         {
             using (var Redis = BuildClient())
             {
                 //key to use
-                string Key = nameof(RedisHigherLevelSetInt) + " with space";
+                string Key = nameof(RedisHigherLevelSetIntNoExpiration) + " with space";
 
                 //value to test
                 const int ValueToTest = 123;
@@ -216,6 +260,36 @@ namespace ToracLibraryTest.UnitsTest.Core
 
                 //make sure we get a pong back
                 Assert.AreEqual(ValueToTest, Redis.IntGet(Key));
+            }
+        }
+
+        /// <summary>
+        /// Simple Set and Get For An Int with an expiration
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelSetIntWithExpiration()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelSetIntWithExpiration) + " with space";
+
+                //value to test
+                const int ValueToTest = 123;
+
+                //go save the test value
+                Assert.AreEqual(RedisClient.OKCommandResult, Redis.IntSet(Key, ValueToTest, 1));
+
+                //make sure we have a key
+                Assert.IsTrue(Redis.KeyExists(Key));
+
+                //spin wait for a second so we can wait for the key to expire
+                SpinWaitForXSeconds(2);
+
+                //make sure we don't have a key now
+                Assert.IsFalse(Redis.KeyExists(Key));
             }
         }
 
