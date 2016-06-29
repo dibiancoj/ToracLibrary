@@ -474,6 +474,103 @@ namespace ToracLibraryTest.UnitsTest.Core
 
         #endregion
 
+        #region Pipeline Test
+
+        /// <summary>
+        /// Transaction test that succeeds
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.Transaction")]
+        [TestMethod]
+        public void RedisTransactionCommitTest()
+        {
+            using (var Redis = BuildClient())
+            {
+                //start the transaction
+                using (var Transaction = Redis.CreateTransaction())
+                {
+
+                    //key to use for increment
+                    const string KeyToUseForIncrement = "Key." + nameof(RedisTransactionCommitTest);
+
+                    //what the increment should be after all said and done
+                    const int IncrementShouldEqual = 1;
+
+                    //key to use for set key
+                    const string KeyToUseForSetKey = "SetKey." + nameof(RedisTransactionCommitTest);
+
+                    //value to set the key
+                    const string KeyValueToSet = "Test123";
+
+                    //add an increment on this key
+                    Assert.IsNull(Redis.IncrementInt(KeyToUseForIncrement));
+
+                    //now set a cache key
+                    Assert.AreEqual(RedisClient.QueuedCommandResult, Redis.StringSet(KeyToUseForSetKey, KeyValueToSet));
+
+                    //result line
+                    int Index = 0;
+
+                    //grab the result and loop through them
+                    foreach (var ResultLine in Transaction.CommitTheTransaction())
+                    {
+                        if (Index == 0)
+                        {
+                            //should be 1
+                            Assert.AreEqual(IncrementShouldEqual, Convert.ToInt32(ResultLine));
+                        }
+                        else if (Index == 1)
+                        {
+                            //should be ok
+                            Assert.AreEqual(RedisClient.OKCommandResult, ResultLine);
+                        }
+
+                        //increment 
+                        Index++;
+                    }
+
+                    //make sure we only have 2 responses
+                    Assert.AreEqual(2, Index);
+
+                    //go test the results to make sure the records got updated
+                    Assert.AreEqual(IncrementShouldEqual, Redis.IntGet(KeyToUseForIncrement));
+
+                    //check the string now
+                    Assert.AreEqual(KeyValueToSet, Redis.StringGet(KeyToUseForSetKey));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Transaction test the discard
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.Transaction")]
+        [TestMethod]
+        public void RedisTransactionDiscardTest()
+        {
+            using (var Redis = BuildClient())
+            {
+                //start the transaction
+                using (var Transaction = Redis.CreateTransaction())
+                {
+                    //key to use for increment
+                    const string KeyToUseForDiscard = "Key." + nameof(RedisTransactionDiscardTest);
+
+                    //add an increment on this key
+                    Assert.IsNull(Redis.IncrementInt(KeyToUseForDiscard));
+
+                    //discard the transaction now
+                    Assert.AreEqual(RedisClient.OKCommandResult, Transaction.DiscardTransaction());
+
+                    //go test the value
+                    Assert.IsNull(Redis.IntGet(KeyToUseForDiscard));
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
     }

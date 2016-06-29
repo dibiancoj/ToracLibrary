@@ -87,6 +87,11 @@ namespace ToracLibrary.Redis
         #region Performance Based Constants
 
         /// <summary>
+        /// Queued command result
+        /// </summary>
+        public const string QueuedCommandResult = "QUEUED";
+
+        /// <summary>
         /// Response to a set or command
         /// </summary>
         public const string OKCommandResult = "OK";
@@ -383,9 +388,24 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="Key">Key to increment</param>
         /// <returns>new value. If key is not found the value will increment to 1 (redis default functionality)</returns>
-        public int IncrementInt(string Key)
+        /// <remarks>Returns null if you are in the middle of a transaction</remarks>
+        public int? IncrementInt(string Key)
         {
-            return Convert.ToInt32(SendCommand("INCR", Key));
+            //go send the command
+            var CommandResult = SendCommand("INCR", Key);
+
+            //try to parse this
+            int TryParseNumber;
+
+            //try to parse
+            if (int.TryParse(CommandResult.ToString(), out TryParseNumber))
+            {
+                //we have a number...return it
+                return TryParseNumber;
+            }
+
+            //queued...or some other issue
+            return null;
         }
 
         /// <summary>
@@ -393,9 +413,24 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="Key">Key to decrement</param>
         /// <returns>new value. If key is not found the value will increment to -1 (redis default functionality)</returns>
-        public int DecrementInt(string Key)
+        /// <remarks>Returns null if you are in the middle of a transaction</remarks>
+        public int? DecrementInt(string Key)
         {
-            return Convert.ToInt32(SendCommand("DECR", Key));
+            //go send the command
+            var CommandResult = SendCommand("DECR", Key);
+
+            //try to parse this
+            int TryParseNumber;
+
+            //try to parse
+            if (int.TryParse(CommandResult.ToString(), out TryParseNumber))
+            {
+                //we have a number...return it
+                return TryParseNumber;
+            }
+
+            //queued...or some other issue
+            return null;
         }
 
         #endregion
@@ -443,6 +478,20 @@ namespace ToracLibrary.Redis
         {
             //go create the object and return it
             return new RedisPipelineCommand(this);
+        }
+
+        #endregion
+
+        #region Transaction
+
+        /// <summary>
+        /// Go start the transaction and return the object
+        /// </summary>
+        /// <returns>RedisPipelineCommand build up and ready for commands to be added</returns>
+        public RedisTransaction CreateTransaction()
+        {
+            //go create the object and return it
+            return new RedisTransaction(this);
         }
 
         #endregion
