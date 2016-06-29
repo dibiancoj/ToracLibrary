@@ -424,24 +424,51 @@ namespace ToracLibraryTest.UnitsTest.Core
             using (var Redis = BuildClient())
             {
                 //how many calls
-                const int NumberOfCalls = 5;
+                const int NumberOfCalls = 10;
+
+                //key formatter
+                Func<int, string> BuildKeyFormatter = (i) => string.Format($"PipeLine{i}Key");
+
+                //value formatter
+                Func<int, string> BuildValueFormatter = (i) => string.Format($"PipeLine{i}Value");
+
+                //create the pipeline
+                var PipelineToRun = Redis.CreatePipeline();
+
+                //we are going to add a pong to make sure we get the correct calls
+                PipelineToRun.AddCommandToRun("PING");
 
                 //go make multiple ping commands
                 for (int i = 0; i < NumberOfCalls; i++)
                 {
-                    //go send a ping
-                    Redis.SendPipelineCommand("PING");
+                    //go add some records
+                    PipelineToRun.AddCommandToRun("SET", BuildKeyFormatter(i), BuildValueFormatter(i));
                 }
+
+                //index
+                var Index = 0;
 
                 //go save and commit the pipeline
-                var Result = Redis.CommitPipelineCommandLazy().ToArray();
-
-                //now commit the pipeline
-                for (int i = 0; i < NumberOfCalls; i++)
+                foreach (var ResponseForSingularCommand in PipelineToRun.SavePipeLine())
                 {
-                    //make sure we get back the correct number of pings
-                    Assert.AreEqual("PONG", Result[i]);
+                    //first call should be a pong
+                    if (Index == 0)
+                    {
+                        //should be pong
+                        Assert.AreEqual("PONG", ResponseForSingularCommand.ToString());
+                    }
+                    else
+                    {
+                        //go check the value
+                        Assert.AreEqual(RedisClient.OKCommandResult, ResponseForSingularCommand.ToString());
+                    }
+
+                    //increase the tally
+                    Index++;
                 }
+
+                //make sure we have the same amount of records
+                Assert.AreEqual(NumberOfCalls + 1, Index);
             }
         }
 

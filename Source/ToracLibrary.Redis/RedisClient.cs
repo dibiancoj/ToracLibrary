@@ -433,36 +433,16 @@ namespace ToracLibrary.Redis
 
         #endregion
 
-        #region Pipeline Test
+        #region Pipeline
 
         /// <summary>
-        /// Send a pipeline command to the server. 
+        /// Go create the pipline command and return the object
         /// </summary>
-        /// <param name="CommandToSend">Command to send</param>
-        /// <param name="Arguments">Arguments</param>
-        /// <remarks>Right now the pipeline command will be raw commands until ensure everything works</remarks>
-        public void SendPipelineCommand(string CommandToSend, params string[] Arguments)
+        /// <returns>RedisPipelineCommand build up and ready for commands to be added</returns>
+        public RedisPipelineCommand CreatePipeline()
         {
-            //send the command...no response..client can keep call this method. They will then call CommitPipelineCommand when all don
-            SendCommand(CommandToSend, Arguments, null);
-        }
-
-        /// <summary>
-        /// Returns all the results of the pipeline command. 
-        /// </summary>
-        /// <returns>response of all the commands.</returns>
-        /// <remarks>Right now the pipeline command will be raw commands until ensure everything works</remarks>
-        public IEnumerable<object> CommitPipelineCommandLazy()
-        {
-            //response place holder
-            object Response;
-
-            //loop until we are done
-            while ((Response = FetchResponse(null)) != null)
-            {
-                //return the response
-                yield return Response;
-            }
+            //go create the object and return it
+            return new RedisPipelineCommand(this);
         }
 
         #endregion
@@ -497,7 +477,7 @@ namespace ToracLibrary.Redis
         /// Send a request
         /// </summary>
         /// <param name="CommandToSendInBytes">Command to send in bytes</param>
-        private void SendRequest(byte[] CommandToSendInBytes)
+        internal void SendRequest(byte[] CommandToSendInBytes)
         {
             try
             {
@@ -518,7 +498,7 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="BinaryDecoder">BinaryDecoder if one</param>
         /// <returns>Response</returns>
-        private object FetchResponse(Func<byte[], object> BinaryDecoder)
+        internal object FetchResponse(Func<byte[], object> BinaryDecoder)
         {
             //read the first byte so we can determine the response type
             var ResponseTypeBeingReturned = (ResponseType)ResponseStream.ReadByte();
@@ -645,7 +625,7 @@ namespace ToracLibrary.Redis
         /// <param name="CommandToSend">Command to send</param>
         /// <param name="Arguments">Argument</param>
         /// <returns>byte array for this safe command</returns>
-        private byte[] BuildBinarySafeCommand(string CommandToSend, string[] Arguments)
+        internal byte[] BuildBinarySafeCommand(string CommandToSend, string[] Arguments)
         {
             //grab the 3rd line
             var ThirdLine = Arguments.Select(x =>
