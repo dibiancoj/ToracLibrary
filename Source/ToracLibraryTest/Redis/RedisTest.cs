@@ -409,6 +409,51 @@ namespace ToracLibraryTest.UnitsTest.Core
             }
         }
 
+        /// <summary>
+        /// List data type
+        /// </summary>
+        [TestCategory("Redis")]
+        [TestCategory("Redis.HighLevel")]
+        [TestMethod]
+        public void RedisHigherLevelListLevelDataType()
+        {
+            using (var Redis = BuildClient())
+            {
+                //key to use
+                string Key = nameof(RedisHigherLevelListLevelDataType) + " with space";
+
+                //formatter for value
+                Func<int, string> FormatterForValue = i => i + " Item";
+
+                //go build the 3 items we want to save
+                var ItemsToInsert = new List<string>();
+
+                //go add the items
+                for (int i = 0; i < 3; i++)
+                {
+                    //add the item
+                    ItemsToInsert.Add(FormatterForValue(i));
+                }
+
+                //go insert 1 item
+                Assert.AreEqual(1, Redis.ListItemInsert(Key, ItemsToInsert[0], RedisClient.ListInsertType.InsertAtTopOfList));
+
+                //add another item  to the top
+                Assert.AreEqual(2, Redis.ListItemInsert(Key, ItemsToInsert[1], RedisClient.ListInsertType.InsertAtTopOfList));
+
+                //add another item at the bottom
+                Assert.AreEqual(3, Redis.ListItemInsert(Key, ItemsToInsert[2], RedisClient.ListInsertType.InsertAtEndOfList));
+
+                //let's grab all the items in the list now (so we can test the select)
+                var ItemsInList = Redis.ListItemSelectLazy(Key).ToArray();
+
+                //make sure we have the correct items in the list with the correct order
+                Assert.AreEqual(ItemsToInsert[1], ItemsInList[0]);
+                Assert.AreEqual(ItemsToInsert[0], ItemsInList[1]);
+                Assert.AreEqual(ItemsToInsert[2], ItemsInList[2]);
+            }
+        }
+
         #endregion
 
         #region Pipeline Test
@@ -489,7 +534,6 @@ namespace ToracLibraryTest.UnitsTest.Core
                 //start the transaction
                 using (var Transaction = Redis.CreateTransaction())
                 {
-
                     //key to use for increment
                     const string KeyToUseForIncrement = "Key." + nameof(RedisTransactionCommitTest);
 

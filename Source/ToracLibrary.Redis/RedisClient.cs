@@ -207,6 +207,23 @@ namespace ToracLibrary.Redis
 
         }
 
+        /// <summary>
+        /// Where to insert a list
+        /// </summary>
+        public enum ListInsertType : byte
+        {
+
+            /// <summary>
+            /// Insert it at the top of the list - First Element (LPUSH)
+            /// </summary>
+            InsertAtTopOfList = 0,
+
+            /// <summary>
+            /// Insert at the bottom of the list - Last Element (RPUSH)
+            /// </summary>
+            InsertAtEndOfList = 1
+        }
+
         #endregion
 
         #region Methods
@@ -377,6 +394,43 @@ namespace ToracLibrary.Redis
 
             //return the null
             return null;
+        }
+
+        #endregion
+
+        #region List Based
+
+        /// <summary>
+        /// Add an item to a list.
+        /// </summary>
+        /// <typeparam name="T">Type of the record to insert</typeparam>
+        /// <param name="Key">Key to use for the list</param>
+        /// <param name="ValueToInsert"></param>
+        /// <param name="InsertLocation">Where to insert the item</param>
+        /// <returns>The count of items in the list after it has been inserted</returns>
+        public int ListItemInsert<T>(string Key, T ValueToInsert, ListInsertType InsertLocation)
+        {
+            //determine the command to use to insert it in the correct location
+            string CommandToUse = InsertLocation == ListInsertType.InsertAtTopOfList ? "LPUSH" : "RPUSH";
+
+            //go send the command and return it
+            return Convert.ToInt32(SendCommand(CommandToUse, Key, (ValueToInsert.ToString())));
+        }
+
+        /// <summary>
+        /// Get all the items in a list
+        /// </summary>
+        /// <param name="Key">Key to use for the list</param>
+        /// <returns>The items that were in the list</returns>
+        public IEnumerable<string> ListItemSelectLazy(string Key)
+        {
+            //go send the command and return it (-1 means everything)...so we grab first element to last
+            //execute and return everything in a string format
+            foreach (var ItemInList in ((IEnumerable<object>)SendCommand("LRANGE", Key, "0", "-1")).Cast<byte[]>())
+            {
+                //convert and return it
+                yield return ByteArrayToString(ItemInList);
+            }
         }
 
         #endregion
