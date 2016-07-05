@@ -146,7 +146,7 @@ namespace ToracLibrary.Core.Permutations
                     }
 
                     //increase the tally
-                    StartingElementIndex += 1;
+                    StartingElementIndex++;
                 }
             }
         }
@@ -166,22 +166,18 @@ namespace ToracLibrary.Core.Permutations
             //holds the index that we are up to
             int CurrentIndex = 0;
 
-            //grab the enumerator
-            using (var EnumeratorToUse = Collection.GetEnumerator())
+            //loop through the collection
+            foreach (var Item in Collection)
             {
-                //move next
-                while (EnumeratorToUse.MoveNext())
+                //make sure its the index we don't want
+                if (CurrentIndex != IndexToExclude)
                 {
-                    //is this the index we want to exclude?
-                    if (CurrentIndex != IndexToExclude)
-                    {
-                        //it is not..so return this item
-                        yield return EnumeratorToUse.Current;
-                    }
-
-                    //always increment the counter
-                    CurrentIndex++;
+                    //it's not the item...so return this item
+                    yield return Item;
                 }
+
+                //increment the counter
+                CurrentIndex++;
             }
         }
 
