@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
 namespace ToracLibrary.Core.Permutations
 {
@@ -140,8 +141,8 @@ namespace ToracLibrary.Core.Permutations
                     //loop through the next set recursively
                     foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthMinus1, ItemsAreExclusive))
                     {
-                        //go start from the previous call and keep looping
-                        yield return new PermutationBuilderResult<T>(new T[] { StartingElement }.Concat(PermutationOfRemainder.PermutationItems));
+                        //go start from the previous call and keep looping (use the iterator so we don't have to allocate a dummy array with 1 element)
+                        yield return new PermutationBuilderResult<T>(PermutationOfRemainder.PermutationItems.ConcatItemLazy(StartingElement));
                     }
 
                     //increase the tally

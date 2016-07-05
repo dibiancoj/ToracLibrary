@@ -383,7 +383,7 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
-        #region Chunk Up list
+        #region Chunk Up List
 
         /// <summary>
         /// Helper method to calculate how many items should go in a bucket
@@ -484,6 +484,45 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
                 //now check the first element in the group
                 Assert.AreEqual(i * 5, ChunkedInto5ElementsPerGroup[i].ElementAt(0).Id);
+            }
+        }
+
+        #endregion
+
+        #region Concat With Single Item
+
+        /// <summary>
+        /// Unit test for ConcatItemLazy
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ConcatItemLazyTest1()
+        {
+            //go build the list
+            var TestList = DummyObject.CreateDummyListLazy(2).ToList();
+
+            //go grab the single item
+            var ItemToAppend = DummyObject.CreateDummyRecord();
+
+            //go build the result
+            var Result = TestList.ConcatItemLazy(ItemToAppend).ToList();
+
+            //make sure we have 3 items
+            Assert.AreEqual(TestList.Count + 1, Result.Count);
+
+            //use the concat operator to make sure we have the same results
+            var ShouldBeResult = new DummyObject[] { ItemToAppend }.Concat(TestList).ToList();
+
+            //now go test all the items
+            for (int i = 0; i < ShouldBeResult.Count; i++)
+            {
+                //test the id
+                Assert.AreEqual(ShouldBeResult[i].Id, Result[i].Id);
+
+                //test the description
+                Assert.AreEqual(ShouldBeResult[i].Description, Result[i].Description);
             }
         }
 

@@ -340,6 +340,30 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
+        #region Concat Single Item With List Iterator
+
+        /// <summary>
+        /// Concat an item to an enumerable without allocating an array with 1 element. Performance minded method. The single item is at the beginning then the list
+        /// </summary>
+        /// <typeparam name="T">Type of the record to concat</typeparam>
+        /// <param name="IEnumerableToConcat">IEnumerable to concat</param>
+        /// <param name="ItemToAddToList">Item to add to the list at the beg.</param>
+        /// <returns>Single item plus all the items in the collection</returns>
+        public static IEnumerable<T> ConcatItemLazy<T>(this IEnumerable<T> IEnumerableToConcat, T ItemToAddToList)
+        {
+            //return the single item
+            yield return ItemToAddToList;
+
+            //now go return all the items in the collection
+            foreach (var ItemInList in IEnumerableToConcat)
+            {
+                //return this item
+                yield return ItemInList;
+            }
+        }
+
+        #endregion
+
         #endregion
 
     }
