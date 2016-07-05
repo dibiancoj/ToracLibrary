@@ -492,13 +492,13 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
         #region Concat With Single Item
 
         /// <summary>
-        /// Unit test for ConcatItemLazy
+        /// Unit test for ConcatItemLazy - single item first
         /// </summary>
         [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
         [TestCategory("ExtensionMethods")]
         [TestCategory("Core")]
         [TestMethod]
-        public void ConcatItemLazyTest1()
+        public void ConcatItemLazySingleItemFirstTest1()
         {
             //go build the list
             var TestList = DummyObject.CreateDummyListLazy(2).ToList();
@@ -507,13 +507,48 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
             var ItemToAppend = DummyObject.CreateDummyRecord();
 
             //go build the result
-            var Result = TestList.ConcatItemLazy(ItemToAppend).ToList();
+            var Result = TestList.ConcatItemLazy(ItemToAppend, false).ToList();
 
             //make sure we have 3 items
             Assert.AreEqual(TestList.Count + 1, Result.Count);
 
             //use the concat operator to make sure we have the same results
             var ShouldBeResult = new DummyObject[] { ItemToAppend }.Concat(TestList).ToList();
+
+            //now go test all the items
+            for (int i = 0; i < ShouldBeResult.Count; i++)
+            {
+                //test the id
+                Assert.AreEqual(ShouldBeResult[i].Id, Result[i].Id);
+
+                //test the description
+                Assert.AreEqual(ShouldBeResult[i].Description, Result[i].Description);
+            }
+        }
+
+        /// <summary>
+        /// Unit test for ConcatItemLazy - list first
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.IEnumerableExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void ConcatItemLazyListFirstTest1()
+        {
+            //go build the list
+            var TestList = DummyObject.CreateDummyListLazy(2).ToList();
+
+            //go grab the single item
+            var ItemToAppend = DummyObject.CreateDummyRecord();
+
+            //go build the result
+            var Result = TestList.ConcatItemLazy(ItemToAppend, true).ToList();
+
+            //make sure we have 3 items
+            Assert.AreEqual(TestList.Count + 1, Result.Count);
+
+            //use the concat operator to make sure we have the same results
+            var ShouldBeResult = TestList.Concat(new DummyObject[] { ItemToAppend }).ToList();
 
             //now go test all the items
             for (int i = 0; i < ShouldBeResult.Count; i++)
