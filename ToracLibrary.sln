@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -169,6 +169,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JSON", "JSON", "{D350B534-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Redis", "Source\ToracLibrary.Redis\ToracLibrary.Redis.csproj", "{7556230B-F7A2-4899-A1C4-CD40EF768C87}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlSession", "SqlSession", "{757A527E-C5CE-4194-B98C-C9FFB022A508}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\SqlSession\DirectionsToInstallInDb.txt = Docs\Examples\SqlSession\DirectionsToInstallInDb.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoMapper", "AutoMapper", "{949F038C-3624-418D-AB51-245F72EB5FC8}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\AutoMapper\Directions.txt = Docs\Examples\AutoMapper\Directions.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -309,5 +319,7 @@ Global
 		{C7323988-B22E-4B50-AA8B-6279528B7CBD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{D350B534-F0A2-4C8C-9368-076E53435B83} = {20BD18E2-78EC-444C-8490-1984342B40E4}
 		{7556230B-F7A2-4899-A1C4-CD40EF768C87} = {264DB62C-6C82-490B-922A-6369B851BB37}
+		{757A527E-C5CE-4194-B98C-C9FFB022A508} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{949F038C-3624-418D-AB51-245F72EB5FC8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal

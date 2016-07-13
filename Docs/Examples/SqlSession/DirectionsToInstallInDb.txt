@@ -1,0 +1,8 @@
+The following steps describe how to run the InstallSqlState.sql and the UninstallSqlState.sql script files to configure SQL Server mode session state management.
+ 
+Cd C:\Windows\Microsoft.NET\Framework\v4.0.30319
+aspnet_regsql -S serverName -E -ssadd -sstype p
+ 
+·         t - Stores session data in the SQL Server tempdb database. This is the default. If you store session data in the tempdb database, the session data is lost if SQL Server is restarted.
+·         p - Stores session data in the ASPState database instead of in the tempdb database.
+·         c - Stores session data in a custom database. If you specify the c option, you must also include the name of the custom database using the -d option.

@@ -1,0 +1,82 @@
+First off: ExpressionTreeHelpers.SelectNewFromObject if much faster (just make sure you compile and cache the funcs)
+
+//---------------------------------------------
+
+If you do want to use Automapper:
+
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace WebApplication1.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<From, To>().ReverseMap();
+                cfg.CreateMap<SubFrom, SubTo>().ReverseMap();
+            });
+            //Mapper.Initialize(cfg => cfg.CreateMap<SubFrom, SubTo>().ReverseMap());
+
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<SessionUser, OutOfProcSessionUser>());
+
+            Mapper.AssertConfigurationIsValid();
+
+            var from = new From { Test = "FromTest", SubTest = new SubFrom { Test2 = "SDAfdsfds" } };
+
+            var z = Mapper.Map<From, To>(from);
+
+            Session["Test"] = 123;
+
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+
+    [Serializable]
+    public class From
+    {
+        public string Test { get; set; }
+        public SubFrom SubTest { get; set; }
+
+
+    }
+
+    [Serializable]
+    public class To
+    {
+        public string Test { get; set; }
+        public SubTo SubTest { get; set; }
+    }
+
+    [Serializable]
+    public class SubFrom
+    {
+        public string Test2 { get; set; }
+    }
+
+    [Serializable]
+    public class SubTo
+    {
+        public string Test2 { get; set; }
+    }
+}
