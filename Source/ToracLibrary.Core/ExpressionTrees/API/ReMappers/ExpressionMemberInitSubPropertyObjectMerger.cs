@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
@@ -160,25 +161,10 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             }
 
             //now we need to merge the 2 binding lists
-            var MergedBindingLists = new List<MemberBinding>();
+            IEnumerable<MemberBinding> MergedBindingLists;
 
             //based on the merge position put the bindings before or after
-            if (WhichMergeSubObjectPosition == ExpressionReMapperShared.ExpressionMemberInitMergerPosition.Before)
-            {
-                //we want to add the sub object first...so add it first
-                MergedBindingLists.Add(Expression.Bind(SubPropertyInfo, Node));
-
-                //add the rest of the bindings next
-                MergedBindingLists.AddRange(ReboundBaseInit.Bindings);
-            }
-            else
-            {
-                //add all the bindings first
-                MergedBindingLists.AddRange(ReboundBaseInit.Bindings);
-
-                //now add the sub object property last
-                MergedBindingLists.Add(Expression.Bind(SubPropertyInfo, Node));
-            }
+            MergedBindingLists = ReboundBaseInit.Bindings.ConcatItemLazy(Expression.Bind(SubPropertyInfo, Node), WhichMergeSubObjectPosition == ExpressionReMapperShared.ExpressionMemberInitMergerPosition.After);
 
             //now we build the final lambda...and we set the property. the extension method will return this item
             FinalResult = Expression.Lambda<Func<TSource, TBaseDest>>(Expression.MemberInit(NewBaseObject, MergedBindingLists), NewParameter);

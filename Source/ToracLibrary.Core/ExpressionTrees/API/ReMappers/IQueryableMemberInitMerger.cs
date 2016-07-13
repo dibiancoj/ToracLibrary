@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
 namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
 {
@@ -90,7 +91,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             var BindThisProperty = Expression.Bind(ToProjectionProperty, Expression.MakeMemberAccess(FindMyParameter.ParameterExpressionsThatWeFound, FromPropertyInfo));
 
             //go merge the bindings
-            var MergedBindings = Node.Bindings.Concat(new MemberBinding[] { BindThisProperty });
+            var MergedBindings = Node.Bindings.ConcatItemLazy(BindThisProperty, true);
 
             //now create a new expression and return it
             return Expression.MemberInit(Expression.New(typeof(TQueryType)), MergedBindings);

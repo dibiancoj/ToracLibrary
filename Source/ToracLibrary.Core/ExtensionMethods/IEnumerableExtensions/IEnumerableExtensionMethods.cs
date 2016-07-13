@@ -348,11 +348,15 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <typeparam name="T">Type of the record to concat</typeparam>
         /// <param name="IEnumerableToConcat">IEnumerable to concat</param>
         /// <param name="ItemToAddToList">Item to add to the list at the beg.</param>
+        /// <param name="OrderListFirst">Do you want the list to be returned first?</param>
         /// <returns>Single item plus all the items in the collection</returns>
-        public static IEnumerable<T> ConcatItemLazy<T>(this IEnumerable<T> IEnumerableToConcat, T ItemToAddToList)
+        public static IEnumerable<T> ConcatItemLazy<T>(this IEnumerable<T> IEnumerableToConcat, T ItemToAddToList, bool OrderListFirst)
         {
-            //return the single item
-            yield return ItemToAddToList;
+            //if we are not returning the list first then return the single item
+            if (!OrderListFirst)
+            {
+                yield return ItemToAddToList;
+            }
 
             //now go return all the items in the collection
             foreach (var ItemInList in IEnumerableToConcat)
@@ -360,6 +364,13 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
                 //return this item
                 yield return ItemInList;
             }
+
+            //if we are returning the list first then return the single item at the end
+            if (OrderListFirst)
+            {
+                yield return ItemToAddToList;
+            }
+
         }
 
         #endregion
