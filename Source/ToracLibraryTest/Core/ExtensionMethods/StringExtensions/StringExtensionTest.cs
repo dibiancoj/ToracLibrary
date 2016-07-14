@@ -386,6 +386,36 @@ namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Surround With
+
+        /// <summary>
+        /// Test to make sure the SurroundWith works
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void SurroundWithTest1()
+        {
+            Assert.AreEqual("?Jason?", "Jason".SurroundWith("?"));
+            Assert.AreEqual("!Test!", "Test".SurroundWith("!"));
+        }
+
+        /// <summary>
+        /// Test to make sure the SurroundWithQuotes works
+        /// </summary>
+        [TestCategory("Core.ExtensionMethods.StringExtensions")]
+        [TestCategory("ExtensionMethods")]
+        [TestCategory("Core")]
+        [TestMethod]
+        public void SurroundWithQuotesTest1()
+        {
+            Assert.AreEqual(@"""Jason""", "Jason".SurroundWithQuotes());
+            Assert.AreEqual(@"""Test""", "Test".SurroundWithQuotes());
+        }
+
+        #endregion
+
     }
 
 }

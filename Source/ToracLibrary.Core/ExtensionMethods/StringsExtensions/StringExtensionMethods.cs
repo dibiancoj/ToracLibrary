@@ -437,6 +437,45 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
+        #region Surround With
+
+        /// <summary>
+        /// Surround a string with quotes
+        /// </summary>
+        /// <param name="StringToQuote">String to put quotes around</param>
+        /// <returns>String with the value at the beg and end of it</returns>
+        public static string SurroundWithQuotes(this string StringToQuote)
+        {
+            //use the overload and pass in quotes
+            return StringToQuote.SurroundWith("\"");
+        }
+
+        /// <summary>
+        /// Surround a string with a specific character at the front and back
+        /// </summary>
+        /// <param name="StringToQuote">String to put characters around it. Front and Back of the string</param>
+        /// <param name="StringToAddAtBegAndEnd">String value to add at the beg and end of the passed in string</param>
+        /// <returns>String with the value at the beg and end of it</returns>
+        public static string SurroundWith(this string StringToQuote, string StringToAddAtBegAndEnd)
+        {
+            //string builder to build it up
+            var Sb = new StringBuilder();
+
+            //first string value
+            Sb.Append(StringToAddAtBegAndEnd);
+
+            //actual string value to surround with now
+            Sb.Append(StringToQuote);
+
+            //end string value
+            Sb.Append(StringToAddAtBegAndEnd);
+
+            //return the string
+            return Sb.ToString();
+        }
+
+        #endregion
+
     }
 
 }
