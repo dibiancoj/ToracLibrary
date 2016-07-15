@@ -39,7 +39,9 @@ namespace ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions
 
             //run a quick check to make sure the page number is ok
             if (CurrentPageNumber == 0)
+            {
                 throw new IndexOutOfRangeException("Current Page Number Can't Be 0. Use 1 For The First Page");
+            }
 
             //go skip however many pages we are past...and take only x amount of records per page
             return QueryToModify.Skip((CurrentPageNumber - 1) * HowManyRecordsPerPage).Take(HowManyRecordsPerPage).AsQueryable();
