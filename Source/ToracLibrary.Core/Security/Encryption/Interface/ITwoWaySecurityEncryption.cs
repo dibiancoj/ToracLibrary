@@ -10,7 +10,7 @@ namespace ToracLibrary.Core.Security.Encryption
     /// <summary>
     /// Interface for the encryption api you want to use.
     /// </summary>
-    public interface ISecurityEncryption : IOneWaySecurityEncryption
+    public interface ITwoWaySecurityEncryption : IOneWaySecurityEncryption
     {
 
         /// <summary>

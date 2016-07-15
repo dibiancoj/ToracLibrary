@@ -122,7 +122,7 @@
     <Compile Include="Security\Encryption\Implementations\SHA256SecurityEncryption.cs" />
     <Compile Include="Security\Encryption\Implementations\MD5HashSecurityEncryption.cs" />
     <Compile Include="Security\Encryption\Interface\IOneWaySecurityEncryption.cs" />
-    <Compile Include="Security\Encryption\Interface\ISecurityEncryption.cs" />
+    <Compile Include="Security\Encryption\Interface\ITwoWaySecurityEncryption.cs" />
     <Compile Include="Security\Encryption\Implementations\RijndaelSecurityEncryption.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="ToracAttributes\ExpressionTrees\EntityFrameworkCompatibleAttribute.cs" />

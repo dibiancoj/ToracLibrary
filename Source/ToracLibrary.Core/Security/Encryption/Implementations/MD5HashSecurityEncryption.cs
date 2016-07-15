@@ -13,7 +13,7 @@ namespace ToracLibrary.Core.Security.Encryption
     /// Class Used To Encrypt And Decrypt String Values Using The MD5 Hash Protocol
     /// </summary>
     /// <remarks>Class Is Immutable With Properties</remarks>
-    public class MD5HashSecurityEncryption : ISecurityEncryption
+    public class MD5HashSecurityEncryption : ITwoWaySecurityEncryption
     {
 
         #region Constructor

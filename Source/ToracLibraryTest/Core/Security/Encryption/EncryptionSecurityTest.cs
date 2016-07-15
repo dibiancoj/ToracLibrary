@@ -24,12 +24,12 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void ConfigureDIContainer(ToracDIContainer DIContainer)
         {
             //let's register the di container now (md5)
-            DIContainer.Register<ISecurityEncryption, MD5HashSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
+            DIContainer.Register<ITwoWaySecurityEncryption, MD5HashSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
                 .WithFactoryName(MD5DIContainerName)
                 .WithConstructorParameters(new PrimitiveCtorParameter("Test"));
 
             //let's register the rijndael container now
-            DIContainer.Register<ISecurityEncryption, RijndaelSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
+            DIContainer.Register<ITwoWaySecurityEncryption, RijndaelSecurityEncryption>(ToracDIContainer.DIContainerScope.Singleton)
                 .WithFactoryName(RijndaelDIContainerName)
                 .WithConstructorParameters(new PrimitiveCtorParameter("1234567891123456"), new PrimitiveCtorParameter("1234567891123456"));
 
@@ -76,7 +76,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void EncryptionMD5HashTest1()
         {
             //create the implementation of the interface
-            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ISecurityEncryption>(MD5DIContainerName);
+            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ITwoWaySecurityEncryption>(MD5DIContainerName);
 
             //go encrypt the value
             var EncryptedValue = EncryptImplementation.Encrypt(ValueToTest);
@@ -101,7 +101,7 @@ namespace ToracLibraryTest.UnitsTest.Core
         public void EncryptionRijndaelSecurityTest1()
         {
             //create the implementation of the interface
-            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ISecurityEncryption>(RijndaelDIContainerName);
+            var EncryptImplementation = DIUnitTestContainer.DIContainer.Resolve<ITwoWaySecurityEncryption>(RijndaelDIContainerName);
 
             //go encrypt the value
             var EncryptedValue = EncryptImplementation.Encrypt(ValueToTest);

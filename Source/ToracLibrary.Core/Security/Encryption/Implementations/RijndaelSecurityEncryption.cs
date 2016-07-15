@@ -14,7 +14,7 @@ namespace ToracLibrary.Core.Security.Encryption
     /// Class Used To Encrypt And Decrypt String Values Using The RijndaelManaged Protocol
     /// </summary>
     /// <remarks>Class Is Immutable With Properties</remarks>
-    public class RijndaelSecurityEncryption : ISecurityEncryption
+    public class RijndaelSecurityEncryption : ITwoWaySecurityEncryption
     {
 
         #region Constructor
