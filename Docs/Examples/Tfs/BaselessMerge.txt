@@ -7,4 +7,4 @@ Example 1:
 Tf merge /baseless c:\data\proj1 c:\data proj2 /recursive
 
 Example 2:
-Tf merge /baseless C:\Workspace\Portal\MYMSKCC-branchMSKPrepareFinancialForms C:\Workspace\Portal\MYMSKCC-branchMSKPrepareSprint1 /recursive
+Tf merge /baseless "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareFinancialForms" "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareSprint1" /recursive
