@@ -7,7 +7,7 @@ namespace ToracLibraryTest.UnitsTest.Core
 {
 
     /// <summary>
-    /// Unit test to
+    /// Unit test for enum utilities
     /// </summary>
     [TestClass]
     public class EnumUtilityTest
