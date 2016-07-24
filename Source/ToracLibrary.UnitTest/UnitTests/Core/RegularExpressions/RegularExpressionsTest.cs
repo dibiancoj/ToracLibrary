@@ -15,18 +15,27 @@ namespace ToracLibrary.UnitTest.Core
         #region Html Tag Removal Tests
 
         /// <summary>
-        /// Html Tag Removal Test
+        /// Html Tag Removal Test. First overload with no replace value
         /// </summary>
-        [Fact]
-        public void HtmlTagRemovalTest1()
+        [InlineData("<html>Test</html>", "Test")]
+        [InlineData("<html><jason>Test</jason></html>", "Test")]
+        [InlineData("<html id=\"5\"><jason>Test</jason></html>", "Test")]
+        [InlineData("<html id=\"5\"><jason txt=\"123\">Test</jason></html>", "Test")]
+        [InlineData("<html id=\"5\">htmltag<jason txt=\"123\">Test</jason></html>", "htmltagTest")]
+        [Theory]
+        public void HtmlTagRemovalTest1(string HtmlToTest, string ShouldBeValue)
         {
-            //test some html
-            Assert.Equal("Test", HtmlTagRemoval.StripHtmlTags("<html>Test</html>"));
-            Assert.Equal("Test", HtmlTagRemoval.StripHtmlTags("<html><jason>Test</jason></html>"));
-            Assert.Equal("Test", HtmlTagRemoval.StripHtmlTags("<html id=\"5\"><jason>Test</jason></html>"));
-            Assert.Equal("Test", HtmlTagRemoval.StripHtmlTags("<html id=\"5\"><jason txt=\"123\">Test</jason></html>"));
-            Assert.Equal("htmltagTest", HtmlTagRemoval.StripHtmlTags("<html id=\"5\">htmltag<jason txt=\"123\">Test</jason></html>"));
-            Assert.Equal("hTesth", HtmlTagRemoval.StripHtmlTags("<html>Test</html>", "h"));
+            Assert.Equal(ShouldBeValue, HtmlTagRemoval.StripHtmlTags(HtmlToTest));
+        }
+
+        /// <summary>
+        /// Html Tag Removal Test. Second overload with the replace value
+        /// </summary>
+        [InlineData("<html>Test</html>", "h", "hTesth")]
+        [Theory]
+        public void HtmlTagRemovalTest2(string HtmlToTest, string ReplaceValue, string ShouldBeValue)
+        {
+            Assert.Equal(ShouldBeValue, HtmlTagRemoval.StripHtmlTags(HtmlToTest, ReplaceValue));
         }
 
         #endregion
@@ -34,15 +43,25 @@ namespace ToracLibrary.UnitTest.Core
         #region NumberParser
 
         /// <summary>
-        /// Test the regular expression parser functionanlity
+        /// Test the regular expression parser functionanlity. First overload with no replace value
         /// </summary>
-        [Fact]
-        public void NumberParserTest1()
+        [InlineData("jason123", "jason")]
+        [InlineData("123jason123", "jason")]
+        [InlineData("123jas123on123", "jason")]
+        [Theory]
+        public void NumberParserTest1(string TestValueToParse, string ShouldBeValue)
         {
-            Assert.Equal("jason", NumberParser.ParseStringAndLeaveOnlyNumbers("jason123"));
-            Assert.Equal("jason", NumberParser.ParseStringAndLeaveOnlyNumbers("123jason123"));
-            Assert.Equal("jason", NumberParser.ParseStringAndLeaveOnlyNumbers("123jas123on123"));
-            Assert.Equal("zzzjaszonzzz", NumberParser.ParseStringAndLeaveOnlyNumbers("123jas1on123", "z"));
+            Assert.Equal(ShouldBeValue, NumberParser.ParseStringAndLeaveOnlyNumbers(TestValueToParse));
+        }
+
+        /// <summary>
+        /// Test the regular expression parser functionanlity. Second Overload with replace value
+        /// </summary>
+        [InlineData("123jas1on123", "zzzjaszonzzz", "z")]
+        [Theory]
+        public void NumberParserTest2(string TestValueToParse, string ShouldBeValue, string ReplaceWithValue)
+        {
+            Assert.Equal(ShouldBeValue, NumberParser.ParseStringAndLeaveOnlyNumbers(TestValueToParse, ReplaceWithValue));
         }
 
         #endregion
