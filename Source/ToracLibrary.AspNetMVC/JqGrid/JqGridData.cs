@@ -80,7 +80,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.JqGrid
 
             //set the total number of pages
             ReturnGridData.TotalPages = DataSetPaging.CalculateTotalPages(ReturnGridData.TotalNumberOfRecordsInDataSet, HowManyPerPage);
-  
+
             //let's set the data now for just this page
             ReturnGridData.RowsOfData = GridDataSource.AsQueryable().OrderBy(SortPropertySelector).PaginateResults(PageIndex, HowManyPerPage).ToArray();
 

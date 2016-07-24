@@ -1,0 +1,4 @@
+﻿Microsoft.VisualStudio.TestPlatform.ObjectModel.dll is referenced by the project.
+When i moved everything over from ms test to xunit the implementing class test was blowing up because xunit needs this reference.
+I went to github grabbed there source code and pulled the dll down to this solution. They don't use "myget" for the dll package. 
+I don't want to pull that in to my solution so i manually pulled in the dll. They might eventually ship with it.
