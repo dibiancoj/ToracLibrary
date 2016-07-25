@@ -8,12 +8,12 @@ using ToracLibrary.Core.ExtensionMethods.IQueryableExtensions;
 using ToracLibrary.UnitTest.Core.DataProviders;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 using static ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions.IOrderedQueryableExtensionMethods;
 using static ToracLibrary.Core.ExtensionMethods.IQueryableExtensions.IQueryableExtensionMethods;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
+namespace ToracLibrary.UnitTestUnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

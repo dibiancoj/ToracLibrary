@@ -6,7 +6,7 @@ using System.Text;
 using ToracLibrary.Core.ExtensionMethods.ISetExtensions;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
+namespace ToracLibrary.UnitTestUnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

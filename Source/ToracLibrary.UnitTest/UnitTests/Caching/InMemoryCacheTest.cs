@@ -6,7 +6,7 @@ using ToracLibrary.DIContainer;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.Caching
+namespace ToracLibrary.UnitTestUnitsTest.Caching
 {
 
     /// <summary>

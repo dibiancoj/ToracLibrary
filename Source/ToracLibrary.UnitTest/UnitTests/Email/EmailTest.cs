@@ -8,7 +8,7 @@ using System.Net.Mail;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.EmailSMTP
+namespace ToracLibrary.UnitTestUnitsTest.EmailSMTP
 {
 
     /// <summary>

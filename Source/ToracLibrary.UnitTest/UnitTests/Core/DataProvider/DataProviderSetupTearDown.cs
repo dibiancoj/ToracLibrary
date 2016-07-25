@@ -8,7 +8,7 @@ using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
 
 namespace ToracLibrary.UnitTest.Core.DataProviders
 {

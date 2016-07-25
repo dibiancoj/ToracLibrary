@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace ToracLibraryTest.UnitsTest.Core.T4Templates
+namespace ToracLibrary.UnitTestUnitsTest.Core.T4Templates
 {
 
 	public class T4Template

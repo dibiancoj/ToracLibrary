@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using ToracLibrary.AspNet.AspNetMVC.CustomModelBinders;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC
+namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC
 {
 
     /// <summary>

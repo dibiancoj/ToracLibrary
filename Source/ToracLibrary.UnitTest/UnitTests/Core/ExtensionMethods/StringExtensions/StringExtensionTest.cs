@@ -9,7 +9,7 @@ using ToracLibrary.UnitTest.Framework;
 using Xunit;
 using static ToracLibrary.Core.ExtensionMethods.StringExtensions.StringExtensionMethods;
 
-namespace ToracLibraryTest.UnitsTest.ExtensionMethods.Core
+namespace ToracLibrary.UnitTestUnitsTest.ExtensionMethods.Core
 {
 
     /// <summary>

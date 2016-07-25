@@ -10,7 +10,7 @@ using ToracLibrary.Core.ExtensionMethods.ExpressionTreeExtensions;
 using ToracLibrary.UnitTest.Core.DataProviders;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Core

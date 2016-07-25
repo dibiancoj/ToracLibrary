@@ -7,14 +7,14 @@ using ToracLibrary.AspNet.AspNetMVC.JqGrid;
 using ToracLibrary.AspNet.AspNetMVC.JqGrid.InlineFilters;
 using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomActionResults;
 using ToracLibrary.UnitTest.Core.DataProviders;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.CustomActionResults;
-using ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.JqGrid
+namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.JqGrid
 {
 
     /// <summary>

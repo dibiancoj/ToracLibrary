@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ToracLibrary.DynamicRunTime;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.DynamicRunTime
+namespace ToracLibrary.UnitTestUnitsTest.DynamicRunTime
 {
 
     /// <summary>
@@ -25,7 +25,7 @@ namespace ToracLibraryTest.UnitsTest.DynamicRunTime
             var CodeToCompile = @"
                                 using System;
 
-                                namespace ToracLibraryTest.UnitsTest.DynamicRunTime
+                                namespace ToracLibrary.UnitTestUnitsTest.DynamicRunTime
                                 {
                                            public class Writer
                                             {
@@ -43,7 +43,7 @@ namespace ToracLibraryTest.UnitsTest.DynamicRunTime
             Assert.False(ResultOfCompile.CompileTimeErrorsLazy().Any());
 
             //grab the assembly reference type
-            Type ClassTypeToRun = ResultOfCompile.UpdatedAssembly.GetType("ToracLibraryTest.UnitsTest.DynamicRunTime.Writer");
+            Type ClassTypeToRun = ResultOfCompile.UpdatedAssembly.GetType("ToracLibrary.UnitTestUnitsTest.DynamicRunTime.Writer");
 
             //since this is an instance method, let's create the type
             var ClassTypeToRunInstance = Activator.CreateInstance(ClassTypeToRun);

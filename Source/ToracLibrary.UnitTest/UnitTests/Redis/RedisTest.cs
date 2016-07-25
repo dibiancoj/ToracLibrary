@@ -5,7 +5,7 @@ using System.Threading;
 using ToracLibrary.Redis;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.Core
+namespace ToracLibrary.UnitTestUnitsTest.Core
 {
 
     /// <summary>

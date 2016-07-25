@@ -10,7 +10,7 @@ using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.Core.DataProviders.EntityFrameworkDP
+namespace ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP
 {
 
     /// <summary>

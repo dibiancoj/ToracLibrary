@@ -7,7 +7,7 @@ using ToracLibrary.Serialization.JasonSerializer;
 using ToracLibrary.Serialization.Json;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.Serialization
+namespace ToracLibrary.UnitTestUnitsTest.Serialization
 {
 
     /// <summary>

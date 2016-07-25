@@ -9,7 +9,7 @@ using System.Web.Routing;
 using ToracLibrary.DIContainer;
 using Xunit;
 
-namespace ToracLibraryTest.UnitsTest.AspNet.AspNetMVC.DIContainer
+namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.DIContainer
 {
 
     /// <summary>

@@ -8,7 +8,7 @@ using ToracLibrary.UnitTest.Framework;
 using Xunit;
 using static ToracLibrary.HtmlParsing.HtmlParserWrapperExtensionMethods;
 
-namespace ToracLibraryTest.UnitsTest.HtmlParsing
+namespace ToracLibrary.UnitTestUnitsTest.HtmlParsing
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿<#
 string ClassName = "T4Template";
-string Namespace = "ToracLibraryTest.UnitsTest.Core.T4Templates";
+string Namespace = "ToracLibrary.UnitTestUnitsTest.Core.T4Templates";
 string EnumName = "T4TemplateTest";
 string EnumType = "int";
 string TableName = "T4TemplateTest";
