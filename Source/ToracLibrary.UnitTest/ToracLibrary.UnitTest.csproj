@@ -183,7 +183,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>T4TemplateTest.tt</DependentUpon>
     </Compile>
-    <Compile Include="UnitTests\Core\T4Templates\T4TemplateTest1.generated.cs" />
     <Compile Include="UnitTests\Core\T4Templates\T4TemplateUnitTest.cs" />
     <Compile Include="UnitTests\Core\Units\ComputerSizeUnitConverterTest.cs" />
     <Compile Include="UnitTests\Core\Xml\XSLTTest.cs" />
