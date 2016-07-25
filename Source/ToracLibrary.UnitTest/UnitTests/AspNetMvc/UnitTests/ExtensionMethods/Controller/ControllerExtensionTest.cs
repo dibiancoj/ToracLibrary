@@ -12,7 +12,7 @@ using ToracLibrary.DIContainer;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions
 {
 
     /// <summary>

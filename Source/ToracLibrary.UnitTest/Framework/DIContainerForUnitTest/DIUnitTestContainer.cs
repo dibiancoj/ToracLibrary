@@ -16,17 +16,18 @@ using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.HtmlParsing;
 using ToracLibrary.UnitTest.AspNet.AspNet;
+using ToracLibrary.UnitTest.AspNet.AspNetMVC;
 using ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomActionResults;
+using ToracLibrary.UnitTest.Caching;
 using ToracLibrary.UnitTest.Core;
 using ToracLibrary.UnitTest.Core.DataProviders;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTest.EmailSMTP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
+using ToracLibrary.UnitTest.HtmlParsing;
 using ToracLibrary.UnitTestAspNet.AspNetMVC.HtmlHelpers;
-using ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC;
-using ToracLibrary.UnitTestUnitsTest.Caching;
-using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
-using ToracLibrary.UnitTestUnitsTest.HtmlParsing;
-using static ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.CustomValueProviderFactory.JsonNetCustomValueProviderFactoryTest;
-using static ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions.ControllerExtensionTest;
+using static ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomValueProviderFactory.JsonNetCustomValueProviderFactoryTest;
+using static ToracLibrary.UnitTest.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions.ControllerExtensionTest;
 
 namespace ToracLibrary.UnitTest.Framework
 {
@@ -199,7 +200,7 @@ namespace ToracLibrary.UnitTest.Framework
 
             //start of email mock
 
-            DIContainer.Register<ISMTPEmailServer, ToracLibrary.UnitTestUnitsTest.EmailSMTP.EmailTest.MockSMTPEmailServer>();
+            DIContainer.Register<ISMTPEmailServer, EmailTest.MockSMTPEmailServer>();
 
             //end of email mock
 

@@ -13,7 +13,7 @@ using ToracLibrary.Serialization.Json;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.CustomValueProviderFactory
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomValueProviderFactory
 {
 
     /// <summary>

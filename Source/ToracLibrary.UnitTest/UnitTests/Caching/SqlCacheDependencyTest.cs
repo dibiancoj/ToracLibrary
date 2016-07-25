@@ -9,7 +9,7 @@ using ToracLibrary.UnitTest.Core.DataProviders;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.Caching
+namespace ToracLibrary.UnitTest.Caching
 {
 
     /// <summary>

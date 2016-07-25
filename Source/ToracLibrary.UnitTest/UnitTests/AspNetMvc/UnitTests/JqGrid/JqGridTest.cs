@@ -9,12 +9,12 @@ using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomActionResults;
 using ToracLibrary.UnitTest.Core.DataProviders;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.JqGrid
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.JqGrid
 {
 
     /// <summary>

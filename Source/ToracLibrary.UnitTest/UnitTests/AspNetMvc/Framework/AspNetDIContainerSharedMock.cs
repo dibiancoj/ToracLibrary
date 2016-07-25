@@ -8,7 +8,7 @@ using ToracLibrary.DIContainer;
 using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using ToracLibrary.UnitTest.Framework;
 
-namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC
 {
 
     /// <summary>

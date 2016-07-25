@@ -9,7 +9,7 @@ using ToracLibrary.Core.ExpressionTrees.API;
 using ToracLibrary.UnitTest.Core.DataProviders;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibrary.UnitTestUnitsTest.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Core

@@ -8,7 +8,7 @@ using ToracLibrary.AspNet.AspNetMVC.HtmlHelpers;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestAspNet.AspNetMVC.HtmlHelpers
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.HtmlHelpers
 {
 
     /// <summary>

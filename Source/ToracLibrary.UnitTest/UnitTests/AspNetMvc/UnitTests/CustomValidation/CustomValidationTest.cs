@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using ToracLibrary.AspNet.AspNetMVC.CustomModelBinders.CustomValidators;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.AspNet.AspNetMVC.CustomValidationTest
+namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomValidationTest
 {
 
     /// <summary>

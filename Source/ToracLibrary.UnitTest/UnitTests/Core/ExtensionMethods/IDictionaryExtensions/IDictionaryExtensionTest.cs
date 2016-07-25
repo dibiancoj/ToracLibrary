@@ -7,7 +7,7 @@ using ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.ExtensionMethods.Core
+namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 {
 
     /// <summary>

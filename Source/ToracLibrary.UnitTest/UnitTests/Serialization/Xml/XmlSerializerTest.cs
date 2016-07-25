@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ToracLibrary.Serialization.Xml;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.Serialization
+namespace ToracLibrary.UnitTest.Serialization
 {
 
     /// <summary>

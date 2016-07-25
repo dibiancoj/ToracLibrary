@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.Email;
-using System.Net.Mail;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.EmailSMTP
+namespace ToracLibrary.UnitTest.EmailSMTP
 {
 
     /// <summary>

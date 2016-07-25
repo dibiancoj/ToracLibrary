@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using ToracLibrary.Core.ExtensionMethods.XElementExtensions;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.ExtensionMethods.Core
+namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 {
 
     /// <summary>

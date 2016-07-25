@@ -8,7 +8,7 @@ using ToracLibrary.DIContainer.Parameters.ConstructorParameters;
 using Xunit;
 using static ToracLibrary.DIContainer.ToracDIContainer;
 
-namespace ToracLibrary.UnitTestUnitsTest.DIContainer
+namespace ToracLibrary.UnitTest.DIContainer
 {
 
     /// <summary>

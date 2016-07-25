@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using ToracLibrary.Caching;
-using ToracLibrary.DIContainer;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
-namespace ToracLibrary.UnitTestUnitsTest.Caching
+namespace ToracLibrary.UnitTest.Caching
 {
 
     /// <summary>
