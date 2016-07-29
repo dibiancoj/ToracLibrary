@@ -42,6 +42,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{2D6FFD4E-7DB1-48A4-B727-03AA24B0F714}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{E698BD42-EBEF-4D81-AE43-42D430A39932}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt = Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{20BD18E2-78EC-444C-8490-1984342B40E4}"
 	ProjectSection(SolutionItems) = preProject
@@ -172,6 +175,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoMapper", "AutoMapper", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.UnitTest", "Source\ToracLibrary.UnitTest\ToracLibrary.UnitTest.csproj", "{68CA28A4-B7EF-4FFF-8896-E328EF0F83F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html-Js-Jquery", "Html-Js-Jquery", "{62EF8EBF-686A-4D35-8A1E-98DA7A289192}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt = Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -314,5 +322,6 @@ Global
 		{757A527E-C5CE-4194-B98C-C9FFB022A508} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{949F038C-3624-418D-AB51-245F72EB5FC8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{68CA28A4-B7EF-4FFF-8896-E328EF0F83F5} = {54B50F9B-ACCC-4AC4-BBC1-4C053364A487}
+		{62EF8EBF-686A-4D35-8A1E-98DA7A289192} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal

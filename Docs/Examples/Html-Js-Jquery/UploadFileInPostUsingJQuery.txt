@@ -1,0 +1,32 @@
+			 <input type="file" class="UploadedFile" multiple="multiple" accept=".jpg,.jpeg,.png">
+			
+			 $(".UploadedFile").change(function (evt) {
+					//grab the selected files from the event capture
+					var selectedFiles = evt.target.files; //<-- array of files so grab selectedFiles[0] and pass in to data string
+			 });
+			
+			//we are all good for now
+            var dataString = new FormData();
+
+            //throw the file into the data string
+            dataString.append("uploadedFile", selectedFile);
+			
+			//go run the ajax command
+			 var parameters = {
+				url: 'home/uploadFile',
+				method: "POST",
+				data: dataString,
+				contentType: contentTypeValue, //<-- need this specifically
+				processData: false  //<-- need this specifically
+			};
+	
+			$.ajax(parameters)
+				.done(function(response){......}
+				
+				
+				
+			MVC:
+			 public JsonResult UploadFile(HttpPostedFileBase uploadedFile)
+			{
+				uploadedFile.SaveAs(....);
+			}
