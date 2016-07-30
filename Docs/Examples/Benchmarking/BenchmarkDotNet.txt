@@ -1,0 +1,53 @@
+	Nuget BenchmarkDotnet
+	Nuget BenchmarkDotNet.Diagnostics.Windows (for memory generation display)
+
+	---------------------------------------
+
+	//go run the test
+    BenchmarkRunner.Run<StandardTest>();
+
+    Console.WriteLine("Done. Press Any Key To Exit");
+    Console.ReadKey();
+			
+	---------------------------------------
+			
+	[Config(typeof(PerformanceTestConfig))]
+    public class StandardTest
+    {
+
+        #region Setup
+
+        [Setup]
+        public void Setup()
+        {
+        }
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Test Methods
+
+        [Benchmark]
+        public void Test1()
+        {
+        }
+
+        [Benchmark]
+        public void Test2()
+        {
+        }
+
+        #endregion
+
+    }
+
+    public class PerformanceTestConfig : ManualConfig
+    {
+        public PerformanceTestConfig()
+        {
+            Add(new MemoryDiagnoser());
+        }
+    }
