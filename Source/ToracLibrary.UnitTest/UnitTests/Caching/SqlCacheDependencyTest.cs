@@ -15,6 +15,7 @@ namespace ToracLibrary.UnitTest.Caching
     /// <summary>
     /// Unit test to test sql cache dep.
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class SqlCacheDependencyTest
     {
 

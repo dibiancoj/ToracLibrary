@@ -6,9 +6,9 @@ using System.Text;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.Core.ExtensionMethods.IQueryableExtensions;
 using ToracLibrary.UnitTest.Core.DataProviders;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 using static ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions.IOrderedQueryableExtensionMethods;
 using static ToracLibrary.Core.ExtensionMethods.IQueryableExtensions.IQueryableExtensionMethods;
@@ -19,6 +19,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     /// <summary>
     /// Unit test to IQueryable Extension Methods
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class IQueryableExtensionTest
     {
 

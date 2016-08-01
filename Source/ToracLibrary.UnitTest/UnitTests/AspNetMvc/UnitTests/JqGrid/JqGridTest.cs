@@ -20,6 +20,7 @@ namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.JqGrid
     /// <summary>
     /// Unit test for a the JqGrid column modals
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class JqGridTest
     {
 

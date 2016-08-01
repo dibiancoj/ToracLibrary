@@ -15,6 +15,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
     /// <summary>
     /// Unit test for entity framework
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class EntityFrameworkTest
     {
 

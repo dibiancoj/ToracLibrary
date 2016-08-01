@@ -13,6 +13,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
     /// <summary>
     /// Unit test to test the sql data provider
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class SqlDataProviderTest
     {
 
