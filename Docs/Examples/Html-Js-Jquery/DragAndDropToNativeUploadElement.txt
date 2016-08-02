@@ -51,14 +51,14 @@
             });
 
             //hack the body mis drop which is at the body level
-            misDrop = function (evt) {
+             $(document).on('drop', function (evt) {
 
-                //prevent the bubble up
-                evt.preventDefault();
+        		//prevent the default from bubbling up
+        		evt.preventDefault();
 
-                //mis drop, hide the target
-                hideTarget();
-            }
+        		//mis drop, hide the target
+                	hideTarget();
+    		});
 
             fileDragContainer.on('dragover dragenter', function () {
 
