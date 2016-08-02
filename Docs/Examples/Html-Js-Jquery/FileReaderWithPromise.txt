@@ -1,0 +1,25 @@
+function readFile(file) {
+	    var reader = new FileReader();
+	    var deferred = $.Deferred();
+	
+
+	    reader.onload = function(event) {
+	        deferred.resolve(event.target.result);
+	    };
+	
+
+	    reader.onerror = function() {
+	        deferred.reject(this);
+	    };
+	
+
+	    if (/^image/.test(file.type)) {
+	        reader.readAsDataURL(file);
+	    } else {
+	        reader.readAsText(file);
+	    }
+	
+
+	    return deferred.promise();
+	}
+

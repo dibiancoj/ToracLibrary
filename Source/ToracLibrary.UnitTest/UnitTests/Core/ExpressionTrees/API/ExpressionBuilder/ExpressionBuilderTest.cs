@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.Core.ExpressionTrees.API;
 using ToracLibrary.UnitTest.Core.DataProviders;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
-using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Core
@@ -18,6 +17,7 @@ namespace ToracLibrary.UnitTest.Core
     /// <summary>
     /// Unit test for expression tree builder tests
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class ExpressionBuilderTest
     {
 

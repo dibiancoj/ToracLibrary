@@ -18,6 +18,7 @@ namespace ToracLibrary.UnitTest.Core
     /// <summary>
     /// Unit test for expression tree combiner tests
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class ExpressionCombinerTest
     {
 

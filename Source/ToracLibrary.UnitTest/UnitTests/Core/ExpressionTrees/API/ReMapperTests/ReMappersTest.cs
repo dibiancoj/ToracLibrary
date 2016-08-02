@@ -19,6 +19,7 @@ namespace ToracLibrary.UnitTest.Core
     /// <summary>
     /// Unit test for expression tree remappers
     /// </summary>
+    [Collection("DatabaseUnitTests")]
     public class ReMappersTest
     {
 
