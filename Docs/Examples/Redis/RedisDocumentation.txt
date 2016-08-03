@@ -1,0 +1,23 @@
+--to install
+yum install redis
+
+--to start the service
+sudo service redis-server start or you can do it in the command line with redis-server.
+Bash for windows has an issue so you can only start it using the "sudo server..." command
+
+--to get you into the "redis client where you can call whatever you want"
+redis-cli
+
+--you can type "ping"...and you will get back Pong to make sure everything is working
+
+--to make sure it binds to network mode just type
+"redis-server" - this will bind to 0.0.0.0 which is all network interfaces.
+
+this is just the fastest way to get it setup. if you ever need to do this in prod you would need to go through the documentation to get everything configured.
+
+
+
+
+
+
+to shutdown...open a new terminal...type redis-cli --> then call "shutdown"
