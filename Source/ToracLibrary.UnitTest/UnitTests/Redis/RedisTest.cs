@@ -29,7 +29,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Redis server ip address
         /// </summary>
-        private const string RedisServerIpAddress = "Fedora";
+        private const string RedisServerIpAddress = "Fedora"; //localhost
 
         #endregion
 
