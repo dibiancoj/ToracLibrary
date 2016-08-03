@@ -29,7 +29,7 @@ namespace ToracLibrary.UnitTest.EmailSMTP
         {
             public Task SendEmail(IEnumerable<string> ToEmailAddress, IEnumerable<string> CCEmailAddress, IEnumerable<string> BCCEmailAddress, string FromEmailAddress, string Subject, string Body, bool BodyContainsHTML, MailPriority Priority, IDictionary<string, byte[]> FileAttachments)
             {
-                return Task.FromResult<object>(null);
+                return Task.CompletedTask;
             }
         }
 

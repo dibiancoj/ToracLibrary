@@ -1,0 +1,80 @@
+    .FinFormsDrag {
+        display: none;
+        font-weight: bold;
+        text-align: center;
+        padding: 1em 0;
+        margin: 1em 0;
+        color: #555;
+        border: 2px dashed #555;
+        border-radius: 7px;
+        cursor: default;
+    }
+
+    .FinFormsDragOver {
+        color: #2e81d1;
+        border-color: #2e81d1;
+        border-style: solid;
+    }
+
+<body ondrop="misDrop(event)"> <-- or the biggest container on the page. We need to catch any misdrops
+
+ <div class="col-xs-12 FinFormsDrag">Drag the file you wish to upload here</div>
+ 
+ 
+       InitDragAndDrop: function () {
+
+            //grab the instance of this class
+            var _this = this;
+
+            //grab the file drag div
+            var fileDragContainer = $('.FinFormsDrag');
+			
+			//hide the target container
+            var hideTarget = function () {
+                //hide the div then remove the class
+                fileDragContainer.hide().removeClass('FinFormsDragOver');
+            };
+
+            //hide the target container
+            var hideTarget = function () {
+                //hide the div then remove the class
+                fileDragContainer.hide().removeClass('FinFormsDragOver');
+            };
+
+            $(document).on('dragstart dragover dragenter', function (e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                //show the container so the user knows how to drag
+                fileDragContainer.show();
+            });
+
+            //hack the body mis drop which is at the body level
+             $(document).on('drop', function (evt) {
+
+        		//prevent the default from bubbling up
+        		evt.preventDefault();
+
+        		//mis drop, hide the target
+                	hideTarget();
+    		});
+
+            fileDragContainer.on('dragover dragenter', function () {
+
+                fileDragContainer.addClass('FinFormsDragOver');
+
+            }).on('dragleave dragend drop', function () {
+
+                fileDragContainer.removeClass('FinFormsDragOver');
+
+            }).on('drop', function (e) {
+			
+				var filePicked = e.originalEvent.dataTransfer.files;
+
+				//do whatever you need to do with the file...ie show preview, or upload via post using jquery.
+
+                //remove the div now
+                hideTarget();
+            });
+        },
