@@ -176,13 +176,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html-Js-Jquery", "Html-Js-Jquery", "{62EF8EBF-686A-4D35-8A1E-98DA7A289192}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt = Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt
-		FileReaderWithPromise.txt = FileReaderWithPromise.txt
+		Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt = Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt
 		Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt = Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarking", "Benchmarking", "{DD45C6EB-DC9A-46F2-B6E9-03B9570508BC}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\Benchmarking\BenchmarkDotNet.txt = Docs\Examples\Benchmarking\BenchmarkDotNet.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{B01E17FD-798E-4792-9F7B-E55E59029240}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Redis\RedisDocumentation.txt = Docs\Examples\Redis\RedisDocumentation.txt
 	EndProjectSection
 EndProject
 Global
@@ -328,5 +333,6 @@ Global
 		{68CA28A4-B7EF-4FFF-8896-E328EF0F83F5} = {54B50F9B-ACCC-4AC4-BBC1-4C053364A487}
 		{62EF8EBF-686A-4D35-8A1E-98DA7A289192} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{DD45C6EB-DC9A-46F2-B6E9-03B9570508BC} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{B01E17FD-798E-4792-9F7B-E55E59029240} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal
