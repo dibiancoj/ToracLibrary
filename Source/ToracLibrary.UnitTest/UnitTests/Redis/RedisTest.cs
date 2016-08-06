@@ -12,8 +12,12 @@ namespace ToracLibrary.UnitTest.Core
     /// Unit test for redis
     /// </summary>
     /// <remarks>not using the di container so we can exclude these tests without issues</remarks>
+    [Collection("RedisUnitTests")]
     public class RedisTest
     {
+
+        /* to start in bash for ubuntu in windows */
+        //sudo service redis-server start
 
         #region Flag To Turn On Or Off Test
 
@@ -21,6 +25,7 @@ namespace ToracLibrary.UnitTest.Core
         /// Holds the reason for not running the redis tests. Flip this to a blank string to run all the tests. This way you don't have to modify each attribute
         /// </summary>
         private const string TurnOnOffFlag = "RedisServerNotLoaded";
+        //private const string TurnOnOffFlag = "";
 
         #endregion
 
@@ -29,7 +34,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Redis server ip address
         /// </summary>
-        private const string RedisServerIpAddress = "Fedora"; //localhost
+        private const string RedisServerIpAddress = "localhost"; //"Fedora"; 
 
         #endregion
 
