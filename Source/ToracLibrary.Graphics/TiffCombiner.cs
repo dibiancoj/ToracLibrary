@@ -88,92 +88,67 @@ namespace ToracLibrary.Graphics
 
         #region GDI+ Method
 
+        #region Public Methods
+
         /// <summary>
-        /// This function will join the TIFF file with a specific compression format. Uses GDI. Saves it to a byte array
+        /// This function will join the TIFF file with a specific compression format. Uses GDI. Saves it to a byte array. Please note that tiffs file size are pretty large. So saving like a 50 kb file will end up saving as like 300 kb for a tiff. Keep this mind.
         /// </summary>
-        /// <param name="ImageFilesToJoin">string array with source image files</param>
-        /// <param name="CompressEncoder">compression codec enum</param>
+        /// <param name="ImageFilesToJoin">All the files to join together where the byte array is each file</param>
+        /// <param name="CompressEncoder">compression codec enum. EncoderValue.CompressionLZW is probably the best one to use for full color.</param>
         /// <remarks>Uses GDI --> Will grab all pages of the tiff file</remarks>
         [MethodIsNotTestable("I guess you could add an image and test it. This api isn't used much. Will just port it and not add a unit test")]
-        public static byte[] JoinTiffImages(IEnumerable<string> ImageFilesToJoin, EncoderValue CompressEncoder)
+        public static byte[] JoinTiffImages(IEnumerable<byte[]> ImageFilesToJoin, EncoderValue CompressEncoder)
         {
             //create a memory stream to save
             using (var MemoryStreamToSave = new MemoryStream())
             {
-                //How many pictures do we have
-                int HowManyPictures;
-
-                //Hold the main Bitmap which we add to.
-                Bitmap ImageToSave = null;
-
-                //Base Image Memory Stream (need this because we can't dispose of this until the end of the method)
-                MemoryStream BaseImage = null;
-
-                //Holds a tally of what image we are on when we loop through
-                int ImageNumber = 0;
+                //if we only have 1 image then return that
+                if (ImageFilesToJoin.Count() == 1)
+                {
+                    //go read the file and just return it
+                    return ImageFilesToJoin.ElementAt(0);
+                }
 
                 //Encoder Parameter Array
                 var EncodedParameters = new EncoderParameters(2);
 
-                try
+                //use the save encoder
+                var EncoderToUse = System.Drawing.Imaging.Encoder.SaveFlag;
+
+                //Add the parameters to the array
+                EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.MultiFrame);
+                EncodedParameters.Param[1] = new EncoderParameter(System.Drawing.Imaging.Encoder.Compression, (long)CompressEncoder);
+
+                //Set the Encoder Info
+                var EncoderInfo = GetEncoderInfo("image/tiff");
+
+                //go grab the first image and load it.
+                using (var BaseImage = new MemoryStream(ImageFilesToJoin.ElementAt(0)))
                 {
-                    //How many pictures do we have
-                    HowManyPictures = ImageFilesToJoin.Count();
-
-                    //if we only have 1 image then return that
-                    if (HowManyPictures == 1)
+                    //create the image we will keep adding too as we add the rest of the images
+                    using (var ImageToSave = (Bitmap)Image.FromStream(BaseImage))
                     {
-                        //go read the file and just return it
-                        return File.ReadAllBytes(ImageFilesToJoin.ElementAt(0));
-                    }
+                        //go save the first page of the image
+                        ImageToSave.Save(MemoryStreamToSave, EncoderInfo, EncodedParameters);
 
-                    //use the save encoder
-                    var EncoderToUse = System.Drawing.Imaging.Encoder.SaveFlag;
-
-                    //Add the parameters to the array
-                    EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.MultiFrame);
-                    EncodedParameters.Param[1] = new EncoderParameter(System.Drawing.Imaging.Encoder.Compression, (long)CompressEncoder);
-
-                    //Set the Encoder Info
-                    var EncoderInfo = GetEncoderInfo("image/tiff");
-
-                    //Loop through the images we want to combine
-                    foreach (string strImageFile in ImageFilesToJoin)
-                    {
-                        //if we are on the first image
-                        if (ImageNumber == 0)
+                        //loop through the frames for this image
+                        for (int i = 1; i < ImageToSave.GetFrameCount(FrameDimension.Page); i++)
                         {
-                            //get the bitmap from the memory stream...don't dispose this until we are completely done!!!!
-                            BaseImage = new MemoryStream(File.ReadAllBytes(strImageFile));
-
-                            //Set the base image variable...don't dispose this until we are completely done!!!!
-                            ImageToSave = (Bitmap)Image.FromStream(BaseImage);
-
-                            //save the first image
-                            ImageToSave.Save(MemoryStreamToSave, EncoderInfo, EncodedParameters);
-
-                            //Now we need to loop through each of the frames --> starting with page 2 (1 - zero based index) because we saved the first page above
-                            for (int i = 1; i < ImageToSave.GetFrameCount(FrameDimension.Page); i++)
-                            {
-                                //Set the parameter to be a next cont. page
-                                EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
-
-                                //set the active frame
-                                ImageToSave.SelectActiveFrame(FrameDimension.Page, i);
-
-                                //save the page to the image
-                                ImageToSave.SaveAdd(ImageToSave, EncodedParameters);
-                            }
-
-                            //Don't dispose of the base image we are using to add the rest of the tiff's onto the base image
-                        }
-                        else
-                        {
-                            //set the parameter 
+                            //Set the parameter to be a next cont. page
                             EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
 
+                            //use the helper to add this specific frame to the image.
+                            AddFrameToImage(ImageToSave, ImageToSave, i, EncodedParameters);
+                        }
+
+                        //set each image to be a frame dimension page
+                        EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
+
+                        //now let's take care of the rest of the images now that we have the "base" image setup (skipping the first image because we took care of that already)
+                        foreach (var ImageToAdd in ImageFilesToJoin.Skip(1))
+                        {
                             //Grab it using the memory stream...we can dispose of this once we are done with this image
-                            using (var MemoryStreamToUse = new MemoryStream(File.ReadAllBytes(strImageFile)))
+                            using (var MemoryStreamToUse = new MemoryStream(ImageToAdd))
                             {
                                 //grab the bitmap image from the memory stream
                                 using (var ImageToAddToTheBaseImage = (Bitmap)Image.FromStream(MemoryStreamToUse))
@@ -181,58 +156,53 @@ namespace ToracLibrary.Graphics
                                     //now we need to loop though all the pages to add each page to the tiff we are using as the base tiff
                                     for (int i = 0; i < ImageToAddToTheBaseImage.GetFrameCount(FrameDimension.Page); i++)
                                     {
-                                        //set the active page
-                                        ImageToAddToTheBaseImage.SelectActiveFrame(FrameDimension.Page, i);
-
-                                        //add the page to the image
-                                        ImageToSave.SaveAdd(ImageToAddToTheBaseImage, EncodedParameters);
+                                        //use the helper to add this specific frame to the image.
+                                        AddFrameToImage(ImageToSave, ImageToAddToTheBaseImage, i, EncodedParameters);
                                     }
                                 }
                             }
                         }
 
-                        //if we are up to the last image then we need to flush it out
-                        if (ImageNumber == HowManyPictures - 1)
-                        {
-                            //flush and close.
-                            EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.Flush);
+                        //now that we are all done...we need to flush the image
+                        EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.Flush);
 
-                            //save
-                            ImageToSave.SaveAdd(EncodedParameters);
-                        }
+                        //save the flush command
+                        ImageToSave.SaveAdd(EncodedParameters);
 
-                        //increase the image number
-                        ImageNumber++;
-                    }
+                        //close the memory stream
+                        MemoryStreamToSave.Flush();
 
-                    //close the memory stream
-                    MemoryStreamToSave.Flush();
+                        //close the memory stream
+                        MemoryStreamToSave.Close();
 
-                    //close the memory stream
-                    MemoryStreamToSave.Close();
-
-                    //return the byte array now
-                    return MemoryStreamToSave.ToArray();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    //Dispose of the memory stream first
-                    if (BaseImage != null)
-                    {
-                        BaseImage.Dispose();
-                    }
-
-                    //If my image is not null then dispose of it
-                    if (ImageToSave != null)
-                    {
-                        ImageToSave.Dispose();
+                        //return the byte array now
+                        return MemoryStreamToSave.ToArray();
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// This function will join the TIFF file with a specific compression format. Uses GDI. Saves it to a byte array. Please note that tiffs file size are pretty large. So saving like a 50 kb file will end up saving as like 300 kb for a tiff. Keep this mind.
+        /// </summary>
+        /// <param name="ImageFilesToJoin">string array with source image files</param>
+        /// <param name="CompressEncoder">compression codec enum. EncoderValue.CompressionLZW is probably the best one to use for full color.</param>
+        /// <remarks>Uses GDI --> Will grab all pages of the tiff file</remarks>
+        [MethodIsNotTestable("I guess you could add an image and test it. This api isn't used much. Will just port it and not add a unit test")]
+        public static byte[] JoinTiffImages(IEnumerable<string> ImageFilesToJoin, EncoderValue CompressEncoder)
+        {
+            //holds each of the file data in a byte array
+            var FileBytes = new List<byte[]>();
+
+            //we want to pass in each file and it's byte array so we will load each file and pass it into the overload
+            foreach (var FileToLoad in ImageFilesToJoin)
+            {
+                //add the file to load
+                FileBytes.Add(File.ReadAllBytes(FileToLoad));
+            }
+
+            //now go use the overload
+            return JoinTiffImages(FileBytes, CompressEncoder);
         }
 
         /// <summary>
@@ -250,6 +220,40 @@ namespace ToracLibrary.Graphics
         }
 
         /// <summary>
+        /// This function will join the TIFF file with a specific compression format. Uses GDI
+        /// </summary>
+        /// <param name="ImageFilesToJoin">Images to join where the byte array is each file in bytes</param>
+        /// <param name="DestinationPath">target TIFF file to be produced</param>
+        /// <param name="CompressEncoder">compression codec enum</param>
+        /// <remarks>Uses GDI --> Will grab all pages of the tiff file</remarks>
+        [MethodIsNotTestable("I guess you could add an image and test it. This api isn't used much. Will just port it and not add a unit test")]
+        public static void JoinTiffImages(string DestinationPath, IEnumerable<byte[]> ImageFilesToJoin, EncoderValue CompressEncoder)
+        {
+            //use the overload and write all bytes
+            File.WriteAllBytes(DestinationPath, JoinTiffImages(ImageFilesToJoin, CompressEncoder));
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Add a frame to the existing image
+        /// </summary>
+        /// <param name="ImageToSaveInto">Image to save into</param>
+        /// <param name="ImageToAdd">Image where the frame exists that we want to add</param>
+        /// <param name="FrameId">Frame id you want to add</param>
+        /// <param name="EncodeParameters">Encode parameters to use to save the image</param>
+        private static void AddFrameToImage(Bitmap ImageToSaveInto, Bitmap ImageToAdd, int FrameId, EncoderParameters EncodeParameters)
+        {
+            //set the active page
+            ImageToAdd.SelectActiveFrame(FrameDimension.Page, FrameId);
+
+            //add the page to the image
+            ImageToSaveInto.SaveAdd(ImageToAdd, EncodeParameters);
+        }
+
+        /// <summary>
         /// Getting the supported codec info.
         /// </summary>
         /// <param name="mimeType">description of mime type</param>
@@ -259,6 +263,8 @@ namespace ToracLibrary.Graphics
             //go grab the encoder
             return ImageCodecInfo.GetImageEncoders().First(x => string.Equals(x.MimeType, MimeType, StringComparison.OrdinalIgnoreCase));
         }
+
+        #endregion
 
         #endregion
 
