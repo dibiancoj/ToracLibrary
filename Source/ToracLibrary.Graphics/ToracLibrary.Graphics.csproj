@@ -44,6 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GraphicsCommonUtilities.cs" />
     <Compile Include="GraphicsSize.cs" />
     <Compile Include="ImageScaling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
