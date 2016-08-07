@@ -175,7 +175,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.UnitTest", "So
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html-Js-Jquery", "Html-Js-Jquery", "{62EF8EBF-686A-4D35-8A1E-98DA7A289192}"
 	ProjectSection(SolutionItems) = preProject
-		Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt = Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt
 		Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt = Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt
 		Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt = Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt
 	EndProjectSection
@@ -197,8 +196,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticSearch", "ElasticSea
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DragAndDrop", "DragAndDrop", "{65983FDE-C29D-4B1C-AFA6-887BCE3BD798}"
 	ProjectSection(SolutionItems) = preProject
-		DragAndDrop.js = DragAndDrop.js
-		Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt = Docs\Examples\Html-Js-Jquery\DragAndDropToNativeUploadElement.txt
+		Docs\Examples\Html-Js-Jquery\DragAndDrop\DragAndDrop.js = Docs\Examples\Html-Js-Jquery\DragAndDrop\DragAndDrop.js
+		Docs\Examples\Html-Js-Jquery\DragAndDrop\DragAndDropToNativeUploadElement.txt = Docs\Examples\Html-Js-Jquery\DragAndDrop\DragAndDropToNativeUploadElement.txt
 	EndProjectSection
 EndProject
 Global

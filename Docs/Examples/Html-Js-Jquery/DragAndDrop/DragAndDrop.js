@@ -7,7 +7,34 @@
 
 //Notes:
 //1.plug in issue - if you start dragging then go off of the browser window we don't have an event. I tried to add document.dragleave or body and it just conflicts too much
-//2.Don't init the plugin inside jquery. Seems to be a jquery issue now as other plugins have the same issue. Everything is init with on so it shouldn't be an issue
+
+//if you want to wrap it in jquery.ready (like any other plug in please use the following)
+//we need to pass in the global jquery object so we can reference public methods. So we create a self invoking function and pass in jquery which has access to the drag and drop plug in
+//(function (_$) {
+
+//    //document ready (we have access to the global jquery scope. So we use that instead of $
+//    $(document).ready(function () {
+
+//        _$('.FinFormsDrag').DragAndDrop({
+//            OnDocumentOnStartDrag: function (element) {
+//                $('.FinFormsDrag').show();
+//            },
+//            OnDragOver: function (element) {
+//                $('.FinFormsDrag').addClass('FinFormsDragOver');
+//            },
+//            OnDragLeave: function (element) {
+//                $('.FinFormsDrag').removeClass('FinFormsDragOver');
+//            },
+//            OnDropSuccess: function (element, e, files) {
+//                alert('success');
+//                $('.FinFormsDrag').hide();
+//            },
+//            OnDropFailure: function (element) {
+//                $('.FinFormsDrag').hide();
+//            }
+//        });
+//    });
+//}($));
 
 //parameters
 //OnDocumentOnStartDrag: function(plugInElement){ }
@@ -36,33 +63,6 @@
         border-color: #2e81d1;
         border-style: solid;
     }
-
-    $('.FinFormsDrag').DragAndDrop({
-        OnDocumentOnStartDrag: function (element) {
-            //show the target landing
-            $('.FinFormsDrag').show();
-        },
-        OnDragOver: function (element) {
-
-            //when over the target, change the border
-            $('.FinFormsDrag').addClass('FinFormsDragOver');
-        },
-        OnDragLeave: function (element) {
-
-            //remove the special border when they leave the target area
-            $('.FinFormsDrag').removeClass('FinFormsDragOver');
-        },
-        OnDropSuccess: function (element, e, files) {
-            //on drop success
-            alert('success');
-            $('.FinFormsDrag').hide();
-        },
-        OnDropFailure: function (element) {
-
-            //if they don't drop it over the target
-            $('.FinFormsDrag').hide();
-        }
-    });
  */
 
 //You need an anonymous function to wrap around your function to avoid conflict
