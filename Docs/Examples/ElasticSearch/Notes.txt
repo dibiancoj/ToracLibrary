@@ -1,0 +1,37 @@
+//run in network mode enabled
+C:\ElasticSearch\elasticsearch-2.3.2\bin\elasticsearch --network.host 192.168.1.7
+
+
+Installation...by default it only installs for local host access only. Modify C:\ElasticSearch\elasticsearch-2.3.2\config host
+or launch elastic search like: bin/elasticsearch --network.host 192.168.1.7
+
+Inserts
+
+Post --> http://localhost:9200/movies/movie
+
+{
+   "MovieName":"The Mighty Ducks",
+    "Year": 1990
+}
+
+{
+   "MovieName":"Blood Sport",
+    "Year": 1987
+}
+
+
+//simple search
+
+http://localhost:9200/_search - Search across all indexes and all types.
+http://localhost:9200/movies/_search - Search across all types in the movies index.
+http://localhost:9200/movies/movie/_search - Search explicitly for documents of type movie within the movies index.
+
+Post --> http://localhost:9200/movies/movie/_search
+//Free text simple search
+{
+ "query": {
+        "query_string": {
+            "query": "ducks"
+        }
+    }
+}
