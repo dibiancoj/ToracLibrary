@@ -16,8 +16,6 @@
         border-style: solid;
     }
 
-<body ondrop="misDrop(event)"> <-- or the biggest container on the page. We need to catch any misdrops
-
  <div class="col-xs-12 FinFormsDrag">Drag the file you wish to upload here</div>
  
  
@@ -28,12 +26,6 @@
 
             //grab the file drag div
             var fileDragContainer = $('.FinFormsDrag');
-			
-			//hide the target container
-            var hideTarget = function () {
-                //hide the div then remove the class
-                fileDragContainer.hide().removeClass('FinFormsDragOver');
-            };
 
             //hide the target container
             var hideTarget = function () {
@@ -50,15 +42,15 @@
                 fileDragContainer.show();
             });
 
-            //hack the body mis drop which is at the body level
-             $(document).on('drop', function (evt) {
+          //we put this on the document so when they mis-drop it will hide the target
+           $(document).on('drop', function (evt) {
 
-        		//prevent the default from bubbling up
-        		evt.preventDefault();
+        	//prevent the default from bubbling up
+        	evt.preventDefault();
 
-        		//mis drop, hide the target
-                	hideTarget();
-    		});
+        	//mis drop, hide the target
+                hideTarget();
+    	    });
 
             fileDragContainer.on('dragover dragenter', function () {
 
@@ -70,9 +62,9 @@
 
             }).on('drop', function (e) {
 			
-				var filePicked = e.originalEvent.dataTransfer.files;
+		var filePicked = e.originalEvent.dataTransfer.files;
 
-				//do whatever you need to do with the file...ie show preview, or upload via post using jquery.
+		/do whatever you need to do with the file...ie show preview, or upload via post using jquery.
 
                 //remove the div now
                 hideTarget();
