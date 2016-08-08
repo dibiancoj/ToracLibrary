@@ -109,11 +109,11 @@ namespace ToracLibrary.Graphics
                     return ImageFilesToJoin.First();
                 }
 
-                //Encoder Parameter Array
-                var EncodedParameters = new EncoderParameters(2);
-
                 //use the save encoder
                 var EncoderToUse = System.Drawing.Imaging.Encoder.SaveFlag;
+
+                //Encoder Parameter Array
+                var EncodedParameters = new EncoderParameters(2);
 
                 //Add the parameters to the array
                 EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.MultiFrame);
@@ -123,7 +123,7 @@ namespace ToracLibrary.Graphics
                 var EncoderInfo = GetEncoderInfo("image/tiff");
 
                 //go grab the first image and load it.
-                using (var BaseImage = new MemoryStream(ImageFilesToJoin.ElementAt(0)))
+                using (var BaseImage = new MemoryStream(ImageFilesToJoin.First()))
                 {
                     //create the image we will keep adding too as we add the rest of the images
                     using (var ImageToSave = (Bitmap)Image.FromStream(BaseImage))
