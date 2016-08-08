@@ -131,18 +131,18 @@ namespace ToracLibrary.Graphics
                         //go save the first page of the image
                         ImageToSave.Save(MemoryStreamToSave, EncoderInfo, EncodedParameters);
 
-                        //loop through the frames for this image
-                        for (int i = 1; i < ImageToSave.GetFrameCount(FrameDimension.Page); i++)
-                        {
-                            //Set the parameter to be a next cont. page
-                            EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
+                        //cache the frame count
+                        int FirstPageFrameCount = GetImageFrameCount(ImageToSave);
 
+                        //Set the parameter to be a next cont. page
+                        EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
+
+                        //loop through the frames for this image
+                        for (int i = 1; i < FirstPageFrameCount; i++)
+                        {
                             //use the helper to add this specific frame to the image.
                             AddFrameToImage(ImageToSave, ImageToSave, i, EncodedParameters);
                         }
-
-                        //set each image to be a frame dimension page
-                        EncodedParameters.Param[0] = new EncoderParameter(EncoderToUse, (long)EncoderValue.FrameDimensionPage);
 
                         //now let's take care of the rest of the images now that we have the "base" image setup (skipping the first image because we took care of that already)
                         foreach (var ImageToAdd in ImageFilesToJoin.Skip(1))
@@ -153,8 +153,11 @@ namespace ToracLibrary.Graphics
                                 //grab the bitmap image from the memory stream
                                 using (var ImageToAddToTheBaseImage = (Bitmap)Image.FromStream(MemoryStreamToUse))
                                 {
+                                    //cache the frame count
+                                    int FrameCount = GetImageFrameCount(ImageToAddToTheBaseImage);
+
                                     //now we need to loop though all the pages to add each page to the tiff we are using as the base tiff
-                                    for (int i = 0; i < ImageToAddToTheBaseImage.GetFrameCount(FrameDimension.Page); i++)
+                                    for (int i = 0; i < FrameCount; i++)
                                     {
                                         //use the helper to add this specific frame to the image.
                                         AddFrameToImage(ImageToSave, ImageToAddToTheBaseImage, i, EncodedParameters);
@@ -238,12 +241,24 @@ namespace ToracLibrary.Graphics
         #region Private Helper Methods
 
         /// <summary>
+        /// Get the frame count for an image
+        /// </summary>
+        /// <param name="ImageToRetrieveFrameCountFrom">image to get the frame count for</param>
+        /// <returns>Total number of frames</returns>
+        [MethodIsNotTestable("Haven't build unit tests for graphics yet")]
+        private static int GetImageFrameCount(Bitmap ImageToRetrieveFrameCountFrom)
+        {
+            return ImageToRetrieveFrameCountFrom.GetFrameCount(FrameDimension.Page);
+        }
+
+        /// <summary>
         /// Add a frame to the existing image
         /// </summary>
         /// <param name="ImageToSaveInto">Image to save into</param>
         /// <param name="ImageToAdd">Image where the frame exists that we want to add</param>
         /// <param name="FrameId">Frame id you want to add</param>
         /// <param name="EncodeParameters">Encode parameters to use to save the image</param>
+        [MethodIsNotTestable("Haven't build unit tests for graphics yet")]
         private static void AddFrameToImage(Bitmap ImageToSaveInto, Bitmap ImageToAdd, int FrameId, EncoderParameters EncodeParameters)
         {
             //set the active page
@@ -258,6 +273,7 @@ namespace ToracLibrary.Graphics
         /// </summary>
         /// <param name="mimeType">description of mime type</param>
         /// <returns>image codec info</returns>
+        [MethodIsNotTestable("Haven't build unit tests for graphics yet")]
         private static ImageCodecInfo GetEncoderInfo(string MimeType)
         {
             //go grab the encoder
