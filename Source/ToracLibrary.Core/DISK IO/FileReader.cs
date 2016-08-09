@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.DiskIO
 {
@@ -22,6 +23,7 @@ namespace ToracLibrary.Core.DiskIO
         /// </summary>
         /// <param name="FilePath">File Path To Open</param>
         /// <returns>Returns A String</returns>
+        [MethodIsNotTestable("No Test Added")]
         public static string ReadFile(string FilePath)
         {
             //validate
@@ -50,6 +52,7 @@ namespace ToracLibrary.Core.DiskIO
         /// </summary>
         /// <param name="FilePath">File Path To Open</param>
         /// <returns>IEnumerable - String. List Of Row Data. Data is Lazy Loaded Using Yield Return. Call ToArray() To Push Data Right Away</returns>
+        [MethodIsNotTestable("No Test Added")]
         public static IEnumerable<string> ReadFileToIEnumerableLazy(string FilePath)
         {
             //validate
@@ -82,6 +85,7 @@ namespace ToracLibrary.Core.DiskIO
         /// </summary>
         /// <param name="Reader">Stream Reader To Use</param>
         /// <returns>IEnumerable - String. List Of Row Data. Data is Lazy Loaded Using Yield Return. Call ToArray() To Push Data Right Away</returns>
+        [MethodIsNotTestable("No Test Added")]
         public static IEnumerable<string> ReadFileToIEnumerableLazy(StreamReader Reader)
         {
             //Loop until we are at the end. (sr.Peek()) 
@@ -105,6 +109,7 @@ namespace ToracLibrary.Core.DiskIO
         /// </summary>
         /// <param name="FilePath">File Path To Open</param>
         /// <returns>IEnumerable - String. List Of Row Data. Data is Lazy Loaded Using Yield Return. Call ToArray() To Push Data Right Away</returns>
+        [MethodIsNotTestable("No Test Added")]
         public async static Task<IEnumerable<string>> ReadFileToIEnumerableAsync(string FilePath)
         {
             //go grab the file text
@@ -119,6 +124,7 @@ namespace ToracLibrary.Core.DiskIO
         /// </summary>
         /// <param name="FilePath">File Path To Save The File</param>
         /// <returns>Awaitable Task Of String IEnumerable - String. List Of Row Data. Data is Lazy Loaded Using Yield Return. Call ToArray() To Push Data Right Away</returns>
+        [MethodIsNotTestable("No Test Added")]
         public async static Task<string> ReadFileAsync(string FilePath)
         {
             //create the file stream so we can grab the data

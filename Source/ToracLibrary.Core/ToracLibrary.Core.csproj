@@ -59,6 +59,7 @@
     <Compile Include="Delimiter Creator And Parser\DelimiterCreator.cs" />
     <Compile Include="Delimiter Creator And Parser\DelimiterParser.cs" />
     <Compile Include="Delimiter Creator And Parser\DelimiterRow.cs" />
+    <Compile Include="DISK IO\FileChecker.cs" />
     <Compile Include="DISK IO\FileWriter.cs" />
     <Compile Include="EnumUtilities\EnumUtilities.cs" />
     <Compile Include="Excel\ExcelUtilities.cs" />
