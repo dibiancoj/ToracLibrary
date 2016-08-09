@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.DiskIO
 {
@@ -16,11 +15,10 @@ namespace ToracLibrary.Core.DiskIO
     {
 
         /// <summary>
-        /// Determines if a file is an executable by looking at the first 2 bytes
+        /// Determines if a file is an executable by looking at the first 2 bytes. Handles scenario's where the user modifies the file extension. 
         /// </summary>
         /// <param name="StreamToInspect">Stream to inspect to see if its a executable</param>
-        /// <returns>Is it an executable</returns>
-        [MethodIsNotTestable("No Test Added")]
+        /// <returns>Is it an executable</returns>]
         public static bool IsExecutable(Stream StreamToInspect)
         {
             //we only need to look at the first 2 bytes
