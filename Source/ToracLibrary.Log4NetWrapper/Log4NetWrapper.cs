@@ -182,6 +182,40 @@ namespace ToracLibrary.Log4NetAPI
         }
 
         /// <summary>
+        /// Write to the log. This method checks to ensure the log level is going to write into log 4 net. We pass in a func to avoid the string.format which is expensive. Ran test in BenchmarkDotNet. If you have the debug level set to debug (which outputs everything its a little more expensive). If you have it on error. It is better on memory and faster because you only run string.format every once in a while.
+        /// </summary>
+        /// <param name="Level">Level to write</param>
+        /// <param name="MessageToWrite">Message to write in a lambda to avoid string.format which is heavy if the log level is not even set</param>
+        public static void WriteToLog(LogLevel Level, Func<string> MessageToWrite)
+        {
+            //just avoids having to call the method if the level we want to write into is off
+            if (Logger.IsDebugEnabled && Level == LogLevel.Debug)
+            {
+                WriteToLog(Level, MessageToWrite());
+            }
+
+            else if (Logger.IsInfoEnabled && Level == LogLevel.Info)
+            {
+                WriteToLog(Level, MessageToWrite());
+            }
+
+            else if (Logger.IsWarnEnabled && Level == LogLevel.Warn)
+            {
+                WriteToLog(Level, MessageToWrite());
+            }
+
+            else if (Logger.IsErrorEnabled && Level == LogLevel.Error)
+            {
+                WriteToLog(Level, MessageToWrite());
+            }
+
+            else if (Logger.IsFatalEnabled && Level == LogLevel.Fatal)
+            {
+                WriteToLog(Level, MessageToWrite());
+            }
+        }
+
+        /// <summary>
         /// Builds the output text which contains more informaiton (method name, source line number)
         /// </summary>
         /// <param name="MessageToWrite">Message To Write</param>
