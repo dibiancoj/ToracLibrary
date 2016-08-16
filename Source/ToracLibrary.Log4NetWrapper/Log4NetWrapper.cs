@@ -191,27 +191,27 @@ namespace ToracLibrary.Log4NetAPI
             //just avoids having to call the method if the level we want to write into is off
             if (Logger.IsDebugEnabled && Level == LogLevel.Debug)
             {
-                WriteToLog(Level, MessageToWrite());
+                Logger.Debug(MessageToWrite());
             }
 
             else if (Logger.IsInfoEnabled && Level == LogLevel.Info)
             {
-                WriteToLog(Level, MessageToWrite());
+                Logger.Info(MessageToWrite());
             }
 
             else if (Logger.IsWarnEnabled && Level == LogLevel.Warn)
             {
-                WriteToLog(Level, MessageToWrite());
+                Logger.Warn(MessageToWrite());
             }
 
             else if (Logger.IsErrorEnabled && Level == LogLevel.Error)
             {
-                WriteToLog(Level, MessageToWrite());
+                Logger.Error(MessageToWrite());
             }
 
             else if (Logger.IsFatalEnabled && Level == LogLevel.Fatal)
             {
-                WriteToLog(Level, MessageToWrite());
+                Logger.Fatal(MessageToWrite());
             }
         }
 
