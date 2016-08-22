@@ -103,6 +103,13 @@
     <Compile Include="Mathematical\Mode\ModeCalculation.cs" />
     <Compile Include="Mathematical\Mode\ModeResult.cs" />
     <Compile Include="Mathematical\StandardDeviation\StandardDeviationCalculation.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\CurrentPageNumberPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\TotalPagesPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\TotalRecordCountPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\ToRecordNumberPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\FromRecordNumberPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\Keywords\IPagerKeyword.cs" />
+    <Compile Include="Paging\BuildPagerText\PagerText.cs" />
     <Compile Include="Paging\DataSetPaging.cs" />
     <Compile Include="Permutations\PermutationBuilder.cs" />
     <Compile Include="Permutations\PermutationBuilderResult.cs" />
