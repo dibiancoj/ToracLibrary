@@ -74,6 +74,17 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal("Record 11 Of 11. Page 2 Of 2. TotalRecords = 11", PagerText.BuildPagerText(TotalNumberOfRecords, RecordsPerPage, CurrentPageId, FormatToUse));
         }
 
+        /// <summary>
+        /// Calculate the pager text. Test 2 full pages
+        /// </summary>
+        /// <param name="FormatToUse"></param>
+        [InlineData(20, 10, 2, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [Theory]
+        public void CalculatePagerTextTest5(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
+        {
+            Assert.Equal("Record 11 Of 20. Page 2 Of 2. TotalRecords = 20", PagerText.BuildPagerText(TotalNumberOfRecords, RecordsPerPage, CurrentPageId, FormatToUse));
+        }
+
         #endregion
 
     }
