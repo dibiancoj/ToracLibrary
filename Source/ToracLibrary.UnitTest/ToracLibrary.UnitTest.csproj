@@ -90,6 +90,7 @@
       <HintPath>..\..\packages\System.Diagnostics.StackTrace.4.0.1\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
       <Private>True</Private>
@@ -259,6 +260,7 @@
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="Framework\DummyObject.cs" />
     <Compile Include="Framework\FrameworkHelperMethods.cs" />
+    <Compile Include="UnitTests\Graphics\GraphicsTest.cs" />
     <Compile Include="UnitTests\HtmlParsing\HtmlParsingTest.cs" />
     <Compile Include="UnitTests\JasonSerializer\JasonSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -324,6 +326,10 @@
     <ProjectReference Include="..\ToracLibrary.DynamicRunTime\ToracLibrary.DynamicRunTime.csproj">
       <Project>{f70021e8-ef11-4418-88bc-7bddc310e0e2}</Project>
       <Name>ToracLibrary.DynamicRunTime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Graphics\ToracLibrary.Graphics.csproj">
+      <Project>{f4c01a7e-d029-41de-983f-5709e4d5d8d7}</Project>
+      <Name>ToracLibrary.Graphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj">
       <Project>{20f8ae75-74f3-4a3e-8e17-5e3e2cdbac88}</Project>
