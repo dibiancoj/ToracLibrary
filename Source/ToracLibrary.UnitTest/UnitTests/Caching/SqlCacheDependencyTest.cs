@@ -43,6 +43,8 @@ namespace ToracLibrary.UnitTest.Caching
 
         #endregion
 
+        #region Static Helper Methods
+
         /// <summary>
         /// Dummy Cache For Unit Test
         /// </summary>
@@ -112,6 +114,8 @@ namespace ToracLibrary.UnitTest.Caching
 
         }
 
+        #endregion
+
         #region Test Methods
 
         /// <summary>
@@ -120,6 +124,9 @@ namespace ToracLibrary.UnitTest.Caching
         [Fact]
         public void SqlCacheDependencyNoDITest1()
         {
+            //cleanup the table
+            CleanupTable();
+
             //how many records to add
             const int RecordsToAdd = 1;
 
@@ -152,6 +159,9 @@ namespace ToracLibrary.UnitTest.Caching
         [Fact]
         public void SqlCacheDependencyWithDependencyInjectionTest1()
         {
+            //cleanup the table
+            CleanupTable();
+
             //let's go get my factory from my DI Container
             var CacheFromDIContainer = DIUnitTestContainer.DIContainer.Resolve<ICacheImplementation<IEnumerable<DummyObject>>>(DIFactoryName);
 
@@ -175,10 +185,23 @@ namespace ToracLibrary.UnitTest.Caching
 
             //we need to try to wait until sql cache dep event is raised...otherwise we will get false blowups.
             //because it will raise for every record inserted. so just try to wait a second then go grab the data and check
-            Thread.SpinWait(50000000);
+            Thread.SpinWait(10000000);
 
             //cache should be reset now...should be 14
             Assert.Equal(DataProviderSetupTearDown.DefaultRecordsToInsert + RecordsToAdd, CacheFromDIContainer.GetCacheItem().Count());
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private void CleanupTable()
+        {
+            //just cleanup the table.
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                DP.ExecuteNonQuery("Truncate Table dbo.Ref_SqlCachTrigger", CommandType.Text);
+            }
         }
 
         #endregion
