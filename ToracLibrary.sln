@@ -122,7 +122,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{58EBAB86-E024-4D03-8D67-06C2583ED914}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\EntityFramework\Code First Migration Commands.txt = Docs\Examples\EntityFramework\Code First Migration Commands.txt
-		Database Initalization Strategies.txt = Database Initalization Strategies.txt
+		Docs\Examples\EntityFramework\Database Initalization Strategies.txt = Docs\Examples\EntityFramework\Database Initalization Strategies.txt
 		FluentApi.txt = FluentApi.txt
 	EndProjectSection
 EndProject
