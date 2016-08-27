@@ -35,6 +35,12 @@ Commands Without Description
 "Get-Migrations" ==> Displays what migrations have been run against the database you are using
 
 
+
+//if you don't want the code to automatically update the database then uncomment this.
+//if you uncomment this then you will have to do the update-database to update the database - instead of having the code automatically do this
+//Database.SetInitializer<EntityFrameworkEntityDP>(null);
+
+
 ------------------------------------------------------------------------
 
 Getting a SQL Script - with migrations

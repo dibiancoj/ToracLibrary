@@ -7,3 +7,9 @@ Database Initalization Strategies
 	Or turn off: 
 	 Database.SetInitializer<SchoolDBContext>(null); or in config  
 	 <add key="DatabaseInitializerForType SchoolDataLayer.SchoolDBContext, SchoolDataLayer" value="Disabled" />
+
+
+
+//if you don't want the code to automatically update the database then uncomment this.
+//if you uncomment this then you will have to do the update-database to update the database - instead of having the code automatically do this
+//Database.SetInitializer<EntityFrameworkEntityDP>(null);
