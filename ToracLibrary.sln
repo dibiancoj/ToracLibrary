@@ -123,7 +123,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFr
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\EntityFramework\Code First Migration Commands.txt = Docs\Examples\EntityFramework\Code First Migration Commands.txt
 		Docs\Examples\EntityFramework\Database Initalization Strategies.txt = Docs\Examples\EntityFramework\Database Initalization Strategies.txt
-		FluentApi.txt = FluentApi.txt
+		Docs\Examples\EntityFramework\FluentApi.txt = Docs\Examples\EntityFramework\FluentApi.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.PdfClownAPI", "Source\ToracLibrary.PdfClownAPI\ToracLibrary.PdfClownAPI.csproj", "{1BF3F816-8435-419D-B281-495F5752560D}"

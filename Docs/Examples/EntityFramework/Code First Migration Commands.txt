@@ -37,9 +37,11 @@ Commands Without Description
 
 ------------------------------------------------------------------------
 
-EF7 In Asp.net
+Getting a SQL Script - with migrations
 
-Open a command prompt (Windows Key + R, type cmd, click OK)
-Use the cd command to navigate to the project directory (where project.json is = ie. the mvc application)
-Run dnx ef migrations add MyFirstMigration note:if you have more then 1 dbcontext (asp.net identity uses another context then add -c ToracGolfContext )
-Run dnx ef database update to apply
+If another developer wants these changes on their machine they can just sync once we check our changes into source control. Once they have our new migrations they can just run the Update-Database command to have the changes applied locally. However if we want to push these changes out to a test server, and eventually production, we probably want a SQL script we can hand off to our DBA.
+
+Run the Update-Database command but this time specify the –Script flag so that changes are written to a script rather than applied. We’ll also specify a source and target migration to generate the script for. We want a script to go from an empty database ($InitialDatabase) to the latest version (migration AddPostAbstract).
+If you don’t specify a target migration, Migrations will use the latest migration as the target. If you don't specify a source migrations, Migrations will use the current state of the database.
+
+Run the "Update-Database -Script -SourceMigration: $InitialDatabase -TargetMigration: AddPostAbstract" command in Package Manager Console
