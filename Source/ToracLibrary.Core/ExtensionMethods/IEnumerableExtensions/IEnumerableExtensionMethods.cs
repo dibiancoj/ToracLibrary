@@ -214,7 +214,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         public static IEnumerable<TSource> DistinctByLazy<TSource, TKey>(this IEnumerable<TSource> DataSource, Func<TSource, TKey> PropertySelector)
         {
             //holds the values that have been found already
-            HashSet<TKey> PropertyValuesFound = new HashSet<TKey>();
+            var PropertyValuesFound = new HashSet<TKey>();
 
             //loop through each of the records
             foreach (TSource RecordToCheck in DataSource)

@@ -6,6 +6,9 @@ using Xunit;
 namespace ToracLibrary.UnitTest.Core
 {
 
+    /// <summary>
+    /// Unit tests for accounting period
+    /// </summary>
     public class AccountingPeriodTest
     {
 

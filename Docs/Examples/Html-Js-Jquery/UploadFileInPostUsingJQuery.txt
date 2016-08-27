@@ -18,6 +18,32 @@
 				data: dataString,
 				contentType: contentTypeValue, //<-- need this specifically
 				processData: false  //<-- need this specifically
+				xhr = function(xhrAjax){
+
+					//add the progress bar
+				  
+				    //grab the upload xhr
+					var uploadXHR = $.ajaxSettings.xhr();
+
+					//Check if upload property exists
+					if (uploadXHR.upload) {
+						
+						//add the event handler to the ajax component
+						uploadXHR.upload.addEventListener("progress", function (evt) 
+						{
+						
+							if (evt.lengthComputable) {
+
+								var percentComplete = evt.loaded / evt.total;
+								//Do something with upload progress
+							}
+						}
+					}, false);
+            }
+
+					//return the upload xhr now
+					return uploadXHR;
+				}
 			};
 	
 			$.ajax(parameters)

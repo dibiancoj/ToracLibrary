@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.DiskIO
 {
@@ -25,6 +26,7 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="FilePathToSave">File Path</param>
         /// <param name="FileModeToUse">File Mode</param>
         /// <param name="FileContent">File Content</param>
+        [MethodIsNotTestable("No Test Added")]
         public static void WriteFileFromByteArray(string FilePathToSave, FileMode FileModeToUse, byte[] FileContent)
         {
             //create the file stream to write the file
@@ -46,6 +48,7 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="TextToOutput">Text To Output (string value)</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
         /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>
+        [MethodIsNotTestable("No Test Added")]
         public static void WriteFile(string FilePath, string TextToOutput, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //use the helper method
@@ -58,7 +61,8 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="FilePath">File Path To Save The File</param>
         /// <param name="LinesToOutput">Text To Output (IEnumerable string)</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
-        /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>>
+        /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>
+        [MethodIsNotTestable("No Test Added")]
         public static void WriteFile(string FilePath, IEnumerable<string> LinesToOutput, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //use the helper method
@@ -72,6 +76,7 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="StringBuilderToWrite">String Builder To Write. Will Call StringBuilder.ToString();</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
         /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>
+        [MethodIsNotTestable("No Test Added")]
         public static void WriteFile(string FilePath, StringBuilder StringBuilderToWrite, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //use the overload
@@ -87,6 +92,7 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="TextToOutput">Text To Output (string value)</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
         /// <returns>awaitable Task</returns>
+        [MethodIsNotTestable("No Test Added")]
         public static Task WriteFileAsync(string FilePath, string TextToOutput, FileMode FileStatus)
         {
             //grab the bytes to write
@@ -113,6 +119,7 @@ namespace ToracLibrary.Core.DiskIO
         /// <param name="LinesToOutput">Text To Output (IEnumerable string)</param>
         /// <param name="FileStatus">File Status - System.IO.FileMode</param>
         /// <param name="WhereToInsert">Where To Insert The Text - System.IO.SeekOrigin</param>
+        [MethodIsNotTestable("No Test Added")]
         private static void WriteFileHelper(string FilePath, IEnumerable<string> LinesToOutput, FileMode FileStatus, SeekOrigin WhereToInsert)
         {
             //validate
