@@ -16,6 +16,10 @@ namespace ToracLibrary.UnitTest.EntityFramework.DataContext
 
         public virtual DbSet<Animal> Animals { get; set; }
 
+        public virtual DbSet<Ref_SqlCacheTrigger> Ref_SqlCacheTriggers { get; set; }
+
+        public virtual DbSet<T4TemplateTest> T4TemplateTests { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Ref_Test>()
@@ -28,6 +32,10 @@ namespace ToracLibrary.UnitTest.EntityFramework.DataContext
             modelBuilder.Entity<Animal>().ToTable("Animal");
             modelBuilder.Entity<Cat>().ToTable("Cat");
             modelBuilder.Entity<Dog>().ToTable("Dog");
+
+            modelBuilder.Entity<Ref_SqlCacheTrigger>().ToTable("Ref_SqlCacheTrigger");
+
+            modelBuilder.Entity<T4TemplateTest>().ToTable("T4TemplateTest");
 
         }
     }

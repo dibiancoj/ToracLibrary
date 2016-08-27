@@ -1,4 +1,7 @@
-﻿USE [ToracLibraryTest]
+﻿--i started to use code migrations. This should be the same version of migrations. Use whatever you would like.
+
+
+USE [ToracLibraryTest]
 GO
 /****** Object:  Table [dbo].[Animal]    Script Date: 10/24/2015 5:14:01 PM ******/
 SET ANSI_NULLS ON

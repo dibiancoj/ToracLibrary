@@ -189,6 +189,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201608270333423_InitDatabase.cs" />
+    <Compile Include="Migrations\201608270333423_InitDatabase.Designer.cs">
+      <DependentUpon>201608270333423_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608270336021_AddT4TemplateTestTable.cs" />
+    <Compile Include="Migrations\201608270336021_AddT4TemplateTestTable.Designer.cs">
+      <DependentUpon>201608270336021_AddT4TemplateTestTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="UnitTests\AspNetMvc\Framework\AspNetDIContainerSharedMock.cs" />
     <Compile Include="UnitTests\AspNetMvc\UnitTests\CustomActionsResults\JsonActionResultTest.cs" />
     <Compile Include="UnitTests\AspNetMvc\UnitTests\CustomModelBinders\CustomModelBinderTest.cs" />
@@ -254,6 +263,8 @@
     <Compile Include="UnitTests\DynamicRunTime\DynamicRunTimeTest.cs" />
     <Compile Include="UnitTests\Email\EmailTest.cs" />
     <Compile Include="UnitTests\EntityFramework\DataContext\EntityFrameworkEntityDP.cs" />
+    <Compile Include="UnitTests\EntityFramework\DataContext\Ref_SqlCacheTrigger.cs" />
+    <Compile Include="UnitTests\EntityFramework\DataContext\T4TemplateTest.cs" />
     <Compile Include="UnitTests\EntityFramework\DataContext\Ref_Test.cs" />
     <Compile Include="UnitTests\EntityFramework\DataContext\Test.cs" />
     <Compile Include="UnitTests\EntityFramework\UnitTests\EntityFrameworkTest.cs" />
@@ -280,6 +291,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Migrations\CommandsToUse.txt" />
     <Content Include="ReferencesNotes\Notes.txt" />
     <Content Include="References\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll" />
     <Content Include="UnitTests\Core\T4Templates\T4TemplateTest.tt">
@@ -349,6 +361,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201608270333423_InitDatabase.resx">
+      <DependentUpon>201608270333423_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608270336021_AddT4TemplateTestTable.resx">
+      <DependentUpon>201608270336021_AddT4TemplateTestTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -24,7 +24,7 @@ namespace ToracLibrary.UnitTest.Caching
         /// <summary>
         /// declare the cache key so we have it for the tests
         /// </summary>
-        internal const string CacheKeyToUse = "DISqlCachTestKey";
+        internal const string CacheKeyToUse = "DISqlCacheTestKey";
 
         /// <summary>
         /// di factory name for this specific cache
@@ -39,7 +39,7 @@ namespace ToracLibrary.UnitTest.Caching
         /// <summary>
         /// Sql to use to refresh the cache
         /// </summary>
-        internal const string CacheSqlToUseToTriggerRefresh = "select * from dbo.Ref_SqlCachTrigger";
+        internal const string CacheSqlToUseToTriggerRefresh = "select * from dbo.Ref_SqlCacheTrigger";
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace ToracLibrary.UnitTest.Caching
                 //create the data provider
                 using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
                 {
-                    DP.ExecuteNonQuery($"Insert into dbo.Ref_SqlCachTrigger(LastUpdatedDate) values('{DateTime.Now}')", CommandType.Text);
+                    DP.ExecuteNonQuery($"Insert into dbo.Ref_SqlCacheTrigger(LastUpdatedDate) values('{DateTime.Now}')", CommandType.Text);
                 }
             }
 
@@ -200,7 +200,7 @@ namespace ToracLibrary.UnitTest.Caching
             //just cleanup the table.
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
             {
-                DP.ExecuteNonQuery("Truncate Table dbo.Ref_SqlCachTrigger", CommandType.Text);
+                DP.ExecuteNonQuery("Truncate Table dbo.Ref_SqlCacheTrigger", CommandType.Text);
             }
         }
 

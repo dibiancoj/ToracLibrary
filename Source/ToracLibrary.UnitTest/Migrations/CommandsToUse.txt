@@ -1,0 +1,7 @@
+﻿make sure the startup project is not core. Otherwise you won't be able to update
+
+Update-database -startupproject "ToracLibrary.UnitTest" -verbose
+
+
+*** make sure to run -startupproject "ToracLibrary.UnitTest" with everything otherwise you will get errors because its looking for the connection string in ToracLibrary.Core
+ie: add-migration NewTable -startupproject "ToracLibrary.UnitTest" -verbose
