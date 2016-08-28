@@ -151,6 +151,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RemoteDesktop", "RemoteDesk
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TFS", "TFS", "{C7323988-B22E-4B50-AA8B-6279528B7CBD}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Tfs\AutomatedBuildCommand.txt = Docs\Examples\Tfs\AutomatedBuildCommand.txt
 		Docs\Examples\Tfs\BaselessMerge.txt = Docs\Examples\Tfs\BaselessMerge.txt
 	EndProjectSection
 EndProject
