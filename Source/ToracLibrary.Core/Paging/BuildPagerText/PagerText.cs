@@ -15,6 +15,11 @@ namespace ToracLibrary.Core.Paging
     {
 
         /// <summary>
+        /// Holds the list of rules or keywords that are implemented
+        /// </summary>
+        private static IList<IPagerKeyword> KeyWordImplementation = new List<IPagerKeyword> { new FromRecordNumberPagerKeyword(), new ToRecordNumberPagerKeyword(), new TotalRecordCountPagerKeyword(), new CurrentPageNumberPagerKeyword(), new TotalPagesPagerKeyword() };
+
+        /// <summary>
         /// Build the pager text
         /// </summary>
         /// <param name="HowManyTotalRecordsInDataSet">Total Number Of Records (Not Just This Page But In The Entire RecordSet)</param>
@@ -36,14 +41,11 @@ namespace ToracLibrary.Core.Paging
             //or use the static properties:
             //private string FormatToUse = string.Format($"Record {FromRecordNumberPagerKeyword.KeyWordTag} Of {TotalRecordCountPagerKeyword.KeyWordTag}. Page {CurrentPageNumberPagerKeyword.KeyWordTag} Of {TotalPagesPagerKeyword.KeyWordTag}. TotalRecords = {TotalRecordCountPagerKeyword.KeyWordTag}");
 
-            //keywords
-            var KeyWords = new List<IPagerKeyword> { new FromRecordNumberPagerKeyword(), new ToRecordNumberPagerKeyword(), new TotalRecordCountPagerKeyword(), new CurrentPageNumberPagerKeyword(), new TotalPagesPagerKeyword() };
-
             //return text
             var PagerTextToReturn = new StringBuilder(FormatToUse);
 
             //loop through the format the person passed in
-            foreach (IPagerKeyword KeyWordToCheckFactory in KeyWords.Where(x => FormatToUse.Contains(x.KeyWord)))
+            foreach (IPagerKeyword KeyWordToCheckFactory in KeyWordImplementation.Where(x => FormatToUse.Contains(x.KeyWord)))
             {
                 //we have this keyword...replace it
                 PagerTextToReturn.Replace(KeyWordToCheckFactory.KeyWord, KeyWordToCheckFactory.ReplacementValue(HowManyTotalRecordsInDataSet, HowManyRecordsPerPage, CurrentPageYouAreOn));
