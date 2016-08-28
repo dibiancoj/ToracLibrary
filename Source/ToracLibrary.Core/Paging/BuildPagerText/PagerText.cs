@@ -17,7 +17,7 @@ namespace ToracLibrary.Core.Paging
         /// <summary>
         /// Holds the list of rules or keywords that are implemented
         /// </summary>
-        private static IList<IPagerKeyword> KeyWordImplementation = new List<IPagerKeyword> { new FromRecordNumberPagerKeyword(), new ToRecordNumberPagerKeyword(), new TotalRecordCountPagerKeyword(), new CurrentPageNumberPagerKeyword(), new TotalPagesPagerKeyword() };
+        private static readonly IList<IPagerKeyword> KeyWordImplementation = new List<IPagerKeyword> { new FromRecordNumberPagerKeyword(), new ToRecordNumberPagerKeyword(), new TotalRecordCountPagerKeyword(), new CurrentPageNumberPagerKeyword(), new TotalPagesPagerKeyword() };
 
         /// <summary>
         /// Build the pager text
