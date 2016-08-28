@@ -10,8 +10,19 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
     /// <summary>
     /// The number of the record that is at the end on that page
     /// </summary>
-    public class CurrentPageNumberPagerKeyword : IPagerKeyword
+    public class ToRecordNumberPagerKeyword : IPagerKeyword
     {
+
+        #region Static Properties
+
+        /// <summary>
+        /// Calling code can use this variable instead of hard coding string
+        /// </summary>
+        public const string KeyWordTag = "[[ToRecordNumber]]";
+
+        #endregion
+
+        #region Interface Items
 
         /// <summary>
         /// Keyword to replace and look for
@@ -20,7 +31,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
         {
             get
             {
-                return "{CurrentPage}";
+                return KeyWordTag;
             }
         }
 
@@ -33,8 +44,22 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
         /// <returns>replace value</returns>
         public string ReplacementValue(int HowManyTotalRecordsInDataSet, int HowManyRecordsPerPage, int CurrentPageYouAreOn)
         {
-            return CurrentPageYouAreOn.ToString();
+            //get the max number of records
+            int ToRecordTemp = (CurrentPageYouAreOn * HowManyRecordsPerPage);
+
+            //is there not enough on the last page?
+            if (ToRecordTemp > HowManyTotalRecordsInDataSet)
+            {
+                //there aren't enough records..so reset the variable
+                ToRecordTemp = HowManyTotalRecordsInDataSet;
+            }
+
+            //return the final variable
+            return ToRecordTemp.ToString();
         }
+
+        #endregion
+
     }
 
 }

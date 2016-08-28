@@ -1,5 +1,6 @@
 ﻿using System;
 using ToracLibrary.Core.Paging;
+using ToracLibrary.Core.Paging.BuildPagerText.Keywords;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Core
@@ -10,6 +11,8 @@ namespace ToracLibrary.UnitTest.Core
     /// </summary>
     public class DataSetPagingTest
     {
+
+        #region Unit Tests
 
         #region Paging
 
@@ -34,7 +37,7 @@ namespace ToracLibrary.UnitTest.Core
         /// Calculate the pager text. Initial Simple Test
         /// </summary>
         /// <param name="FormatToUse"></param>
-        [InlineData(5, 10, 1, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [InlineData(5, 10, 1, "Record [[FromRecordNumber]] Of [[ToRecordNumber]]. Page [[CurrentPage]] Of [[TotalPages]]. TotalRecords = [[TotalRecordCount]]")]
         [Theory]
         public void CalculatePagerTextTest1(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
         {
@@ -45,7 +48,7 @@ namespace ToracLibrary.UnitTest.Core
         /// Calculate the pager text. Test the last record on a page
         /// </summary>
         /// <param name="FormatToUse"></param>
-        [InlineData(10, 10, 1, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [InlineData(10, 10, 1, "Record [[FromRecordNumber]] Of [[ToRecordNumber]]. Page [[CurrentPage]] Of [[TotalPages]]. TotalRecords = [[TotalRecordCount]]")]
         [Theory]
         public void CalculatePagerTextTest2(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
         {
@@ -56,7 +59,7 @@ namespace ToracLibrary.UnitTest.Core
         /// Calculate the pager text. Test the first record on the first page - when you have multiple pages
         /// </summary>
         /// <param name="FormatToUse"></param>
-        [InlineData(11, 10, 1, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [InlineData(11, 10, 1, "Record [[FromRecordNumber]] Of [[ToRecordNumber]]. Page [[CurrentPage]] Of [[TotalPages]]. TotalRecords = [[TotalRecordCount]]")]
         [Theory]
         public void CalculatePagerTextTest3(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
         {
@@ -67,7 +70,7 @@ namespace ToracLibrary.UnitTest.Core
         /// Calculate the pager text. Test the first record on the second page - when you have multiple pages
         /// </summary>
         /// <param name="FormatToUse"></param>
-        [InlineData(11, 10, 2, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [InlineData(11, 10, 2, "Record [[FromRecordNumber]] Of [[ToRecordNumber]]. Page [[CurrentPage]] Of [[TotalPages]]. TotalRecords = [[TotalRecordCount]]")]
         [Theory]
         public void CalculatePagerTextTest4(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
         {
@@ -78,12 +81,14 @@ namespace ToracLibrary.UnitTest.Core
         /// Calculate the pager text. Test 2 full pages
         /// </summary>
         /// <param name="FormatToUse"></param>
-        [InlineData(20, 10, 2, "Record {FromRecordNumber} Of {ToRecordNumber}. Page {CurrentPage} Of {TotalPages}. TotalRecords = {TotalRecordCount}")]
+        [InlineData(20, 10, 2, "Record [[FromRecordNumber]] Of [[ToRecordNumber]]. Page [[CurrentPage]] Of [[TotalPages]]. TotalRecords = [[TotalRecordCount]]")]
         [Theory]
         public void CalculatePagerTextTest5(int TotalNumberOfRecords, int RecordsPerPage, int CurrentPageId, string FormatToUse)
         {
             Assert.Equal("Record 11 Of 20. Page 2 Of 2. TotalRecords = 20", PagerText.BuildPagerText(TotalNumberOfRecords, RecordsPerPage, CurrentPageId, FormatToUse));
         }
+
+        #endregion
 
         #endregion
 

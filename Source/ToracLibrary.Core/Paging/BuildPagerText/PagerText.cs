@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Core.Paging.BuildPagerText.Keywords;
 
 namespace ToracLibrary.Core.Paging
@@ -32,7 +31,10 @@ namespace ToracLibrary.Core.Paging
             //CurrentPage
             //TotalPages
 
-            //sample = "Page {CurrentPage} of {TotalPages}. Record {FromRecordNumber} To {ToRecordNumber} Of {TotalRecordCount}
+            //sample = "Page [[CurrentPage]] of [[TotalPages]]. Record [[FromRecordNumber]] To [[ToRecordNumber]] Of [[TotalRecordCount]]
+
+            //or use the static properties:
+            //private string FormatToUse = string.Format($"Record {FromRecordNumberPagerKeyword.KeyWordTag} Of {TotalRecordCountPagerKeyword.KeyWordTag}. Page {CurrentPageNumberPagerKeyword.KeyWordTag} Of {TotalPagesPagerKeyword.KeyWordTag}. TotalRecords = {TotalRecordCountPagerKeyword.KeyWordTag}");
 
             //keywords
             var KeyWords = new List<IPagerKeyword> { new FromRecordNumberPagerKeyword(), new ToRecordNumberPagerKeyword(), new TotalRecordCountPagerKeyword(), new CurrentPageNumberPagerKeyword(), new TotalPagesPagerKeyword() };
@@ -44,7 +46,7 @@ namespace ToracLibrary.Core.Paging
             foreach (IPagerKeyword KeyWordToCheckFactory in KeyWords.Where(x => FormatToUse.Contains(x.KeyWord)))
             {
                 //we have this keyword...replace it
-                PagerTextToReturn = PagerTextToReturn.Replace(KeyWordToCheckFactory.KeyWord, KeyWordToCheckFactory.ReplacementValue(HowManyTotalRecordsInDataSet, HowManyRecordsPerPage, CurrentPageYouAreOn));
+                PagerTextToReturn.Replace(KeyWordToCheckFactory.KeyWord, KeyWordToCheckFactory.ReplacementValue(HowManyTotalRecordsInDataSet, HowManyRecordsPerPage, CurrentPageYouAreOn));
             }
 
             //go return the result now
