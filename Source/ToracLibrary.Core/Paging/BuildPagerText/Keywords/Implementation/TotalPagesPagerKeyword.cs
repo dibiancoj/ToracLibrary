@@ -10,7 +10,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
     /// <summary>
     /// The number of the record that is at the end on that page
     /// </summary>
-    public class TotalPagesPagerKeyword : IPagerKeyword
+    internal class TotalPagesPagerKeyword : IPagerKeyword
     {
 
         #region Static Properties

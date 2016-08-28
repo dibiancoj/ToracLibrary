@@ -10,7 +10,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
     /// <summary>
     /// Common interface for all pager keywords
     /// </summary>
-    public interface IPagerKeyword
+    internal interface IPagerKeyword
     {
 
         /// <summary>

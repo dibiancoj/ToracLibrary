@@ -36,7 +36,7 @@ namespace ToracLibrary.Core.Paging
             //CurrentPage
             //TotalPages
 
-            //sample = "Page [[CurrentPage]] of [[TotalPages]]. Record [[FromRecordNumber]] To [[ToRecordNumber]] Of [[TotalRecordCount]]
+            //sample = "Page [[CurrentPage]] of [[TotalPages]]. Record [[FromRecordNumber]] To [[ToRecordNumber]] Of [[TotalRecordCount]]"
 
             //or use the static properties:
             //private string FormatToUse = string.Format($"Record {FromRecordNumberPagerKeyword.KeyWordTag} Of {TotalRecordCountPagerKeyword.KeyWordTag}. Page {CurrentPageNumberPagerKeyword.KeyWordTag} Of {TotalPagesPagerKeyword.KeyWordTag}. TotalRecords = {TotalRecordCountPagerKeyword.KeyWordTag}");
@@ -45,7 +45,7 @@ namespace ToracLibrary.Core.Paging
             var PagerTextToReturn = new StringBuilder(FormatToUse);
 
             //loop through the format the person passed in
-            foreach (IPagerKeyword KeyWordToCheckFactory in KeyWordImplementation.Where(x => FormatToUse.Contains(x.KeyWord)))
+            foreach (IPagerKeyword KeyWordToCheckFactory in KeyWordImplementation) //faster to just run through it then to run a where that checks to see if the keyword is contained in the string. Doing that makes it have to look through the string twice for every keyword.
             {
                 //we have this keyword...replace it
                 PagerTextToReturn.Replace(KeyWordToCheckFactory.KeyWord, KeyWordToCheckFactory.ReplacementValue(HowManyTotalRecordsInDataSet, HowManyRecordsPerPage, CurrentPageYouAreOn));

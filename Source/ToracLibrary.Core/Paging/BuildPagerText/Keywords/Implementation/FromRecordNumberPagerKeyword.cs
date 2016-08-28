@@ -10,7 +10,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
     /// <summary>
     /// The number of the record that is starting on that page
     /// </summary>
-    public class FromRecordNumberPagerKeyword : IPagerKeyword
+    internal class FromRecordNumberPagerKeyword : IPagerKeyword
     {
 
         #region Static Properties
