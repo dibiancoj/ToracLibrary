@@ -46,7 +46,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         public SessionStateCacheModel(int? CacheExpirationInSecondsToSet, T CachedObjectToSet)
         {
             //set the properties
-            CacheExpiration = CalculateExpirationFromSeconds(CacheExpirationInSecondsToSet.Value);
+            CacheExpiration = CalculateExpirationFromSeconds(CacheExpirationInSecondsToSet);
             CachedObject = CachedObjectToSet;
         }
 
