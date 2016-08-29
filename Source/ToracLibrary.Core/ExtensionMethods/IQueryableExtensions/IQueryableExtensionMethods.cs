@@ -43,6 +43,42 @@ namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
 
         #region Order By
 
+        /* ************* if you need a simple version of dynamic order by *************
+         *         public static IQueryable<T> OrderBy<T>(
+            this IQueryable<T> target,
+            string propertyName)
+        {
+            return ExecuteExression(target, propertyName, "OrderBy");
+        }
+
+        public static IQueryable<T> OrderByDescending<T>(
+            this IQueryable<T> target,
+            string propertyName)
+        {
+            return ExecuteExression(target, propertyName, "OrderByDescending");
+        }
+
+        private static IQueryable<T> ExecuteExression<T>(
+            this IQueryable<T> target,
+            string propertyName,
+            string methodName)
+        {
+            var typeOfT = typeof(T);
+            var targetProperty = typeOfT.GetProperty(propertyName);
+            var param = Expression.Parameter(typeOfT, "p");
+            var memberAccess = Expression.MakeMemberAccess(param, targetProperty);
+
+            MethodCallExpression expession = Expression.Call(
+                    typeof(Queryable),
+                    methodName,
+                    new[] { typeOfT, targetProperty.PropertyType },
+                    target.Expression,
+                    Expression.Quote(Expression.Lambda(memberAccess, param)));
+
+            return target.Provider.CreateQuery<T>(expession);
+        } 
+         */
+
         /// <summary>
         /// Modifies Queryable Of T And Orders It For Entity Framework with the multiple sort properties. Supports sub objects using the Property1.Property2 syntax
         /// </summary>
