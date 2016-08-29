@@ -15,8 +15,21 @@ namespace ToracLibrary.AspNet.SessionState
 
         #region Public Methods
 
+        ///<summary>
+        /// Get the data from session or reload it from the data source with no cache expiration.
+        /// </summary>
+        /// <typeparam name="T">Type of the record stored in cache</typeparam>
+        /// <param name="SessionKey">session key to retrieve it by</param>
+        /// <param name="ReloadDataFromSource">if not found in session, how do we reload it</param>
+        /// <returns>Item from either session or the data data source</returns>
+        public static T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource) where T : class
+        {
+            //use the overload
+            return GetFromSessionCache<T>(SessionKey, ReloadDataFromSource, null);
+        }
+
         /// <summary>
-        /// Get the data from session or reload it from the data source
+        /// Get the data from session or reload it from the data source with a cache expiration
         /// </summary>
         /// <typeparam name="T">Type of the record stored in cache</typeparam>
         /// <param name="SessionKey">session key to retrieve it by</param>
