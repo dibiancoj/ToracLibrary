@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToracLibrary.AspNet.SessionState
+namespace ToracLibrary.AspNet.SessionState.Cache
 {
 
     /// <summary>
@@ -39,42 +39,20 @@ namespace ToracLibrary.AspNet.SessionState
         public static T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource, int? CacheExpirationInSeconds) where T : class
         {
             //try to get it from session
-            var TryToGetFromSession = System.Web.HttpContext.Current.Session[SessionKey] as Tuple<DateTime?, T>;
+            var TryToGetFromSession = System.Web.HttpContext.Current.Session[SessionKey] as SessionStateCacheModel<T>;
 
-            //do we have it in session?
-            if (TryToGetFromSession == null || TryToGetFromSession.Item1 < DateTime.Now)
+            //do we have it in session? Or is it expired?
+            if (TryToGetFromSession == null || TryToGetFromSession.CacheIsExpired())
             {
                 //don't have it in session. grab from source
-                TryToGetFromSession = new Tuple<DateTime?, T>(CalculateExpirationFromSeconds(CacheExpirationInSeconds), ReloadDataFromSource());
+                TryToGetFromSession = new SessionStateCacheModel<T>(CacheExpirationInSeconds, ReloadDataFromSource());
 
                 //stick it in session
                 System.Web.HttpContext.Current.Session[SessionKey] = TryToGetFromSession;
             }
 
             //return just whatever the object they are looking for
-            return TryToGetFromSession.Item2;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Calculate the expiration date with a value in seconds
-        /// </summary>
-        /// <param name="CacheExpirationInSeconds">How long before the cache expires in seconds</param>
-        /// <returns>The expiration in date time</returns>
-        private static DateTime? CalculateExpirationFromSeconds(int? CacheExpirationInSeconds)
-        {
-            //do we have a value?
-            if (!CacheExpirationInSeconds.HasValue)
-            {
-                //no value...just return null
-                return null;
-            }
-
-            //add x amount of seconds
-            return DateTime.Now.AddSeconds(CacheExpirationInSeconds.Value);
+            return TryToGetFromSession.CachedObject;
         }
 
         #endregion
