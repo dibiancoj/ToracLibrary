@@ -47,7 +47,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
             //on the first page?
             if (CurrentPageYouAreOn == 1)
             {
-                return 1.ToString();
+                return "1";
             }
 
             return (((CurrentPageYouAreOn - 1) * HowManyRecordsPerPage) + 1).ToString();
