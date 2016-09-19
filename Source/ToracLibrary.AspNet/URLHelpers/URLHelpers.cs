@@ -19,7 +19,7 @@ namespace ToracLibrary.AspNet.URLHelperMethods
         /// <param name="UrlToModify">URL to add the query strings into</param>
         /// <param name="QueryStringsToAppend">Query strings to add to the url</param>
         /// <returns>updated url</returns>
-        public static string AppendQueryStringToUrl(string UrlToModify, params KeyValuePair<string, string>[] QueryStringsToAppend)
+        public static Uri AppendQueryStringToUrl(string UrlToModify, params KeyValuePair<string, string>[] QueryStringsToAppend)
         {
             //let's build the url. Throw it into a uri builder
             var URIToBuild = new UriBuilder(UrlToModify);
@@ -42,7 +42,7 @@ namespace ToracLibrary.AspNet.URLHelperMethods
             URIToBuild.Query = UrlQuery.ToString();
 
             //return the url now
-            return URIToBuild.ToString();
+            return URIToBuild.Uri;
         }
 
     }

@@ -41,12 +41,45 @@ namespace ToracLibrary.UnitTest.AspNet.AspNet
 
         #region Url Helpers
 
+        /// <summary>
+        /// Contains normal port numbers
+        /// </summary>
         [Fact]
         public void QueryStringAppendToUrlTest1()
         {
-            Assert.Equal("http://www.test.com:80/Index?Id=1", URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1")));
-            Assert.Equal("http://www.test.com:80/Index?Id=1&Id2=5", URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id2", "5")));
-            Assert.Equal("http://www.test.com:80/Index?Id=1", URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id", "5")));
+            //http version
+            Assert.Equal(new Uri("http://www.test.com"), URLHelpers.AppendQueryStringToUrl("http://www.test.com/"));
+            Assert.Equal(new Uri("http://www.test.com/Index"), URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index"));
+            Assert.Equal(new Uri("http://www.test.com/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1")));
+            Assert.Equal(new Uri("http://www.test.com/Index?Id=1&Id2=5"), URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id2", "5")));
+            Assert.Equal(new Uri("http://www.test.com/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("http://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id", "5")));
+
+            //https version
+            Assert.Equal(new Uri("https://www.test.com"), URLHelpers.AppendQueryStringToUrl("https://www.test.com/"));
+            Assert.Equal(new Uri("https://www.test.com/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("https://www.test.com/Index", new KeyValuePair<string, string>("Id", "1")));
+            Assert.Equal(new Uri("https://www.test.com/Index?Id=1&Id2=5"), URLHelpers.AppendQueryStringToUrl("https://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id2", "5")));
+            Assert.Equal(new Uri("https://www.test.com/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("https://www.test.com/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id", "5")));
+        }
+
+
+        /// <summary>
+        /// Contains non normal port numbers
+        /// </summary>
+        [Fact]
+        public void QueryStringAppendToUrlTest2()
+        {
+            //http version
+            Assert.Equal(new Uri("http://www.test.com:123"), URLHelpers.AppendQueryStringToUrl("http://www.test.com:123/"));
+            Assert.Equal(new Uri("http://www.test.com:123/Index"), URLHelpers.AppendQueryStringToUrl("http://www.test.com:123/Index"));
+            Assert.Equal(new Uri("http://www.test.com:123/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("http://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1")));
+            Assert.Equal(new Uri("http://www.test.com:123/Index?Id=1&Id2=5"), URLHelpers.AppendQueryStringToUrl("http://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id2", "5")));
+            Assert.Equal(new Uri("http://www.test.com:123/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("http://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id", "5")));
+
+            //https version
+            Assert.Equal(new Uri("https://www.test.com:123"), URLHelpers.AppendQueryStringToUrl("https://www.test.com:123/"));
+            Assert.Equal(new Uri("https://www.test.com:123/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("https://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1")));
+            Assert.Equal(new Uri("https://www.test.com:123/Index?Id=1&Id2=5"), URLHelpers.AppendQueryStringToUrl("https://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id2", "5")));
+            Assert.Equal(new Uri("https://www.test.com:123/Index?Id=1"), URLHelpers.AppendQueryStringToUrl("https://www.test.com:123/Index", new KeyValuePair<string, string>("Id", "1"), new KeyValuePair<string, string>("Id", "5")));
         }
 
         #endregion
