@@ -46,35 +46,34 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void AnyWithNullCheckTest1()
         {
             //create a new null list that we will use to check
-            List<int> lst = null;
+            List<int> ListToTestWith = null;
 
             //check the null list
-            Assert.False(lst.AnyWithNullCheck());
+            Assert.False(ListToTestWith.AnyWithNullCheck());
 
             //create a new list
-            lst = new List<int>();
+            ListToTestWith = new List<int>();
 
             //check if the object instance has any items
-            Assert.False(lst.AnyWithNullCheck());
+            Assert.False(ListToTestWith.AnyWithNullCheck());
 
             //add an item to the list
-            lst.Add(1);
+            ListToTestWith.Add(1);
 
             //do we see the 1 number
-            Assert.True(lst.AnyWithNullCheck());
+            Assert.True(ListToTestWith.AnyWithNullCheck());
 
             //add another item
-            lst.Add(2);
+            ListToTestWith.Add(2);
 
             //should see the 2 items
-            Assert.True(lst.AnyWithNullCheck());
+            Assert.True(ListToTestWith.AnyWithNullCheck());
 
             //clear all the items
-            lst.Clear();
+            ListToTestWith.Clear();
 
             //should resolve to false
-            Assert.False(lst.AnyWithNullCheck());
-
+            Assert.False(ListToTestWith.AnyWithNullCheck());
         }
 
         /// <summary>
@@ -84,40 +83,40 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void AnyWithNullCheckPredicateTest1()
         {
             //create a new null list that we will use to check
-            List<int> lst = null;
+            List<int> ListToTestWith = null;
 
             //should return false since we don't have an instance of an object
-            Assert.False(lst.AnyWithNullCheck(x => x == 5));
+            Assert.False(ListToTestWith.AnyWithNullCheck(x => x == 5));
 
             //create an instance of the list now
-            lst = new List<int>();
+            ListToTestWith = new List<int>();
 
             //we still don't have any items in the list
-            Assert.False(lst.AnyWithNullCheck(x => x == 5));
+            Assert.False(ListToTestWith.AnyWithNullCheck(x => x == 5));
 
             //add an item now 
-            lst.Add(1);
+            ListToTestWith.Add(1);
 
             //we should be able to find the == 1
-            Assert.True(lst.AnyWithNullCheck(x => x == 1));
+            Assert.True(ListToTestWith.AnyWithNullCheck(x => x == 1));
 
             //we don't have anything greater then 5
-            Assert.False(lst.AnyWithNullCheck(x => x > 5));
+            Assert.False(ListToTestWith.AnyWithNullCheck(x => x > 5));
 
             //add 2
-            lst.Add(2);
+            ListToTestWith.Add(2);
 
             //should be able to find the 2
-            Assert.True(lst.AnyWithNullCheck(x => x == 2));
+            Assert.True(ListToTestWith.AnyWithNullCheck(x => x == 2));
 
             //shouldn't be able to find any numbers greater then 5
-            Assert.False(lst.AnyWithNullCheck(x => x > 5));
+            Assert.False(ListToTestWith.AnyWithNullCheck(x => x > 5));
 
             //clear the list
-            lst.Clear();
+            ListToTestWith.Clear();
 
             //we have no items because we just cleared the list
-            Assert.False(lst.AnyWithNullCheck(x => x <= 5));
+            Assert.False(ListToTestWith.AnyWithNullCheck(x => x <= 5));
         }
 
         #endregion
@@ -252,10 +251,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OutputList = new string[] { "Item 1", "Item 2", "Item 3" };
 
             //go run the output string
-            var result = OutputList.ToOutputString(x => x, ", ");
+            var Result = OutputList.ToOutputString(x => x, ", ");
 
             //check the result
-            Assert.Equal("Item 1, Item 2, Item 3", result);
+            Assert.Equal("Item 1, Item 2, Item 3", Result);
         }
 
         /// <summary>
@@ -268,10 +267,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OutputList = new List<string> { "Item 1" };
 
             //go run the output string
-            var result = OutputList.ToOutputString(x => x, ", ");
+            var Result = OutputList.ToOutputString(x => x, ", ");
 
             //check the result
-            Assert.Equal("Item 1", result);
+            Assert.Equal("Item 1", Result);
         }
 
         /// <summary>
@@ -284,10 +283,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OutputList = new List<string>();
 
             //go run the output string
-            var result = OutputList.ToOutputString(x => x, ", ");
+            var Result = OutputList.ToOutputString(x => x, ", ");
 
             //check the result
-            Assert.Equal(string.Empty, result);
+            Assert.Equal(string.Empty, Result);
         }
 
         #endregion
@@ -304,10 +303,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OutputList = new List<string> { "Item 1", "Item 2", "Item 3" };
 
             //go run the output string
-            var result = OutputList.ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
+            var Result = OutputList.ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
 
             //check the result
-            Assert.Equal("1. Item 1, 2. Item 2, 3. Item 3", result);
+            Assert.Equal("1. Item 1, 2. Item 2, 3. Item 3", Result);
         }
 
         /// <summary>
@@ -320,10 +319,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OutputList = new List<string> { "Item 1" };
 
             //go run the output string
-            var result = OutputList.ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
+            var Result = OutputList.ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
 
             //check the result
-            Assert.Equal("1. Item 1", result);
+            Assert.Equal("1. Item 1", Result);
         }
 
         /// <summary>
@@ -333,10 +332,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void OutputFriendlyDescriptionWithIndexOverloadTest3()
         {
             //go run the output string on a blank string
-            var result = Array.Empty<string>().ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
+            var Result = Array.Empty<string>().ToOutputString((thisItem, thisIndex) => string.Format("{0}. {1}", thisIndex + 1, thisItem), ", ");
 
             //check the result
-            Assert.Equal(string.Empty, result);
+            Assert.Equal(string.Empty, Result);
         }
 
         #endregion
