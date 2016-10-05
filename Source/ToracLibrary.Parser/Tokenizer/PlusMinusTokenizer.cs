@@ -22,11 +22,8 @@ namespace ToracLibrary.Parser.Tokenizer
         /// </summary>
         /// <param name="ExpressionToScan">Expression to scan and return all the tokens</param>
         /// <returns>list of tokens that make up the expression</returns>
-        public static IEnumerable<TokenBase> Scan(string ExpressionToScan)
+        public static IEnumerable<TokenBase> ScanLazy(string ExpressionToScan)
         {
-            //since we are going to dispose of the reader lets build up a list and return it (for now)
-            var TokensFound = new List<TokenBase>();
-
             //declare the string reader
             using (var ExpressionReader = new StringReader(ExpressionToScan))
             {
@@ -50,12 +47,12 @@ namespace ToracLibrary.Parser.Tokenizer
                     if (char.IsDigit(CharacterPeekedAt))
                     {
                         //it's a digit...try to parse the number
-                        TokensFound.Add(new NumberConstantToken(ParseNumber(ExpressionReader)));
+                       yield return new NumberConstantToken(ParseNumber(ExpressionReader));
                     }
                     else if (CharacterPeekedAt == '-')
                     {
                         //return the minus token
-                        TokensFound.Add(new MinusToken());
+                        yield return new MinusToken();
 
                         //move the reader to the next character
                         ExpressionReader.Read();
@@ -63,7 +60,7 @@ namespace ToracLibrary.Parser.Tokenizer
                     else if (CharacterPeekedAt == '+')
                     {
                         //return the plus token
-                        TokensFound.Add(new PlusToken());
+                        yield return new PlusToken();
 
                         //move the reader
                         ExpressionReader.Read();
@@ -74,9 +71,6 @@ namespace ToracLibrary.Parser.Tokenizer
                     }
                 }
             }
-
-            //return the list of tokens
-            return TokensFound;
         }
 
         /// <summary>
