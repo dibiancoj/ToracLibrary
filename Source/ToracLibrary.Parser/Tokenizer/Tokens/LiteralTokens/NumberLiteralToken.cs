@@ -8,9 +8,9 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens
 {
 
     /// <summary>
-    /// Holds a number constant token
+    /// Holds a number literal token
     /// </summary>
-    public class NumberConstantToken : TokenBase
+    public class NumberLiteralToken : TokenBase
     {
 
         #region Constructor
@@ -19,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens
         /// Constructor
         /// </summary>
         /// <param name="ValueToSet">Value to set</param>
-        public NumberConstantToken(int ValueToSet)
+        public NumberLiteralToken(int ValueToSet)
         {
             Value = ValueToSet;
         }

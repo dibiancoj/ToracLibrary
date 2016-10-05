@@ -140,10 +140,10 @@ namespace ToracLibrary.Parser.Parser
         private static int ParseNumber(TokenBase TokenToParse)
         {
             //is this a number constant token?
-            if (TokenToParse is NumberConstantToken)
+            if (TokenToParse is NumberLiteralToken)
             {
                 //it is...return the value
-                return ((NumberConstantToken)TokenToParse).Value;
+                return ((NumberLiteralToken)TokenToParse).Value;
             }
 
             //we should have a literal..so throw an error

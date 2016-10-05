@@ -47,7 +47,7 @@ namespace ToracLibrary.Parser.Tokenizer
                     if (char.IsDigit(CharacterPeekedAt))
                     {
                         //it's a digit...try to parse the number
-                       yield return new NumberConstantToken(ParseNumber(ExpressionReader));
+                       yield return new NumberLiteralToken(ParseNumber(ExpressionReader));
                     }
                     else if (CharacterPeekedAt == '-')
                     {
