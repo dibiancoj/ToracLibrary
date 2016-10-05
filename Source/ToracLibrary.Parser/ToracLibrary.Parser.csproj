@@ -47,7 +47,11 @@
     <Compile Include="ExpressionLibrary.cs" />
     <Compile Include="Parser\PlusMinusParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tokenizer\PlusMinusTokenizer.cs" />
+    <Compile Include="Tokenizer\GenericTokenizer.cs" />
+    <Compile Include="Tokenizer\TokenFactories\ITokenFactory.cs" />
+    <Compile Include="Tokenizer\TokenFactories\LiteralTokens\NumberLiteralTokenFactory.cs" />
+    <Compile Include="Tokenizer\TokenFactories\OperatorTokens\MinusOperatorTokenFactory.cs" />
+    <Compile Include="Tokenizer\TokenFactories\OperatorTokens\PlusOperatorTokenFactory.cs" />
     <Compile Include="Tokenizer\Tokens\LiteralTokens\NumberLiteralToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\MinusToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\Base\OperatorBaseToken.cs" />

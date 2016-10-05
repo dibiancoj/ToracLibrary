@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Parser.Parser;
 using ToracLibrary.Parser.Tokenizer;
+using ToracLibrary.Parser.Tokenizer.TokenFactories;
+using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
+using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
 namespace ToracLibrary.Parser
 {
@@ -29,7 +32,7 @@ namespace ToracLibrary.Parser
         public static int ParseNumberExpression(string ExpressionToParse)
         {
             //go tokenize this thing. Convert the string to tokens
-            var TokensFoundInExpression = PlusMinusTokenizer.ScanLazy(ExpressionToParse);
+            var TokensFoundInExpression = GenericTokenizer.ScanLazy(ExpressionToParse, new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory() }));
 
             //Build out the parser and return the result
             return PlusMinusParser.Parse(TokensFoundInExpression);
