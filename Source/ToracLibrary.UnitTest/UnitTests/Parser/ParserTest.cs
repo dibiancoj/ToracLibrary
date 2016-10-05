@@ -23,15 +23,26 @@ namespace ToracLibrary.UnitTest.Serialization
         /// </summary>
         /// <param name="ExpressionToTest">Expression to test</param>
         /// <param name="ExpectedResultOfExpression">Expected result of the expression</param>
-        //[InlineData("1 +   20", 1 + 20)]
-        //[InlineData("1 - 10", 1 - 10)]
-        //[InlineData("2+4+7", 2 + 4 + 7)]
-        //[InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
-        [InlineData("2 + 3 * 7", 23)]
+        [InlineData("1 +   20", 1 + 20)]
+        [InlineData("1 - 10", 1 - 10)]
+        [InlineData("2+4+7", 2 + 4 + 7)]
+        [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
         [Theory]
         public void PlusMinusParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
         {
-            Assert.Equal(ExpectedResultOfExpression, ExpressionLibrary.ParseNumberExpression(ExpressionToTest));
+            Assert.Equal(ExpectedResultOfExpression, ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
+        }
+
+        /// <summary>
+        /// Test a valid expression and its result
+        /// </summary>
+        /// <param name="ExpressionToTest">Expression to test</param>
+        /// <param name="ExpectedResultOfExpression">Expected result of the expression</param>
+        [InlineData(sadfsdfsd)]
+        [Theory]
+        public void MultiplyTest1(string ExpressionToTest, int ExpectedResultOfExpression)
+        {
+            Assert.Equal(ExpectedResultOfExpression, ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
 
         /// <summary>
@@ -43,7 +54,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [Theory]
         public void PlusMinusExpectedExceptionTest1(string ExpressionToTest)
         {
-            Assert.Throws<ParserUnknownCharacterException>(() => ExpressionLibrary.ParseNumberExpression(ExpressionToTest));
+            Assert.Throws<ParserUnknownCharacterException>(() => ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
 
         /// <summary>
@@ -54,7 +65,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [Theory]
         public void ExpectingCharacterExceptionTest1(string ExpressionToTest)
         {
-            Assert.Throws<ExpectingTokenException>(() => ExpressionLibrary.ParseNumberExpression(ExpressionToTest));
+            Assert.Throws<ExpectingTokenException>(() => ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
 
 

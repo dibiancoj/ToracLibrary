@@ -15,6 +15,18 @@ namespace ToracLibrary.Parser.Parser
     public static class ReversePolishNotationParser
     {
 
+        #region Public Methods
+
+        /// <summary>
+        /// Convert the expresssion and evaulate it to the result
+        /// </summary>
+        /// <param name="ReversePolishNotationTokens">Reverse tokens</param>
+        /// <returns>Result</returns>
+        public static double EvaluateExpression(IEnumerable<TokenBase> ReversePolishNotationTokens)
+        {
+
+        }
+
         /// <summary>
         /// Convert the tree into a reverse polish notation tree
         /// </summary>
@@ -91,6 +103,10 @@ namespace ToracLibrary.Parser.Parser
             }
         }
 
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         /// Does the second operator need to go before the first operator
         /// </summary>
@@ -103,6 +119,8 @@ namespace ToracLibrary.Parser.Parser
             //should go in this order +-*/
             return FirstOperator.OrderOfPresedence > SecondOperator.OrderOfPresedence;
         }
+
+        #endregion
 
     }
 

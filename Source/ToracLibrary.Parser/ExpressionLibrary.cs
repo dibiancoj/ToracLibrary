@@ -28,7 +28,7 @@ namespace ToracLibrary.Parser
         /// </summary>
         /// <param name="ExpressionToParse">Expression To Parse</param>
         /// <returns>The calculated value</returns>
-        public static double ParseNumberExpression(string ExpressionToParse)
+        public static double ParseAndEvaluateNumberExpression(string ExpressionToParse)
         {
             //supported tokens
             var SupportedTokens = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory() });
@@ -40,7 +40,8 @@ namespace ToracLibrary.Parser
             //return PlusMinusParser.Parse(TokensFoundInExpression, SupportedTokens);
             var ReversePolishTokenResult = ReversePolishNotationParser.ConvertToReversePolishNotationLazy(TokensFoundInExpression);
 
-            return -1;
+            //go grab the result and return it
+            return ReversePolishNotationParser.EvaluateExpression(ReversePolishTokenResult);
         }
 
     }
