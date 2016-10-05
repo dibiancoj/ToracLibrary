@@ -19,24 +19,6 @@ namespace ToracLibrary.Parser.Parser
 
         #region Public Methods
 
-        #region Number Parser
-
- 
-
-        private static bool Predecessor(OperatorBaseToken FirstOperator, OperatorBaseToken SecondOperator)
-        {
-            if (FirstOperator is MultiplyToken)
-            {
-                return true;
-            }
-
-            return false;
-
-            //basically we want to ask if multiply should be before add or subtract...need to add more logic here
-        }
-
-        #endregion
-
         /// <summary>
         /// Parse the tokens and return the result of the expression
         /// </summary>

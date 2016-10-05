@@ -52,30 +52,41 @@ namespace ToracLibrary.Parser.Parser
                         //do we have any items (or does this item have to go before any other operator items. ie: + has to go after *)
                         if (OperatorStack.Count != 0 && NeedsToGoBeforePreviousOperator(OperatorStack.Peek(), CastedOperator))
                         {
-                            var arrival = OperatorStack.Pop();
-                            while (NeedsToGoBeforePreviousOperator(arrival, CastedOperator))
-                            {
-                                yield return arrival;
+                            //Remove the top item so we can adjust it
+                            var ArrivalOfTopItem = OperatorStack.Pop();
 
+                            //loop until we get to the correct spot
+                            while (NeedsToGoBeforePreviousOperator(ArrivalOfTopItem, CastedOperator))
+                            {
+                                //we are ok now...return this guy
+                                yield return ArrivalOfTopItem;
+
+                                //if we have 0 items at this point then continue on
                                 if (OperatorStack.Count == 0)
                                 {
                                     break;
                                 }
 
-                                arrival = OperatorStack.Pop();
+                                //remove the next guy from the top
+                                ArrivalOfTopItem = OperatorStack.Pop();
                             }
+
+                            //just add this operator to the stack
                             OperatorStack.Push(CastedOperator);
                         }
                         else
                         {
+                            //just add this operator to the stack
                             OperatorStack.Push(CastedOperator);
                         }
                     }
                 }
             }
 
+            //return all the operators at this point
             while (OperatorStack.Count > 0)
             {
+                //remove and return it
                 yield return OperatorStack.Pop();
             }
         }
