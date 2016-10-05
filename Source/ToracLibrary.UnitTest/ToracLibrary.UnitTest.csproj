@@ -280,6 +280,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnitTests\Parser\ParserTest.cs" />
     <Compile Include="UnitTests\Redis\RedisTest.cs" />
     <Compile Include="UnitTests\Serialization\Binary\BinarySerializerTest.cs" />
     <Compile Include="UnitTests\Serialization\Json\JsonSerializerTest.cs" />
@@ -346,6 +347,10 @@
     <ProjectReference Include="..\ToracLibrary.HtmlParsing\ToracLibrary.HtmlParsing.csproj">
       <Project>{20f8ae75-74f3-4a3e-8e17-5e3e2cdbac88}</Project>
       <Name>ToracLibrary.HtmlParsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToracLibrary.Parser\ToracLibrary.Parser.csproj">
+      <Project>{b2208ae9-64f8-4d15-ab56-f8847fca00bb}</Project>
+      <Name>ToracLibrary.Parser</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToracLibrary.Redis\ToracLibrary.Redis.csproj">
       <Project>{7556230b-f7a2-4899-a1c4-cd40ef768c87}</Project>
