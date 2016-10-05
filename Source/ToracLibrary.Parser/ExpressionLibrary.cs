@@ -7,7 +7,6 @@ using ToracLibrary.Parser.Parser;
 using ToracLibrary.Parser.Tokenizer;
 using ToracLibrary.Parser.Tokenizer.TokenFactories;
 using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
-using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
 namespace ToracLibrary.Parser
 {
