@@ -19,11 +19,11 @@ namespace ToracLibrary.Parser.Exceptions
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ExpectedTokenToSet">The type of token we are expecting</param>
+        /// <param name="ExpectedTokenTypeToSet">The type of token we are expecting</param>
         /// <param name="TokenFoundToSet">The type of token we found</param>
-        public ExpectingTokenException(TokenBase ExpectedTokenToSet, TokenBase TokenFoundToSet)
+        public ExpectingTokenException(Type ExpectedTokenTypeToSet, TokenBase TokenFoundToSet)
         {
-            ExpectedToken = ExpectedTokenToSet;
+            ExpectedTokenType = ExpectedTokenTypeToSet;
             TokenFound = TokenFoundToSet;
         }
 
@@ -34,7 +34,7 @@ namespace ToracLibrary.Parser.Exceptions
         /// <summary>
         /// The type of token we are expecting
         /// </summary>
-        public TokenBase ExpectedToken { get; }
+        public Type ExpectedTokenType { get; }
 
         /// <summary>
         /// The type of token we found
@@ -51,7 +51,7 @@ namespace ToracLibrary.Parser.Exceptions
         /// <returns>ToString Override Value</returns>
         public override string ToString()
         {
-            return string.Format("Expecting {0} After Expression, But Got {1}", ExpectedToken.GetType().Name, TokenFound.GetType().Name);
+            return string.Format("Expecting {0} After Expression, But Got {1}", ExpectedTokenType.Name, TokenFound.GetType().Name);
         }
 
         #endregion

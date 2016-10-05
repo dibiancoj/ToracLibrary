@@ -27,6 +27,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("1 - 10", 1 - 10)]
         [InlineData("2+4+7", 2 + 4 + 7)]
         [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
+        //[InlineData("2+5*10", 52)]
         [Theory]
         public void PlusMinusParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
         {

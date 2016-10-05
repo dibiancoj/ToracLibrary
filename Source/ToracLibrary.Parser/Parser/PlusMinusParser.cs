@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Parser.Exceptions;
+using ToracLibrary.Parser.Tokenizer.TokenFactories;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
@@ -22,8 +23,9 @@ namespace ToracLibrary.Parser.Parser
         /// Parse the tokens and return the result of the expression
         /// </summary>
         /// <param name="Tokens">Tokens found in expression</param>
+        /// <param name="ValidTokens">Supported Tokens for this expression type</param>
         /// <returns>the calculated value</returns>
-        public static int Parse(IEnumerable<TokenBase> Tokens)
+        public static int Parse(IEnumerable<TokenBase> Tokens, ISet<ITokenFactory> ValidTokens)
         {
             //use an enumerator
             using (var Token = Tokens.GetEnumerator())
@@ -52,24 +54,12 @@ namespace ToracLibrary.Parser.Parser
                             //parse the second number
                             var SecondNumber = ParseEquationExpression(Token);
 
-                            //are we adding?
-                            if (OperationToExecute is PlusToken)
-                            {
-                                return ResultOfExpression + SecondNumber;
-                            }
-
-                            //are we subtracting
-                            if (OperationToExecute is MinusToken)
-                            {
-                                return ResultOfExpression - SecondNumber;
-                            }
-
-                            //unsupported token..throw an error
-                            throw new UnsupportedOperatorException((OperatorBaseToken)OperationToExecute, new OperatorBaseToken[] { new PlusToken(), new MinusToken() });
+                            //go calculate the operation and return the number
+                            return ((OperatorBaseToken)OperationToExecute).Calculate(ResultOfExpression, SecondNumber);
                         }
 
                         //what are we trying to do with this token?
-                        throw new ExpectingTokenException(new OperatorBaseToken(), Token.Current);
+                        throw new ExpectingTokenException(typeof(OperatorBaseToken), Token.Current);
                     }
                 }
 
@@ -110,22 +100,8 @@ namespace ToracLibrary.Parser.Parser
                 //this should be the 2nd number now
                 var SecondNumberInExpression = ParseNumber(TokenEnumerator.Current);
 
-                //are we adding it
-                if (OperationToExecute is PlusToken)
-                {
-                    //add them and return the expression
-                    return NumberLiteral + SecondNumberInExpression;
-                }
-
-                //is its subtraction?
-                if (OperationToExecute is MinusToken)
-                {
-                    //subtract the numbers and return it
-                    return NumberLiteral - SecondNumberInExpression;
-                }
-
-                //we have an operator token that is not supported
-                throw new Exception("Unsupported operator: " + OperationToExecute);
+                //go calculate the operation and return the number
+                return ((OperatorBaseToken)OperationToExecute).Calculate(NumberLiteral, SecondNumberInExpression);
             }
 
             //it should have a number here

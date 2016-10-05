@@ -30,11 +30,14 @@ namespace ToracLibrary.Parser
         /// <returns>The calculated value</returns>
         public static int ParseNumberExpression(string ExpressionToParse)
         {
+            //supported tokens
+            var SupportedTokens = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory() });
+
             //go tokenize this thing. Convert the string to tokens
-            var TokensFoundInExpression = GenericTokenizer.ScanLazy(ExpressionToParse, new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory() }));
+            var TokensFoundInExpression = GenericTokenizer.ScanLazy(ExpressionToParse, SupportedTokens);
 
             //Build out the parser and return the result
-            return PlusMinusParser.Parse(TokensFoundInExpression);
+            return PlusMinusParser.Parse(TokensFoundInExpression, SupportedTokens);
         }
 
     }
