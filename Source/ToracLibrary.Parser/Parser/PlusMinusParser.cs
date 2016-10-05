@@ -23,7 +23,6 @@ namespace ToracLibrary.Parser.Parser
         /// <param name="TokensToSet">Tokens found in expression</param>
         public PlusMinusParser(IEnumerable<TokenBase> TokensToSet)
         {
-            why do need enumerator? pass in values to private method
             Tokens = TokensToSet.GetEnumerator();
         }
 

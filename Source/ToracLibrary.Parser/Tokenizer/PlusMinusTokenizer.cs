@@ -89,7 +89,7 @@ namespace ToracLibrary.Parser.Tokenizer
             var DigitsFound = new List<int>();
 
             //keep reading until we don't have a digit
-            while (Char.IsDigit((char)Reader.Peek()))
+            while (char.IsDigit((char)Reader.Peek()))
             {
                 //grab the digit we just read
                 var DigitRead = (char)Reader.Read();
@@ -98,7 +98,7 @@ namespace ToracLibrary.Parser.Tokenizer
                 int TryParseNumber;
 
                 //can we parse this number
-                if (int.TryParse(Char.ToString(DigitRead), out TryParseNumber))
+                if (int.TryParse(char.ToString(DigitRead), out TryParseNumber))
                 {
                     //add the number to the list because we were able to parse it
                     DigitsFound.Add(TryParseNumber);
@@ -110,21 +110,36 @@ namespace ToracLibrary.Parser.Tokenizer
                 }
             }
 
+            //at this point we have an array of char's (single digit numbers). we want to combine them to form a number
+            //ie:
+            //[0] = 3
+            //[1] = 5
+            //[2] = 7
+            // ==> 357
+            return ArrayOfSingleDigitsToNumber(DigitsFound);
+        }
 
-            Add this to a extension method for ienumerable<int>...could be reused...don't use reverse as it alters the list...
+        /// <summary>
+        /// Convert a list of digits into a number.
+        /// </summary>
+        /// <param name="DigitsToConvertToANumber">Digits to convert to a number</param>
+        /// <returns>The combined number</returns>
+        private static int ArrayOfSingleDigitsToNumber(IEnumerable<int> DigitsToConvertToANumber)
+        {
+            //ie:
+            //[0] = 3
+            //[1] = 5
+            //[2] = 7
+            // ==> 357
 
-            //this magical math just makes everything in the array 
-            //ie: [0] = 2, [1] = 3 => 23
+            //tally
             var RunningTally = 0;
 
             //what we multiple with
             var MultiplyValue = 1;
 
-            //reverse it and then loop through it
-            DigitsFound.Reverse();
-
             //loop through all of them and multiple everything
-            foreach (var Digit in DigitsFound)
+            foreach (var Digit in DigitsToConvertToANumber.Reverse())
             {
                 //multiply and add it
                 RunningTally += Digit * MultiplyValue;
