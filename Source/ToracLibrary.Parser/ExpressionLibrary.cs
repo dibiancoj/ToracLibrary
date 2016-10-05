@@ -24,7 +24,7 @@ namespace ToracLibrary.Parser
         /// <summary>
         /// Parses the given expression and return the result
         /// </summary>
-        /// <param name="ExpressionToParse">Expression To Prase</param>
+        /// <param name="ExpressionToParse">Expression To Parse</param>
         /// <returns>The calculated value</returns>
         public static int ParseNumberExpression(string ExpressionToParse)
         {
