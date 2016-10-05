@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\ExpectingTokenException.cs" />
-    <Compile Include="Exceptions\ParserUnknownCharacterException.cs" />
     <Compile Include="ExpressionLibrary.cs" />
+    <Compile Include="Parser\Exceptions\ExpectingTokenException.cs" />
+    <Compile Include="Parser\Exceptions\ParserUnknownCharacterException.cs" />
     <Compile Include="Parser\PlusMinusParser.cs" />
-    <Compile Include="Parser\ReversePolishNotationParser.cs" />
+    <Compile Include="Parser\ReversePolishMathNotationParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tokenizer\GenericTokenizer.cs" />
     <Compile Include="Tokenizer\TokenFactories\ITokenFactory.cs" />

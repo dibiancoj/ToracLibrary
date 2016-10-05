@@ -38,10 +38,10 @@ namespace ToracLibrary.Parser
 
             //Build out the parser and return the result
             //return PlusMinusParser.Parse(TokensFoundInExpression, SupportedTokens);
-            var ReversePolishTokenResult = ReversePolishNotationParser.ConvertToReversePolishNotationLazy(TokensFoundInExpression);
+            var ReversePolishTokenResult = ReversePolishMathNotationParser.ConvertToReversePolishNotationLazy(TokensFoundInExpression);
 
             //go grab the result and return it
-            return ReversePolishNotationParser.EvaluateExpression(ReversePolishTokenResult);
+            return ReversePolishMathNotationParser.EvaluateExpression(ReversePolishTokenResult);
         }
 
     }

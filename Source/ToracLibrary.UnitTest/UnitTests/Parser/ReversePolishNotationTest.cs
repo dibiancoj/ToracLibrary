@@ -82,7 +82,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [Theory]
         public void ReversePolishNotationTest1(string ExpressionToTest, string ExpectedResultOfExpression)
         {
-            Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishNotationParser.ConvertToReversePolishNotationLazy(ConvertToToken(ExpressionToTest))));
+            Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishMathNotationParser.ConvertToReversePolishNotationLazy(ConvertToToken(ExpressionToTest))));
         }
 
         #endregion
