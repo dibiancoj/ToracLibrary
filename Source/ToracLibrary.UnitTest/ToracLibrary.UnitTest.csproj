@@ -280,6 +280,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnitTests\Parser\ReversePolishNotationTest.cs" />
     <Compile Include="UnitTests\Parser\ParserTest.cs" />
     <Compile Include="UnitTests\Redis\RedisTest.cs" />
     <Compile Include="UnitTests\Serialization\Binary\BinarySerializerTest.cs" />

@@ -14,6 +14,14 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
     {
 
         /// <summary>
+        /// Order of which this needs to be handled. ie: addition is before multiplication
+        /// </summary>
+        public override int OrderOfPresedence
+        {
+            get { return 1; }
+        }
+
+        /// <summary>
         /// Calculate the left hand and right hand side of equation
         /// </summary>
         /// <param name="LeftSide">Left hand side of equation</param>
