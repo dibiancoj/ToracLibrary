@@ -29,10 +29,10 @@ namespace ToracLibrary.Parser
         public static int ParseNumberExpression(string ExpressionToParse)
         {
             //go tokenize this thing. Convert the string to tokens
-            var TokensFoundInExpression = new PlusMinusTokenizer().Scan(ExpressionToParse);
+            var TokensFoundInExpression = PlusMinusTokenizer.Scan(ExpressionToParse);
 
             //Build out the parser and return the result
-            return new PlusMinusParser(TokensFoundInExpression).Parse();
+            return PlusMinusParser.Parse(TokensFoundInExpression);
         }
 
     }

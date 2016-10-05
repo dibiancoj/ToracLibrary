@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Exceptions;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
@@ -12,127 +13,141 @@ namespace ToracLibrary.Parser.Parser
     /// <summary>
     /// Takes the tokens and parses the values
     /// </summary>
-    public class PlusMinusParser
+    public static class PlusMinusParser
     {
-
-        #region Constructor
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="TokensToSet">Tokens found in expression</param>
-        public PlusMinusParser(IEnumerable<TokenBase> TokensToSet)
-        {
-            Tokens = TokensToSet.GetEnumerator();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Holds the tokens in the expression
-        /// </summary>
-        private IEnumerator<TokenBase> Tokens { get; }
-
-        #endregion
 
         #region Public Methods
 
         /// <summary>
         /// Parse the tokens and return the result of the expression
         /// </summary>
+        /// <param name="Tokens">Tokens found in expression</param>
         /// <returns>the calculated value</returns>
-        public int Parse()
+        public static int Parse(IEnumerable<TokenBase> Tokens)
         {
-            //holds the result of the expression
-            int ResultOfExpression = 0;
-
-            //loop through all the tokens
-            while (Tokens.MoveNext())
+            //use an enumerator
+            using (var Token = Tokens.GetEnumerator())
             {
-                //parse this value
-                ResultOfExpression = ParseExpression();
+                //holds the result of the expression
+                int ResultOfExpression = 0;
 
-                //can we move next?
-                if (Tokens.MoveNext())
+                //loop through all the tokens
+                while (Token.MoveNext())
                 {
+                    //parse this value
+                    ResultOfExpression = ParseEquationExpression(Token);
 
-                    //is this an operator token?
-                    if (Tokens.Current is OperatorBaseToken)
+                    //can we move next?
+                    if (Token.MoveNext())
                     {
-                        //grab the current token
-                        var OperationToExecute = Tokens.Current;
-
-                        //parse the second number
-                        var SecondNumber = Parse();
-
-                        //are we adding?
-                        if (OperationToExecute is PlusToken)
+                        //is this an operator token?
+                        if (Token.Current is OperatorBaseToken)
                         {
-                            return ResultOfExpression + SecondNumber;
+                            //grab the current token
+                            var OperationToExecute = Token.Current;
+
+                            //we have the operator token...move to the next item now so we can grab the value to calcualte
+                            Token.MoveNext();
+
+                            //parse the second number
+                            var SecondNumber = ParseEquationExpression(Token);
+
+                            //are we adding?
+                            if (OperationToExecute is PlusToken)
+                            {
+                                return ResultOfExpression + SecondNumber;
+                            }
+
+                            //are we subtracting
+                            if (OperationToExecute is MinusToken)
+                            {
+                                return ResultOfExpression - SecondNumber;
+                            }
+
+                            //unsupported token..throw an error
+                            throw new UnsupportedOperatorException((OperatorBaseToken)OperationToExecute, new OperatorBaseToken[] { new PlusToken(), new MinusToken() });
                         }
 
-                        //are we subtracting
-                        if (OperationToExecute is MinusToken)
-                        {
-                            return ResultOfExpression - SecondNumber;
-                        }
-
-                        //we shouldn't get here
-                        throw new ArgumentOutOfRangeException("Unsupported Operator: " + OperationToExecute);
+                        //what are we trying to do with this token?
+                        throw new ExpectingTokenException(new OperatorBaseToken(), Token.Current);
                     }
-
-                    //what are we trying to do with this token?
-                    throw new ArgumentOutOfRangeException("Expecting Operator After Expression, But Got " + Tokens.Current);
                 }
-            }
 
-            //return the result
-            return ResultOfExpression;
+                //return the result
+                return ResultOfExpression;
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        private int ParseExpression()
+        /// <summary>
+        /// Parses a specific equation. {{Number}} {{Operator}} {{Number}}
+        /// </summary>
+        /// <param name="TokenEnumerator">Token enumerator with the continue enumerator from base method</param>
+        /// <returns>The result of the equation</returns>
+        private static int ParseEquationExpression(IEnumerator<TokenBase> TokenEnumerator)
         {
-            var number = ParseNumber();
-            if (!Tokens.MoveNext())
-                return number;
+            //this is the start of the equation. This should be the start of the literal
+            var NumberLiteral = ParseNumber(TokenEnumerator.Current);
 
-            if (Tokens.Current is OperatorBaseToken)
+            //if we have no more items..then just return the number
+            if (!TokenEnumerator.MoveNext())
             {
-                var op = Tokens.Current;
-                Tokens.MoveNext();
-
-                var secondNumber = ParseNumber();
-                if (op is PlusToken)
-                {
-                    return number + secondNumber;
-                }
-                if (op is MinusToken)
-                    return number - secondNumber;
-
-                throw new Exception("Unsupported operator: " + op);
+                return NumberLiteral;
             }
 
-            throw new Exception("Expecting operator after number, but got " + Tokens.Current);
+            //if we need to some operations
+            if (TokenEnumerator.Current is OperatorBaseToken)
+            {
+                //which operation should we execute?
+                var OperationToExecute = TokenEnumerator.Current;
+
+                //move to the next item in the reader
+                TokenEnumerator.MoveNext();
+
+                //this should be the 2nd number now
+                var SecondNumberInExpression = ParseNumber(TokenEnumerator.Current);
+
+                //are we adding it
+                if (OperationToExecute is PlusToken)
+                {
+                    //add them and return the expression
+                    return NumberLiteral + SecondNumberInExpression;
+                }
+
+                //is its subtraction?
+                if (OperationToExecute is MinusToken)
+                {
+                    //subtract the numbers and return it
+                    return NumberLiteral - SecondNumberInExpression;
+                }
+
+                //we have an operator token that is not supported
+                throw new Exception("Unsupported operator: " + OperationToExecute);
+            }
+
+            //it should have a number here
+            throw new Exception("Expecting operator after number, but got " + TokenEnumerator.Current);
         }
 
         /// <summary>
         /// Parse the number for the given token
         /// </summary>
-        /// <returns></returns>
-        private int ParseNumber()
+        /// <param name="TokenToParse">Token to parse</param>
+        /// <returns>The value of the token constant</returns>
+        private static int ParseNumber(TokenBase TokenToParse)
         {
-            if (Tokens.Current is NumberConstantToken)
+            //is this a number constant token?
+            if (TokenToParse is NumberConstantToken)
             {
-                return (Tokens.Current as NumberConstantToken).Value;
+                //it is...return the value
+                return ((NumberConstantToken)TokenToParse).Value;
             }
 
-            throw new Exception("Expected a number constant but found " + Tokens.Current);
+            //we should have a literal..so throw an error
+            throw new Exception("Expected a number constant but found " + TokenToParse);
         }
 
         #endregion

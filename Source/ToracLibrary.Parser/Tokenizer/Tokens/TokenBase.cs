@@ -12,7 +12,6 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens
     /// </summary>
     public abstract class TokenBase
     {
-
     }
 
 }

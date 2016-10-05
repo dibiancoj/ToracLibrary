@@ -41,13 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ExpectingTokenException.cs" />
+    <Compile Include="Exceptions\UnsupportedOperatorException.cs" />
+    <Compile Include="Exceptions\ParserUnknownCharacterException.cs" />
     <Compile Include="ExpressionLibrary.cs" />
     <Compile Include="Parser\PlusMinusParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tokenizer\PlusMinusTokenizer.cs" />
-    <Compile Include="Tokenizer\Tokens\NumberConstantToken.cs" />
+    <Compile Include="Tokenizer\Tokens\Constants\NumberConstantToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\MinusToken.cs" />
-    <Compile Include="Tokenizer\Tokens\OperatorTokens\OperatorBaseToken.cs" />
+    <Compile Include="Tokenizer\Tokens\OperatorTokens\Base\OperatorBaseToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\PlusToken.cs" />
     <Compile Include="Tokenizer\Tokens\TokenBase.cs" />
   </ItemGroup>

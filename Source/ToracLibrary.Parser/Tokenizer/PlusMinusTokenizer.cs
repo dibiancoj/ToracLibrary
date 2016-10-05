@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Exceptions;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
@@ -13,7 +14,7 @@ namespace ToracLibrary.Parser.Tokenizer
     /// <summary>
     /// Converts a raw string into tokens which can be parsed
     /// </summary>
-    public class PlusMinusTokenizer
+    public static class PlusMinusTokenizer
     {
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace ToracLibrary.Parser.Tokenizer
         /// </summary>
         /// <param name="ExpressionToScan">Expression to scan and return all the tokens</param>
         /// <returns>list of tokens that make up the expression</returns>
-        public IEnumerable<TokenBase> Scan(string ExpressionToScan)
+        public static IEnumerable<TokenBase> Scan(string ExpressionToScan)
         {
             //since we are going to dispose of the reader lets build up a list and return it (for now)
             var TokensFound = new List<TokenBase>();
@@ -69,7 +70,7 @@ namespace ToracLibrary.Parser.Tokenizer
                     }
                     else
                     {
-                        throw new Exception("Unknown character in expression: " + CharacterPeekedAt);
+                        throw new ParserUnknownCharacterException(CharacterPeekedAt);
                     }
                 }
             }
@@ -83,7 +84,7 @@ namespace ToracLibrary.Parser.Tokenizer
         /// </summary>
         /// <param name="Reader">Reader To Continue Reading</param>
         /// <returns>The Parsed Number</returns>
-        private int ParseNumber(StringReader Reader)
+        private static int ParseNumber(StringReader Reader)
         {
             //digits found
             var DigitsFound = new List<int>();
@@ -105,8 +106,8 @@ namespace ToracLibrary.Parser.Tokenizer
                 }
                 else
                 {
-                    //why would we get here?
-                    throw new Exception("Could not parse integer number when parsing digit: " + DigitRead);
+                    //was not able to parse this value for some reason. Not really sure how we got here but we will leave it
+                    throw new InvalidCastException("Could Not Parse Integer Number When Parsing Digit: " + DigitRead);
                 }
             }
 
