@@ -19,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// <param name="LeftSide">Left hand side of equation</param>
         /// <param name="RightSide">Right hand side of the equation</param>
         /// <returns>Result of the operation</returns>
-        public override int Calculate(int LeftSide, int RightSide)
+        public override double Calculate(double LeftSide, double RightSide)
         {
             return LeftSide - RightSide;
         }

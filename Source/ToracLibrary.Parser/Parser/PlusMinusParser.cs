@@ -20,18 +20,52 @@ namespace ToracLibrary.Parser.Parser
         #region Public Methods
 
         /// <summary>
+        /// Reverse polish notation deals with multiplication and additional with order of operation
+        /// </summary>
+        /// <param name="Tokens">Tokenized expression that we will polish notation this</param>
+        /// <param name="ValidTokens">Valid tokens in this expression</param>
+        /// <returns>The adjusted, reversed tokens</returns>
+        public static double ReversePolishNotation(IEnumerable<TokenBase> Tokens, ISet<ITokenFactory> ValidTokens)
+        {
+            //2 + 3 * 7
+            //turns into 
+            //2 3 7 * +
+
+            //stack to use
+            var StackToCalculate = new Stack<TokenBase>();
+
+            //use an enumerator
+            using (var Reader = Tokens.GetEnumerator())
+            {
+                //keep reading until we are the end of the stream
+                while (Reader.MoveNext())
+                {
+                    //is this a number?
+                    if (Reader.Current is NumberLiteralToken)
+                    {
+
+                    }
+                }
+            }
+
+
+
+            //return StackToCalculate();
+        }
+
+        /// <summary>
         /// Parse the tokens and return the result of the expression
         /// </summary>
         /// <param name="Tokens">Tokens found in expression</param>
         /// <param name="ValidTokens">Supported Tokens for this expression type</param>
         /// <returns>the calculated value</returns>
-        public static int Parse(IEnumerable<TokenBase> Tokens, ISet<ITokenFactory> ValidTokens)
+        public static double Parse(IEnumerable<TokenBase> Tokens, ISet<ITokenFactory> ValidTokens)
         {
             //use an enumerator
             using (var Token = Tokens.GetEnumerator())
             {
                 //holds the result of the expression
-                int ResultOfExpression = 0;
+                double ResultOfExpression = 0;
 
                 //loop through all the tokens
                 while (Token.MoveNext())
@@ -77,7 +111,7 @@ namespace ToracLibrary.Parser.Parser
         /// </summary>
         /// <param name="TokenEnumerator">Token enumerator with the continue enumerator from base method</param>
         /// <returns>The result of the equation</returns>
-        private static int ParseEquationExpression(IEnumerator<TokenBase> TokenEnumerator)
+        private static double ParseEquationExpression(IEnumerator<TokenBase> TokenEnumerator)
         {
             //this is the start of the equation. This should be the start of the literal
             var NumberLiteral = ParseNumber(TokenEnumerator.Current);
@@ -113,7 +147,7 @@ namespace ToracLibrary.Parser.Parser
         /// </summary>
         /// <param name="TokenToParse">Token to parse</param>
         /// <returns>The value of the token constant</returns>
-        private static int ParseNumber(TokenBase TokenToParse)
+        private static double ParseNumber(TokenBase TokenToParse)
         {
             //is this a number constant token?
             if (TokenToParse is NumberLiteralToken)

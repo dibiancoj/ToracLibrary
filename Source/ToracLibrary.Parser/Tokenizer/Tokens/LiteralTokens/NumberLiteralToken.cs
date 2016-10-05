@@ -19,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens
         /// Constructor
         /// </summary>
         /// <param name="ValueToSet">Value to set</param>
-        public NumberLiteralToken(int ValueToSet)
+        public NumberLiteralToken(double ValueToSet)
         {
             Value = ValueToSet;
         }
@@ -31,7 +31,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens
         /// <summary>
         /// Value of the constant
         /// </summary>
-        public int Value { get; }
+        public double Value { get; }
 
         #endregion
 

@@ -23,11 +23,11 @@ namespace ToracLibrary.UnitTest.Serialization
         /// </summary>
         /// <param name="ExpressionToTest">Expression to test</param>
         /// <param name="ExpectedResultOfExpression">Expected result of the expression</param>
-        [InlineData("1 +   20", 1 + 20)]
-        [InlineData("1 - 10", 1 - 10)]
-        [InlineData("2+4+7", 2 + 4 + 7)]
-        [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
-        //[InlineData("2+5*10", 52)]
+        //[InlineData("1 +   20", 1 + 20)]
+        //[InlineData("1 - 10", 1 - 10)]
+        //[InlineData("2+4+7", 2 + 4 + 7)]
+        //[InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
+        [InlineData("2 + 3 * 7", 23)]
         [Theory]
         public void PlusMinusParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
         {
