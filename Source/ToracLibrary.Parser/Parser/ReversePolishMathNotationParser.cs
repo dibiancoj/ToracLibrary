@@ -45,7 +45,7 @@ namespace ToracLibrary.Parser.Parser
                 else if (Token is OperatorBaseToken)
                 {
                     //this is a operator. all of them deal with 2 numbers
-                    if (ResultStack.Count <2 )
+                    if (ResultStack.Count < 2)
                     {
                         throw new ArgumentOutOfRangeException("There should be atleast 2 items in the stack. There is a parsing issue somewhere");
                     }
@@ -78,10 +78,14 @@ namespace ToracLibrary.Parser.Parser
             //turns into 
             //2 3 7 * +
 
+            //http://www.meta-calculator.com/learning-lab/how-to-build-scientific-calculator/infix-to-postifix-convertor.php
+
             //this is also known as InFix To Post Fix
 
             //need to keep track of the operators
             var OperatorStack = new Stack<OperatorBaseToken>();
+
+            var lst = new List<TokenBase>();
 
             //use an enumerator so we can peek
             using (var Reader = TokenizedTree.GetEnumerator())
@@ -93,7 +97,7 @@ namespace ToracLibrary.Parser.Parser
                     if (Reader.Current is NumberLiteralToken)
                     {
                         //this is a number, we want the numbers to be first.
-                        yield return Reader.Current;
+                        lst.Add(Reader.Current);
                     }
                     else if (Reader.Current is OperatorBaseToken)
                     {
@@ -111,7 +115,7 @@ namespace ToracLibrary.Parser.Parser
                             while (NeedsToGoBeforePreviousOperator(ArrivalOfTopItem, CastedOperator))
                             {
                                 //we are ok now...return this guy
-                                yield return ArrivalOfTopItem;
+                                lst.Add(ArrivalOfTopItem);
 
                                 //if we have 0 items at this point then continue on
                                 if (OperatorStack.Count == 0)
@@ -139,8 +143,10 @@ namespace ToracLibrary.Parser.Parser
             while (OperatorStack.Count > 0)
             {
                 //remove and return it
-                yield return OperatorStack.Pop();
+                lst.Add(OperatorStack.Pop());
             }
+
+            return lst;
         }
 
         #endregion
@@ -157,7 +163,45 @@ namespace ToracLibrary.Parser.Parser
         {
             //make sure the multiple and divide go before the add
             //should go in this order +-*/
-            return FirstOperator.OrderOfPresedence > SecondOperator.OrderOfPresedence;
+            //return FirstOperator.OrderOfPresedence > SecondOperator.OrderOfPresedence;
+            const string OperationString = "(+-*/%";
+
+            int[] Precedence = { 0, 12, 12, 13, 13, 13 };// "(" has less prececence
+
+            char firstOperator;
+            char secondOperator;
+
+            if (FirstOperator is PlusToken)
+            {
+                firstOperator = '+';
+            }
+            else if (FirstOperator is MinusToken)
+            {
+                firstOperator = '-';
+            }
+            else
+            {
+                firstOperator = '*';
+            }
+
+            if (SecondOperator is PlusToken)
+            {
+                secondOperator = '+';
+            }
+            else if (SecondOperator is MinusToken)
+            {
+                secondOperator = '-';
+            }
+            else
+            {
+                secondOperator = '*';
+            }
+
+            var FirstPoint = OperationString.IndexOf(firstOperator);
+            var SecondPoint = OperationString.IndexOf(secondOperator);
+
+            return (Precedence[FirstPoint] >= Precedence[SecondPoint]) ? true : false;
+
         }
 
         #endregion

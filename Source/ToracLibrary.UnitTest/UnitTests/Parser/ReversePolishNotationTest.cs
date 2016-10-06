@@ -76,13 +76,14 @@ namespace ToracLibrary.UnitTest.Serialization
 
         #region Unit Tests
 
-        [InlineData("2 + 3 - 2 * 10", "2 3 2 10 * - +")]
+        [InlineData("2 + 3 - 2 * 10", "2 3 + 2 10 * -")]
         [InlineData("2 + 3", "2 3 +")]
         [InlineData("2 + 3 * 7", "2 3 7 * +")]
+        [InlineData("2+5*9+1*3", "2 5 9 * + 1 3 * +")]
         [Theory]
         public void ReversePolishNotationTest1(string ExpressionToTest, string ExpectedResultOfExpression)
         {
-            Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishMathNotationParser.ConvertToReversePolishNotationLazy(ConvertToToken(ExpressionToTest))));
+           Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishMathNotationParser.ConvertToReversePolishNotationLazy(ConvertToToken(ExpressionToTest).ToArray()).ToArray()));
         }
 
         #endregion
