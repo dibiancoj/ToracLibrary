@@ -12,6 +12,7 @@ namespace ToracLibrary.Parser.Parser
     /// <summary>
     /// When doing mathematical parsing we need to account for multiplication and adding and order of operation. We handle this by using Reverse Polish Notation which doesn't care and account for it. Then we can continue on parsing
     /// </summary>
+    /// <remarks>Also known as In Fix To Post Fix</remarks>
     public static class ReversePolishMathNotationParser
     {
 
