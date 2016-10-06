@@ -27,7 +27,16 @@ namespace ToracLibrary.Parser
         /// Holds the valid tokens for a number expression
         /// </summary>
         /// <remarks>Could be local but using for unit tests</remarks>
-        public static readonly ISet<ITokenFactory> ValidTokensForNumberExpression = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory(), new DivisionOperatorTokenFactory() });
+        public static readonly ISet<ITokenFactory> ValidTokensForNumberExpression = new HashSet<ITokenFactory>(new ITokenFactory[]
+        {
+            new NumberLiteralTokenFactory(),
+            new PlusOperatorTokenFactory(),
+            new MinusOperatorTokenFactory(),
+            new MultiplyOperatorTokenFactory(),
+            new DivisionOperatorTokenFactory(),
+            new LeftParenthesisOrderTokenFactory(),
+            new RightParenthesisOrderTokenFactory()
+        });
 
         /// <summary>
         /// Parses the given expression and return the result

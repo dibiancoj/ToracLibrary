@@ -30,6 +30,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
         [InlineData("10/2", 10 / 2)]
         [InlineData("10/2 * 3 + 2", 10 / 2 * 3 + 2)]
+        [InlineData("10 * (1+2) * 5", 10 * (1 + 2) * 5)]
         [Theory]
         public void MathParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
         {
@@ -61,6 +62,18 @@ namespace ToracLibrary.UnitTest.Serialization
         public void MathParserExpectedExceptionTest1(string ExpressionToTest)
         {
             Assert.Throws<ParserUnknownCharacterException>(() => ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
+        }
+
+        /// <summary>
+        /// Missing Parenthesis
+        /// </summary>
+        /// <param name="ExpressionToTest">Expression To Test</param>
+        [InlineData("10 * (1+2 * 5")]
+        [InlineData("10 * 1+2) * 5")]
+        [Theory]
+        public void MathParserExpectedExceptionMissingParenthesisTest1(string ExpressionToTest)
+        {
+            Assert.Throws<MissingParenthesisException>(() => ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
 
         #endregion

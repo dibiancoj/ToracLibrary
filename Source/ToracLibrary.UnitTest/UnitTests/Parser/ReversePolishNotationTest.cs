@@ -75,6 +75,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("2+5*9+1*3", "2 5 9 * + 1 3 * +")]
         [InlineData("10 /2 ", "10 2 /")]
         [InlineData("10 /2 * 5 ", "10 2 / 5 *")]
+        [InlineData("10 * (1+2) * 5", "10 1 2 + * 5 *")]
         [Theory]
         public void ReversePolishNotationTest1(string ExpressionToTest, string ExpectedResultOfExpression)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Tokenizer.Tokens.OrderTokens;
 
 namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
 {
@@ -10,19 +11,8 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
     /// <summary>
     /// Base token for an operator
     /// </summary>
-    public abstract class OperatorBaseToken : TokenBase
+    public abstract class OperatorBaseToken : OrderBaseToken
     {
-
-        //order of operation if we implement (
-        //const string OperationString = "(+-*/%";
-        //( = 0
-        //+, - = 12
-        //*, /, & = 13
-
-        /// <summary>
-        /// Order of which this needs to be handled. ie: addition is before multiplication
-        /// </summary>
-        public abstract int OrderOfPresedence { get; }
 
         /// <summary>
         /// Calculate the left hand and right hand side of equation

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Exceptions;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
+using ToracLibrary.Parser.Tokenizer.Tokens.OrderTokens;
 
 namespace ToracLibrary.Parser.Parser
 {
@@ -60,7 +62,18 @@ namespace ToracLibrary.Parser.Parser
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("Invalid Token Found");
+                    if (Token is LeftParenthesisOrderToken)
+                    {
+                        throw new MissingParenthesisException("Right ')'");
+                    }
+                    else if (Token is RightParenthesisOrderToken)
+                    {
+                        throw new MissingParenthesisException("Left ')'");
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException("Invalid Token Found. Token: " + Token.GetType().Name);
+                    }
                 }
             }
 
@@ -84,7 +97,7 @@ namespace ToracLibrary.Parser.Parser
             //this is also known as InFix To Post Fix
 
             //need to keep track of the operators
-            var OperatorStack = new Stack<OperatorBaseToken>();
+            var OperatorStack = new Stack<OrderBaseToken>();
 
             //use an enumerator so we can peek
             using (var Reader = TokenizedTree.GetEnumerator())
@@ -135,6 +148,39 @@ namespace ToracLibrary.Parser.Parser
                             OperatorStack.Push(CastedOperator);
                         }
                     }
+                    else if (Reader.Current is OrderBaseToken)
+                    {
+                        var CastedOrderBaseToken = Reader.Current as OrderBaseToken;
+
+                        //which order base?
+                        if (CastedOrderBaseToken is LeftParenthesisOrderToken)
+                        {
+                            //this is a left parenthesis so we add this to the stack
+                            OperatorStack.Push(CastedOrderBaseToken);
+                        }
+                        else if (CastedOrderBaseToken is RightParenthesisOrderToken)
+                        {
+                            //top order by
+                            var TakeFromTop = OperatorStack.Pop();
+
+                            //loop until we aren't at the left parenthesis
+                            while (!(TakeFromTop is LeftParenthesisOrderToken))
+                            {
+                                //return this item
+                                yield return TakeFromTop;
+
+                                //keep popping until we get to something else
+                                //if we have no items then we have issues with a missing left parenthesis
+                                if (!OperatorStack.Any())
+                                {
+                                    throw new MissingParenthesisException("Left ')'");
+                                }
+
+                                //grab from the top again and keep going until we get to the left parenthesis
+                                TakeFromTop = OperatorStack.Pop();
+                            }
+                        }
+                    }
                 }
             }
 
@@ -156,11 +202,10 @@ namespace ToracLibrary.Parser.Parser
         /// <param name="FirstOperator">First Operator</param>
         /// <param name="SecondOperator">Second Operator</param>
         /// <returns>Does this need to go before the first operator</returns>
-        private static bool NeedsToGoBeforePreviousOperator(OperatorBaseToken FirstOperator, OperatorBaseToken SecondOperator)
+        private static bool NeedsToGoBeforePreviousOperator(OrderBaseToken FirstOperator, OrderBaseToken SecondOperator)
         {
             //make sure the multiple and divide go before the add
             //should go in this order +-*/
-            //return FirstOperator.OrderOfPresedence > SecondOperator.OrderOfPresedence;
             return FirstOperator.OrderOfPresedence >= SecondOperator.OrderOfPresedence;
         }
 

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpressionLibrary.cs" />
+    <Compile Include="Parser\Exceptions\MissingParenthesisException.cs" />
     <Compile Include="Parser\Exceptions\ExpectingTokenException.cs" />
     <Compile Include="Parser\Exceptions\ParserUnknownCharacterException.cs" />
     <Compile Include="Parser\PlusMinusParser.cs" />
@@ -50,15 +51,20 @@
     <Compile Include="Tokenizer\GenericTokenizer.cs" />
     <Compile Include="Tokenizer\TokenFactories\ITokenFactory.cs" />
     <Compile Include="Tokenizer\TokenFactories\LiteralTokens\NumberLiteralTokenFactory.cs" />
+    <Compile Include="Tokenizer\TokenFactories\OrderTokens\RightParenthesisOrderTokenFactory.cs" />
+    <Compile Include="Tokenizer\TokenFactories\OrderTokens\LeftParenthesisOrderTokenFactory.cs" />
     <Compile Include="Tokenizer\TokenFactories\OperatorTokens\DivisionOperatorTokenFactory.cs" />
     <Compile Include="Tokenizer\TokenFactories\OperatorTokens\MultiplyOperatorTokenFactory.cs" />
     <Compile Include="Tokenizer\TokenFactories\OperatorTokens\MinusOperatorTokenFactory.cs" />
     <Compile Include="Tokenizer\TokenFactories\OperatorTokens\PlusOperatorTokenFactory.cs" />
     <Compile Include="Tokenizer\Tokens\LiteralTokens\NumberLiteralToken.cs" />
+    <Compile Include="Tokenizer\Tokens\OrderTokens\Base\OrderBaseToken.cs" />
+    <Compile Include="Tokenizer\Tokens\OrderTokens\RightParenthesisOrderToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\MinusToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\Base\OperatorBaseToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\DivisionToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\MultiplyToken.cs" />
+    <Compile Include="Tokenizer\Tokens\OrderTokens\LeftParenthesisOrderToken.cs" />
     <Compile Include="Tokenizer\Tokens\OperatorTokens\PlusToken.cs" />
     <Compile Include="Tokenizer\Tokens\TokenBase.cs" />
   </ItemGroup>
