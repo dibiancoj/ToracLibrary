@@ -25,6 +25,7 @@ namespace ToracLibrary.UnitTest.Serialization
         /// <param name="ExpectedResultOfExpression">Expected result of the expression</param>
         [InlineData("1 +   20", 1 + 20)]
         [InlineData("1 - 10", 1 - 10)]
+        [InlineData("10 - 1", 10 - 1)]
         [InlineData("2+4+7", 2 + 4 + 7)]
         [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
         [Theory]

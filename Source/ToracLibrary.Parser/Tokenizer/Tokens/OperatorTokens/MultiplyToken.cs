@@ -18,7 +18,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// </summary>
         public override int OrderOfPresedence
         {
-            get { return 2; }
+            get { return 13; }
         }
 
         /// <summary>

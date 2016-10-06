@@ -13,6 +13,12 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
     public abstract class OperatorBaseToken : TokenBase
     {
 
+        //order of operation if we implement (
+        //const string OperationString = "(+-*/%";
+        //( = 0
+        //+, - = 12
+        //*, /, & = 13
+
         /// <summary>
         /// Order of which this needs to be handled. ie: addition is before multiplication
         /// </summary>
@@ -25,6 +31,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// <param name="RightSide">Right hand side of the equation</param>
         /// <returns>Result of the operation</returns>
         public abstract double Calculate(double LeftSide, double RightSide);
+
     }
 
 }

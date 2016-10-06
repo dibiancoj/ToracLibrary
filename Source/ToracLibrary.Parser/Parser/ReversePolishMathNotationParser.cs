@@ -85,8 +85,6 @@ namespace ToracLibrary.Parser.Parser
             //need to keep track of the operators
             var OperatorStack = new Stack<OperatorBaseToken>();
 
-            var lst = new List<TokenBase>();
-
             //use an enumerator so we can peek
             using (var Reader = TokenizedTree.GetEnumerator())
             {
@@ -97,7 +95,7 @@ namespace ToracLibrary.Parser.Parser
                     if (Reader.Current is NumberLiteralToken)
                     {
                         //this is a number, we want the numbers to be first.
-                        lst.Add(Reader.Current);
+                        yield return Reader.Current;
                     }
                     else if (Reader.Current is OperatorBaseToken)
                     {
@@ -115,7 +113,7 @@ namespace ToracLibrary.Parser.Parser
                             while (NeedsToGoBeforePreviousOperator(ArrivalOfTopItem, CastedOperator))
                             {
                                 //we are ok now...return this guy
-                                lst.Add(ArrivalOfTopItem);
+                                yield return ArrivalOfTopItem;
 
                                 //if we have 0 items at this point then continue on
                                 if (OperatorStack.Count == 0)
@@ -143,10 +141,8 @@ namespace ToracLibrary.Parser.Parser
             while (OperatorStack.Count > 0)
             {
                 //remove and return it
-                lst.Add(OperatorStack.Pop());
+                yield return OperatorStack.Pop();
             }
-
-            return lst;
         }
 
         #endregion
@@ -164,44 +160,7 @@ namespace ToracLibrary.Parser.Parser
             //make sure the multiple and divide go before the add
             //should go in this order +-*/
             //return FirstOperator.OrderOfPresedence > SecondOperator.OrderOfPresedence;
-            const string OperationString = "(+-*/%";
-
-            int[] Precedence = { 0, 12, 12, 13, 13, 13 };// "(" has less prececence
-
-            char firstOperator;
-            char secondOperator;
-
-            if (FirstOperator is PlusToken)
-            {
-                firstOperator = '+';
-            }
-            else if (FirstOperator is MinusToken)
-            {
-                firstOperator = '-';
-            }
-            else
-            {
-                firstOperator = '*';
-            }
-
-            if (SecondOperator is PlusToken)
-            {
-                secondOperator = '+';
-            }
-            else if (SecondOperator is MinusToken)
-            {
-                secondOperator = '-';
-            }
-            else
-            {
-                secondOperator = '*';
-            }
-
-            var FirstPoint = OperationString.IndexOf(firstOperator);
-            var SecondPoint = OperationString.IndexOf(secondOperator);
-
-            return (Precedence[FirstPoint] >= Precedence[SecondPoint]) ? true : false;
-
+            return FirstOperator.OrderOfPresedence >= SecondOperator.OrderOfPresedence;
         }
 
         #endregion
