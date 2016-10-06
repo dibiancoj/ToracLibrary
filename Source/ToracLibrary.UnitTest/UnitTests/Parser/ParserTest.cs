@@ -28,6 +28,8 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("10 - 1", 10 - 1)]
         [InlineData("2+4+7", 2 + 4 + 7)]
         [InlineData("2+4+7- 2", 2 + 4 + 7 - 2)]
+        [InlineData("10/2", 10 / 2)]
+        [InlineData("10/2 * 3 + 2", 10 / 2 * 3 + 2)]
         [Theory]
         public void MathParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
         {

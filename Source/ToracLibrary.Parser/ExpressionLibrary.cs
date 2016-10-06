@@ -24,17 +24,20 @@ namespace ToracLibrary.Parser
         // Digit      := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
 
         /// <summary>
+        /// Holds the valid tokens for a number expression
+        /// </summary>
+        /// <remarks>Could be local but using for unit tests</remarks>
+        public static readonly ISet<ITokenFactory> ValidTokensForNumberExpression = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory(), new DivisionOperatorTokenFactory() });
+
+        /// <summary>
         /// Parses the given expression and return the result
         /// </summary>
         /// <param name="ExpressionToParse">Expression To Parse</param>
         /// <returns>The calculated value</returns>
         public static double ParseAndEvaluateNumberExpression(string ExpressionToParse)
         {
-            //supported tokens
-            var SupportedTokens = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory() });
-
             //go tokenize this thing. Convert the string to tokens
-            var TokensFoundInExpression = GenericTokenizer.ScanLazy(ExpressionToParse, SupportedTokens);
+            var TokensFoundInExpression = GenericTokenizer.ScanLazy(ExpressionToParse, ValidTokensForNumberExpression);
 
             //Build out the parser and return the result
             //return PlusMinusParser.Parse(TokensFoundInExpression, SupportedTokens);

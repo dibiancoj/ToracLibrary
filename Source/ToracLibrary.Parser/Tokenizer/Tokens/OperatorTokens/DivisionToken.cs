@@ -8,9 +8,9 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
 {
 
     /// <summary>
-    /// Token for a multiply operation. Complication is order of operation in formula. ie: 2+5*10. Need to multiple the 5*10 first. The ReversePolicyNotation solves that issue.
+    /// Token for a division operation. Complication is order of operation in formula. ie: 2+5*10. Need to multiple the 5*10 first. The ReversePolicyNotation solves that issue.
     /// </summary>
-    public class MultiplyToken : OperatorBaseToken
+    public class DivisionToken : OperatorBaseToken
     {
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// <returns>Result of the operation</returns>
         public override double Calculate(double LeftSide, double RightSide)
         {
-            return LeftSide * RightSide;
+            return RightSide / LeftSide;
         }
 
     }
