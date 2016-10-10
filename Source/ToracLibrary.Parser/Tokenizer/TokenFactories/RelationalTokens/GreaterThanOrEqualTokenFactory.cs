@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Parser.Tokenizer.Tokens;
-using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
+using ToracLibrary.Parser.Tokenizer.Tokens.RelationalTokens;
 
 namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 {
 
     /// <summary>
-    /// Token factory for a plus operator token
+    /// Token factory for greater than or equal
     /// </summary>
-    public class PlusOperatorTokenFactory : ITokenFactory
+    public class GreaterThanOrEqualTokenFactory : ITokenFactory
     {
 
         #region Static Readonly Properties
@@ -21,7 +21,7 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         /// <summary>
         /// So we don't have to keep creating instances and keep memory down for a token that doesn't hold any data
         /// </summary>
-        private readonly PlusToken InstanceofToken = new PlusToken();
+        private readonly GreaterThanOrEqualToken InstanceofToken = new GreaterThanOrEqualToken();
 
         #endregion
 
@@ -29,12 +29,15 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 
         public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
-            return TokenToInspect == '+';
+            return TokenToInspect == '>' && NextTokenPeekToInspect == '=';
         }
 
         public TokenBase CreateToken(StringReader Reader, char CurrentToken)
         {
-            //return the plus token
+            //since we are reading 2 characteres ">=". Then we need to read the "="
+            Reader.Read();
+
+            //return the instance
             return InstanceofToken;
         }
 

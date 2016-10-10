@@ -17,6 +17,8 @@ namespace ToracLibrary.Parser
     public class ExpressionLibrary
     {
 
+        #region Math Parser
+
         /* Definition For Now */
         // Expression := Number {Operator Number}
         // Operator   := "+" | "-"
@@ -55,6 +57,8 @@ namespace ToracLibrary.Parser
             //go grab the result and return it
             return ReversePolishMathNotationParser.EvaluateExpression(ReversePolishTokenResult);
         }
+
+        #endregion
 
     }
 

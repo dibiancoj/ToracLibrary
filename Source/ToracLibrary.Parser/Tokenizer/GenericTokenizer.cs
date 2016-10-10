@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ToracLibrary.Parser.Exceptions;
 using ToracLibrary.Parser.Tokenizer.TokenFactories;
 using ToracLibrary.Parser.Tokenizer.Tokens;
-using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 
 namespace ToracLibrary.Parser.Tokenizer
 {
@@ -30,23 +29,30 @@ namespace ToracLibrary.Parser.Tokenizer
             using (var ExpressionReader = new StringReader(ExpressionToScan))
             {
                 //keep reading until we are done
-                while (ExpressionReader.Peek() != -1)
+                while (HaveMoreCharacters(ExpressionReader))
                 {
                     //what character is this?
-                    var CharacterPeekedAt = (char)ExpressionReader.Peek();
+                    var CharacterPeekedAt = (char)ExpressionReader.Read();
 
                     //is this a whitespace character
                     if (char.IsWhiteSpace(CharacterPeekedAt))
                     {
-                        //we don't care about white spaces...keep going
-                        ExpressionReader.Read();
-
-                        //go to the next character
+                        //this is a space...go to the next character
                         continue;
                     }
 
+                    //next character for items that are multi character (we only support 2 characters now such as >=)
+                    char? NextCharacterPeek = null; //closest thing to a null character
+
+                    //do we have another character
+                    if (HaveMoreCharacters(ExpressionReader))
+                    {
+                        //we have a character
+                        NextCharacterPeek = (char)ExpressionReader.Peek();
+                    }
+
                     //grab the first token this is valid for
-                    var FirstValidToken = ValidTokens.FirstOrDefault(x => x.IsToken(CharacterPeekedAt));
+                    var FirstValidToken = ValidTokens.FirstOrDefault(x => x.IsToken(CharacterPeekedAt, NextCharacterPeek));
 
                     //did we find a valid token
                     if (FirstValidToken == null)
@@ -59,6 +65,17 @@ namespace ToracLibrary.Parser.Tokenizer
                     yield return FirstValidToken.CreateToken(ExpressionReader, CharacterPeekedAt);
                 }
             }
+        }
+
+        /// <summary>
+        /// Do we have more characters to consume
+        /// </summary>
+        /// <param name="Reader">Reader to check</param>
+        /// <returns>if we have more characters</returns>
+        private static bool HaveMoreCharacters(StringReader Reader)
+        {
+            //what is the peek result. Is it negative 1
+            return Reader.Peek() != -1;
         }
 
     }

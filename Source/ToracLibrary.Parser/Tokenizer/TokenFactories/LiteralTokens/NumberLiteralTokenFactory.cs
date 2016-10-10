@@ -17,7 +17,7 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 
         #region Public Methods
 
-        public bool IsToken(char TokenToInspect)
+        public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
             return char.IsDigit(TokenToInspect);
         }
@@ -25,7 +25,7 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         public TokenBase CreateToken(StringReader Reader, char CurrentToken)
         {
             //go parse the number and return the literal
-            return new NumberLiteralToken(ParseNumber(Reader));
+            return new NumberLiteralToken(ParseNumber(Reader, CurrentToken));
         }
 
         #endregion
@@ -36,11 +36,15 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         /// Grab the entire number and parse id
         /// </summary>
         /// <param name="Reader">Reader To Continue Reading</param>
+        /// <param name="CurrentToken">Current token which was read</param>
         /// <returns>The Parsed Number</returns>
-        private static int ParseNumber(StringReader Reader)
+        private static int ParseNumber(StringReader Reader, char CurrentToken)
         {
             //digits found
             var DigitsFound = new List<int>();
+
+            //add the current token
+            DigitsFound.Add(int.Parse(char.ToString(CurrentToken)));
 
             //keep reading until we don't have a digit
             while (char.IsDigit((char)Reader.Peek()))

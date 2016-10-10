@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Parser;
 using ToracLibrary.Parser.Exceptions;
+using ToracLibrary.Parser.Tokenizer;
+using ToracLibrary.Parser.Tokenizer.TokenFactories;
+using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
+using ToracLibrary.Parser.Tokenizer.Tokens;
+using ToracLibrary.Parser.Tokenizer.Tokens.RelationalTokens;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Serialization
@@ -74,6 +79,61 @@ namespace ToracLibrary.UnitTest.Serialization
         public void MathParserExpectedExceptionMissingParenthesisTest1(string ExpressionToTest)
         {
             Assert.Throws<MissingParenthesisException>(() => ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
+        }
+
+        #endregion
+
+        #region Logical - Relational Testing
+
+        /// <summary>
+        /// hold all the valid token factories. This is a little weird...will cleanup or remove this logic on scan lazy later on.
+        /// </summary>
+        private ISet<ITokenFactory> ValidLogicalTokens = new HashSet<ITokenFactory>(
+            new ITokenFactory[]
+            {
+                new NumberLiteralTokenFactory(),
+                new EqualTokenFactory(),
+                new NotEqualTokenFactory(),
+                new GreaterThanTokenFactory(),
+                new GreaterThanOrEqualTokenFactory(),
+                new LessThanOrEqualTokenFactory(),
+                new LessThanTokenFactory()
+            });
+
+        private void AssertTree(IEnumerable<TokenBase> BuiltTreeToTest, double ExpectedLiteralNumberValue, Type[] ExpectedTokens)
+        {
+            //make sure we have the same amount of nodes
+            Assert.Equal(BuiltTreeToTest.Count(), ExpectedTokens.Count());
+
+            //current tree node
+            int i = 0;
+
+            //make sure we have the expected tokens
+            foreach (var TokenFound in BuiltTreeToTest)
+            {
+                //make sure its the correct type
+                Assert.IsAssignableFrom(ExpectedTokens[i], TokenFound);
+
+                //increase the tally
+                i++;
+            }
+
+            //go make sure the number literal token is correct.
+            Assert.Equal(ExpectedLiteralNumberValue, BuiltTreeToTest.OfType<NumberLiteralToken>().Single().Value);
+        }
+
+        [InlineData("= 10256", 10256, new Type[] { typeof(EqualToToken), typeof(NumberLiteralToken) })]
+        [InlineData("<> 99", 99, new Type[] { typeof(NotEqualToToken), typeof(NumberLiteralToken) })]
+        [InlineData("!= 99", 99, new Type[] { typeof(NotEqualToToken), typeof(NumberLiteralToken) })]
+        [InlineData(">= 10", 10, new Type[] { typeof(GreaterThanOrEqualToken), typeof(NumberLiteralToken) })]
+        [InlineData("> 502", 502, new Type[] { typeof(GreaterThanToken), typeof(NumberLiteralToken) })]
+        [InlineData("<= 10", 10, new Type[] { typeof(LessThanOrEqualToToken), typeof(NumberLiteralToken) })]
+        [InlineData("< 502", 502, new Type[] { typeof(LessThanToken), typeof(NumberLiteralToken) })]
+        [Theory]
+        public void LogicalParserTest1(string ExpressionToTest, double ExpectedLiteralNumberValue, Type[] ExpectedTokens)
+        {
+            //go assert the tree
+            AssertTree(GenericTokenizer.ScanLazy(ExpressionToTest, ValidLogicalTokens).ToArray(), ExpectedLiteralNumberValue, ExpectedTokens);
         }
 
         #endregion
