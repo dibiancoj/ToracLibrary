@@ -32,37 +32,37 @@ namespace ToracLibrary.Parser.Tokenizer
                 while (HaveMoreCharacters(ExpressionReader))
                 {
                     //what character is this?
-                    var CharacterPeekedAt = (char)ExpressionReader.Read();
+                    var CurrentCharacterRead = (char)ExpressionReader.Read();
 
                     //is this a whitespace character
-                    if (char.IsWhiteSpace(CharacterPeekedAt))
+                    if (char.IsWhiteSpace(CurrentCharacterRead))
                     {
                         //this is a space...go to the next character
                         continue;
                     }
 
                     //next character for items that are multi character (we only support 2 characters now such as >=)
-                    char? NextCharacterPeek = null; //closest thing to a null character
+                    char? CharacterPeekedAt = null; //closest thing to a null character
 
                     //do we have another character
                     if (HaveMoreCharacters(ExpressionReader))
                     {
                         //we have a character
-                        NextCharacterPeek = (char)ExpressionReader.Peek();
+                        CharacterPeekedAt = (char)ExpressionReader.Peek();
                     }
 
                     //grab the first token this is valid for
-                    var FirstValidToken = ValidTokens.FirstOrDefault(x => x.IsToken(CharacterPeekedAt, NextCharacterPeek));
+                    var FirstValidToken = ValidTokens.FirstOrDefault(x => x.IsToken(CurrentCharacterRead, CharacterPeekedAt));
 
                     //did we find a valid token
                     if (FirstValidToken == null)
                     {
                         //can't find a token for this
-                        throw new ParserUnknownCharacterException(CharacterPeekedAt);
+                        throw new ParserUnknownCharacterException(CurrentCharacterRead);
                     }
 
                     //we have a valid token
-                    yield return FirstValidToken.CreateToken(ExpressionReader, CharacterPeekedAt);
+                    yield return FirstValidToken.CreateToken(ExpressionReader, CurrentCharacterRead);
                 }
             }
         }

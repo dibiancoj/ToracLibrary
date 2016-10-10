@@ -5,9 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Parser;
 using ToracLibrary.Parser.Exceptions;
-using ToracLibrary.Parser.Tokenizer;
-using ToracLibrary.Parser.Tokenizer.TokenFactories;
-using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.RelationalTokens;
 using Xunit;
@@ -85,21 +82,6 @@ namespace ToracLibrary.UnitTest.Serialization
 
         #region Logical - Relational Testing
 
-        /// <summary>
-        /// hold all the valid token factories. This is a little weird...will cleanup or remove this logic on scan lazy later on.
-        /// </summary>
-        private ISet<ITokenFactory> ValidLogicalTokens = new HashSet<ITokenFactory>(
-            new ITokenFactory[]
-            {
-                new NumberLiteralTokenFactory(),
-                new EqualTokenFactory(),
-                new NotEqualTokenFactory(),
-                new GreaterThanTokenFactory(),
-                new GreaterThanOrEqualTokenFactory(),
-                new LessThanOrEqualTokenFactory(),
-                new LessThanTokenFactory()
-            });
-
         private void AssertTree(IEnumerable<TokenBase> BuiltTreeToTest, double ExpectedLiteralNumberValue, Type[] ExpectedTokens)
         {
             //make sure we have the same amount of nodes
@@ -133,7 +115,7 @@ namespace ToracLibrary.UnitTest.Serialization
         public void LogicalParserTest1(string ExpressionToTest, double ExpectedLiteralNumberValue, Type[] ExpectedTokens)
         {
             //go assert the tree
-            AssertTree(GenericTokenizer.ScanLazy(ExpressionToTest, ValidLogicalTokens).ToArray(), ExpectedLiteralNumberValue, ExpectedTokens);
+            AssertTree(ExpressionLibrary.TokenizedRelationalExpressionLazy(ExpressionToTest), ExpectedLiteralNumberValue, ExpectedTokens);
         }
 
         #endregion

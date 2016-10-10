@@ -7,6 +7,7 @@ using ToracLibrary.Parser.Parser;
 using ToracLibrary.Parser.Tokenizer;
 using ToracLibrary.Parser.Tokenizer.TokenFactories;
 using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
+using ToracLibrary.Parser.Tokenizer.Tokens;
 
 namespace ToracLibrary.Parser
 {
@@ -28,8 +29,8 @@ namespace ToracLibrary.Parser
         /// <summary>
         /// Holds the valid tokens for a number expression
         /// </summary>
-        /// <remarks>Could be local but using for unit tests</remarks>
-        public static readonly ISet<ITokenFactory> ValidTokensForNumberExpression = new HashSet<ITokenFactory>(new ITokenFactory[]
+        /// <remarks>Is set to internal so unit test can grab the values</remarks>
+        internal static readonly ISet<ITokenFactory> ValidTokensForNumberExpression = new HashSet<ITokenFactory>(new ITokenFactory[]
         {
             new NumberLiteralTokenFactory(),
             new PlusOperatorTokenFactory(),
@@ -56,6 +57,35 @@ namespace ToracLibrary.Parser
 
             //go grab the result and return it
             return ReversePolishMathNotationParser.EvaluateExpression(ReversePolishTokenResult);
+        }
+
+        #endregion
+
+        #region Logical Or Relational Parser
+
+        /// <summary>
+        /// hold all the valid token factories for relational - logical parsers
+        /// </summary>
+        /// <remarks>Is set to internal so unit test can grab the values</remarks>
+        internal static readonly ISet<ITokenFactory> ValidRelationalTokens = new HashSet<ITokenFactory>(new ITokenFactory[]
+            {
+                new NumberLiteralTokenFactory(),
+                new EqualTokenFactory(),
+                new NotEqualTokenFactory(),
+                new GreaterThanTokenFactory(),
+                new GreaterThanOrEqualTokenFactory(),
+                new LessThanOrEqualTokenFactory(),
+                new LessThanTokenFactory()
+            });
+
+        /// <summary>
+        /// Turn the given expression into a set of tokens for this relational - logical parser
+        /// </summary>
+        /// <param name="ExpressionToTokenize">Expression to turn into a list of tokens</param>
+        /// <returns>Tokenized for the given expression</returns>
+        public static IEnumerable<TokenBase> TokenizedRelationalExpressionLazy(string ExpressionToTokenize)
+        {
+            return GenericTokenizer.ScanLazy(ExpressionToTokenize, ValidRelationalTokens);
         }
 
         #endregion
