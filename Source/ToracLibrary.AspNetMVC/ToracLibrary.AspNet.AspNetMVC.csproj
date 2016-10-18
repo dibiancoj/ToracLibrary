@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CustomModelBinders\AbstractOrInterfaceListBinder.txt" />
+    <Content Include="CustomValidators\RequiredIfExample.txt" />
     <Content Include="UnitTestMocking\Documentation.txt" />
   </ItemGroup>
   <ItemGroup>
