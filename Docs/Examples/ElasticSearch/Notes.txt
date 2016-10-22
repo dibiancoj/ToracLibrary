@@ -1,9 +1,11 @@
 //run in network mode enabled
 C:\ElasticSearch\elasticsearch-2.3.2\bin\elasticsearch --network.host 192.168.1.7
+or if by computer name
+C:\ElasticSearch\elasticsearch-2.3.2\bin\elasticsearch --network.host win10hyperv
 
 
 Installation...by default it only installs for local host access only. Modify C:\ElasticSearch\elasticsearch-2.3.2\config host
-or launch elastic search like: bin/elasticsearch --network.host 192.168.1.7
+or launch elastic search like: bin/elasticsearch --network.host win10hyperv
 
 Inserts
 
