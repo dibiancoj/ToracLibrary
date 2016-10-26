@@ -16,20 +16,26 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
     public class MultiplyOperatorTokenFactory : ITokenFactory
     {
 
+        #region Static Readonly Properties
+
+        /// <summary>
+        /// So we don't have to keep creating instances and keep memory down for a token that doesn't hold any data
+        /// </summary>
+        private readonly MultiplyToken InstanceofToken = new MultiplyToken();
+
+        #endregion
+
         #region Public Methods
 
-        public bool IsToken(char TokenToInspect)
+        public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
             return TokenToInspect == '*';
         }
 
         public TokenBase CreateToken(StringReader Reader, char CurrentToken)
         {
-            //read the token...then return the object
-            Reader.Read();
-
             //return the plus token
-            return new MultiplyToken();
+            return InstanceofToken;
         }
 
         #endregion

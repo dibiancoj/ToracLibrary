@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Tokenizer.Tokens.OrderTokens;
 
 namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
 {
 
     /// <summary>
-    /// Token for a multiply operation. Complication is order of operation in formula. ie: 2+5*10. Need to multiple the 5*10 first.
+    /// Token for a multiply operation. Complication is order of operation in formula. ie: 2+5*10. Need to multiple the 5*10 first. The ReversePolicyNotation solves that issue.
     /// </summary>
     public class MultiplyToken : OperatorBaseToken
     {
@@ -18,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// </summary>
         public override int OrderOfPresedence
         {
-            get { return 2; }
+            get { return 13; }
         }
 
         /// <summary>

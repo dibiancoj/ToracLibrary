@@ -11,9 +11,9 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 {
 
     /// <summary>
-    /// Token factory for a plus operator token
+    /// Token factory for a divide operator token
     /// </summary>
-    public class PlusOperatorTokenFactory : ITokenFactory
+    public class DivisionOperatorTokenFactory : ITokenFactory
     {
 
         #region Static Readonly Properties
@@ -21,7 +21,7 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         /// <summary>
         /// So we don't have to keep creating instances and keep memory down for a token that doesn't hold any data
         /// </summary>
-        private readonly PlusToken InstanceofToken = new PlusToken();
+        private readonly DivisionToken InstanceofToken = new DivisionToken();
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 
         public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
-            return TokenToInspect == '+';
+            return TokenToInspect == '/';
         }
 
         public TokenBase CreateToken(StringReader Reader, char CurrentToken)

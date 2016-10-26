@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser;
 using ToracLibrary.Parser.Parser;
 using ToracLibrary.Parser.Tokenizer;
-using ToracLibrary.Parser.Tokenizer.TokenFactories;
-using ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens;
 using ToracLibrary.Parser.Tokenizer.Tokens;
 using ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens;
 using Xunit;
@@ -49,6 +48,14 @@ namespace ToracLibrary.UnitTest.Serialization
                 {
                     Result.Append("*");
                 }
+                else if (Token is DivisionToken)
+                {
+                    Result.Append("/");
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
 
                 Result.Append(" ");
             }
@@ -58,31 +65,22 @@ namespace ToracLibrary.UnitTest.Serialization
             return Result.ToString();
         }
 
-        /// <summary>
-        /// Convert the given expression to a token set
-        /// </summary>
-        /// <param name="Expression">Expression to convert</param>
-        /// <returns>Tokenized</returns>
-        private static IEnumerable<TokenBase> ConvertToToken(string Expression)
-        {
-            //supported tokens
-            var SupportedTokens = new HashSet<ITokenFactory>(new ITokenFactory[] { new NumberLiteralTokenFactory(), new PlusOperatorTokenFactory(), new MinusOperatorTokenFactory(), new MultiplyOperatorTokenFactory() });
-
-            //go tokenize this thing. Convert the string to tokens
-            return GenericTokenizer.ScanLazy(Expression, SupportedTokens);
-        }
-
         #endregion
 
         #region Unit Tests
 
-        [InlineData("2 + 3 - 2 * 10", "2 3 2 10 * - +")]
+        [InlineData("2 + 3 - 2 * 10", "2 3 + 2 10 * -")]
         [InlineData("2 + 3", "2 3 +")]
         [InlineData("2 + 3 * 7", "2 3 7 * +")]
+        [InlineData("2+5*9+1*3", "2 5 9 * + 1 3 * +")]
+        [InlineData("10 /2 ", "10 2 /")]
+        [InlineData("10 /2 * 5 ", "10 2 / 5 *")]
+        [InlineData("10 * (1+2) * 5", "10 1 2 + * 5 *")]
         [Theory]
         public void ReversePolishNotationTest1(string ExpressionToTest, string ExpectedResultOfExpression)
         {
-            Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishNotationParser.ConvertToReversePolishNotationLazy(ConvertToToken(ExpressionToTest))));
+            //http://www.meta-calculator.com/learning-lab/how-to-build-scientific-calculator/infix-to-postifix-convertor.php
+            Assert.Equal(ExpectedResultOfExpression, ConvertToString(ReversePolishMathNotationParser.ConvertToReversePolishNotationLazy(GenericTokenizer.ScanLazy(ExpressionToTest, ExpressionLibrary.ValidTokensForNumberExpression))));
         }
 
         #endregion

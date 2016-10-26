@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Tokenizer.Tokens.OrderTokens;
 
 namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
 {
@@ -18,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// </summary>
         public override int OrderOfPresedence
         {
-            get { return 1; }
+            get { return 12; }
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// <returns>Result of the operation</returns>
         public override double Calculate(double LeftSide, double RightSide)
         {
-            return LeftSide - RightSide;
+            return RightSide - LeftSide;// LeftSide - RightSide;
         }
 
     }

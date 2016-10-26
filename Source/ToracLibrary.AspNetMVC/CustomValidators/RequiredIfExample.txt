@@ -1,0 +1,72 @@
+﻿  public class ConditionalRequired : ValidationAttribute, IClientValidatable
+    {
+
+        #region Constructor
+
+        public ConditionalRequired(string fieldHasToBeFilledOut, Operator operatorToValidate, object requiredValue)
+        {
+            FieldHasToBeFilledOut = fieldHasToBeFilledOut;
+            RequiredValue = requiredValue;
+            OperatorToValidate = operatorToValidate;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public string FieldHasToBeFilledOut { get; private set; }
+        public object RequiredValue { get; private set; }
+        public Operator OperatorToValidate { get; private set; }
+
+        #endregion
+
+        #region Enum
+
+        public enum Operator
+        {
+            Equal,
+            NotEqual
+        }
+
+        #endregion
+
+        #region Override
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var property = validationContext.ObjectType.GetProperty(FieldHasToBeFilledOut);
+
+            if (property == null)
+            {
+                throw new ArgumentNullException("FieldHasToBeFilledOut");
+            }
+
+            var valueOfProperty = property.GetValue(validationContext.ObjectInstance);
+
+            if (valueOfProperty != null)
+            {
+                if (OperatorToValidate == Operator.Equal && string.Equals(valueOfProperty.ToString(), RequiredValue.ToString(), StringComparison.OrdinalIgnoreCase) && value == null)
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
+                if (OperatorToValidate == Operator.NotEqual && !string.Equals(valueOfProperty.ToString(), RequiredValue.ToString(), StringComparison.OrdinalIgnoreCase) && value == null)
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
+            }
+
+            return ValidationResult.Success;
+        }
+
+        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        {
+            ModelClientValidationRule rule = new ModelClientValidationRule();
+            rule.ErrorMessage = FormatErrorMessage(metadata.GetDisplayName());
+            rule.ValidationType = "required";
+
+            //var rule = new ModelClientValidationRule();
+            //rule.ErrorMessage = FormatErrorMessage(metadata.GetDisplayName());
+            //rule.ValidationParameters.Add("chars", _chars);
+            //rule.ValidationType = "exclude";
+            yield return rule;
+        }

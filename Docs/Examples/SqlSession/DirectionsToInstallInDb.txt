@@ -3,10 +3,12 @@ The following steps describe how to run the InstallSqlState.sql and the Uninstal
 Cd C:\Windows\Microsoft.NET\Framework\v4.0.30319
 aspnet_regsql -S serverName -E -ssadd -sstype p
  
-·         t - Stores session data in the SQL Server tempdb database. This is the default. If you store session data in the tempdb database, the session data is lost if SQL Server is restarted.
-·         p - Stores session data in the ASPState database instead of in the tempdb database.
-·         c - Stores session data in a custom database. If you specify the c option, you must also include the name of the custom database using the -d option.
+Â·         t - Stores session data in the SQL Server tempdb database. This is the default. If you store session data in the tempdb database, the session data is lost if SQL Server is restarted.
+Â·         p - Stores session data in the ASPState database instead of in the tempdb database.
+Â·         c - Stores session data in a custom database. If you specify the c option, you must also include the name of the custom database using the -d option.
 
 
 If you have 2 servers and IIS isn't configured the same (path in IIS). The you will have 2 ASPStateTempApplications records created. You won't be able to share between the 2 servers.
 So, in IIS, right click on the web site and go to advanced. For Id type the same value on both servers. Then hit ok.
+
+Also, sql session doesn't respect expiration date so nothing will expire until the records are removed from the database. Ensure the database job is running or you create a console app that runs the remove expired sessions proc

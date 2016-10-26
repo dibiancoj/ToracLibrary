@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Parser.Tokenizer.Tokens.OrderTokens;
 
 namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
 {
@@ -18,7 +19,7 @@ namespace ToracLibrary.Parser.Tokenizer.Tokens.OperatorTokens
         /// </summary>
         public override int OrderOfPresedence
         {
-            get { return 0; }
+            get { return 12; }
         }
 
         /// <summary>

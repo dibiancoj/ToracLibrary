@@ -19,8 +19,9 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories
         /// Is this an instance of the current token?
         /// </summary>
         /// <param name="TokenToInspect">Token to inspect if this is the instance of that token</param>
+        /// <param name="NextTokenPeekToInspect">The 2nd character to inspect. Could be null if we don't have any more characters</param>
         /// <returns>If its an instance of this token</returns>
-        bool IsToken(char TokenToInspect);
+        bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect);
 
         /// <summary>
         /// Create an instance of the specified token after IsToken returns true
