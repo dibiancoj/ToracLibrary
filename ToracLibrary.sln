@@ -176,6 +176,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.UnitTest", "So
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Html-Js-Jquery", "Html-Js-Jquery", "{62EF8EBF-686A-4D35-8A1E-98DA7A289192}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Html-Js-Jquery\FadedTextShowHideDiv.txt = Docs\Examples\Html-Js-Jquery\FadedTextShowHideDiv.txt
 		Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt = Docs\Examples\Html-Js-Jquery\FileReaderWithPromise.txt
 		Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt = Docs\Examples\Html-Js-Jquery\UploadFileInPostUsingJQuery.txt
 	EndProjectSection
