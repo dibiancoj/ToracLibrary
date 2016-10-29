@@ -1,30 +1,42 @@
-.row{
-    width: 300px;
+#HiddenOverflow {
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom: 3px solid #777;
-    max-height:200px;
-    overflow:hidden;
+    max-height: 200px;
+    overflow: hidden;
     text-overflow: ellipsis;
     content: "";
-    position:relative;
-}
-.row:before {
-    content:'';
-    width:100%;
-    height:100%;    
-    position:absolute;
-    left:0;
-    top:0;
-    background:linear-gradient(transparent 125px, white);
+    position: relative;
 }
 
+    #HiddenOverflow:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(transparent 125px, white);
+    }
+
+.ShowLess {
+    overflow: auto !important;
+    max-height: none !important;
+    
+}
+
+    .ShowLess:before {
+        position: relative !important;
+        background: none !important;
+    }
+
+
 <p>
-    bla bla bla
+    bla bla bla bla bla bla
 </p>
 
 <div id="HiddenOverflow">
-    sdfdsfds.....really long div
+    start to fade the text.........really long div
 </div>
 <div id="ShowMoreShowLess" data-ShowMore="true">** Show Full Instructions**</div>
 

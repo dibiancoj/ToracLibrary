@@ -44,9 +44,9 @@
          html="false"
          addNewLines="true"
          subject="Portal Session Cleanup Error"
-         to="dibiancj@mskcc.org;"
-         from="PortalProd@mskcc.org"
-         smtpServer="mskrelay.mskcc.org"
+         to="dibiancoj@jason.com;"
+         from="fromEmail@jason.com"
+         smtpServer="relay.jason.org"
          smtpPort="25"/>
 
 
