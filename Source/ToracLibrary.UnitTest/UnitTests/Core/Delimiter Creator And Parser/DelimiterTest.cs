@@ -38,7 +38,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <returns>column data</returns>
         private static IEnumerable<DelimiterRow> ParseResultsLazy(string OutputValue)
         {
-            return DelimiterParser.ParseFromTextLazy(OutputValue, CSVDelimiter);
+            return DelimiterParser.ParseFromTextLinesLazy(OutputValue, CSVDelimiter);
         }
 
         #endregion

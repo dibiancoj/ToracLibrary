@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,24 +43,7 @@ namespace ToracLibrary.Core.Delimiter
         public static IEnumerable<DelimiterRow> ParseFromFileLazy(string FileToParse, string Delimiter)
         {
             //use the overload (using to an array so we don't have 3 iterators in the chain)
-            return ParseFromTextLinesLazy(FileReader.ReadFileToIEnumerableLazy(FileToParse).ToArray(), Delimiter);
-        }
-
-        #endregion
-
-        #region Parse From Text
-
-        /// <summary>
-        /// Parse The File From A Text String
-        /// </summary>
-        /// <param name="TextToParse">Text To Parse. This Will Contain The Entire Document</param>
-        /// <param name="Delimiter">Delimiter That Each Column Is Seperated By</param>
-        /// <returns>IEnumerable ParseRowResult. Holds each of the rows. Inside that object holds the columns for that row</returns>
-        /// <remarks>Method is lazy loaded. File will be locked until method is complete. Call ToArray() To Push To List</remarks>
-        public static IEnumerable<DelimiterRow> ParseFromTextLazy(string TextToParse, string Delimiter)
-        {
-            //use the overload
-            return ParseFromTextLinesLazy(TextToParse.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries), Delimiter);
+            return ParseFromTextLinesLazy(FileReader.ReadFile(FileToParse), Delimiter);
         }
 
         #endregion
@@ -69,20 +53,25 @@ namespace ToracLibrary.Core.Delimiter
         /// <summary>
         /// Parse The File From A Text String
         /// </summary>
-        /// <param name="TextLinesToParse">Text To Parse Broken Out By Each Line</param>
+        /// <param name="ContentToParse">All the lines of content that we are want to parse</param>
         /// <param name="Delimiter">Delimiter That Each Column Is Seperated By</param>
         /// <returns>IEnumerable ParseRowResult. Holds each of the rows. Inside that object holds the columns for that row</returns>
         /// <remarks>Method is lazy loaded. File will be locked until method is complete. Call ToArray() To Push To List</remarks>
-        public static IEnumerable<DelimiterRow> ParseFromTextLinesLazy(IEnumerable<string> TextLinesToParse, string Delimiter)
+        public static IEnumerable<DelimiterRow> ParseFromTextLinesLazy(string ContentToParse, string Delimiter)
         {
             //throw the delimiter into an array so we don't have to keep creating it
             string[] DelimiterToSplitWith = new string[] { Delimiter };
 
-            //let's loop through the rows in the file
-            foreach (string RawRowData in TextLinesToParse)
+            //i profiled this and its faster and more memory efficient to use a string reader for each row. To do this for every column had to allocate to much.
+            //the current implementation is best for reducing memory
+            using (var Reader = new StringReader(ContentToParse))
             {
-                //now let's split the raw row data into the specific columns
-                yield return new DelimiterRow(RawRowData.Split(DelimiterToSplitWith, StringSplitOptions.None));
+                //loop until we are done
+                while (Reader.Peek() != -1)
+                {
+                    //grab the line to parse and split the raw data into specific columns
+                    yield return new DelimiterRow(Reader.ReadLine().Split(DelimiterToSplitWith, StringSplitOptions.None));
+                }
             }
         }
 
