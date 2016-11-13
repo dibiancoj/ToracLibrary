@@ -27,11 +27,23 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
 
         #region Public Methods
 
+        /// <summary>
+        /// Is this an instance of the current token?
+        /// </summary>
+        /// <param name="TokenToInspect">Token to inspect if this is the instance of that token</param>
+        /// <param name="NextTokenPeekToInspect">The 2nd character to inspect. Could be null if we don't have any more characters</param>
+        /// <returns>If its an instance of this token</returns>
         public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
             return TokenToInspect == '-';
         }
 
+        /// <summary>
+        /// Create an instance of the specified token after IsToken returns true
+        /// </summary>
+        /// <param name="Reader">Reader to use to navigate the stream</param>
+        /// <param name="CurrentToken">Current token we are up to</param>
+        /// <returns>The create instance of the token</returns>
         public TokenBase CreateToken(StringReader Reader, char CurrentToken)
         {
             //return the plus token
