@@ -30,7 +30,7 @@ namespace ToracLibrary.Core.Delimiter
         /// </summary>
         /// <param name="ColumnHeaders">Headers To Add To The Csv. Will Be The First Row Outputted</param>
         /// <param name="DelimiterBetweenColumns">Delimiter To Use Between Columns</param>
-        public DelimiterCreator(IEnumerable<string> ColumnHeaders, string DelimiterBetweenColumns)
+        public DelimiterCreator(IList<string> ColumnHeaders, string DelimiterBetweenColumns)
         {
             //create the string builder
             WorkingOutputWriter = new StringBuilder();
@@ -78,7 +78,7 @@ namespace ToracLibrary.Core.Delimiter
         /// Add A Row To The Output Of The CSV Data
         /// </summary>
         /// <param name="ColumnDataForThisRow">Row's column data</param>
-        public void AddRow(IEnumerable<string> ColumnDataForThisRow)
+        public void AddRow(IList<string> ColumnDataForThisRow)
         {
             //Add the row's column data
             WriteOutRowOfData(new DelimiterRow(ColumnDataForThisRow));

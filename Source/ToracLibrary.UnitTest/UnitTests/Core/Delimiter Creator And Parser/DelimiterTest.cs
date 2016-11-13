@@ -63,10 +63,10 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("", SplitTextResult[0].ColumnData[3]);
         }
 
         [Fact]
@@ -85,10 +85,10 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[0].ColumnData[3]);
         }
 
         #endregion
@@ -117,10 +117,10 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal(string.Empty, SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal(string.Empty, SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal(string.Empty, SplitTextResult[0].ColumnData[2]);
+            Assert.Equal(string.Empty, SplitTextResult[0].ColumnData[3]);
         }
 
         [Fact]
@@ -145,10 +145,10 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[0].ColumnData[3]);
         }
 
         #endregion
@@ -172,15 +172,15 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the result now
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("6", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("8", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("6", SplitTextResult[1].ColumnData[1]); ;
+            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("8", SplitTextResult[1].ColumnData[3]);
         }
 
         #endregion
@@ -213,15 +213,15 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the result now
-            Assert.Equal("1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("6", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("8", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("6", SplitTextResult[1].ColumnData[1]);
+            Assert.Equal(string.Empty, SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("8", SplitTextResult[1].ColumnData[3]);
         }
 
         #endregion
@@ -247,15 +247,15 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("column1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("column2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("column3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("column4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("column1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("column2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("column3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("column4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal("1", SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[1].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[1].ColumnData[3]);
         }
 
         /// <summary>
@@ -277,15 +277,15 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("column1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("column2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("column3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("column4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("column1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("column2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("column3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("column4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal("1", SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal("", SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[1].ColumnData[1]);
+            Assert.Equal("", SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("", SplitTextResult[1].ColumnData[3]);
         }
 
         #endregion
@@ -312,20 +312,20 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("column1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("column2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("column3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("column4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("column1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("column2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("column3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("column4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal("1", SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[1].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[1].ColumnData[3]);
 
-            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData.ElementAt(0));
-            Assert.Equal("6", SplitTextResult[2].ColumnData.ElementAt(1));
-            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData.ElementAt(2));
-            Assert.Equal("8", SplitTextResult[2].ColumnData.ElementAt(3));
+            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData[0]);
+            Assert.Equal("6", SplitTextResult[2].ColumnData[1]);
+            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData[2]);
+            Assert.Equal("8", SplitTextResult[2].ColumnData[3]);
         }
 
         #endregion
@@ -358,20 +358,20 @@ namespace ToracLibrary.UnitTest.Core
             var SplitTextResult = ParseResultsLazy(Result).ToArray();
 
             //check the results
-            Assert.Equal("column1", SplitTextResult[0].ColumnData.ElementAt(0));
-            Assert.Equal("column2", SplitTextResult[0].ColumnData.ElementAt(1));
-            Assert.Equal("column3", SplitTextResult[0].ColumnData.ElementAt(2));
-            Assert.Equal("column4", SplitTextResult[0].ColumnData.ElementAt(3));
+            Assert.Equal("column1", SplitTextResult[0].ColumnData[0]);
+            Assert.Equal("column2", SplitTextResult[0].ColumnData[1]);
+            Assert.Equal("column3", SplitTextResult[0].ColumnData[2]);
+            Assert.Equal("column4", SplitTextResult[0].ColumnData[3]);
 
-            Assert.Equal("1", SplitTextResult[1].ColumnData.ElementAt(0));
-            Assert.Equal("2", SplitTextResult[1].ColumnData.ElementAt(1));
-            Assert.Equal("3", SplitTextResult[1].ColumnData.ElementAt(2));
-            Assert.Equal("4", SplitTextResult[1].ColumnData.ElementAt(3));
+            Assert.Equal("1", SplitTextResult[1].ColumnData[0]);
+            Assert.Equal("2", SplitTextResult[1].ColumnData[1]);
+            Assert.Equal("3", SplitTextResult[1].ColumnData[2]);
+            Assert.Equal("4", SplitTextResult[1].ColumnData[3]);
 
-            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData.ElementAt(0));
-            Assert.Equal("6", SplitTextResult[2].ColumnData.ElementAt(1));
-            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData.ElementAt(2));
-            Assert.Equal("8", SplitTextResult[2].ColumnData.ElementAt(3));
+            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData[0]);
+            Assert.Equal("6", SplitTextResult[2].ColumnData[1]);
+            Assert.Equal(string.Empty, SplitTextResult[2].ColumnData[2]);
+            Assert.Equal("8", SplitTextResult[2].ColumnData[3]);
         }
 
         #endregion
