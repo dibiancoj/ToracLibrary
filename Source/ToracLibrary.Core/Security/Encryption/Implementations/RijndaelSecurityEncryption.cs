@@ -121,7 +121,7 @@ namespace ToracLibrary.Core.Security.Encryption
             //Validate the text to encrypt
             if (EncryptedText.IsNullOrEmpty())
             {
-                throw new ArgumentNullException("Value TO Decrypt Can't Be Null.");
+                throw new ArgumentNullException("Value To Decrypt Can't Be Null.");
             }
 
             //declare the memory stream
