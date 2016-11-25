@@ -72,7 +72,7 @@ namespace ToracLibrary.Redis
             foreach (var Response in CommandToRun)
             {
                 //go fetch the response
-                Responses.Add(Client.FetchResponse(null));
+                Responses.Add(RedisClient.FetchResponse(null, Client.ResponseStream));
             }
 
             //return the list

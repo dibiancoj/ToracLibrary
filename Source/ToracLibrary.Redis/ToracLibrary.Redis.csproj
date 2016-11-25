@@ -42,9 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PubSub\PubSubCallbackState.cs" />
+    <Compile Include="PubSub\PubSubPublishResult.cs" />
     <Compile Include="RedisClient.cs" />
+    <Compile Include="PubSub\RedisPubSubClient.cs" />
     <Compile Include="RedisTransaction.cs" />
     <Compile Include="RedisPipelineCommand.cs" />
+    <Compile Include="Result\SubscribeResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

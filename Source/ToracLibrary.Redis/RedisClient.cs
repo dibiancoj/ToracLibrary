@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Redis.Result;
 
 namespace ToracLibrary.Redis
 {
@@ -72,17 +73,17 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Default Redis Port
         /// </summary>
-        private const int DefaultRedisPort = 6379;
+        protected const int DefaultRedisPort = 6379;
 
         /// <summary>
         /// Default redis timeout. 0 or -1 is no time out)
         /// </summary>
-        private const int DefaultRedisTimeout = -1;
+        protected const int DefaultRedisTimeout = -1;
 
         /// <summary>
         /// Encoding Used In Redis
         /// </summary>
-        private static readonly Encoding RedisEncoding = Encoding.UTF8;
+        protected static readonly Encoding RedisEncoding = Encoding.UTF8;
 
         #region Performance Based Constants
 
@@ -119,7 +120,7 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Default buffer size
         /// </summary>
-        private const int BufferSize = 16 * 1024;
+        protected const int BufferSize = 16 * 1024;
 
         #endregion
 
@@ -151,12 +152,12 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Holds the socket connection to the Redis server
         /// </summary>
-        private Socket SocketConnection { get; set; }
+        protected Socket SocketConnection { get; set; }
 
         /// <summary>
         /// Holds the response stream for the Redis Result
         /// </summary>
-        private BufferedStream ResponseStream { get; set; }
+        internal BufferedStream ResponseStream { get; set; }
 
         #endregion
 
@@ -253,7 +254,7 @@ namespace ToracLibrary.Redis
             SendRequest(RedisEncoding.GetBytes(CommandToSend + TerminateStrings));
 
             //Grab the response
-            return FetchResponse(BinaryDecoder);
+            return FetchResponse(BinaryDecoder, ResponseStream);
         }
 
         /// <summary>
@@ -284,7 +285,7 @@ namespace ToracLibrary.Redis
             SendRequest(SendCommand);
 
             // return the result
-            return FetchResponse(BinaryDecoder);
+            return FetchResponse(BinaryDecoder, ResponseStream);
         }
 
         #endregion
@@ -520,6 +521,43 @@ namespace ToracLibrary.Redis
 
         #endregion
 
+        #region Publish [Pub Sub]
+
+        /// <summary>
+        /// Subscribe to a channel in pub sub
+        /// </summary>
+        /// <param name="Channel">Channel to subscribe to</param>
+        /// <returns>SubscribeResult</returns>
+        public SubscribeResult Subscribe(string Channel)
+        {
+            //Grab the result
+            var Result = ((IEnumerable<object>)SendCommand("subscribe", Channel)).ToArray();
+
+            //Index 0 = Command | is in byte array (string)
+            //Index 1 = Channel | is in byte array (string)
+            //Index 2 = Result  | int
+
+            //go build the return object
+            return new SubscribeResult(
+                        ByteArrayToString((byte[])Result[0]),
+                        ByteArrayToString((byte[])Result[1]),
+                        Convert.ToInt32(Result[2]));
+        }
+
+        /// <summary>
+        /// Publish a value to pub sub
+        /// </summary>
+        /// <param name="Channel">Channel to publish to</param>
+        /// <param name="Value">Value to set</param>
+        /// <returns>Response</returns>
+        public int Publish(string Channel, string Value)
+        {
+            //send the command
+            return Convert.ToInt32(SendCommand("publish", Channel, Value));
+        }
+
+        #endregion
+
         #endregion
 
         #region Pipeline
@@ -557,7 +595,7 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="ValueToConvertToString">Value to convert to a string</param>
         /// <returns>string value of the byte array</returns>
-        public string ByteArrayToString(byte[] ValueToConvertToString)
+        public static string ByteArrayToString(byte[] ValueToConvertToString)
         {
             return RedisEncoding.GetString(ValueToConvertToString);
         }
@@ -567,7 +605,7 @@ namespace ToracLibrary.Redis
         /// </summary>
         /// <param name="ValueToConvertToByteArray">Value to convert to a byte array</param>
         /// <returns>string value of the byte array</returns>
-        public byte[] StringToByteArray(string ValueToConvertToByteArray)
+        public static byte[] StringToByteArray(string ValueToConvertToByteArray)
         {
             return RedisEncoding.GetBytes(ValueToConvertToByteArray);
         }
@@ -600,11 +638,12 @@ namespace ToracLibrary.Redis
         /// Grab the response and return it
         /// </summary>
         /// <param name="BinaryDecoder">BinaryDecoder if one</param>
+        /// <param name="StreamToRead">Stream to read</param>
         /// <returns>Response</returns>
-        internal object FetchResponse(Func<byte[], object> BinaryDecoder)
+        internal static object FetchResponse(Func<byte[], object> BinaryDecoder, BufferedStream StreamToRead)
         {
             //read the first byte so we can determine the response type
-            var ResponseTypeBeingReturned = (ResponseType)ResponseStream.ReadByte();
+            var ResponseTypeBeingReturned = (ResponseType)StreamToRead.ReadByte();
 
             //switch response type is this call that we just made? This depends on what we get back from the socket
             switch (ResponseTypeBeingReturned)
@@ -612,17 +651,17 @@ namespace ToracLibrary.Redis
                 case ResponseType.SimpleStrings:
                 case ResponseType.Erorrs:
                     {
-                        return ReadFirstLine();
+                        return ReadFirstLine(StreamToRead);
                     }
 
                 case ResponseType.Integers:
                     {
-                        return long.Parse(ReadFirstLine());
+                        return long.Parse(ReadFirstLine(StreamToRead));
                     }
 
                 case ResponseType.BulkStrings:
                     {
-                        var Length = int.Parse(ReadFirstLine());
+                        var Length = int.Parse(ReadFirstLine(StreamToRead));
 
                         if (Length == -1)
                         {
@@ -631,9 +670,9 @@ namespace ToracLibrary.Redis
 
                         var Buffer = new byte[Length];
 
-                        ResponseStream.Read(Buffer, 0, Length);
+                        StreamToRead.Read(Buffer, 0, Length);
 
-                        ReadFirstLine(); // read terminate
+                        ReadFirstLine(StreamToRead); // read terminate
 
                         if (BinaryDecoder == null)
                         {
@@ -645,7 +684,7 @@ namespace ToracLibrary.Redis
 
                 case ResponseType.Arrays:
                     {
-                        var Length = int.Parse(ReadFirstLine());
+                        var Length = int.Parse(ReadFirstLine(StreamToRead));
 
                         if (Length == 0)
                         {
@@ -661,7 +700,7 @@ namespace ToracLibrary.Redis
 
                         for (int i = 0; i < Length; i++)
                         {
-                            ArrayOfObjects.Add(FetchResponse(BinaryDecoder));
+                            ArrayOfObjects.Add(FetchResponse(BinaryDecoder, StreamToRead));
                         }
 
                         return ArrayOfObjects;
@@ -677,8 +716,9 @@ namespace ToracLibrary.Redis
         /// <summary>
         /// Read the first line of the response
         /// </summary>
+        /// <param name="StreamToRead">Stream to read</param>
         /// <returns>Response string</returns>
-        private string ReadFirstLine()
+        private static string ReadFirstLine(BufferedStream StreamToRead)
         {
             //response string to return
             var ResponseString = new StringBuilder();
@@ -690,7 +730,7 @@ namespace ToracLibrary.Redis
             var PreviousCharacter = default(char);
 
             //loop until we are done
-            while ((CurrentCharacter = ResponseStream.ReadByte()) != -1)
+            while ((CurrentCharacter = StreamToRead.ReadByte()) != -1)
             {
                 //grab the current character
                 var CharacterToChar = (char)CurrentCharacter;

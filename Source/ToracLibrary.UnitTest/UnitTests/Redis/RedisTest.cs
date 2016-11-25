@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using ToracLibrary.Redis;
+using ToracLibrary.Redis.PubSub;
+using ToracLibrary.Redis.Result;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.Core
@@ -24,8 +26,8 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Holds the reason for not running the redis tests. Flip this to a blank string to run all the tests. This way you don't have to modify each attribute
         /// </summary>
-        private const string TurnOnOffFlag = "RedisServerNotLoaded";
-        //private const string TurnOnOffFlag = "";
+        //private const string TurnOnOffFlag = "RedisServerNotLoaded";
+        private const string TurnOnOffFlag = "";
 
         #endregion
 
@@ -38,6 +40,15 @@ namespace ToracLibrary.UnitTest.Core
 
         #endregion
 
+        #region Channels To Subscribe To
+
+        /// <summary>
+        /// Channel name to test pub sub with
+        /// </summary>
+        private static string[] ChannelsToSubscribeTo = new[] { "TestChannel1", "TestChannel2" };
+
+        #endregion
+
         #region Framework Stuff
 
         /// <summary>
@@ -47,6 +58,16 @@ namespace ToracLibrary.UnitTest.Core
         private static RedisClient BuildClient()
         {
             return new RedisClient(RedisServerIpAddress);
+        }
+
+        /// <summary>
+        /// Pub sub client builder
+        /// </summary>
+        /// <param name="PubSubCallBack">Callback to use</param>
+        /// <returns>RedisPubSubClient</returns>
+        private static RedisPubSubClient BuildPubSubClient(Action<PubSubPublishResult> PubSubCallBack)
+        {
+            return new RedisPubSubClient(RedisServerIpAddress, ChannelsToSubscribeTo, PubSubCallBack);
         }
 
         /// <summary>
@@ -112,7 +133,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
 
                 //get the test value
-                var Response = Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
+                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
@@ -137,7 +158,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand("Set", Key, ValueToTest));
 
                 //get the test value
-                var Response = Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
+                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
@@ -162,7 +183,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
 
                 //get the test value
-                var Response = Convert.ToInt32(Redis.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}"))));
+                var Response = Convert.ToInt32(RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}"))));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
@@ -436,6 +457,44 @@ namespace ToracLibrary.UnitTest.Core
             }
         }
 
+        /// <summary>
+        /// pub sub 0 response test. The pub sub methods, will test the positive result
+        /// </summary>
+        [Fact(Skip = TurnOnOffFlag)]
+        public void RedisHigherLevelPublish()
+        {
+            using (var Redis = BuildClient())
+            {
+                //should be 0 because we have 0 listeners...the pub sub tests will test the positive result to ensure everything is working correctly.
+                Assert.Equal(0, Redis.Publish("testChannel", "Value123"));
+            }
+        }
+
+        /// <summary>
+        /// pub sub 0 response test. The pub sub methods, will test the positive result
+        /// </summary>
+        [Fact(Skip = TurnOnOffFlag)]
+        public void RedisHigherLevelSubscribe()
+        {
+            using (var Redis = BuildClient())
+            {
+                //test channel name
+                const string ChannelName = "TestChannel";
+
+                //the pub sub client uses this call so its tested with more scenario's in the pub sub unit test
+                var Result = Redis.Subscribe(ChannelName);
+
+                //test the command
+                Assert.Equal("subscribe", Result.Command);
+
+                //test the channel name
+                Assert.Equal(ChannelName, Result.ChannelSubscribedTo);
+
+                //2 is the result
+                Assert.Equal(SubscribeResult.SuccessfulCommand, Result.ResultOfCommand);
+            }
+        }
+
         #endregion
 
         #region Pipeline Test
@@ -499,7 +558,7 @@ namespace ToracLibrary.UnitTest.Core
 
         #endregion
 
-        #region Pipeline Test
+        #region Pipeline Transaction Test
 
         /// <summary>
         /// Transaction test that succeeds
@@ -585,6 +644,59 @@ namespace ToracLibrary.UnitTest.Core
 
                     //go test the value
                     Assert.Null(Redis.IntGet(KeyToUseForDiscard));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Pub Sub Test
+
+        /// <summary>
+        /// Pub Sub Test
+        /// </summary>
+        [Fact(Skip = TurnOnOffFlag)]
+        public void PubSubTest()
+        {
+            //test values
+            var FirstChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo.ElementAt(0), "Test123");
+            var SecondChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo.ElementAt(1), "Test234");
+
+            //holds the values of the result of the publish
+            var ResultsofCallBack = new List<PubSubPublishResult>();
+
+            //callback to test with
+            Action<PubSubPublishResult> CallBack = (result) =>
+            {
+                //add it to the list
+                ResultsofCallBack.Add(result);
+            };
+
+            //create the client to call the publish
+            using (var RedisCallPublish = BuildClient())
+            {
+                //create the pub sub
+                using (var RedisPubSub = BuildPubSubClient(CallBack))
+                {
+                    //now let's call publish on the 1st channel (test the publish here so we can get a real result)
+                    Assert.Equal(1, RedisCallPublish.Publish(FirstChannelResult.Channel, FirstChannelResult.Message));
+
+                    //now let's call publish on the 2nd channel (test the publish here so we can get a real result)
+                    Assert.Equal(1, RedisCallPublish.Publish(SecondChannelResult.Channel, SecondChannelResult.Message));
+
+                    //wait 3 seconds to let everything catch up
+                    SpinWaitForXSeconds(3);
+
+                    //now test the results
+                    Assert.Equal(2, ResultsofCallBack.Count);
+
+                    //now the individual results for each channel
+
+                    //1st channel
+                    Assert.Equal(FirstChannelResult.Channel, ResultsofCallBack[0].Channel);
+
+                    //2nd channel
+                    Assert.Equal(SecondChannelResult.Channel, ResultsofCallBack[1].Channel);
                 }
             }
         }
