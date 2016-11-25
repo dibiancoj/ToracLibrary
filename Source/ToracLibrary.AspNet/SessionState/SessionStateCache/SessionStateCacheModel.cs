@@ -11,7 +11,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
     /// Holds the internal model that goes into session which contains the necessary data to store the object in session with an expiration
     /// </summary>
     /// <typeparam name="T">Type of the object stored in the session cache</typeparam>
-    internal class SessionStateCacheModel<T> where T : class
+    internal class SessionStateCacheModel<T>
     {
 
         #region Constructor

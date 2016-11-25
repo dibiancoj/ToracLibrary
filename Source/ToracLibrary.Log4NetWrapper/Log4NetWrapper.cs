@@ -97,6 +97,49 @@ namespace ToracLibrary.Log4NetAPI
             ***a pretty good pattern i used      <param name="ConversionPattern" value="%newline%-%level - %d{yyyy-MM-dd hh:mm:ss}%newline     SessionId = [%aspnet-request{ASP.NET_SessionId}] %newline     %message %newline" />
         */
 
+        //---------------------------------------------------------------
+        //if you want text file log and email log
+        /*
+         <log4net>
+            <root>
+              <appender-ref ref="LogFileAppender" />
+              <appender-ref ref="SmtpAppender" />
+            </root>
+    
+            <appender name = "SmtpAppender" type="log4net.Appender.SmtpAppender">
+              <to value = "" />
+              < from value= "MYMSKCC_LocalHost@mskcc.org" />
+ 
+               < subject value="Local Host Portal Error" />
+              <smtpHost value = "mskrelay.mskcc.org" />
+              < bufferSize value="512" />
+              <lossy value = "true" />
+              < threshold value="OFF" />
+              <evaluator type = "log4net.Core.LevelEvaluator" >
+                < threshold value="OFF" />
+              </evaluator>
+              <layout type = "log4net.Layout.PatternLayout" >
+                < conversionPattern value="%newline%-%level - %d{yyyy-MM-dd hh:mm:ss tt}%newline     SessionId: [%aspnet-request{ASP.NET_SessionId}] %newline     ProxyCookie: %aspnet-request{_ga}%newline     IPAddress: %aspnet-request{REMOTE_ADDR}%newline     UserAgent: %aspnet-request{HTTP_USER_AGENT}%newline     ProxyForward: %aspnet-request{HTTP_X_FORWARDED_FOR}%newline     %message %newline %newline    " />
+              </layout>
+            </appender>
+    
+            <appender name = "LogFileAppender" type="log4net.Appender.RollingFileAppender">
+              <threshold value = "DEBUG" />
+              < file type="log4net.Util.PatternString" value="%property{log4netFilePath}/log.txt" />
+              <param name = "AppendToFile" value="true" />
+              <rollingStyle value = "Date" />
+              < datePattern value="yyyyMMdd" />
+              <!--<rollingStyle value = "Size" />
+              < maxSizeRollBackups value="10" />
+              <maximumFileSize value = "1MB" /> -->
+              < staticLogFileName value="true" />
+              <layout type = "log4net.Layout.PatternLayout" >
+                < param name="ConversionPattern" value="%newline%-%level - %d{yyyy-MM-dd hh:mm:ss tt}%newline     SessionId: [%aspnet-request{ASP.NET_SessionId}] %newline     ProxyCookie: %aspnet-request{_ga}%newline     IPAddress: %aspnet-request{REMOTE_ADDR}%newline     UserAgent: %aspnet-request{HTTP_USER_AGENT}%newline     ProxyForward: %aspnet-request{HTTP_X_FORWARDED_FOR}%newline     %message %newline %newline    " />
+              </layout>
+            </appender>
+          </log4net>
+        */
+
         #endregion
 
         #region Static Constructor

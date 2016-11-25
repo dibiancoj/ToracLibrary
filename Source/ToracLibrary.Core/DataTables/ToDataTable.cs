@@ -85,20 +85,20 @@ namespace ToracLibrary.Core.DataTableHelpers
             }
 
             //now we need to go through each object and add the row
-            foreach (T thisObject in ObjectsToBuildDataTableOffOf)
+            foreach (T ObjectToBuildRowWith in ObjectsToBuildDataTableOffOf)
             {
                 //let's create the new data row
-                DataRow thisDataRow = DataTableToBuild.NewRow();
+                DataRow NewDataRow = DataTableToBuild.NewRow();
 
                 //let's loop through all the properties and set the column
                 foreach (PropertyInfo PropertyToSet in PropertiesToBuild)
                 {
                     //grab the value and set it...if its null we set the value to Db Null
-                    thisDataRow[PropertyToSet.Name] = PropertyCachedGetters[PropertyToSet.Name](thisObject) ?? DBNull.Value;
+                    NewDataRow[PropertyToSet.Name] = PropertyCachedGetters[PropertyToSet.Name](ObjectToBuildRowWith) ?? DBNull.Value;
                 }
 
                 //let's add the data row to the data table
-                DataTableToBuild.Rows.Add(thisDataRow);
+                DataTableToBuild.Rows.Add(NewDataRow);
             }
 
             //return the data table

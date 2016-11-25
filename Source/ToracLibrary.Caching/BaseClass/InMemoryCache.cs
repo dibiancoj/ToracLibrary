@@ -29,7 +29,6 @@ namespace ToracLibrary.Caching
         public InMemoryCache(string KeyForCache, Func<T> GetFromDataSource)
             : this(KeyForCache, GetFromDataSource, new TimeSpan?())
         {
-
         }
 
         /// <summary>
