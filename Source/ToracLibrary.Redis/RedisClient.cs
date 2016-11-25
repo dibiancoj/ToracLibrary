@@ -25,7 +25,7 @@ namespace ToracLibrary.Redis
      */
 
     /// <summary>
-    /// Raw Redis socket client. Incase you don't want to use the stackexchange or stackoverflow api's. Those api's provide more functionality. This is more of a r and d class
+    /// Raw Redis socket client. Incase you don't want to use the stackexchange or stackoverflow api's. Those api's provide more functionality. This is more of a research and design class event though everything is working
     /// </summary>
     /// <remarks>This uses raw sockets</remarks>
     public class RedisClient : IDisposable

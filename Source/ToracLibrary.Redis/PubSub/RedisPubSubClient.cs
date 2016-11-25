@@ -143,11 +143,26 @@ namespace ToracLibrary.Redis.PubSub
                 var RawResult = ((IList<object>)FetchResponse(null, StreamToRead));
 
                 //go invoke the callback
-                PassedThroughState.CallBack(new PubSubPublishResult(ByteArrayToString((byte[])RawResult[(int)PubSubResponse.ChannelName]), ByteArrayToString((byte[])RawResult[(int)PubSubResponse.MessageResult])));
+                PassedThroughState.CallBack(new PubSubPublishResult(ResultToString(RawResult, PubSubResponse.ChannelName), ResultToString(RawResult, PubSubResponse.MessageResult)));
             }
 
             //we need to create the connection so we can get the next publish.
             InitReceiveCallBack(PassedThroughState.SocketConnection, PassedThroughState.BufferSize, PassedThroughState.CallBack);
+        }
+
+        /// <summary>
+        /// Convert the raw response to a string from the result which is an array of objects
+        /// </summary>
+        /// <param name="RawResult">Raw response which contains the response for all fields</param>
+        /// <param name="ResponseTypeToFetch">Field to grab and return</param>
+        /// <returns>The result of the fetching of the value</returns>
+        private static string ResultToString(IList<object> RawResult, PubSubResponse ResponseTypeToFetch)
+        {
+            //grab the raw response
+            byte[] SpecificResultIndex = (byte[])RawResult[(int)ResponseTypeToFetch];
+
+            //convert the byte array to a string and return it
+            return ByteArrayToString(SpecificResultIndex);
         }
 
         #endregion

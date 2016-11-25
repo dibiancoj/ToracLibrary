@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -26,8 +27,8 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Holds the reason for not running the redis tests. Flip this to a blank string to run all the tests. This way you don't have to modify each attribute
         /// </summary>
-        //private const string TurnOnOffFlag = "RedisServerNotLoaded";
-        private const string TurnOnOffFlag = "";
+        private const string TurnOnOffFlag = "RedisServerNotLoaded";
+        //private const string TurnOnOffFlag = "";
 
         #endregion
 
@@ -659,17 +660,17 @@ namespace ToracLibrary.UnitTest.Core
         public void PubSubTest()
         {
             //test values
-            var FirstChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo.ElementAt(0), "Test123");
-            var SecondChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo.ElementAt(1), "Test234");
+            var ExpectedFirstChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo[0], "Test123");
+            var ExpectedSecondChannelResult = new PubSubPublishResult(ChannelsToSubscribeTo[1], "Test234");
 
             //holds the values of the result of the publish
-            var ResultsofCallBack = new List<PubSubPublishResult>();
+            var ResultsOfCallBack = new ConcurrentBag<PubSubPublishResult>();
 
             //callback to test with
             Action<PubSubPublishResult> CallBack = (result) =>
             {
                 //add it to the list
-                ResultsofCallBack.Add(result);
+                ResultsOfCallBack.Add(result);
             };
 
             //create the client to call the publish
@@ -679,24 +680,34 @@ namespace ToracLibrary.UnitTest.Core
                 using (var RedisPubSub = BuildPubSubClient(CallBack))
                 {
                     //now let's call publish on the 1st channel (test the publish here so we can get a real result)
-                    Assert.Equal(1, RedisCallPublish.Publish(FirstChannelResult.Channel, FirstChannelResult.Message));
+                    Assert.Equal(1, RedisCallPublish.Publish(ExpectedFirstChannelResult.Channel, ExpectedFirstChannelResult.Message));
 
                     //now let's call publish on the 2nd channel (test the publish here so we can get a real result)
-                    Assert.Equal(1, RedisCallPublish.Publish(SecondChannelResult.Channel, SecondChannelResult.Message));
+                    Assert.Equal(1, RedisCallPublish.Publish(ExpectedSecondChannelResult.Channel, ExpectedSecondChannelResult.Message));
 
-                    //wait 3 seconds to let everything catch up
-                    SpinWaitForXSeconds(3);
+                    //wait 3 seconds to let everything catch up because this is an async operation
+                    SpinWaitForXSeconds(2);
 
                     //now test the results
-                    Assert.Equal(2, ResultsofCallBack.Count);
+                    Assert.Equal(2, ResultsOfCallBack.Count);
 
-                    //now the individual results for each channel
+                    //validate both the channel and message
+                    Action<PubSubPublishResult, string, ConcurrentBag<PubSubPublishResult>> ValidateResults = (expected, channelNameToTest, rawResults) =>
+                     {
+                         //make sure we can find the answer in the raw results
+                         var foundResult = rawResults.FirstOrDefault(x => x.Channel == channelNameToTest);
 
-                    //1st channel
-                    Assert.Equal(FirstChannelResult.Channel, ResultsofCallBack[0].Channel);
+                         //make sure we found it
+                         Assert.False(foundResult == null);
 
-                    //2nd channel
-                    Assert.Equal(SecondChannelResult.Channel, ResultsofCallBack[1].Channel);
+                         //test the values now
+                         Assert.Equal(expected.Channel, foundResult.Channel);
+                         Assert.Equal(expected.Message, foundResult.Message);
+                     };
+
+                    //validate each of the results we expect
+                    ValidateResults(ExpectedFirstChannelResult, ExpectedFirstChannelResult.Channel, ResultsOfCallBack);
+                    ValidateResults(ExpectedSecondChannelResult, ExpectedSecondChannelResult.Channel, ResultsOfCallBack);
                 }
             }
         }
