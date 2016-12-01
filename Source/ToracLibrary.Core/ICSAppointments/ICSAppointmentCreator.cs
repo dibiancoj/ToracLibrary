@@ -102,11 +102,20 @@ namespace ToracLibrary.Core.ICSAppointments
                 //"DTSTART;Value=Date:TheFormattedDateNow"
                 //"DTEND;Value=Date:TheFormattedDateNow"
 
-                //add the start full date appointment
-                ICSWriter.Append(StartDateLabel).Append(FullDateSeperator).Append(FullDateFormat).Append(GetFormattedDate(StartDateTimeOfAppointment.Date)).Append(Environment.NewLine);
+                Action<string, DateTime> AddDateField = (string LabelToUse, DateTime DateToUse) =>
+                  {
+                      ICSWriter.Append(LabelToUse);
+                      ICSWriter.Append(FullDateSeperator);
+                      ICSWriter.Append(FullDateFormat);
+                      ICSWriter.Append(GetFormattedDate(DateToUse.Date));
+                      ICSWriter.Append(Environment.NewLine);
+                  };
 
-                //add the end date now
-                ICSWriter.Append(EndDateLabel).Append(FullDateSeperator).Append(FullDateFormat).Append(GetFormattedDate(EndDateTimeOfAppointment.Date)).Append(Environment.NewLine);
+                //add the start date
+                AddDateField(StartDateLabel, StartDateTimeOfAppointment);
+
+                //add the end date
+                AddDateField(EndDateLabel, EndDateTimeOfAppointment);
             }
             else
             {
@@ -117,11 +126,19 @@ namespace ToracLibrary.Core.ICSAppointments
                 //date time seperator (should go after the label)
                 const string SpecificDateTimeSeperator = ":";
 
-                //add the start date time value in the format we need
-                ICSWriter.Append(StartDateLabel).Append(SpecificDateTimeSeperator).Append(GetFormattedDateTime(StartDateTimeOfAppointment)).Append(Environment.NewLine);
+                Action<string, DateTime> AddDateField = (string LabelToUse, DateTime DateToUse) =>
+                {
+                    ICSWriter.Append(LabelToUse);
+                    ICSWriter.Append(SpecificDateTimeSeperator);
+                    ICSWriter.Append(GetFormattedDateTime(DateToUse));
+                    ICSWriter.Append(Environment.NewLine);
+                };
 
-                //add the end date time value in the format we need
-                ICSWriter.Append(EndDateLabel).Append(SpecificDateTimeSeperator).Append(GetFormattedDateTime(EndDateTimeOfAppointment)).Append(Environment.NewLine);
+                //add the start date
+                AddDateField(StartDateLabel, StartDateTimeOfAppointment);
+
+                //add the end date
+                AddDateField(EndDateLabel, EndDateTimeOfAppointment);
             }
 
             //add the summary
