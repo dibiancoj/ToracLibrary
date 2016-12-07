@@ -60,7 +60,7 @@ namespace ToracLibrary.HtmlToPdfConverterTuesPechkin
         /// <param name="MarginLeft">Margin Left</param>
         /// <param name="UsePrintMediaCssSelectors">When running do you want to run under the css 3 print media selectors</param>
         /// <returns>pdf file byte array</returns>
-        private static byte[] ConvertAUrlToPdf(IConverter ConverterToUse,
+        public static byte[] ConvertAUrlToPdf(IConverter ConverterToUse,
                                               bool ProduceTableOfContentsOutline,
                                               System.Drawing.Printing.PaperKind PaperSize,
                                               IWhatToRunParameter WhatToRun,
