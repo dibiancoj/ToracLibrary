@@ -13,7 +13,7 @@ namespace ToracLibrary.HtmlToPdfConverterTuesPechkin
     /// <summary>
     /// Converts html to a pdf. Renders it and saves it. 
     /// </summary>
-    public class HtmlToPdfConverter
+    public static class HtmlToPdfConverter
     {
 
         /*
