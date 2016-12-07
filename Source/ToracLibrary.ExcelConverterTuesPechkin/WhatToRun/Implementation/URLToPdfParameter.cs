@@ -19,10 +19,10 @@ namespace ToracLibrary.HtmlToPdfConverterTuesPechkin.WhatToRun
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="URLToConvert">url to convert</param>
-        public URLToPdfParameter(string URLToConvert)
+        /// <param name="URLToConvertToSet">url to convert</param>
+        public URLToPdfParameter(string URLToConvertToSet)
         {
-            URLToConvert = UrlToConvertToPdf;
+            UrlToConvertToPdf = URLToConvertToSet;
         }
 
         #endregion
