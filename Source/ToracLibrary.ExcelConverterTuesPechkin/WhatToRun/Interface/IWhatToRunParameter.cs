@@ -11,7 +11,7 @@ namespace ToracLibrary.HtmlToPdfConverterTuesPechkin.WhatToRun
     /// <summary>
     /// Interface so we can pass in either html or a url and run it
     /// </summary>
-    internal interface IWhatToRunParameter
+    public interface IWhatToRunParameter
     {
 
         /// <summary>
