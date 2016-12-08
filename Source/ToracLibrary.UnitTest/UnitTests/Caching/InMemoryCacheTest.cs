@@ -178,6 +178,46 @@ namespace ToracLibrary.UnitTest.Caching
         }
 
         /// <summary>
+        /// Test the in memory cache
+        /// </summary>
+        [Fact]
+        public void InMemoryCacheTestWithNoDependencyInjectionAndFuncTest1()
+        {
+            //cache key
+            const string CacheKeyToUse = "InMemoryCacheTestWithNoDependencyInjectionAndFuncTest1";
+
+            //cache instance to use
+            var CacheFactory = new InMemoryCache<IEnumerable<DummyObject>>(CacheKeyToUse, () => DummyObjectCacheNoDI.BuildCacheDataSource());
+
+            //func to limit just the data in this cache
+            Func<KeyValuePair<string, object>, bool> OnlyThisCache = x => x.Key == CacheKeyToUse;
+
+            //we will make sure nothing is in the cache
+            Assert.Equal(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+
+            //let's try to grab the first item...it should go get the item from the cache and return it
+            Assert.Equal(DummyObjectCacheNoDI.BuildCacheDataSource().First().Id, CacheFactory.GetCacheItem().ElementAt(0).Id);
+
+            //just make sure we have that 1 item in the cache
+            Assert.Equal(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+
+            //let's try to clear the cache now
+            CacheFactory.RemoveCacheItem();
+
+            //make sure we have 0 records
+            Assert.Equal(0, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+
+            //let's test the refresh now (we currently don't have an item in the cache, so it should handle if it's not there!)
+            CacheFactory.RefreshCacheItem();
+
+            //that method should put the item back in... (1 element, because its only 1 cache we are using)
+            Assert.Equal(1, InMemoryCache.GetAllItemsInCacheLazy().Count(OnlyThisCache));
+
+            //let's just make sure we have 2 elements in the array
+            Assert.Equal(DummyObjectCacheNoDI.BuildCacheDataSource().Count(), CacheFactory.GetCacheItem().Count());
+        }
+
+        /// <summary>
         /// Test the in memory cache using the different sytanx apporac
         /// </summary>
         [Fact]
