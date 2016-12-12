@@ -77,7 +77,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
         protected internal Func<ToracDIContainer, object> CreateObjectWithThisConstructor { get; protected set; }
 
         /// <summary>
-        /// Build the new object with the constructor parameters specifiedf
+        /// Build the new object with the constructor parameters specified
         /// </summary>
         protected internal IConstructorParameter[] CreateObjectWithConstructorParameters { get; protected set; }
 
@@ -121,6 +121,13 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             {
                 //use the specific parameters the user specified
                 return CreateObjectWithConstructorParameters;
+            }
+
+            //see if we have concrete parameters so we don't have to build an a new object (was faster and used less memory in dot net benchmark)
+            if (!ConcreteConstructorParameters.AnyWithNullCheck())
+            {
+                //there are not objects so we pass back a blank array
+                return Array.Empty<IConstructorParameter>();
             }
 
             //we are going to create the constructor parameters to resolve
