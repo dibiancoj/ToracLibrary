@@ -276,19 +276,9 @@ namespace ToracLibrary.DIContainer
                 throw new ArgumentOutOfRangeException("Factory Name Should Not Be Filled In This Part Of The Method");
             }
 
-            //go start the query and try to grab the specific type we are looking for
-            var FoundRegisteredObjectsQuery = RegisteredObjectsInContainer.Where(x => x.Key.Item2 == TypeToResolve).AsQueryable();
-
-            //do we have a factory name we want to search with?
-            //if (!string.IsNullOrEmpty(FactoryName))
-            //{
-            //    //add to the where clause
-            //    FoundRegisteredObjectsQuery = FoundRegisteredObjectsQuery.Where(x => x.Key.Item1 == FactoryName);
-            //}
-
             //now go grab the results
             //why are we taking 2...we don't want to run through every object in the container. We really just care if there are 0 items...or if there are more then 2 items
-            var FoundRegisteredObjectsResults = FoundRegisteredObjectsQuery.Take(2).ToArray();
+            var FoundRegisteredObjectsResults = RegisteredObjectsInContainer.Where(x => x.Key.Item2 == TypeToResolve).Take(2).ToArray();
 
             //did we find any items? (decided to use length since it's a property rather then Any() which will have to create an enumerator)
             if (FoundRegisteredObjectsResults.Length == 0)
