@@ -85,13 +85,13 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// </summary>
         private void Dispose(bool disposing)
         {
-            if (!this.Disposed)
-            {
-                if (disposing)
-                {
-                    //transient doesn't have anything to dispose, it just needs to implement to keep the pattern
-                }
-            }
+            //if (!this.Disposed)
+            //{
+            //    if (disposing)
+            //    {
+            //        //transient doesn't have anything to dispose, it just needs to implement to keep the pattern
+            //    }
+            //}
             this.Disposed = true;
         }
 
