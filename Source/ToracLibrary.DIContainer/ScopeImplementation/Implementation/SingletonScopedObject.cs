@@ -58,7 +58,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
             //of the expression tree compile is too hight.
 
             //do we need to create an instance? This handles the derived per thread scoped object
-            if (!NeedToCreateObject(Instance))
+            if (Instance != null)
             {
                 //we have a valid instance, return it
                 return Instance;
@@ -69,21 +69,6 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
 
             //now return the object we created. Don't return the instance which could be a derived typed
             return Instance;
-        }
-
-        #endregion
-
-        #region Protected Virtual Methods
-
-        /// <summary>
-        /// Determines if we need to create a new object. 
-        /// </summary>
-        /// <param name="ObjectFound">Object found in the singleton property</param>
-        /// <returns>Yes if we need to create a new object</returns>
-        private bool NeedToCreateObject(object ObjectFound)
-        {
-            //this is the singleton implementation...this is just a null check
-            return ObjectFound == null;
         }
 
         #endregion
