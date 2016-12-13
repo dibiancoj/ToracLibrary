@@ -131,7 +131,7 @@ namespace ToracLibrary.DIContainer.RegisteredObjects
             }
 
             //we are going to create the constructor parameters to resolve
-            return ConcreteConstructorParameters.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType)).ToArray();
+            return ConcreteConstructorParameters.Select(x => new ResolveTypeNonGenericCtorParameter(x.ParameterType));
         }
 
         /// <summary>
