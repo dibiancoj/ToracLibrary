@@ -44,10 +44,10 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <summary>
         /// resolves an instance of this type
         /// </summary>
+        /// <param name="Container">Container holding the registerd object</param>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
-        /// <param name="ConstructorParameters">Constructor Parameters</param>
         /// <returns>The resolved instance</returns>
-        public object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        public object ResolveInstance(ToracDIContainer Container, RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //use the activator and go create the instance
             //return Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
@@ -64,7 +64,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
             //transients will benefit from the expression tree. singleton will only create it once, so singleton's will use the regular activator
 
             //we have the expression, so let's go invoke it and return the results
-            return CachedActivator.Invoke(ConstructorParameters);
+            return CachedActivator.Invoke(RegisteredObjectToBuild.ResolveConstructorParametersLazy(Container).ToArray());
         }
 
         #endregion

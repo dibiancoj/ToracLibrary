@@ -19,10 +19,10 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <summary>
         /// Creates the actual instance when we are ready to resolve an object
         /// </summary>
+        /// <param name="Container">Container holding the registerd object</param>
         /// <param name="RegisteredObjectToBuild">Registered object to build</param>
-        /// <param name="ConstructorParameters">The parameters to pass into the constructor</param>
         /// <returns>The instance of the resolved object</returns>
-        object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters);
+        object ResolveInstance(ToracDIContainer Container, RegisteredUnTypedObject RegisteredObjectToBuild);
 
         #endregion
 

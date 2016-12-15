@@ -227,7 +227,7 @@ namespace ToracLibrary.DIContainer
             if (RegisteredObjectToBuild.CreateObjectWithThisConstructor == null)
             {
                 //they never passed in the func, so go create an instance
-                return RegisteredObjectToBuild.ScopeImplementation.ResolveInstance(RegisteredObjectToBuild, RegisteredObjectToBuild.ResolveConstructorParametersLazy(this).ToArray());
+                return RegisteredObjectToBuild.ScopeImplementation.ResolveInstance(this, RegisteredObjectToBuild);
             }
 
             //we have the func that creates the object, go invoke it and return the result

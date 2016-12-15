@@ -40,10 +40,10 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <summary>
         /// resolves an instance of this type
         /// </summary>
+        /// <param name="Container">Container holding the registerd object</param>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
-        /// <param name="ConstructorParameters">Constructor Parameters</param>
         /// <returns>The resolved instance</returns>
-        public object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        public object ResolveInstance(ToracDIContainer Container, RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //**so expression tree is slower if you are just running resolve a handful of times. You would need to get into the 10,000 resolves before it starts getting faster.
             //**since an asp.net mvc site will handle request after request the pool won't get recycled before 10,000. So we are going to build it for scalability with expression trees
@@ -65,7 +65,7 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
             }
 
             //go build the instance and store it
-            Instance = Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, ConstructorParameters);
+            Instance = Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, RegisteredObjectToBuild.ResolveConstructorParametersLazy(Container).ToArray());
 
             //now return the object we created. Don't return the instance which could be a derived typed
             return Instance;

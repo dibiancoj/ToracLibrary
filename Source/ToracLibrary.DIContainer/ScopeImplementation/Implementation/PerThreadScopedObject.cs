@@ -56,16 +56,16 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
         /// <summary>
         /// resolves an instance of this type
         /// </summary>
+        /// <param name="Container">Container holding the registerd object</param>
         /// <param name="RegisteredObjectToBuild">Registered Object To Get The Instance Of</param>
-        /// <param name="ConstructorParameters">Constructor Parameters</param>
         /// <returns>The resolved instance</returns>
-        public object ResolveInstance(RegisteredUnTypedObject RegisteredObjectToBuild, params object[] ConstructorParameters)
+        public object ResolveInstance(ToracDIContainer Container, RegisteredUnTypedObject RegisteredObjectToBuild)
         {
             //if we have a valid object and its still alive then return it
             if (Instance == null || !Instance.IsAlive)
             {
                 //at this point we don't have a valid object, we need to create it and put it in the property
-                Instance = new WeakReference(CachedActivator.Invoke(ConstructorParameters));
+                Instance = new WeakReference(CachedActivator.Invoke(RegisteredObjectToBuild.ResolveConstructorParametersLazy(Container).ToArray()));
             }
 
             //now just return the instance's target.
