@@ -32,7 +32,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         /// <summary>
         /// Session State Container
         /// </summary>
-        public BaseSessionStateWrapper SessionStateWrapperContainer { get; }
+        private BaseSessionStateWrapper SessionStateWrapperContainer { get; }
 
         #endregion
 
