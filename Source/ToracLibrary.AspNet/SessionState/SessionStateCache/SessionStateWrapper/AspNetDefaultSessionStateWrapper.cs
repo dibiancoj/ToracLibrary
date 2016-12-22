@@ -32,7 +32,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
         /// <summary>
         /// Holds the session state container
         /// </summary>
-        public HttpSessionState SessionStateContainer { get; }
+        private HttpSessionState SessionStateContainer { get; }
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
         internal override SessionStateCacheModel<T> GetFromCache<T>(string SessionKey)
         {
             //try to find the object if we have an object in session
-            return (SessionStateContainer[SessionKey] as SessionStateCacheModel<T>);
+            return SessionStateContainer[SessionKey] as SessionStateCacheModel<T>;
         }
 
         /// <summary>
