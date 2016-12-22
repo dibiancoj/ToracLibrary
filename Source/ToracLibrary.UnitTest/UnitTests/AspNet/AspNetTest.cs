@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Web;
 using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
 using ToracLibrary.AspNet.SessionState;
-using ToracLibrary.AspNet.SessionState.Cache;
 using ToracLibrary.AspNet.URLHelperMethods;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
@@ -100,30 +99,6 @@ namespace ToracLibrary.UnitTest.AspNet.AspNet
             Assert.Equal(CookieDomainNameToUse, BuiltCookie.Domain);
             Assert.Equal(ExportCurrentSessionState.SessionStateCookieName, BuiltCookie.Name);
             Assert.Equal(SessionIdToTest, BuiltCookie.Value);
-        }
-
-        #endregion
-
-        #region Session State Cache Model
-
-        [Fact]
-        public void SessionStateCacheModelIsExpiredTest1()
-        {
-            //values to test with. Can't pass dates in attributes. Item1 = Expiration Date. Item 2 = Expected Results
-            var ValuesToTest = new Tuple<DateTime?, bool>[]
-            {
-                new Tuple<DateTime?, bool>(null, false),
-                new Tuple<DateTime?, bool>(DateTime.MinValue, true),
-                new Tuple<DateTime?, bool>(DateTime.Now.AddDays(-1), true ),
-                new Tuple<DateTime?, bool>(DateTime.Now.AddDays(1), false)
-            };
-
-            //check the values now
-            foreach(var TestValue in ValuesToTest)
-            {
-                //create the model to test with
-                Assert.Equal(TestValue.Item2, new SessionStateCacheModel<string>(TestValue.Item1, "TestSessionStateCache").CacheIsExpired());
-            }
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.AspNet.SessionState.SessionStateCache.SessionStateWrapper;
 
 namespace ToracLibrary.AspNet.SessionState.Cache
 {
@@ -13,6 +14,28 @@ namespace ToracLibrary.AspNet.SessionState.Cache
     public class SessionStateCache
     {
 
+        #region Constructor
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="SessionStateWrapperContainerToSet">Session State Container. For any web app Please Pass In new AspNetDefaultSessionStateWrapper()</param>
+        public SessionStateCache(BaseSessionStateWrapper SessionStateWrapperContainerToSet)
+        {
+            SessionStateWrapperContainer = SessionStateWrapperContainerToSet;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Session State Container
+        /// </summary>
+        public BaseSessionStateWrapper SessionStateWrapperContainer { get; }
+
+        #endregion
+
         #region Public Methods
 
         ///<summary>
@@ -22,7 +45,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         /// <param name="SessionKey">session key to retrieve it by</param>
         /// <param name="ReloadDataFromSource">if not found in session, how do we reload it</param>
         /// <returns>Item from either session or the data data source</returns>
-        public static T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource) where T : class
+        public T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource) where T : class
         {
             //use the overload
             return GetFromSessionCache<T>(SessionKey, ReloadDataFromSource, null);
@@ -36,19 +59,19 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         /// <param name="ReloadDataFromSource">if not found in session, how do we reload it</param>
         /// <param name="CacheExpirationInSeconds">How long before the cache expires in seconds</param>
         /// <returns>Item from either session or the data data source</returns>
-        public static T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource, int? CacheExpirationInSeconds) where T : class
+        public T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource, int? CacheExpirationInSeconds) where T : class
         {
             //try to get it from session
-            var TryToGetFromSession = System.Web.HttpContext.Current.Session[SessionKey] as SessionStateCacheModel<T>;
+            var TryToGetFromSession = SessionStateWrapperContainer.GetFromCache<T>(SessionKey);
 
             //do we have it in session? Or is it expired?
             if (TryToGetFromSession == null || TryToGetFromSession.CacheIsExpired())
             {
                 //don't have it in session. grab from source
-                TryToGetFromSession = new SessionStateCacheModel<T>(CacheExpirationInSeconds, ReloadDataFromSource());
+                TryToGetFromSession =  new SessionStateCacheModel<T>(CacheExpirationInSeconds, ReloadDataFromSource());
 
                 //stick it in session
-                System.Web.HttpContext.Current.Session[SessionKey] = TryToGetFromSession;
+                SessionStateWrapperContainer.SetSessionCache(SessionKey, TryToGetFromSession);
             }
 
             //return just whatever the object they are looking for
