@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.SessionState;
 
 namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
@@ -17,12 +18,30 @@ namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Constructor. This overload uses System.Web.HttpContext.Current.Session
         /// </summary>
         public AspNetDefaultSessionStateWrapper()
+            : this(new HttpSessionStateWrapper(HttpContext.Current.Session))
         {
-            //not going to pass this in for now. Set the session state container
-            SessionStateContainer = System.Web.HttpContext.Current.Session;
+        }
+
+        /// <summary>
+        /// Constructor. This overload uses whatever session the user passes in
+        /// </summary>
+        /// <param name="SessionStateContainerToSet">Session state to use</param>
+        public AspNetDefaultSessionStateWrapper(HttpSessionState SessionStateContainerToSet)
+             : this(new HttpSessionStateWrapper(HttpContext.Current.Session))
+        {
+        }
+
+        /// <summary>
+        /// Constructor. This overload uses whatever session state is passed in
+        /// </summary>
+        /// <param name="SessionStateContainerToSet">Session state to use</param>
+        public AspNetDefaultSessionStateWrapper(HttpSessionStateBase SessionStateContainerToSet)
+        {
+            //use whatever the user passed in
+            SessionStateContainer = SessionStateContainerToSet;
         }
 
         #endregion
@@ -32,7 +51,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
         /// <summary>
         /// Holds the session state container
         /// </summary>
-        private HttpSessionState SessionStateContainer { get; }
+        private HttpSessionStateBase SessionStateContainer { get; }
 
         #endregion
 
