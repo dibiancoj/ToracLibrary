@@ -75,8 +75,8 @@
     <Compile Include="ExpressionTrees\API\ReMappers\IQueryableMemberInitMerger.cs" />
     <Compile Include="ExpressionTrees\API\ReMappers\ParameterExpressionFinder.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
-    <Compile Include="ExtensionMethods\ByteArrays\ByteArrayExtensionMethods.cs" />
-    <Compile Include="ExtensionMethods\ExpressionTress\ExpressionTreeExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\ByteArraysExtensions\ByteArrayExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\ExpressionTressExtensions\ExpressionTreeExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IQueryableExtensions\IQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
