@@ -186,7 +186,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <remarks>.Net Framework Has For Each Only On List (Ext. Method). This is for anything of IEnumerable. there is a generic constraint because if you pass in a list of string or int's, it won't change it because its a value type</remarks>
         public static void ForEach<T>(this IEnumerable<T> CollectionToProcess, Action<T> MethodToRunOnEachElement) where T : class
         {
-            //there is a generic constraint because if you pass in a list of string or int's, it won't change it because its a value type
+            //there is a generic constraint because if you pass in a list of int's, it won't change it because its a value type
 
             //example on how to call this
             //lst.ForEach(x => x.Id = -1); (lst is IEnumerable of a model class)
