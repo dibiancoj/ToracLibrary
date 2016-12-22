@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using ToracLibrary.AspNet.SessionState.Cache;
-using ToracLibrary.AspNet.SessionState.SessionStateCache.SessionStateWrapper;
+using ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation;
 using ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;

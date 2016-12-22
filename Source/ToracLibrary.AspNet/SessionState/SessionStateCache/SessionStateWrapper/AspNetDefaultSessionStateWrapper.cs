@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.SessionState;
-using ToracLibrary.AspNet.SessionState.Cache;
 
-namespace ToracLibrary.AspNet.SessionState.SessionStateCache.SessionStateWrapper
+namespace ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation
 {
 
     /// <summary>

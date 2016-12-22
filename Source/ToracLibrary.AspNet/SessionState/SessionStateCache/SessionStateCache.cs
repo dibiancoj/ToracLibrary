@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.AspNet.SessionState.SessionStateCache.SessionStateWrapper;
+using ToracLibrary.AspNet.SessionState.Cache.SessionStateImplementation;
 
 namespace ToracLibrary.AspNet.SessionState.Cache
 {
