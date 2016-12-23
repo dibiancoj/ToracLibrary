@@ -48,7 +48,7 @@
     <Compile Include="SessionState\SessionStateCache\SessionStateCache.cs" />
     <Compile Include="SessionState\SessionStateCache\SessionStateCacheModel.cs" />
     <Compile Include="SessionState\SessionStateCache\SessionStateWrapper\AspNetDefaultSessionStateWrapper.cs" />
-    <Compile Include="SessionState\SessionStateCache\SessionStateWrapper\BaseSessionStateWrapper.cs" />
+    <Compile Include="SessionState\SessionStateCache\SessionStateWrapper\ISessionStateWrapper.cs" />
     <Compile Include="SessionState\SessionStateUtilitiesAcrossUsers.cs" />
     <Compile Include="URLHelpers\URLHelpers.cs" />
   </ItemGroup>

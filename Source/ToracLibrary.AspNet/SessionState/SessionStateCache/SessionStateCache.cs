@@ -20,7 +20,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         /// Constructor
         /// </summary>
         /// <param name="SessionStateWrapperContainerToSet">Session State Container. For any web app Please Pass In new AspNetDefaultSessionStateWrapper()</param>
-        public SessionStateCache(BaseSessionStateWrapper SessionStateWrapperContainerToSet)
+        public SessionStateCache(ISessionStateWrapper SessionStateWrapperContainerToSet)
         {
             SessionStateWrapperContainer = SessionStateWrapperContainerToSet;
         }
@@ -32,7 +32,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         /// <summary>
         /// Session State Container
         /// </summary>
-        private BaseSessionStateWrapper SessionStateWrapperContainer { get; }
+        private ISessionStateWrapper SessionStateWrapperContainer { get; }
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
         public T GetFromSessionCache<T>(string SessionKey, Func<T> ReloadDataFromSource, int? CacheExpirationInSeconds) where T : class
         {
             //try to get it from session
-            var TryToGetFromSession = SessionStateWrapperContainer.GetFromCache<T>(SessionKey);
+            var TryToGetFromSession = SessionStateWrapperContainer.GetFromSession(SessionKey) as SessionStateCacheModel<T>;
 
             //do we have it in session? Or is it expired?
             if (TryToGetFromSession == null || TryToGetFromSession.CacheIsExpired())
@@ -71,7 +71,7 @@ namespace ToracLibrary.AspNet.SessionState.Cache
                 TryToGetFromSession =  new SessionStateCacheModel<T>(CacheExpirationInSeconds, ReloadDataFromSource());
 
                 //stick it in session
-                SessionStateWrapperContainer.SetSessionCache(SessionKey, TryToGetFromSession);
+                SessionStateWrapperContainer.SetSessionObject(SessionKey, TryToGetFromSession);
             }
 
             //return just whatever the object they are looking for
