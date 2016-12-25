@@ -242,7 +242,7 @@ namespace ToracLibrary.DIContainer
         /// Finds the correct registered object to resolve an item. Will validate everything based on parameters
         /// </summary>
         /// <param name="RegisteredObjectsInContainer">Registered objects in the container</param>
-        /// <param name="FactoryName">Factory name if there are more</param>
+        /// <param name="FactoryName">Factory name if there are more then 1 registered object for the same type</param>
         /// <param name="TypeToResolve">Type to resolve</param>
         /// <returns>BaseRegisteredObject. Throws an TypeNotRegisteredException exception if no item is found</returns>
         private static RegisteredUnTypedObject FindRegisterdObject(IDictionary<Tuple<string, Type>, RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
