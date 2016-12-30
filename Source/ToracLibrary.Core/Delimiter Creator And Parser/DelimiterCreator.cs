@@ -26,6 +26,15 @@ namespace ToracLibrary.Core.Delimiter
         #region Constructor
 
         /// <summary>
+        /// Constructor when you dont want to add column headers
+        /// </summary>
+        /// <param name="DelimiterBetweenColumns">Delimiter To Use Between Columns</param>
+        public DelimiterCreator(string DelimiterBetweenColumns)
+            : this(null, DelimiterBetweenColumns)
+        {
+        }
+
+        /// <summary>
         /// Constructor when you want to add column headers
         /// </summary>
         /// <param name="ColumnHeaders">Headers To Add To The Csv. Will Be The First Row Outputted</param>
@@ -43,15 +52,6 @@ namespace ToracLibrary.Core.Delimiter
             {
                 WriteOutRowOfData(new DelimiterRow(ColumnHeaders));
             }
-        }
-
-        /// <summary>
-        /// Constructor when you dont want to add column headers
-        /// </summary>
-        /// <param name="DelimiterBetweenColumns">Delimiter To Use Between Columns</param>
-        public DelimiterCreator(string DelimiterBetweenColumns)
-            : this(null, DelimiterBetweenColumns)
-        {
         }
 
         #endregion
