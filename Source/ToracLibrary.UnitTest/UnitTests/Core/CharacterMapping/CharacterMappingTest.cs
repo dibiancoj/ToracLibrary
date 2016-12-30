@@ -28,7 +28,6 @@ namespace ToracLibrary.UnitTest.Core
                 //test the result
                 Assert.Equal(i, DigitsToTest[i]);
             }
-
         }
 
         /// <summary>
