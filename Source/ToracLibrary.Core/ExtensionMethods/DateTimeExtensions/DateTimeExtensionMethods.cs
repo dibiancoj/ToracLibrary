@@ -25,7 +25,7 @@ namespace ToracLibrary.Core.ExtensionMethods.DateTimeExtensions
             //make sure the start is before the end
             if (EndStartDate < BeginningStartDate)
             {
-                throw new ArgumentOutOfRangeException("BeginningStartDate", "Start Date Is After End Date");
+                throw new ArgumentOutOfRangeException(nameof(BeginningStartDate), "Start Date Is After End Date");
             }
 
             //is the value between the 2 dates passed in

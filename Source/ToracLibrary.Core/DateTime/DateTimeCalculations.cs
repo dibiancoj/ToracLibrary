@@ -32,7 +32,7 @@ namespace ToracLibrary.Core.DateTimeHelpers
             //validate that the start date is older than the end date
             if (StartDate > EndDate)
             {
-                throw new ArgumentException("Start Date Can't Be After End Date");
+                throw new ArgumentOutOfRangeException(nameof(StartDate), "Start Date Can't Be After End Date");
             }
 
             //get how many years between the 2

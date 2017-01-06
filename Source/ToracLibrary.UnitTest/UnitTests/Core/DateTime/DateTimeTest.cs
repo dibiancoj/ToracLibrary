@@ -25,6 +25,9 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(1.129032258064516, DateTimeCalculations.HowManyMonthsBetween2Dates(new DateTime(2012, 12, 1), new DateTime(2013, 1, 5)));
             Assert.Equal(1, DateTimeCalculations.HowManyMonthsBetween2Dates(new DateTime(2012, 12, 1), new DateTime(2013, 1, 1)));
             Assert.Equal(12, DateTimeCalculations.HowManyMonthsBetween2Dates(new DateTime(2012, 12, 1), new DateTime(2013, 12, 1)));
+
+            //make sure this results in an error
+            Assert.Throws<ArgumentOutOfRangeException>(() => DateTimeCalculations.HowManyMonthsBetween2Dates(new DateTime(2015, 1, 2), new DateTime(2015, 1, 1)));
         }
 
         #endregion
