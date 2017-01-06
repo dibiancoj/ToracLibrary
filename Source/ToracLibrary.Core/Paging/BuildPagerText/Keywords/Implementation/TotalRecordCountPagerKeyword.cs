@@ -18,7 +18,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
         /// <summary>
         /// Calling code can use this variable instead of hard coding string
         /// </summary>
-        public const string KeyWordTag = "[[TotalRecordCount]]";
+        private const string KeyWordTag = "[[TotalRecordCount]]";
 
         #endregion
 
