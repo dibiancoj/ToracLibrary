@@ -130,7 +130,7 @@ namespace ToracLibrary.DIContainer
         public object Resolve(string FactoryName, Type TypeToResolve)
         {
             //now go return an instance
-            return GetInstance(FindRegisterdObject(RegisteredObjectsInContainer, FactoryName, TypeToResolve));
+            return GetInstance(FindRegisterdObject(FactoryName, TypeToResolve));
         }
 
         #endregion
@@ -241,11 +241,10 @@ namespace ToracLibrary.DIContainer
         /// <summary>
         /// Finds the correct registered object to resolve an item. Will validate everything based on parameters
         /// </summary>
-        /// <param name="RegisteredObjectsInContainer">Registered objects in the container</param>
-        /// <param name="FactoryName">Factory name if there are more</param>
+        /// <param name="FactoryName">Factory name if there are more then 1 registered object for the same type</param>
         /// <param name="TypeToResolve">Type to resolve</param>
         /// <returns>BaseRegisteredObject. Throws an TypeNotRegisteredException exception if no item is found</returns>
-        private static RegisteredUnTypedObject FindRegisterdObject(IDictionary<Tuple<string, Type>, RegisteredUnTypedObject> RegisteredObjectsInContainer, string FactoryName, Type TypeToResolve)
+        private RegisteredUnTypedObject FindRegisterdObject(string FactoryName, Type TypeToResolve)
         {
             //configuration to try to get from the dictionary
             RegisteredUnTypedObject TryToGetConfiguration;

@@ -43,16 +43,16 @@ namespace ToracLibrary.UnitTest.AspNet.AspNet
         /// <summary>
         /// Mock session state container
         /// </summary>
-        private class MockBaseSessionStateWrapper : BaseSessionStateWrapper
+        private class MockBaseSessionStateWrapper : ISessionStateWrapper
         {
             private Dictionary<string, object> SessionStateContainer { get; } = new Dictionary<string, object>();
 
-            internal override SessionStateCacheModel<T> GetFromCache<T>(string SessionKey)
+            public object GetFromSession(string SessionKey)
             {
-                return SessionStateContainer.TryGet(SessionKey) as SessionStateCacheModel<T>;
+                return SessionStateContainer.TryGet(SessionKey);
             }
 
-            internal override void SetSessionCache<T>(string SessionKey, SessionStateCacheModel<T> ObjectToStoreInSession)
+            public void SetSessionObject(string SessionKey, object ObjectToStoreInSession)
             {
                 SessionStateContainer.TryAdd(SessionKey, ObjectToStoreInSession);
             }

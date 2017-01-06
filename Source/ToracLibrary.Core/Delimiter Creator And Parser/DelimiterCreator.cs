@@ -26,6 +26,15 @@ namespace ToracLibrary.Core.Delimiter
         #region Constructor
 
         /// <summary>
+        /// Constructor when you dont want to add column headers
+        /// </summary>
+        /// <param name="DelimiterBetweenColumns">Delimiter To Use Between Columns</param>
+        public DelimiterCreator(string DelimiterBetweenColumns)
+            : this(null, DelimiterBetweenColumns)
+        {
+        }
+
+        /// <summary>
         /// Constructor when you want to add column headers
         /// </summary>
         /// <param name="ColumnHeaders">Headers To Add To The Csv. Will Be The First Row Outputted</param>
@@ -43,15 +52,6 @@ namespace ToracLibrary.Core.Delimiter
             {
                 WriteOutRowOfData(new DelimiterRow(ColumnHeaders));
             }
-        }
-
-        /// <summary>
-        /// Constructor when you dont want to add column headers
-        /// </summary>
-        /// <param name="DelimiterBetweenColumns">Delimiter To Use Between Columns</param>
-        public DelimiterCreator(string DelimiterBetweenColumns)
-            : this(null, DelimiterBetweenColumns)
-        {
         }
 
         #endregion
@@ -133,22 +133,29 @@ namespace ToracLibrary.Core.Delimiter
                 return;
             }
 
+            //dont output delimiter on this index
+            int LastColumnToWriteDelimiter = ColumnsOfDataToOutput.ColumnData.Count - 1;
+
             //loop through each of the columns and add it to the string to be returned
-            foreach (string ColumnToWriteOut in ColumnsOfDataToOutput.ColumnData)
+            //using a for statement so we know which column to write the delimiter for (don't want to write it for the last item)
+            for (int i = 0; i < ColumnsOfDataToOutput.ColumnData.Count; i++)
             {
+                //grab the data to output
+                var ColumnToWrite = ColumnsOfDataToOutput.ColumnData[i];
+
                 //let's just make sure we don't have a null column
-                if (ColumnToWriteOut.HasValue())
+                if (ColumnToWrite.HasValue())
                 {
                     //add the column data
-                    WorkingOutputWriter.Append(ColumnToWriteOut.Replace(ColumnDelimiter, string.Empty));
+                    WorkingOutputWriter.Append(ColumnToWrite.Replace(ColumnDelimiter, string.Empty));
                 }
 
                 //add the delimiter even if its null.
-                WorkingOutputWriter.Append(ColumnDelimiter);
+                if (i < LastColumnToWriteDelimiter)
+                {
+                    WorkingOutputWriter.Append(ColumnDelimiter);
+                }
             }
-
-            //let's remove the last , now
-            WorkingOutputWriter.Remove(WorkingOutputWriter.Length - ColumnDelimiter.Length, ColumnDelimiter.Length);
 
             //add a new line now (will remove when we return the string)
             WorkingOutputWriter.Append(Environment.NewLine);

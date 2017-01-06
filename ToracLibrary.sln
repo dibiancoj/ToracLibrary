@@ -141,6 +141,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HtmlParsing", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{4A6E596F-60F5-4908-A576-5C21406098E6}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Nuget\CreatingNugetPackages.txt = Docs\Examples\Nuget\CreatingNugetPackages.txt
 		Docs\Examples\Nuget\NuGetConsoleCommands.txt = Docs\Examples\Nuget\NuGetConsoleCommands.txt
 	EndProjectSection
 EndProject
