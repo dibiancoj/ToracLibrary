@@ -210,7 +210,7 @@ namespace ToracLibrary.UnitTest.Framework
 
             DIContainer.Register<HtmlParserWrapper>()
                .WithFactoryName(HtmlParsingTest.HtmlParserFactoryName)
-               .WithConstructorImplementation((di) => new HtmlParserWrapper(string.Format($"<html><span class='{HtmlParsingTest.ClassNameInSpan}'>{HtmlParsingTest.SpanInnerTextValue}</span></html>")));
+               .WithConstructorImplementation((di) => new HtmlParserWrapper($"<html><span class='{HtmlParsingTest.ClassNameInSpan}'>{HtmlParsingTest.SpanInnerTextValue}</span></html>"));
 
             //end of html parsing
 

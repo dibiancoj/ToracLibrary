@@ -39,7 +39,7 @@ namespace ToracLibrary.Core.Paging
             //sample = "Page [[CurrentPage]] of [[TotalPages]]. Record [[FromRecordNumber]] To [[ToRecordNumber]] Of [[TotalRecordCount]]"
 
             //or use the static properties:
-            //private string FormatToUse = string.Format($"Record {FromRecordNumberPagerKeyword.KeyWordTag} Of {TotalRecordCountPagerKeyword.KeyWordTag}. Page {CurrentPageNumberPagerKeyword.KeyWordTag} Of {TotalPagesPagerKeyword.KeyWordTag}. TotalRecords = {TotalRecordCountPagerKeyword.KeyWordTag}");
+            //private string FormatToUse = $"Record {FromRecordNumberPagerKeyword.KeyWordTag} Of {TotalRecordCountPagerKeyword.KeyWordTag}. Page {CurrentPageNumberPagerKeyword.KeyWordTag} Of {TotalPagesPagerKeyword.KeyWordTag}. TotalRecords = {TotalRecordCountPagerKeyword.KeyWordTag}");
 
             //return text
             var PagerTextToReturn = new StringBuilder(FormatToUse);

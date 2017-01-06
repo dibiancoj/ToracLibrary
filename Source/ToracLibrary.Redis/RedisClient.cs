@@ -777,7 +777,7 @@ namespace ToracLibrary.Redis
                 var ByteArrayConverted = StringToByteArray(x);
 
                 //grab the head value
-                var HeadValue = RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{ByteArrayConverted.Length.ToString()}{TerminateStrings}"));
+                var HeadValue = RedisEncoding.GetBytes($"{(char)ResponseType.BulkStrings}{ByteArrayConverted.Length.ToString()}{TerminateStrings}");
 
                 //go return after concat
                 return HeadValue.Concat(ByteArrayConverted).Concat(TerminateStringsInBytes).ToArray();
@@ -787,10 +787,10 @@ namespace ToracLibrary.Redis
             return new[] {
 
                  //go build the first line
-                 RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.Arrays}{(Arguments.Length + 1).ToString()}{TerminateStrings}")),
+                 RedisEncoding.GetBytes($"{(char)ResponseType.Arrays}{(Arguments.Length + 1).ToString()}{TerminateStrings}"),
 
                  //build the second line
-                 RedisEncoding.GetBytes(string.Format($"{(char)ResponseType.BulkStrings}{RedisEncoding.GetBytes(CommandToSend).Length.ToString()}{TerminateStrings}{CommandToSend}{TerminateStrings}"))
+                 RedisEncoding.GetBytes($"{(char)ResponseType.BulkStrings}{RedisEncoding.GetBytes(CommandToSend).Length.ToString()}{TerminateStrings}{CommandToSend}{TerminateStrings}")
 
             }.Concat(ThirdLine).SelectMany(xs => xs).ToArray();
         }

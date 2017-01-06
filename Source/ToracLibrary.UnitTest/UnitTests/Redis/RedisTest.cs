@@ -131,10 +131,10 @@ namespace ToracLibrary.UnitTest.Core
                 const string ValueToTest = "TestStringValue123";
 
                 //go save the test value
-                Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
+                Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>($"Set {Key} {ValueToTest}"));
 
                 //get the test value
-                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
+                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>("Get {Key}"));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
@@ -159,7 +159,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand("Set", Key, ValueToTest));
 
                 //get the test value
-                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}")));
+                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>($"Get {Key}"));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
@@ -512,10 +512,10 @@ namespace ToracLibrary.UnitTest.Core
                 const int NumberOfCalls = 10;
 
                 //key formatter
-                Func<int, string> BuildKeyFormatter = (i) => string.Format($"PipeLine{i}Key");
+                Func<int, string> BuildKeyFormatter = (i) => $"PipeLine{i}Key";
 
                 //value formatter
-                Func<int, string> BuildValueFormatter = (i) => string.Format($"PipeLine{i}Value");
+                Func<int, string> BuildValueFormatter = (i) => $"PipeLine{i}Value";
 
                 //create the pipeline
                 var PipelineToRun = Redis.CreatePipeline();
