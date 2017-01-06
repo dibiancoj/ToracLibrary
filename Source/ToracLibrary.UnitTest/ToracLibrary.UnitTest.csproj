@@ -222,6 +222,7 @@
     <Compile Include="UnitTests\Core\DataTypes\DataTypesTest.cs" />
     <Compile Include="UnitTests\Core\DateTime\DateTimeTest.cs" />
     <Compile Include="UnitTests\Core\Delimiter Creator And Parser\DelimiterTest.cs" />
+    <Compile Include="UnitTests\Core\DiagnosticUtilities\DiagnosticUtilitiesTest.cs" />
     <Compile Include="UnitTests\Core\DiskIO\DiskIOTest.cs" />
     <Compile Include="UnitTests\Core\EnumUtilities\EnumUtilitiesTest.cs" />
     <Compile Include="UnitTests\Core\Excel\ExcelUtilityTest.cs" />
