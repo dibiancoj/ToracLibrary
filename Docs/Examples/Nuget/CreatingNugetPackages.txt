@@ -7,3 +7,16 @@ nuget.exe pack MYMSKCC.Portal.Common\MYMSKCC.Portal.Common.csproj -Prop Configur
 this will create a 1.0.0.nupkg file. That is what you would upload to the server
 
 You can also can add "-version 1.0.1" to update a specific version
+
+you then can call to publish.
+nuget.exe push MYMSKCC.HeliosWebServiceUtility.2.3.2.60913.nupkg -s http://myserver:91/Prod/nuget 30FC1C7B-E5A5-4D1A-996F-C44B8990D6A1
+
+
+
+essentially something like
+
+.nuget\nuget.exe pack MyDLL\MyProject.csproj -Prop Configuration=Release -IncludeReferencedProjects
+pause
+
+.nuget\nuget.exe push MyDLL\MyProject.csproj.2.3.2.60913.nupkg -s http://Myserver:91/Prod/nuget
+pause
