@@ -76,6 +76,7 @@
     <Compile Include="ExpressionTrees\API\ReMappers\ParameterExpressionFinder.cs" />
     <Compile Include="ExpressionTrees\ExpressionTreeHelpers.cs" />
     <Compile Include="ExtensionMethods\ByteArraysExtensions\ByteArrayExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\DateTimeExtensions\DateTimeExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ExpressionTressExtensions\ExpressionTreeExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IQueryableExtensions\IQueryableExtensionMethods.cs" />

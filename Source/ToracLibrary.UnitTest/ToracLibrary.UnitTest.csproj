@@ -232,6 +232,7 @@
     <Compile Include="UnitTests\Core\ExpressionTrees\API\ReMapperTests\ReMappersTest.cs" />
     <Compile Include="UnitTests\Core\ExpressionTrees\ExpressionTreesTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\ByteArrayExtensions\ByteArrayExtensionTest.cs" />
+    <Compile Include="UnitTests\Core\ExtensionMethods\DateTimeExtensions\DateTimeExtensionTests.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\IOrderedQueryableExtensions\IOrderedQueryableExtensionTest.cs" />
