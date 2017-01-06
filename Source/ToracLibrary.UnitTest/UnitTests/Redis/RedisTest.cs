@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ToracLibrary.Core.Diagnostic;
 using ToracLibrary.Redis;
 using ToracLibrary.Redis.PubSub;
 using ToracLibrary.Redis.Result;
@@ -69,19 +70,6 @@ namespace ToracLibrary.UnitTest.Core
         private static RedisPubSubClient BuildPubSubClient(Action<PubSubPublishResult> PubSubCallBack)
         {
             return new RedisPubSubClient(RedisServerIpAddress, ChannelsToSubscribeTo, PubSubCallBack);
-        }
-
-        /// <summary>
-        /// Spin for x amount of seconds
-        /// </summary>
-        /// <param name="SecondsToSpin">Seconds to spin</param>
-        private static void SpinWaitForXSeconds(int SecondsToSpin)
-        {
-            //grab the time now
-            var StartNow = DateTime.Now;
-
-            //spin until we are ready
-            SpinWait.SpinUntil(() => DateTime.Now > StartNow.AddSeconds(SecondsToSpin));
         }
 
         #endregion
@@ -238,7 +226,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.True(Redis.KeyExists(Key));
 
                 //spin wait for a second so we can wait for the key to expire
-                SpinWaitForXSeconds(2);
+                DiagnosticUtilities.SpinWaitUntilTimespan(new TimeSpan(0, 0, 2));
 
                 //make sure we don't have a key now
                 Assert.False(Redis.KeyExists(Key));
@@ -304,7 +292,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.True(Redis.KeyExists(Key));
 
                 //spin wait for a second so we can wait for the key to expire
-                SpinWaitForXSeconds(2);
+                DiagnosticUtilities.SpinWaitUntilTimespan(new TimeSpan(0, 0, 2));
 
                 //make sure we don't have a key now
                 Assert.False(Redis.KeyExists(Key));
@@ -686,7 +674,7 @@ namespace ToracLibrary.UnitTest.Core
                     Assert.Equal(1, RedisCallPublish.Publish(ExpectedSecondChannelResult.Channel, ExpectedSecondChannelResult.Message));
 
                     //wait 3 seconds to let everything catch up because this is an async operation
-                    SpinWaitForXSeconds(2);
+                    DiagnosticUtilities.SpinWaitUntilTimespan(new TimeSpan(0, 0, 2));
 
                     //now test the results
                     Assert.Equal(2, ResultsOfCallBack.Count);
