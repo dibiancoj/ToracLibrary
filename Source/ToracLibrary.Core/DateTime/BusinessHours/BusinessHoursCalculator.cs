@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.DateTimeExtensions;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 
 namespace ToracLibrary.Core.DateTimeHelpers.BusinessHours
@@ -133,7 +134,7 @@ namespace ToracLibrary.Core.DateTimeHelpers.BusinessHours
                 }
 
                 //is it a holiday
-                else if (HolidayListingForThisPeriod.AnyWithNullCheck(x => WorkingDate >= x.StartDateOfHoliday && WorkingDate < x.EndDateOfHoliday))
+                else if (HolidayListingForThisPeriod.AnyWithNullCheck(x => WorkingDate.IsBetween(x.StartDateOfHoliday, x.EndDateOfHoliday)))
                 {
                     //it's a working holiday...so don't increment it and increase the working date
                     WorkingDate = WorkingDate.AddHours(1);
