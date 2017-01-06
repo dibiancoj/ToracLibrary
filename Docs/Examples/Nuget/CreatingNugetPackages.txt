@@ -1,0 +1,9 @@
+You need to use the nuget cli. Download nuget.exe from the nuget site
+
+
+The easiest way is to call this with the csproj path
+nuget.exe pack MYMSKCC.Portal.Common\MYMSKCC.Portal.Common.csproj -Prop Configuration=Release -IncludeReferencedProjects
+
+this will create a 1.0.0.nupkg file. That is what you would upload to the server
+
+You can also can add "-version 1.0.1" to update a specific version
