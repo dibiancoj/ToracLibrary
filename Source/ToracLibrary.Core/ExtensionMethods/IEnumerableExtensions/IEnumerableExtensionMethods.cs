@@ -370,7 +370,6 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             {
                 yield return ItemToAddToList;
             }
-
         }
 
         #endregion
