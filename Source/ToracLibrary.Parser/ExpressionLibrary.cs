@@ -22,9 +22,10 @@ namespace ToracLibrary.Parser
 
         /* Definition For Now */
         // Expression := Number {Operator Number}
-        // Operator   := "+" | "-"
+        // Operator   := "+" | "-" | "/" | "*"
         // Number     := Digit{Digit}
         // Digit      := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" 
+        // Order      := "(" | ")"
 
         /// <summary>
         /// Holds the valid tokens for a number expression
