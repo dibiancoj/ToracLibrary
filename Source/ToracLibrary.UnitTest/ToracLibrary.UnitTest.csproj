@@ -207,6 +207,7 @@
     <Compile Include="UnitTests\AspNetMvc\UnitTests\ExtensionMethods\Controller\ControllerExtensionTest.cs" />
     <Compile Include="UnitTests\AspNetMvc\UnitTests\HtmlHelpers\HtmlHelperTest.cs" />
     <Compile Include="UnitTests\AspNetMvc\UnitTests\JqGrid\JqGridTest.cs" />
+    <Compile Include="UnitTests\AspNetMvc\UnitTests\MockedModelState\MockedModelStateTest.cs" />
     <Compile Include="UnitTests\AspNet\AspNetSessionStateCacheTest.cs" />
     <Compile Include="UnitTests\AspNet\AspNetTest.cs" />
     <Compile Include="UnitTests\Caching\InMemoryCacheTest.cs" />
