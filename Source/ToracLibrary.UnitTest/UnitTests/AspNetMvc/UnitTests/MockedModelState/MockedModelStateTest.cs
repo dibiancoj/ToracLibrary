@@ -19,7 +19,7 @@ namespace ToracLibrary.UnitTest.UnitTests.AspNetMvc.UnitTests.MockedModelState
 
         #region Framework
 
-        public class TestController : Controller
+        private class TestController : Controller
         {
             public ActionResult Test(TestModel model)
             {
@@ -27,7 +27,7 @@ namespace ToracLibrary.UnitTest.UnitTests.AspNetMvc.UnitTests.MockedModelState
             }
         }
 
-        public class TestModel
+        private class TestModel
         {
             [Required]
             public int? Id { get; set; }
@@ -43,9 +43,6 @@ namespace ToracLibrary.UnitTest.UnitTests.AspNetMvc.UnitTests.MockedModelState
         [Fact]
         public void ValidateModelErrorsTest1()
         {
-            //controller to use
-            var MockedController = new TestController();
-
             //grab the errors. should be 1 because id is not populated
             Assert.Equal(1, MockModelState.ValidateModel(new TestModel()).Count);
 
