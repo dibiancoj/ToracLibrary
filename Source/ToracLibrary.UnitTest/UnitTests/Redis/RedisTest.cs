@@ -122,7 +122,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>($"Set {Key} {ValueToTest}"));
 
                 //get the test value
-                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>("Get {Key}"));
+                var Response = RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>($"Get {Key}"));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
