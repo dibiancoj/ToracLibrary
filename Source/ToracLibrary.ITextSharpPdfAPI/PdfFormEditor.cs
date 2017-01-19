@@ -145,14 +145,15 @@ namespace ToracLibrary.ITextSharpPdfAPI
             {
                 if (disposing)
                 {
+                    //Saw concurrent issues every once in a while saying the stream was closed when we call that in dispose. This use to be below Ms.Dispose(). That makes sense if the stream gets disposed then the Stamper.Dispose() actually calls Stamper.Close() which writes data to the stream. I'm going to 
+                    //move this above Ms.Dispose(). If we still have more issues then don't call dispose since it just calls Stamper.Close(). I also moved stamper to the top. Use to be Reader.Dispose(), Ms.Dispose(), Stamper.Dispose()
+                    Stamper.Dispose();
+
                     //dispose of the document
                     Reader.Dispose();
 
                     //memory stream
                     Ms.Dispose();
-
-                    //pdf writer
-                    Stamper.Dispose();
                 }
             }
             disposed = true;
