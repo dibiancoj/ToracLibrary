@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.ITextSharpPdfAPI
 {
@@ -21,6 +22,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// </summary>
         /// <param name="FilesToMerge">Files to merger (Byte array for each file)</param>
         /// <returns>1 file with all the files passed in</returns>
+        [MethodIsNotTestable("No Way To Really Test This. I Guess You Can Merge The Pdf's And See If 1 File Exists. However, You Can't Verify The Content Got Merged")]
         public static byte[] MergeFiles(IEnumerable<byte[]> FilesToMerge)
         {
             //Declare the memory stream to use

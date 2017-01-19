@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.StringExtensions;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.ITextSharpPdfAPI
 {
@@ -13,6 +13,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
     /// <summary>
     /// Modify a editable pdf from a template and save it.
     /// </summary>
+    [MethodIsNotTestable("No Way To Really Test This. Can't Really Validate Pdf Content Easily")]
     public class PdfFormEditor : IDisposable
     {
 

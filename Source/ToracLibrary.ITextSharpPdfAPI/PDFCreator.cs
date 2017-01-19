@@ -1,13 +1,13 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.events;
-using iTextSharp.tool.xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.ITextSharpPdfAPI
 {
@@ -19,6 +19,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
     /// Class Used To Create PDF's Using Code And ITextSharp
     /// </summary>
     /// <remarks>Class has properties that are immutable</remarks>
+    [MethodIsNotTestable("No Way To Really Test This. Can't Really Validate Pdf Content Easily")]
     public class PDFCreator : IDisposable
     {
 

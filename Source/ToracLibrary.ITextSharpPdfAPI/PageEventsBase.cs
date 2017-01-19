@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.ITextSharpPdfAPI
 {
@@ -18,6 +19,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
     /// <summary>
     /// Helper class to write the page numbers on each page
     /// </summary>
+    [MethodIsNotTestable("No Way To Really Test This. Can't Really Validate Pdf Content Easily")]
     public class PageEventsBase : PdfPageEventHelper
     {
 
