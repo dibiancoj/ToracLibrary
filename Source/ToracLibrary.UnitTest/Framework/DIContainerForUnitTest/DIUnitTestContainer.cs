@@ -198,12 +198,6 @@ namespace ToracLibrary.UnitTest.Framework
 
             //************************************************************
 
-            //start of email mock
-
-            DIContainer.Register<ISMTPEmailServer, EmailTest.MockSMTPEmailServer>();
-
-            //end of email mock
-
             //************************************************************
 
             //start of html parsing

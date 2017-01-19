@@ -1,53 +1,38 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.Email;
-using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.EmailSMTP
 {
 
     /// <summary>
-    /// Unit test smtp serialization
+    /// Unit test smtp email
     /// </summary>
     public class EmailTest
     {
-
-        //I want to be able to mock it up in the unit test, so i can ensure it works with DI.
-        //Can't really test this easily, as I don't want to have to check emails to ensure it completes successfully
-
-        #region Framework
-
-        /// <summary>
-        /// Mock up of the smtp email server
-        /// </summary>
-        internal class MockSMTPEmailServer : ISMTPEmailServer
-        {
-            public Task SendEmail(IEnumerable<string> ToEmailAddress, IEnumerable<string> CCEmailAddress, IEnumerable<string> BCCEmailAddress, string FromEmailAddress, string Subject, string Body, bool BodyContainsHTML, MailPriority Priority, IDictionary<string, byte[]> FileAttachments)
-            {
-                return Task.CompletedTask;
-            }
-        }
-
-        #endregion
 
         #region Unit Test
 
         [Fact]
         public async Task EmailSMTPTest1()
         {
-            //go grab the di container
-            var EmailServerToUse = DIUnitTestContainer.DIContainer.Resolve<ISMTPEmailServer>();
+            //this doesn't really test anything...going to leave it for now. Maybe one day we will add more.
 
-            //make sure we have an email server
-            Assert.NotNull(EmailServerToUse);
+            //go grab the di container
+            var MockEmailServerToUse = new Mock<ISMTPEmailServer>();
+
+            //set it up to return 
+            MockEmailServerToUse.Setup(x => x.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null))
+                .Returns(Task.CompletedTask);
 
             //now run the method
-            await EmailServerToUse.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null).ConfigureAwait(false);
+            await MockEmailServerToUse.Object.SendEmail(new string[] { "dibiancoj@gmail.com" }, null, null, "Test@gmail.com", "Subject", "Body", true, MailPriority.Normal, null).ConfigureAwait(false);
 
             //now we will just pass it 
             Assert.True(true);
