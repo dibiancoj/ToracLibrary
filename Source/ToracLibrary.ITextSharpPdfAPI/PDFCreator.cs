@@ -623,11 +623,11 @@ namespace ToracLibrary.ITextSharpPdfAPI
                     //dispose of the document
                     Doc.Dispose();
 
-                    //memory stream
-                    Ms.Dispose();
-
                     //pdf writer
                     Writer.Dispose();
+
+                    //memory stream
+                    Ms.Dispose();
                 }
             }
             disposed = true;
