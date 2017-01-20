@@ -324,7 +324,7 @@
       <Project>{8afcbc5f-6763-4195-8211-cdd3b7496cca}</Project>
       <Name>ToracLibrary.AspNet.AspNetMVC.Mocking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ToracLibrary.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj">
+    <ProjectReference Include="..\ToracLibrary.AspNet.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj">
       <Project>{b38a458b-00b6-4ee4-9a90-26e29490f3e8}</Project>
       <Name>ToracLibrary.AspNet.AspNetMVC</Name>
     </ProjectReference>
