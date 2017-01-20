@@ -98,6 +98,7 @@
     <Compile Include="RazorViewToString\RazorToString.cs" />
     <Compile Include="RazorViewToString\ViewTypeToLoad.cs" />
     <Compile Include="UnitTestMocking\MockControllerContext.cs" />
+    <Compile Include="UnitTestMocking\MockHtmlHelper.cs" />
     <Compile Include="UnitTestMocking\MockHttpContext.cs" />
     <Compile Include="UnitTestMocking\MockHttpRequest.cs" />
     <Compile Include="UnitTestMocking\MockHttpResponse.cs" />
