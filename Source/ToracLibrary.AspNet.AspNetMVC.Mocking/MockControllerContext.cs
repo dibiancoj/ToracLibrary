@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace ToracLibrary.AspNet.AspNetMVC.UnitTestMocking
+namespace ToracLibrary.AspNet.AspNetMVC.Mocking
 {
 
     /// <summary>

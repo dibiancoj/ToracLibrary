@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using ToracLibrary.AspNet.AspNetMVC;
 using ToracLibrary.AspNet.AspNetMVC.CustomValueProviderFactory;
-using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.Mocking;
 using ToracLibrary.DIContainer;
 using ToracLibrary.Serialization.Json;
 using ToracLibrary.UnitTest.Framework;

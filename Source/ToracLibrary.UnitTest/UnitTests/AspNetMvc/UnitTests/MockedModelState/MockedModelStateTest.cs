@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ToracLibrary.AspNet.AspNetMVC.UnitTestMocking;
+using ToracLibrary.AspNet.AspNetMVC.Mocking;
 using Xunit;
 
 namespace ToracLibrary.UnitTest.UnitTests.AspNetMvc.UnitTests.MockedModelState

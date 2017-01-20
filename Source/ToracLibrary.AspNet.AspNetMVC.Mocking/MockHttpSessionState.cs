@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
 
-namespace ToracLibrary.AspNet.AspNetMVC.UnitTestMocking
+namespace ToracLibrary.AspNet.AspNetMVC.Mocking
 {
 
     /// <summary>

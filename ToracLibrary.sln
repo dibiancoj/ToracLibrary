@@ -210,6 +210,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NLog", "NLog", "{7CE442B0-1
 		Docs\Examples\NLog\Notes.txt = Docs\Examples\NLog\Notes.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNet.AspNetMVC.Mocking", "Source\ToracLibrary.AspNet.AspNetMVC.Mocking\ToracLibrary.AspNet.AspNetMVC.Mocking.csproj", "{8AFCBC5F-6763-4195-8211-CDD3B7496CCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -308,6 +310,10 @@ Global
 		{B2208AE9-64F8-4D15-AB56-F8847FCA00BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2208AE9-64F8-4D15-AB56-F8847FCA00BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2208AE9-64F8-4D15-AB56-F8847FCA00BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -362,5 +368,6 @@ Global
 		{65983FDE-C29D-4B1C-AFA6-887BCE3BD798} = {62EF8EBF-686A-4D35-8A1E-98DA7A289192}
 		{B2208AE9-64F8-4D15-AB56-F8847FCA00BB} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{7CE442B0-1E75-4B90-87CC-3D6435F5B20A} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 	EndGlobalSection
 EndGlobal
