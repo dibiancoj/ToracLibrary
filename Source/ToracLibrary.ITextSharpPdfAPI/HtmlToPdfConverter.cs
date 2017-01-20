@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.ITextSharpPdfAPI
 {
@@ -24,6 +25,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <param name="Html">html to render to a pdf</param>
         /// <param name="Css">Css file (null if you dont have any css)</param>
         /// <param name="CreatorToUse">Creator to use. This way the end developer can setup the margins and landscape</param>
+        [MethodIsNotTestable("No Way To Really Test This. Can't Really Validate Pdf Content Easily")]
         public static void HtmlToPdf(string Html, PDFCreator CreatorToUse)
         {
             //create the html stream
@@ -40,6 +42,7 @@ namespace ToracLibrary.ITextSharpPdfAPI
         /// <param name="Html">html to render to a pdf</param>
         /// <param name="Css">Css file (null if you dont have any css)</param>
         /// <param name="CreatorToUse">Creator to use. This way the end developer can setup the margins and landscape</param>
+        [MethodIsNotTestable("No Way To Really Test This. Can't Really Validate Pdf Content Easily")]
         public static void HtmlToPdf(string Html, string Css, PDFCreator CreatorToUse)
         {
             //create the pdf creator
