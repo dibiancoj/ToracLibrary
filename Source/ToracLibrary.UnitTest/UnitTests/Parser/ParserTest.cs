@@ -33,8 +33,9 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("10/2", 10 / 2)]
         [InlineData("10/2 * 3 + 2", 10 / 2 * 3 + 2)]
         [InlineData("10 * (1+2) * 5", 10 * (1 + 2) * 5)]
+        [InlineData("10 * 1.25", 10 * 1.25)]
         [Theory]
-        public void MathParserTest1(string ExpressionToTest, int ExpectedResultOfExpression)
+        public void MathParserTest1(string ExpressionToTest, double ExpectedResultOfExpression)
         {
             Assert.Equal(ExpectedResultOfExpression, ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
@@ -49,7 +50,7 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData("2+5*9+1*3", 2 + 5 * 9 + 1 * 3)]
         [InlineData("3*2+1", 3 * 2 + 1)]
         [Theory]
-        public void MathParserMultiplyTest1(string ExpressionToTest, int ExpectedResultOfExpression)
+        public void MathParserMultiplyTest1(string ExpressionToTest, double ExpectedResultOfExpression)
         {
             Assert.Equal(ExpectedResultOfExpression, ExpressionLibrary.ParseAndEvaluateNumberExpression(ExpressionToTest));
         }
@@ -110,12 +111,24 @@ namespace ToracLibrary.UnitTest.Serialization
         [InlineData(">= 10", 10, new Type[] { typeof(GreaterThanOrEqualToken), typeof(NumberLiteralToken) })]
         [InlineData("> 502", 502, new Type[] { typeof(GreaterThanToken), typeof(NumberLiteralToken) })]
         [InlineData("<= 10", 10, new Type[] { typeof(LessThanOrEqualToToken), typeof(NumberLiteralToken) })]
-        [InlineData("< 502", 502, new Type[] { typeof(LessThanToken), typeof(NumberLiteralToken) })]
+        [InlineData("< 502.25", 502.25, new Type[] { typeof(LessThanToken), typeof(NumberLiteralToken) })]
         [Theory]
         public void LogicalParserTest1(string ExpressionToTest, double ExpectedLiteralNumberValue, Type[] ExpectedTokens)
         {
             //go assert the tree
             AssertTree(ExpressionLibrary.TokenizedRelationalExpressionLazy(ExpressionToTest), ExpectedLiteralNumberValue, ExpectedTokens);
+        }
+
+        /// <summary>
+        /// Should throw an error because they aren't valid numbers
+        /// </summary>
+        /// <param name="ExpressionToTest">Expression to parse</param>
+        [InlineData("< 502.25.")]
+        [InlineData(".. < 502.25")]
+        [Theory]
+        public void LogicalParserShouldFailTest2(string ExpressionToTest)
+        {
+            Assert.Throws<InvalidCastException>(() => ExpressionLibrary.TokenizedRelationalExpressionLazy(ExpressionToTest).ToArray());
         }
 
         #endregion

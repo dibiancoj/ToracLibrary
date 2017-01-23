@@ -15,6 +15,15 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
     public class NumberLiteralTokenFactory : ITokenFactory
     {
 
+        #region Constants
+
+        /// <summary>
+        /// Holds a decimal operator
+        /// </summary>
+        private const char DecimalOperator = '.';
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -25,7 +34,8 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         /// <returns>If its an instance of this token</returns>
         public bool IsToken(char TokenToInspect, char? NextTokenPeekToInspect)
         {
-            return char.IsDigit(TokenToInspect);
+            //allow decimals - use the method so we can share it with parse number
+            return IsValidLiteralNumber(TokenToInspect);
         }
 
         /// <summary>
@@ -50,76 +60,47 @@ namespace ToracLibrary.Parser.Tokenizer.TokenFactories.LiteralTokens
         /// <param name="Reader">Reader To Continue Reading</param>
         /// <param name="CurrentToken">Current token which was read</param>
         /// <returns>The Parsed Number</returns>
-        private static int ParseNumber(StringReader Reader, char CurrentToken)
+        private static double ParseNumber(StringReader Reader, char CurrentToken)
         {
             //digits found
-            var DigitsFound = new List<int>();
+            var DigitsFound = new StringBuilder();
 
             //add the current token
-            DigitsFound.Add(int.Parse(char.ToString(CurrentToken)));
+            DigitsFound.Append(char.ToString(CurrentToken));
 
             //keep reading until we don't have a digit
-            while (char.IsDigit((char)Reader.Peek()))
+            while (IsValidLiteralNumber((char)Reader.Peek()))
             {
                 //grab the digit we just read
                 var DigitRead = (char)Reader.Read();
 
-                //try to parse that number
-                int TryParseNumber;
-
-                //can we parse this number
-                if (int.TryParse(char.ToString(DigitRead), out TryParseNumber))
-                {
-                    //add the number to the list because we were able to parse it
-                    DigitsFound.Add(TryParseNumber);
-                }
-                else
-                {
-                    //was not able to parse this value for some reason. Not really sure how we got here but we will leave it
-                    throw new InvalidCastException("Could Not Parse Integer Number When Parsing Digit: " + DigitRead);
-                }
+                //add the item to the string builder
+                DigitsFound.Append(DigitRead);
             }
 
-            //at this point we have an array of char's (single digit numbers). we want to combine them to form a number
-            //ie:
-            //[0] = 3
-            //[1] = 5
-            //[2] = 7
-            // ==> 357
-            return ArrayOfSingleDigitsToNumber(DigitsFound);
+            //now let's try to parse the string value ("123.567");
+            double TryParseAttempt;
+
+            //try to parse this
+            if (double.TryParse(DigitsFound.ToString(), out TryParseAttempt))
+            {
+                //we were able to parse this, return it
+                return TryParseAttempt;
+            }
+
+            //can't parse into a double...throw an exception
+            throw new InvalidCastException("Can't Parse The Following Into A Double: " + DigitsFound.ToString());
         }
 
         /// <summary>
-        /// Convert a list of digits into a number.
+        /// This this a valid literal character
         /// </summary>
-        /// <param name="DigitsToConvertToANumber">Digits to convert to a number</param>
-        /// <returns>The combined number</returns>
-        private static int ArrayOfSingleDigitsToNumber(IEnumerable<int> DigitsToConvertToANumber)
+        /// <param name="CharacterToTest">Character to test</param>
+        /// <returns>Yes if this is valid</returns>
+        private static bool IsValidLiteralNumber(char CharacterToTest)
         {
-            //ie:
-            //[0] = 3
-            //[1] = 5
-            //[2] = 7
-            // ==> 357
-
-            //tally
-            var RunningTally = 0;
-
-            //what we multiple with
-            var MultiplyValue = 1;
-
-            //loop through all of them and multiple everything
-            foreach (var Digit in DigitsToConvertToANumber.Reverse())
-            {
-                //multiply and add it
-                RunningTally += Digit * MultiplyValue;
-
-                //now multiple by 10
-                MultiplyValue *= 10;
-            }
-
-            //return the result
-            return RunningTally;
+            //either a decimal or a digit
+            return CharacterToTest == DecimalOperator || char.IsDigit(CharacterToTest);
         }
 
         #endregion
