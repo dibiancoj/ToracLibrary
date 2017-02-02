@@ -16,6 +16,94 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     public class XElementExtensionTest
     {
 
+        #region Query With A Namespace
+
+        #region Static Properties
+
+        private static readonly XNamespace NamespaceToUse = "http://example.com/name";
+        private static readonly XNamespace SchemaNamespaceToUse = "http://www.w3.org/2001/XMLSchema-instance";
+        private const string IdAttributeName = "Id";
+
+        #endregion
+
+        [Fact]
+        public void QueryElementWithNamespaceTest1()
+        {
+            //row to test 
+            var RowToTest = BuildXElementWithNamespace(1);
+
+            //make sure this returns null because we are querying without a namespace
+            Assert.True(RowToTest.Element("Example") == null);
+
+            //now query our extension method which uses namespace
+            var Result = RowToTest.Element(NamespaceToUse, "Example");
+
+            //make sure its not null
+            Assert.False(Result == null);
+
+            //make sure the id is 0
+            Assert.Equal("0", Result.Attribute(IdAttributeName).Value);
+        }
+
+        [Fact]
+        public void QueryElementsWithNamespaceTest1()
+        {
+            //how many to build
+            const int HowManyToBuild = 5;
+
+            //row to test 
+            var RowToTest = BuildXElementWithNamespace(HowManyToBuild);
+
+            //make sure this returns null because we are querying without a namespace
+            Assert.True(RowToTest.Element("Example") == null);
+
+            //now query our extension method which uses namespace
+            var Result = RowToTest.Elements(NamespaceToUse, "Example").ToArray();
+
+            //make sure its not null
+            Assert.False(Result == null);
+
+            //loop through the records
+            for (int i = 0; i < HowManyToBuild; i++)
+            {
+                //make sure the id the corresponding i
+                Assert.Equal(i.ToString(), Result[i].Attribute(IdAttributeName).Value);
+            }
+        }
+
+        #region Framework
+
+        /// <summary>
+        /// Build a set of xelements with a namespace
+        /// </summary>
+        /// <param name="HowManyRecordsToBuild">How many records to build</param>
+        /// <returns>Root Element with child elements in it</returns>
+        private static XElement BuildXElementWithNamespace(int HowManyRecordsToBuild)
+        {
+            //<name:Example xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:name="http://example.com/name" Id="#"></name:Example>
+
+            //root element
+            var RootElement = new XElement("root");
+
+            //loop through the rows
+            for (int i = 0; i < HowManyRecordsToBuild; i++)
+            {
+                RootElement.Add(new XElement(NamespaceToUse + "Example",
+                            new XAttribute(IdAttributeName, i),
+                            new XAttribute(XNamespace.Xmlns + "name", NamespaceToUse),
+                            new XAttribute(XNamespace.Xmlns + "xsi", SchemaNamespaceToUse)));
+            }
+
+            //return the root
+            return RootElement;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Remove Blank Elements
+
         /// <summary>
         /// Unit test to remove blank elements from XElement. 
         /// </summary>
@@ -140,6 +228,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
                                            "</root>").ToString(), XElementToTest.ToString());
         }
 
+        #endregion
 
     }
 

@@ -16,6 +16,56 @@ namespace ToracLibrary.Core.ExtensionMethods.XElementExtensions
     public static class XElementExtensionMethods
     {
 
+        #region Element Querying With A Namespace
+
+        #region Public Methods
+
+        /// <summary>
+        /// Query an element with a namespace
+        /// </summary>
+        /// <param name="ElementToQuery">Element to query</param>
+        /// <param name="NamespaceToUse">Namespace to use</param>
+        /// <param name="NameToQuery">Name to query</param>
+        /// <returns>Element found</returns>
+        public static XElement Element(this XElement ElementToQuery, XNamespace NamespaceToUse, string NameToQuery)
+        {
+            //return the element with the namespace
+            return ElementToQuery.Element(NamespaceToUse + NameToQuery);
+        }
+
+        /// <summary>
+        /// Query an element with a namespace and return the elements
+        /// </summary>
+        /// <param name="ElementToQuery">Element to query</param>
+        /// <param name="NamespaceToUse">Namespace to use</param>
+        /// <param name="NameToQuery">Name to query</param>
+        /// <returns>Elements found</returns>
+        public static IEnumerable<XElement> Elements(this XElement ElementToQuery, XNamespace NamespaceToUse, string NameToQuery)
+        {
+            //return the element with the namespace
+            return ElementToQuery.Elements(NamespaceToUse + NameToQuery);
+        }
+
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Query string value to query with a namespace
+        /// </summary>
+        /// <param name="NamespaceToUse">Namespace to use</param>
+        /// <param name="NameToQuery">Name to query</param>
+        /// <returns>Name to use when we query</returns>
+        private static XName NameToQueryWithNamespace(XNamespace NamespaceToUse, string NameToQuery)
+        {
+            //just combine them
+            return NamespaceToUse + NameToQuery;
+        }
+
+        #endregion
+
+        #endregion
+
         /// <summary>
         /// Removes blank element's where there is no value
         /// </summary>
