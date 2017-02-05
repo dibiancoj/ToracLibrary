@@ -442,13 +442,13 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
-        #region Concat With Single Item
+        #region Prepend and Append With Single Item
 
         /// <summary>
-        /// Unit test for ConcatItemLazy - single item first
+        /// Unit test for Prepend - single item first
         /// </summary>
         [Fact]
-        public void ConcatItemLazySingleItemFirstTest1()
+        public void PrependSingleItemFirstTest1()
         {
             //go build the list
             var TestList = DummyObject.CreateDummyListLazy(2).ToList();
@@ -457,7 +457,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var ItemToAppend = DummyObject.CreateDummyRecord();
 
             //go build the result
-            var Result = TestList.ConcatItemLazy(ItemToAppend, false).ToList();
+            var Result = TestList.PrependItemLazy(ItemToAppend).ToList();
 
             //make sure we have 3 items
             Assert.Equal(TestList.Count + 1, Result.Count);
@@ -477,10 +477,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         }
 
         /// <summary>
-        /// Unit test for ConcatItemLazy - list first
+        /// Unit test for Append - list first
         /// </summary>
         [Fact]
-        public void ConcatItemLazyListFirstTest1()
+        public void AppendSingleItemFirstTest1()
         {
             //go build the list
             var TestList = DummyObject.CreateDummyListLazy(2).ToList();
@@ -489,7 +489,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var ItemToAppend = DummyObject.CreateDummyRecord();
 
             //go build the result
-            var Result = TestList.ConcatItemLazy(ItemToAppend, true).ToList();
+            var Result = TestList.AppendItemLazy(ItemToAppend).ToList();
 
             //make sure we have 3 items
             Assert.Equal(TestList.Count + 1, Result.Count);

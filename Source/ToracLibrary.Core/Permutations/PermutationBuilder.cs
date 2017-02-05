@@ -142,7 +142,7 @@ namespace ToracLibrary.Core.Permutations
                     foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthMinus1, ItemsAreExclusive))
                     {
                         //go start from the previous call and keep looping (use the iterator so we don't have to allocate a dummy array with 1 element)
-                        yield return new PermutationBuilderResult<T>(PermutationOfRemainder.PermutationItems.ConcatItemLazy(StartingElement, false));
+                        yield return new PermutationBuilderResult<T>(PermutationOfRemainder.PermutationItems.PrependItemLazy(StartingElement));
                     }
 
                     //increase the tally

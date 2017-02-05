@@ -91,7 +91,7 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
             var BindThisProperty = Expression.Bind(ToProjectionProperty, Expression.MakeMemberAccess(FindMyParameter.ParameterExpressionsThatWeFound, FromPropertyInfo));
 
             //go merge the bindings
-            var MergedBindings = Node.Bindings.ConcatItemLazy(BindThisProperty, true);
+            var MergedBindings = Node.Bindings.AppendItemLazy(BindThisProperty);
 
             //now create a new expression and return it
             return Expression.MemberInit(Expression.New(typeof(TQueryType)), MergedBindings);

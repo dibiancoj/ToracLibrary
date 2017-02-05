@@ -340,36 +340,47 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
-        #region Concat Single Item With List Iterator
+        #region Prepend and Append Single Item With List Iterator
 
         /// <summary>
-        /// Concat an item to an enumerable without allocating an array with 1 element. Performance minded method. The single item is at the beginning then the list
+        /// Adds a single item at the first element in the list
         /// </summary>
-        /// <typeparam name="T">Type of the record to concat</typeparam>
-        /// <param name="IEnumerableToConcat">IEnumerable to concat</param>
-        /// <param name="ItemToAddToList">Item to add to the list at the beg.</param>
-        /// <param name="OrderListFirst">Do you want the list to be returned first?</param>
-        /// <returns>Single item plus all the items in the collection</returns>
-        public static IEnumerable<T> ConcatItemLazy<T>(this IEnumerable<T> IEnumerableToConcat, T ItemToAddToList, bool OrderListFirst)
+        /// <typeparam name="T">Type of the record and list</typeparam>
+        /// <param name="IEnumerableToPrependInto">IEnumerable to prepend into</param>
+        /// <param name="ItemToAddToList">Item to prepend to the list.</param>
+        /// <returns>The single item at the first element position followed by the rest of the collection elements</returns>
+        public static IEnumerable<T> PrependItemLazy<T>(this IEnumerable<T> IEnumerableToPrependInto, T ItemToAddToList)
         {
-            //if we are not returning the list first then return the single item
-            if (!OrderListFirst)
-            {
-                yield return ItemToAddToList;
-            }
+            //output the single item first
+            yield return ItemToAddToList;
 
-            //now go return all the items in the collection
-            foreach (var ItemInList in IEnumerableToConcat)
+            //now add the rest of the list
+            foreach (T ItemInList in IEnumerableToPrependInto)
+            {
+                //return this item
+                yield return ItemInList;
+            }
+        }
+
+        /// <summary>
+        /// Adds a single item at the end of the list. The single item passed in would be at the end of the collection
+        /// </summary>
+        /// <typeparam name="T">Type of the record and list</typeparam>
+        /// <param name="IEnumerableToAppendInto">IEnumerable to append into</param>
+        /// <param name="ItemToAddToList">Item to append to the end of the list.</param>
+        /// <returns>Collection passed in with the item at the last element in the list.</returns>
+        public static IEnumerable<T> AppendItemLazy<T>(this IEnumerable<T> IEnumerableToAppendInto, T ItemToAddToList)
+        {
+            //add all the collection items first
+            foreach (T ItemInList in IEnumerableToAppendInto)
             {
                 //return this item
                 yield return ItemInList;
             }
 
-            //if we are returning the list first then return the single item at the end
-            if (OrderListFirst)
-            {
-                yield return ItemToAddToList;
-            }
+            //output the single item last
+            yield return ItemToAddToList;
+
         }
 
         #endregion
