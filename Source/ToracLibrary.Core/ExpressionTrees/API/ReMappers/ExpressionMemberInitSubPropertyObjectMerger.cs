@@ -160,11 +160,13 @@ namespace ToracLibrary.Core.ExpressionTrees.API.ReMappers
                 throw new IndexOutOfRangeException($"Can't Find Property Name {PropertyNameOfSubClassOffOfBase} Off Of The Base Class");
             }
 
-            //now we need to merge the 2 binding lists
-            IEnumerable<MemberBinding> MergedBindingLists;
+            //expression to bind
+            var ExpressionToBind = Expression.Bind(SubPropertyInfo, Node);
 
-            //based on the merge position put the bindings before or after
-            MergedBindingLists = ReboundBaseInit.Bindings.ConcatItemLazy(Expression.Bind(SubPropertyInfo, Node), WhichMergeSubObjectPosition == ExpressionReMapperShared.ExpressionMemberInitMergerPosition.After);
+            //now we need to merge the new bound item and the current bindings
+            IEnumerable<MemberBinding> MergedBindingLists = WhichMergeSubObjectPosition == ExpressionReMapperShared.ExpressionMemberInitMergerPosition.After ?
+                                                                                                    ReboundBaseInit.Bindings.AppendItemLazy(ExpressionToBind) :
+                                                                                                    ReboundBaseInit.Bindings.PrependItemLazy(ExpressionToBind);
 
             //now we build the final lambda...and we set the property. the extension method will return this item
             FinalResult = Expression.Lambda<Func<TSource, TBaseDest>>(Expression.MemberInit(NewBaseObject, MergedBindingLists), NewParameter);
