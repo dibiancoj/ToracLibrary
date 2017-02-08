@@ -8,3 +8,6 @@ Tf merge /baseless c:\data\proj1 c:\data proj2 /recursive
 
 Example 2:
 Tf merge /baseless "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareFinancialForms" "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareSprint1" /recursive
+
+Example 3 (Merge specific change): [C and then the changeset id]. Below is merge changeset 34640
+Tf merge /baseless /recursive /version:C34640~C34640 "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareFinancialForms" "C:\Workspace\Portal\MYMSKCC-branchMSKPrepareSprint1"
