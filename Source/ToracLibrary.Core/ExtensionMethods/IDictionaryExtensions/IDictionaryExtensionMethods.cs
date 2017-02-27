@@ -14,6 +14,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
     public static class IDictionaryExtensionMethods
     {
 
+        //I was going to add AddOrUpdate but you can just use the dictionary init to do that. ie: MyDictionary["Key"] = AddOrUpdateObject
+
         /// <summary>
         /// Tries to add an item to the dictionary if it doesn't exist already. If it exists, it will just return false
         /// </summary>
@@ -48,8 +50,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
         /// <typeparam name="TValue">Type Of The Value Of The Dictionary</typeparam>
         /// <param name="DictionaryToUse">Dictionary to try to add the item too</param>
         /// <param name="KeyToCheck">Key to try to get from the dictionary</param>
-        /// <returns>TValue. Null if not found</returns>
-        public static TValue TryGet<TValue, TKey>(this IDictionary<TKey, TValue> DictionaryToUse, TKey KeyToTryToRetrieve) where TValue : class
+        /// <returns>TValue. default(TValue) if not found</returns>
+        public static TValue TryGet<TValue, TKey>(this IDictionary<TKey, TValue> DictionaryToUse, TKey KeyToTryToRetrieve)
         {
             //out parameter
             TValue ValueToTryToFetch;
@@ -62,7 +64,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
             }
 
             //we never found it...just return null
-            return null;
+            return default(TValue);
         }
 
     }
