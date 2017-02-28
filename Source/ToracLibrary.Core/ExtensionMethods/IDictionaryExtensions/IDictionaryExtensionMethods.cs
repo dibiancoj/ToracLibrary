@@ -50,7 +50,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
         /// <typeparam name="TValue">Type Of The Value Of The Dictionary</typeparam>
         /// <param name="DictionaryToUse">Dictionary to try to add the item too</param>
         /// <param name="KeyToCheck">Key to try to get from the dictionary</param>
-        /// <returns>TValue. default(TValue) if not found</returns>
+        /// <returns>TValue. default(TValue) if not found. You can compare result.Equals(default(TValue)</returns>
         public static TValue TryGet<TValue, TKey>(this IDictionary<TKey, TValue> DictionaryToUse, TKey KeyToTryToRetrieve)
         {
             //out parameter
