@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
@@ -40,7 +41,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Can we connect to the database
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void CanConnect()
         {
             //go create the sql data provider
@@ -58,7 +59,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Let's test the data set with sql text
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DataSetWithText()
         {
             //tear down and build up
@@ -85,7 +86,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Let's test the data table with sql text
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DataTableWithText()
         {
             //tear down and build up
@@ -109,7 +110,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Let's test the data reader with sql text
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DataReaderWithText()
         {
             //tear down and build up
@@ -146,7 +147,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Let's test the xml data fetch
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void XElementWithText()
         {
             //tear down and build up
@@ -170,7 +171,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         /// <summary>
         /// Test the get scalar with a text sql command
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void GetScalarWithText()
         {
             //tear down and build up

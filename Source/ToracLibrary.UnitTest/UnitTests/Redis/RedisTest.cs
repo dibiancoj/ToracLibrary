@@ -23,16 +23,6 @@ namespace ToracLibrary.UnitTest.Core
         /* to start in bash for ubuntu in windows */
         //sudo service redis-server start
 
-        #region Flag To Turn On Or Off Test
-
-        /// <summary>
-        /// Holds the reason for not running the redis tests. Flip this to a blank string to run all the tests. This way you don't have to modify each attribute
-        /// </summary>
-        private const string TurnOnOffFlag = "RedisServerNotLoaded";
-        //private const string TurnOnOffFlag = "";
-
-        #endregion
-
         #region Constants
 
         /// <summary>
@@ -94,7 +84,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Ping Command
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisLowLevelPingTest()
         {
             using (var Redis = BuildClient())
@@ -107,7 +97,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For A String
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisLowLevelSetGetSimpleStringTest()
         {
             using (var Redis = BuildClient())
@@ -132,7 +122,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For A String With A Space
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisLowLevelSetGetSimpleStringWithSpaceTest()
         {
             using (var Redis = BuildClient())
@@ -157,7 +147,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For A Number
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisLowLevelSetGetSimpleNumberTest()
         {
             using (var Redis = BuildClient())
@@ -186,7 +176,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For A String
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelSetStringNoExpiration()
         {
             using (var Redis = BuildClient())
@@ -208,7 +198,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For A String with an expiration
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelSetStringWithExpiration()
         {
             using (var Redis = BuildClient())
@@ -236,7 +226,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Try to get a value in the cache when the key is not found
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelGetStringWhenNotInCache()
         {
             using (var Redis = BuildClient())
@@ -252,7 +242,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For An Int with no expiration
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelSetIntNoExpiration()
         {
             using (var Redis = BuildClient())
@@ -274,7 +264,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Simple Set and Get For An Int with an expiration
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelSetIntWithExpiration()
         {
             using (var Redis = BuildClient())
@@ -302,7 +292,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Try to get a value in the cache when the key is not found
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelGetIntWhenNotInCache()
         {
             using (var Redis = BuildClient())
@@ -318,7 +308,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Increment a number
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelIncrementInt()
         {
             using (var Redis = BuildClient())
@@ -337,7 +327,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Decrement a number
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelDecrementInt()
         {
             using (var Redis = BuildClient())
@@ -356,7 +346,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// remove a cache item
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelRemoveCacheItem()
         {
             using (var Redis = BuildClient())
@@ -378,7 +368,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// key exists
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelKeyExistsItem()
         {
             using (var Redis = BuildClient())
@@ -406,7 +396,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// List data type
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelListLevelDataType()
         {
             using (var Redis = BuildClient())
@@ -449,7 +439,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// pub sub 0 response test. The pub sub methods, will test the positive result
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelPublish()
         {
             using (var Redis = BuildClient())
@@ -462,7 +452,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// pub sub 0 response test. The pub sub methods, will test the positive result
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisHigherLevelSubscribe()
         {
             using (var Redis = BuildClient())
@@ -491,7 +481,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Pipeline test
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisPipelineTest()
         {
             using (var Redis = BuildClient())
@@ -552,7 +542,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Transaction test that succeeds
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisTransactionCommitTest()
         {
             using (var Redis = BuildClient())
@@ -614,7 +604,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Transaction test the discard
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void RedisTransactionDiscardTest()
         {
             using (var Redis = BuildClient())
@@ -644,7 +634,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Pub Sub Test
         /// </summary>
-        [Fact(Skip = TurnOnOffFlag)]
+        [Fact(Skip = DisableSpecificUnitTestAreas.TurnOnOffRedisTestFlag)]
         public void PubSubTest()
         {
             //test values

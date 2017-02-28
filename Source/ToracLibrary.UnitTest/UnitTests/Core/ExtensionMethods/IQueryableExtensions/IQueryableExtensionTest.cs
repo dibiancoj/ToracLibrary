@@ -61,7 +61,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for sorting by the model in ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void OrderByWithColumnModelForEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -149,7 +149,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for sorting by the column name in in ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void OrderByWithColumnNameForEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -236,7 +236,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for merging a select statement in iqueryable (entity framework)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void IQueryableMemberInitMergeForEntityFrameworkTest1()
         {
             //tear down the table

@@ -6,6 +6,7 @@ using System.Threading;
 using ToracLibrary.Caching;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibrary.UnitTest.Core.DataProviders;
+using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
@@ -121,7 +122,7 @@ namespace ToracLibrary.UnitTest.Caching
         /// <summary>
         /// Test sql cache dep.
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void SqlCacheDependencyNoDITest1()
         {
             //cleanup the table
@@ -156,7 +157,7 @@ namespace ToracLibrary.UnitTest.Caching
         /// <summary>
         /// Test the sql cache dep using a DI container
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void SqlCacheDependencyWithDependencyInjectionTest1()
         {
             //cleanup the table

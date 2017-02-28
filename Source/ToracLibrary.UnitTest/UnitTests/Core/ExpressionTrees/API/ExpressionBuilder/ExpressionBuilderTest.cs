@@ -76,7 +76,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         ///  build a parameter expression for ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExpressionTreesBuildStatementEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -107,7 +107,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         ///  build a parameter expression for ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExpressionTreesBuildStatementEntityFrameworkUnTypedTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -171,7 +171,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a dynamic ienumerable.contains for ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void IEnumerableContainsForEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -235,7 +235,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a dynamic select for for ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void SelectForEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -306,7 +306,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         ///  build a string contains expression for ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void StringContainstForEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();

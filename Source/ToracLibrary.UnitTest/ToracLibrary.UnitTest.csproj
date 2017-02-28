@@ -197,6 +197,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisableSpecificUnitTestAreas.cs" />
     <Compile Include="Migrations\201608270333423_InitDatabase.cs" />
     <Compile Include="Migrations\201608270333423_InitDatabase.Designer.cs">
       <DependentUpon>201608270333423_InitDatabase.cs</DependentUpon>

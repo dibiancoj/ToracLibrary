@@ -147,7 +147,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a new object using expression trees (with parameters)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void SelectNewFromObjectForForEntityFramework()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();

@@ -42,7 +42,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for pagination in ef
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void PaginateForEFTest1()
         {
             //add 100 records now

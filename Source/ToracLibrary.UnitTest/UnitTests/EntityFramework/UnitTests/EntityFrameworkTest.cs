@@ -72,7 +72,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Can Connect
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void CanConnect()
         {
             //make sure we can connect
@@ -86,7 +86,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Schema
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void SchemaTest1()
         {
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
@@ -99,7 +99,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Auto Detect Test
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void UpdateRecordWithAutoDetectFalseTest1()
         {
             //if you have auto detect false (constructor parameter)
@@ -144,7 +144,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Primary Key Is Auto Seed Lookup
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void PrimaryKeyIsAutoSeedLookupTest1()
         {
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(ReadonlyDataProviderName))
@@ -163,7 +163,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Get Or Add
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void GetOrAddTest1()
         {
             //go truncate the table to get ready for the test
@@ -200,7 +200,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task GetOrAddAsyncTest1()
         {
             //go truncate the table to get ready for the test
@@ -241,7 +241,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Bulk Insert
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void BulkInsertTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -272,7 +272,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task BulkInsertAsyncTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -307,7 +307,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region ExecuteRawSql (With And Without Parameteres)
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExecuteRawSqlWAndWithoutParamTest1()
         {
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
@@ -323,7 +323,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task ExecuteRawSqlAsyncWAndWithoutParamTest1()
         {
             using (var DP = DIUnitTestContainer.DIContainer.Resolve<EntityFrameworkDP<EntityFrameworkEntityDP>>(WritableDataProviderName))
@@ -339,7 +339,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExecuteRawSqlWithResultsNoParametersTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -354,7 +354,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExecuteRawSqlWithResultsWithParametersTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -377,7 +377,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Delete
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DeleteWithSqlTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -398,7 +398,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task DeleteWithSqlAsyncTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -419,7 +419,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DeleteMultipleTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -440,7 +440,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task DeleteMultipleAsyncTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -461,7 +461,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DeleteByEntityTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -479,7 +479,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task DeleteByEntityAsyncTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -501,7 +501,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Add
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void AddTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -543,7 +543,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void AddTest2()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -578,7 +578,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task AddAsyncTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -620,7 +620,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void AddRangeTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -644,7 +644,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void AddRangeTest2()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -666,7 +666,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Add Or Update
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void UpsertTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -697,7 +697,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void UpsertRangeTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -719,7 +719,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void UpsertRangeTest2()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -754,7 +754,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Find
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task FindTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -778,7 +778,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Fetch
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task FetchTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -802,7 +802,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Transactions
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void TransactionTest1()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -835,7 +835,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void TransactionTest2()
         {
             DataProviderSetupTearDown.TruncateTable();
@@ -876,7 +876,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Data Inheritance Examples
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public async Task DataInheritanceExample1()
         {
             //example of Table per Type(TPT) inheritance (which i think is the most useful out of all of them)

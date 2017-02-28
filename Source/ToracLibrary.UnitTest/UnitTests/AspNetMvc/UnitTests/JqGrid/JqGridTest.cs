@@ -51,7 +51,7 @@ namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.JqGrid
 
         #region Grid Inline Filters
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void JqGridInlineFilterQueryBuilderAndStatementTest1()
         {
             DataProviderSetupTearDown.AddRows(true);
@@ -95,7 +95,7 @@ namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.JqGrid
             }
         }
 
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void JqGridInlineFilterQueryBuilderOrStatementTest1()
         {
             DataProviderSetupTearDown.AddRows(true);

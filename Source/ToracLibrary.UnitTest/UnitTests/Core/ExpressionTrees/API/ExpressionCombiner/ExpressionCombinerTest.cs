@@ -57,7 +57,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// combine 2 expressions and run a where (ef)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void CombineExpressionTreesEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -122,7 +122,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// use a not on an expression (ef)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void NotEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();

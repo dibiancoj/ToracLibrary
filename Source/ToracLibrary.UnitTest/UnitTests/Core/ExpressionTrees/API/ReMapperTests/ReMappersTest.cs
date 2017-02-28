@@ -66,7 +66,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a new object using expression trees (no parameters)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExpressionParameterRemapperEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -151,7 +151,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a new object using expression trees (no parameters)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExpressionMemberInitRemapperEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
@@ -230,7 +230,7 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// build a new object using expression trees (no parameters)
         /// </summary>
-        [Fact]
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void ExpressionSubMemberInitRemapperEntityFrameworkTest1()
         {
             DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
