@@ -61,11 +61,6 @@ namespace ToracLibrary.Core.DataProviders.ADO
         private SqlConnection ConnSql { get; }
 
         /// <summary>
-        /// My Parameters For The Command I am Going To Run
-        /// </summary>
-        private List<SqlParameter> CommandParameters { get; set; }
-
-        /// <summary>
         /// Holds a flag if the class has been disposed yet or called to be disposed yet
         /// </summary>
         /// <remarks>Used IDisposable</remarks>
@@ -76,52 +71,23 @@ namespace ToracLibrary.Core.DataProviders.ADO
         #region Parameters
 
         /// <summary>
-        /// Initalizes the list which holds the parameters being passed into the database
-        /// </summary>
-        /// <remarks>It runs checks when you try to add or clear parameters to make sure the list is valid</remarks>
-        public void InitializeParameters()
-        {
-            //Create a new list of parameters
-            CommandParameters = new List<SqlParameter>();
-        }
-
-        /// <summary>
-        ///  Clears all the parameters in the list of parameters
-        /// </summary>
-        /// <remarks>Raises an error if the list of objects is not valid</remarks>
-        public void ClearParameters()
-        {
-            //If the parameters has been initialized already then throw an error and let the developer know what's going on
-            if (CommandParameters == null)
-            {
-                throw new InvalidOperationException("You are not permitted to clear your SQL parameters because the list of SQL Server parameters is not valid.");
-            }
-
-            //If it's not an error then clear the parameters
-            CommandParameters.Clear();
-        }
-
-        /// <summary>
-        /// Adds a SQL parameter to the list of parameters being passed into the stored procedure or SQL
+        /// Builds a basic SQL parameter to use in a call when you use a parameterized query
         /// </summary>
         /// <typeparam name="T">The parameter's type</typeparam>
         /// <param name="ParameterName">Parameter Name. You can use the @ symbol or not. Doesn't really matter.</param>
         /// <param name="ParameterType">Parameter Type. What type of variable is this.</param>
         /// <param name="ParameterValue">The value of the parameter. Is an object so it can take whatever you pass in</param>
+        /// <returns>SqlParameter to use in the query</returns>
         /// <remarks>Will raise an error if you haven't called InitializeParameters before calling this method</remarks>
-        public void AddParameter<T>(string ParameterName, DbType ParameterType, T ParameterValue)
+        public SqlParameter AddParameter<T>(string ParameterName, DbType ParameterType, T ParameterValue)
         {
-            //If the user forgets to initialize the parameters then throw an error...we wan't them to be aware that they need to clear / initialize the list first before adding any paramters
-            if (CommandParameters == null)
-                throw new InvalidOperationException("Please initialize the parameters (InitializeParameters();) before trying to add any parameters");
-
             //User Already Initialized The Parameter List...Now Add It To The List
-            CommandParameters.Add(new SqlParameter
+            return new SqlParameter
             {
                 ParameterName = ParameterName,
                 DbType = ParameterType,
                 Value = ParameterValue
-            });
+            };
         }
 
         #endregion
@@ -203,60 +169,16 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #region DataSets
 
-        #region Public Methods
-
         /// <summary>
-        /// Get A Data Set.
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <returns>Dataset</returns>
-        public DataSet GetDataSet(string SqlToRun, CommandType CommandTypeToRun)
-        {
-            //Call The Overload With The Name Of "ds" [Need a data set name, can't be blank or null]
-            return GetDataSetHelper(SqlToRun, CommandTypeToRun, "ds", null);
-        }
-
-        /// <summary>
-        /// Get A Data Set
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="DataSetName">Name Of The DataSet You Wish To Call It</param>
-        /// <returns>DataSet</returns>
-        public DataSet GetDataSet(string SqlToRun, CommandType CommandTypeToRun, string DataSetName)
-        {
-            //return the overload
-            return GetDataSetHelper(SqlToRun, CommandTypeToRun, DataSetName, null);
-        }
-
-        /// <summary>
-        /// Get A Data Set
-        /// </summary>
-        /// <param name="SqlToRun">Sql to run or stored procedure</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="DataSetName">Dataset Name</param>
-        /// <param name="CommandTimeout">Command Timeout in seconds</param>
-        /// <returns>Dataset</returns>
-        public DataSet GetDataSet(string SqlToRun, CommandType CommandTypeToRun, string DataSetName, int CommandTimeout)
-        {
-            //return the results of the helper method
-            return GetDataSetHelper(SqlToRun, CommandTypeToRun, DataSetName, CommandTimeout);
-        }
-
-        #endregion
-
-        #region Data Set Helper Method
-
-        /// <summary>
-        /// Data Set Helper
+        /// Query and return a dataset from the database
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
         /// <param name="DataSetName">Name Of The DataSet You Wish To Call It</param>
         /// <param name="CommandTimeout">Command Time Out (in seconds)</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>DataSet</returns>
-        private DataSet GetDataSetHelper(string SqlToRun, CommandType CommandTypeToRun, string DataSetName, Nullable<int> CommandTimeout)
+        public DataSet GetDataSet(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null, int? CommandTimeout = null, string DataSetName = "ds")
         {
             try
             {
@@ -276,10 +198,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                             }
 
                             //add the parameters
-                            if (CommandParameters.AnyWithNullCheck())
+                            if (QueryParameters.AnyWithNullCheck())
                             {
-                                SqlCommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                                CommandParameters.Clear();
+                                SqlCommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                             }
 
                             //set the select command 
@@ -307,64 +228,18 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #endregion
 
-        #endregion
-
         #region DataTable
 
-        #region Public Methods
-
         /// <summary>
-        /// Get A Data Table
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <returns>Datatable</returns>
-        public DataTable GetDataTable(string SqlToRun, CommandType CommandTypeToRun)
-        {
-            //return the helper method (give it a default table name so it can be serialized)
-            return GetDataTableHelper(SqlToRun, CommandTypeToRun, "dt", null);
-        }
-
-        /// <summary>
-        /// Get A Data Table
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="TableName">Name Of The DataSet You Wish To Call It</param>
-        /// <returns>Datatable</returns>
-        public DataTable GetDataTable(string SqlToRun, CommandType CommandTypeToRun, string TableName)
-        {
-            //return the helper method
-            return GetDataTableHelper(SqlToRun, CommandTypeToRun, TableName, null);
-        }
-
-        /// <summary>
-        /// Get A Data Table
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="TableName">Name Of The DataSet You Wish To Call It</param>
-        /// <param name="CommandTimeOut">Command Time Out In Seconds</param>
-        /// <returns>Datatable</returns>
-        public DataTable GetDataTable(string SqlToRun, CommandType CommandTypeToRun, string TableName, int CommandTimeOut)
-        {
-            //return the helper method
-            return GetDataTableHelper(SqlToRun, CommandTypeToRun, TableName, CommandTimeOut);
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        /// <summary>
-        /// Data Table Helper
+        /// Retrieve a Data Table from the database
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
         /// <param name="TableName">Name Of The DataSet You Wish To Call It</param>
         /// <param name="CommandTimeOut">Command Time Out - Null is the default value</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>Datatable</returns>
-        private DataTable GetDataTableHelper(string SqlToRun, CommandType CommandTypeToRun, string TableName, Nullable<int> CommandTimeOut)
+        public DataTable GetDataTable(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null, string TableName = "dt", int? CommandTimeOut = null)
         {
             try
             {
@@ -384,10 +259,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                             }
 
                             //add the parameters if we have any
-                            if (CommandParameters.AnyWithNullCheck())
+                            if (QueryParameters.AnyWithNullCheck())
                             {
-                                CommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                                CommandParameters.Clear();
+                                CommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                             }
 
                             //set the select command
@@ -415,35 +289,16 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #endregion
 
-        #endregion
-
         #region Execute Non-Query
 
-        #region Public Methods
-
         /// <summary>
         /// Execute A Query That Does Not Return Any Records
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>Boolan on if the command was successful</returns>
-        public bool ExecuteNonQuery(string SqlToRun, CommandType CommandTypeToRun)
-        {
-            //use the helper method
-            return ExecuteNonQueryHelper(SqlToRun, CommandTypeToRun);
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        /// <summary>
-        /// Execute A Query That Does Not Return Any Records
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <returns>Boolan on if the command was successful</returns>
-        private bool ExecuteNonQueryHelper(string SqlToRun, CommandType CommandTypeToRun)
+        public bool ExecuteNonQuery(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null)
         {
             try
             {
@@ -453,10 +308,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                     CommandToRun.CommandType = CommandTypeToRun;
 
                     //add the parameters if there are any
-                    if (CommandParameters.AnyWithNullCheck())
+                    if (QueryParameters.AnyWithNullCheck())
                     {
-                        CommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                        CommandParameters.Clear();
+                        CommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                     }
 
                     //open the connection
@@ -482,8 +336,6 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #endregion
 
-        #endregion
-
         #region Reader's
 
         #region Data Reader's
@@ -493,10 +345,11 @@ namespace ToracLibrary.Core.DataProviders.ADO
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="myCommandBehavior">Command Behavior To The DataReader.</param>
+        /// <param name="CommandBehaviorToUse">Command Behavior To The DataReader.</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>A Data Reader</returns>
         /// <remarks>Be Sure To Close The Connection After You Are Done With The Reader. (Don't Have To If You Passed In CommandBehavior.CloseConnection)</remarks>
-        public DbDataReader GetDataReader(string SqlToRun, CommandType CommandTypeToRun, CommandBehavior myCommandBehavior)
+        public DbDataReader GetDataReader(string SqlToRun, CommandType CommandTypeToRun, CommandBehavior CommandBehaviorToUse, IEnumerable<SqlParameter> QueryParameters = null)
         {
             try
             {
@@ -506,10 +359,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                     CommandToRun.CommandType = CommandTypeToRun;
 
                     //add the parameters
-                    if (CommandParameters.AnyWithNullCheck())
+                    if (QueryParameters.AnyWithNullCheck())
                     {
-                        CommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                        CommandParameters.Clear();
+                        CommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                     }
 
                     //if the connection is closed then open the connection
@@ -519,7 +371,7 @@ namespace ToracLibrary.Core.DataProviders.ADO
                     }
 
                     //return the data reader
-                    return CommandToRun.ExecuteReader(myCommandBehavior);
+                    return CommandToRun.ExecuteReader(CommandBehaviorToUse);
                 }
             }
             catch (Exception)
@@ -536,47 +388,15 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #region XML Reader
 
-        #region Public Methods
-
         /// <summary>
-        /// Retrieve An XML Data Reader.
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <returns>XML Data Reader</returns>
-        /// <remarks>Be Sure To Close The Connection After You Are Done With The Reader.</remarks>
-        public XmlReader GetXMLDataReader(string SqlToRun, CommandType CommandTypeToRun)
-        {
-            //use the overload to grab the data
-            return GetXMLDataReaderHelper(SqlToRun, CommandTypeToRun, null);
-        }
-
-        /// <summary>
-        /// Retrieve An XML Data Reader.
+        /// Get an xml reader from the database
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
         /// <param name="CommandTimeout">Command Time Out (in seconds)</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>XML Data Reader</returns>
-        /// <remarks>Be Sure To Close The Connection After You Are Done With The Reader.</remarks>
-        public XmlReader GetXMLDataReader(string SqlToRun, CommandType CommandTypeToRun, int CommandTimeout)
-        {
-            //use the helper method to grab the data
-            return GetXMLDataReaderHelper(SqlToRun, CommandTypeToRun, CommandTimeout);
-        }
-
-        #endregion
-
-        #region Helper Method
-
-        /// <summary>
-        /// Helper Method For The GetXMLDataReader Overloads
-        /// </summary>
-        /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
-        /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
-        /// <param name="CommandTimeout">Command Time Out (in seconds)</param>
-        /// <returns>XML Data Reader</returns>
-        private XmlReader GetXMLDataReaderHelper(string SqlToRun, CommandType CommandTypeToRun, Nullable<int> CommandTimeout)
+        public XmlReader GetXMLDataReader(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null, int? CommandTimeout = null)
         {
             try
             {
@@ -594,10 +414,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                     }
 
                     //Add the parameters
-                    if (CommandParameters.AnyWithNullCheck())
+                    if (QueryParameters.AnyWithNullCheck())
                     {
-                        CommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                        CommandParameters.Clear();
+                        CommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                     }
 
                     //if the connection is closed then oepn it
@@ -624,74 +443,25 @@ namespace ToracLibrary.Core.DataProviders.ADO
 
         #endregion
 
-        #endregion
-
         #region XML Specific Return Objects
 
-        #region Public Methods
-
-        /// <summary>
-        /// Returns An XElement Node For The Command Passed In
-        /// </summary>
-        /// <param name="SqlToRun">Sql To Run - Stored Procedure Name If Using Stored Procedure</param>
-        /// <param name="CommandTypeToRun">Command Type</param>
-        /// <returns>XElement - System.Xml.Linq</returns>
-        /// <remarks>Behind the scenes it uses an XML Reader</remarks>
-        public XElement GetXMLData(string SqlToRun, CommandType CommandTypeToRun)
-        {
-            //use the helper method to grab the data
-            return GetXMLDataHelper(SqlToRun, CommandTypeToRun, null);
-        }
-
         /// <summary>
         /// Returns An XElement Node For The Command Passed In
         /// </summary>
         /// <param name="SqlToRun">Sql To Run - Stored Procedure Name If Using Stored Procedure</param>
         /// <param name="CommandTypeToRun">Command Type</param>
         /// <param name="CommandTimeout">Command Timeout If Needed. In Seconds</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>XElement - System.Xml.Linq</returns>
         /// <remarks>Behind the scenes it uses an XML Reader</remarks>
-        public XElement GetXMLData(string SqlToRun, CommandType CommandTypeToRun, int CommandTimeout)
+        public XElement GetXMLData(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null, int? CommandTimeout = null)
         {
-            //use the helper method to grab the data
-            return GetXMLDataHelper(SqlToRun, CommandTypeToRun, CommandTimeout);
-        }
-
-        #endregion
-
-        #region Helper Method
-
-        /// <summary>
-        /// Helper Method For GetXMLData - Returns An XElement Node For The Command Passed In
-        /// </summary>
-        /// <param name="SqlToRun">Sql To Run - Stored Procedure Name If Using Stored Procedure</param>
-        /// <param name="CommandTypeToRun">Command Type</param>
-        /// <param name="CommandTimeout">Command Timeout If Needed. In Seconds</param>
-        /// <returns>XElement - System.Xml.Linq</returns>
-        /// <remarks>Behind the scenes it uses an XML Reader</remarks>
-        private XElement GetXMLDataHelper(string SqlToRun, CommandType CommandTypeToRun, Nullable<int> CommandTimeout)
-        {
-            try
+            using (XmlReader XmlReaderToLoad = GetXMLDataReader(SqlToRun, CommandTypeToRun, QueryParameters))
             {
-                //grab the xml reader in the using command
-                using (XmlReader XmlReaderToLoad = GetXMLDataReaderHelper(SqlToRun, CommandTypeToRun, CommandTimeout))
-                {
-                    //return the xelement item...reader will close upon dispose
-                    return XElement.Load(XmlReaderToLoad);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                //make sure we close the connection if it's open
-                CloseConn();
+                //use the helper method to grab the data
+                return XElement.Load(XmlReaderToLoad);
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -702,9 +472,10 @@ namespace ToracLibrary.Core.DataProviders.ADO
         /// </summary>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>Your result in an object. Be sure to cast it otherwise it will be late bound!</returns>
         /// <example>Select Count(*)</example>
-        public object GetScalar(string SqlToRun, CommandType CommandTypeToRun)
+        public object GetScalar(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null)
         {
             try
             {
@@ -714,10 +485,9 @@ namespace ToracLibrary.Core.DataProviders.ADO
                     CommandToRun.CommandType = CommandTypeToRun;
 
                     //add the parameters
-                    if (CommandParameters.AnyWithNullCheck())
+                    if (QueryParameters.AnyWithNullCheck())
                     {
-                        CommandToRun.Parameters.AddRange(CommandParameters.ToArray());
-                        CommandParameters.Clear();
+                        CommandToRun.Parameters.AddRange(QueryParameters.ToArray());
                     }
 
                     //Open the connection if its not open already
@@ -747,12 +517,13 @@ namespace ToracLibrary.Core.DataProviders.ADO
         /// <typeparam name="T">Return Type That You Expect Back</typeparam>
         /// <param name="SqlToRun">SQL To Run Or The Stored Procedure Name</param>
         /// <param name="CommandTypeToRun">Command Type. Is it a stored procedure or sql (text)</param>
+        /// <param name="QueryParameters">SqlParameter to use in the query</param>
         /// <returns>Your result that is typed because of the type of T you passed in</returns>
         /// <example>Select Count(*)</example>
-        public T GetScalar<T>(string SqlToRun, CommandType CommandTypeToRun)
+        public T GetScalar<T>(string SqlToRun, CommandType CommandTypeToRun, IEnumerable<SqlParameter> QueryParameters = null)
         {
             //use the overload and cast it
-            return (T)GetScalar(SqlToRun, CommandTypeToRun);
+            return (T)GetScalar(SqlToRun, CommandTypeToRun, QueryParameters);
         }
 
         #endregion
@@ -1109,6 +880,5 @@ namespace ToracLibrary.Core.DataProviders.ADO
         #endregion
 
     }
-
 
 }

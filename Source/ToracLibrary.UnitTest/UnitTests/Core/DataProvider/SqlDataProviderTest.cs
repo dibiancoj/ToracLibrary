@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
@@ -70,14 +71,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
                 //id to query
                 const int IdToQuery = 1;
 
-                //init the parameters
-                DP.InitializeParameters();
-
-                //go add the parameters
-                DP.AddParameter("@Id", DbType.Int32, IdToQuery);
-
                 //go grab the data set
-                var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text);
+                var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
 
                 //make sure we have 1 table
                 Assert.Equal(1, DataSetToTest.Tables.Count);
