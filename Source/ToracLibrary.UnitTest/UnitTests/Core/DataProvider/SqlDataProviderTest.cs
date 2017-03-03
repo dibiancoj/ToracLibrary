@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using ToracLibrary.Core.DataProviders.ADO;
-using ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
@@ -55,6 +54,41 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #endregion
 
         #region Data Sets
+
+        /// <summary>
+        /// Use a parameter
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataSetWithTextAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //init the parameters
+                DP.InitializeParameters();
+
+                //go add the parameters
+                DP.AddParameter("@Id", DbType.Int32, IdToQuery);
+
+                //go grab the data set
+                var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text);
+
+                //make sure we have 1 table
+                Assert.Equal(1, DataSetToTest.Tables.Count);
+
+                //check the row count now
+                Assert.Equal(1, DataSetToTest.Tables[0].Rows.Count);
+
+                //make sure the id is 1
+                Assert.Equal(IdToQuery, Convert.ToInt32(DataSetToTest.Tables[0].Rows[0]["Id"].ToString()));
+            }
+        }
 
         /// <summary>
         /// Let's test the data set with sql text

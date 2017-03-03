@@ -21,6 +21,17 @@ namespace ToracLibrary.Core.DataProviders.ADO
     public class SQLDataProvider : IDataProvider, IDisposable
     {
 
+        /* for parameters
+         *      //init the parameters
+                DP.InitializeParameters();
+
+                //go add the parameters
+                DP.AddParameter("@Id", DbType.Int32, IdToQuery);
+
+                //go grab the data set
+                var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text);
+         */
+
         #region Constructor
 
         /// <summary>
