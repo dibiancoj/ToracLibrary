@@ -57,7 +57,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #region Data Sets
 
         /// <summary>
-        /// Use a parameter
+        /// Test using a dataset with sql parameters
         /// </summary>
         [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
         public void DataSetWithTextAndParameters()
@@ -81,7 +81,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
                 Assert.Equal(1, DataSetToTest.Tables[0].Rows.Count);
 
                 //make sure the id is 1
-                Assert.Equal(IdToQuery, Convert.ToInt32(DataSetToTest.Tables[0].Rows[0]["Id"].ToString()));
+                Assert.Equal(IdToQuery, Convert.ToInt32(DataSetToTest.Tables[0].Rows[0]["Id"]));
             }
         }
 
@@ -113,6 +113,32 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #region Data Tables
 
         /// <summary>
+        /// Test using a datatable with sql parameters
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataTableWithTextAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //go grab the data table
+                var DataTableToTest = DP.GetDataTable("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
+
+                //now lets check the results
+                Assert.Equal(1, DataTableToTest.Rows.Count);
+
+                //make sure the id is 1
+                Assert.Equal(IdToQuery, Convert.ToInt32(DataTableToTest.Rows[0]["Id"]));
+            }
+        }
+
+        /// <summary>
         /// Let's test the data table with sql text
         /// </summary>
         [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
@@ -135,6 +161,45 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #endregion
 
         #region Data Readers
+
+        /// <summary>
+        /// Let's test the data reader with sql text with sql parameters
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataReaderWithTextAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //grab the data reader
+                var DataReaderToTest = DP.GetDataReader("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text, CommandBehavior.CloseConnection, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
+
+                //tally on how many records we have
+                int RecordCount = 0;
+
+                //make sure we have rows
+                Assert.True(DataReaderToTest.HasRows);
+
+                //loop through the rows
+                while (DataReaderToTest.Read())
+                {
+                    //increase the record tally
+                    RecordCount++;
+
+                    //make sure the id is 1 (there should only be 1 row
+                    Assert.Equal(IdToQuery, Convert.ToInt32(DataReaderToTest["Id"]));
+                }
+
+                //let's check how many rows we should have now
+                Assert.Equal(1, RecordCount);
+            }
+        }
 
         /// <summary>
         /// Let's test the data reader with sql text
@@ -196,6 +261,32 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #endregion
 
         #region Get Scalar
+
+        /// <summary>
+        /// Test the get scalar with a text sql command with sql parameters
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void GetScalarWithTextAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //declare the id we want to grab
+                const int IdToQuery = 1;
+
+                //let's go build the sql for this id
+                string sql = $"SELECT T.Id FROM Ref_Test AS T WHERE T.id = @Id";
+
+                //go fetch the record using the object return overload
+                Assert.Equal(IdToQuery, (int)DP.GetScalar(sql, CommandType.Text, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) }));
+
+                //use the generic method to test
+                Assert.Equal(IdToQuery, DP.GetScalar<int>(sql, CommandType.Text, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) }));
+            }
+        }
 
         /// <summary>
         /// Test the get scalar with a text sql command
