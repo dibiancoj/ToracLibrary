@@ -206,6 +206,10 @@
     <Compile Include="Migrations\201608270336021_AddT4TemplateTestTable.Designer.cs">
       <DependentUpon>201608270336021_AddT4TemplateTestTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703041638508_RefTestAddProc.cs" />
+    <Compile Include="Migrations\201703041638508_RefTestAddProc.Designer.cs">
+      <DependentUpon>201703041638508_RefTestAddProc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="UnitTests\AspNetMvc\Framework\AspNetDIContainerSharedMock.cs" />
     <Compile Include="UnitTests\AspNetMvc\UnitTests\CustomActionsResults\JsonActionResultTest.cs" />
@@ -388,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608270336021_AddT4TemplateTestTable.resx">
       <DependentUpon>201608270336021_AddT4TemplateTestTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041638508_RefTestAddProc.resx">
+      <DependentUpon>201703041638508_RefTestAddProc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

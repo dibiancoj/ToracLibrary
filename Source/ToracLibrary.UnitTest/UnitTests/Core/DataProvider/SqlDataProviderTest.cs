@@ -57,6 +57,35 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #region Data Sets
 
         /// <summary>
+        /// Test using a dataset with sql parameters in a stored proc
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataSetWithSPAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //go grab the data set
+                var DataSetToTest = DP.GetDataSet("RefTestStoredProcTest", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
+
+                //make sure we have 1 table
+                Assert.Equal(1, DataSetToTest.Tables.Count);
+
+                //check the row count now
+                Assert.Equal(1, DataSetToTest.Tables[0].Rows.Count);
+
+                //make sure the id is 1
+                Assert.Equal(IdToQuery, Convert.ToInt32(DataSetToTest.Tables[0].Rows[0]["Id"]));
+            }
+        }
+
+        /// <summary>
         /// Test using a dataset with sql parameters
         /// </summary>
         [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
@@ -113,6 +142,32 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #region Data Tables
 
         /// <summary>
+        /// Test using a datatable with sql parameters with a proc
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataTableWithProcAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //go grab the data table
+                var DataTableToTest = DP.GetDataTable("RefTestStoredProcTest", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
+
+                //now lets check the results
+                Assert.Equal(1, DataTableToTest.Rows.Count);
+
+                //make sure the id is 1
+                Assert.Equal(IdToQuery, Convert.ToInt32(DataTableToTest.Rows[0]["Id"]));
+            }
+        }
+
+        /// <summary>
         /// Test using a datatable with sql parameters
         /// </summary>
         [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
@@ -161,6 +216,45 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #endregion
 
         #region Data Readers
+
+        /// <summary>
+        /// Let's test the data reader with sql parameters in a proc
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void DataReaderWithProcAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //id to query
+                const int IdToQuery = 1;
+
+                //grab the data reader
+                var DataReaderToTest = DP.GetDataReader("RefTestStoredProcTest", CommandType.StoredProcedure, CommandBehavior.CloseConnection, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
+
+                //tally on how many records we have
+                int RecordCount = 0;
+
+                //make sure we have rows
+                Assert.True(DataReaderToTest.HasRows);
+
+                //loop through the rows
+                while (DataReaderToTest.Read())
+                {
+                    //increase the record tally
+                    RecordCount++;
+
+                    //make sure the id is 1 (there should only be 1 row
+                    Assert.Equal(IdToQuery, Convert.ToInt32(DataReaderToTest["Id"]));
+                }
+
+                //let's check how many rows we should have now
+                Assert.Equal(1, RecordCount);
+            }
+        }
 
         /// <summary>
         /// Let's test the data reader with sql text with sql parameters
@@ -261,6 +355,29 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
         #endregion
 
         #region Get Scalar
+
+        /// <summary>
+        /// Test the get scalar with a proc sql command with sql parameters
+        /// </summary>
+        [Fact(Skip = DisableSpecificUnitTestAreas.DatabaseAvailableForUnitTestFlag)]
+        public void GetScalarWithProcAndParameters()
+        {
+            //tear down and build up
+            DataProviderSetupTearDown.TearDownAndBuildUpDbEnvironment();
+
+            //create the data provider
+            using (var DP = DIUnitTestContainer.DIContainer.Resolve<IDataProvider>())
+            {
+                //declare the id we want to grab
+                const int IdToQuery = 1;
+
+                //go fetch the record using the object return overload
+                Assert.Equal(IdToQuery, (int)DP.GetScalar("RefTestStoredProcTest", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) }));
+
+                //use the generic method to test
+                Assert.Equal(IdToQuery, DP.GetScalar<int>("RefTestStoredProcTest", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) }));
+            }
+        }
 
         /// <summary>
         /// Test the get scalar with a text sql command with sql parameters

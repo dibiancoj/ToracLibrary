@@ -4,4 +4,5 @@ Update-database -startupproject "ToracLibrary.UnitTest" -verbose
 
 
 *** make sure to run -startupproject "ToracLibrary.UnitTest" with everything otherwise you will get errors because its looking for the connection string in ToracLibrary.Core
+(NewTable is the migration name)
 ie: add-migration NewTable -startupproject "ToracLibrary.UnitTest" -verbose
