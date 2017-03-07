@@ -1,0 +1,13 @@
+﻿public class MyModel: IValidatableObject
+{
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            //we want a better looking compare so we are going to handle this manually
+            if (Password != ConfirmPassword)
+            {
+                yield return new ValidationResult("Password values do not match", new string[0]);
+            }
+        }
+
+}
