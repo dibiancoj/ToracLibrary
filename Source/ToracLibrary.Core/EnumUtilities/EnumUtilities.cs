@@ -64,11 +64,8 @@ namespace ToracLibrary.Core.EnumUtilities
             //make sure the input value is filled out
             if (InputToConvertToEnum.HasValue())
             {
-                //out value to try to cast it too
-                T ConvertedEnum;
-
                 //go try to parse the enum value...(true means it was converted, false means it failed)
-                if (Enum.TryParse(InputToConvertToEnum, IgnoreCase, out ConvertedEnum))
+                if (Enum.TryParse(InputToConvertToEnum, IgnoreCase, out T ConvertedEnum))
                 {
                     //conversion completed succesfully...return the enum
                     return ConvertedEnum;
