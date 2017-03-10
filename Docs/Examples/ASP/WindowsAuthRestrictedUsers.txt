@@ -1,0 +1,15 @@
+1. Make sure IIS has the following:
+	A. anonymous access is turned off (you wont be able to restrict based on user if you leave this on)
+	B  turn windows auth on
+
+Even though its it the web config it needs to match in IIS.
+
+
+In the web.config
+<authentication mode="Windows"/>
+    <authorization>
+       <allow users="MyDomain\UserName1"/> 
+	   <allow users="MyDomain\UserName2"/> 
+       <deny users="*" />
+       <deny users="?"/>
+    </authorization>

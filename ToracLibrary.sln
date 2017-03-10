@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -65,6 +65,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP", "ASP", "{B601D20B-28F
 		Docs\Examples\ASP\ModifyUrlsOrGetSpecificPartOfUrl.txt = Docs\Examples\ASP\ModifyUrlsOrGetSpecificPartOfUrl.txt
 		Docs\Examples\ASP\OtherFileTransforms.txt = Docs\Examples\ASP\OtherFileTransforms.txt
 		Docs\Examples\ASP\WebConfigTransformation.txt = Docs\Examples\ASP\WebConfigTransformation.txt
+		Docs\Examples\ASP\WindowsAuthRestrictedUsers.txt = Docs\Examples\ASP\WindowsAuthRestrictedUsers.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OWIN", "OWIN", "{A62FCACC-7419-4247-86D5-E13055360C74}"
