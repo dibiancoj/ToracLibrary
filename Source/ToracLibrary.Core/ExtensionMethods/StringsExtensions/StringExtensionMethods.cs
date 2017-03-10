@@ -373,29 +373,36 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
                 throw new ArgumentException("The string value is null", "StringValueToLookFor");
             }
 
-            //working index that we found the item with
-            int? WorkingIndex = null;
+            //return the local function
+            return Iterator();
 
-            //loop through the string until we are done
-            while (WorkingIndex >= 0 || !WorkingIndex.HasValue)
+            //declare the iterator to run through the results
+            IEnumerable<int> Iterator()
             {
-                //if this is the first element search at 0
-                if (!WorkingIndex.HasValue)
-                {
-                    //Set it to 0
-                    WorkingIndex = 0;
-                }
+                //working index that we found the item with
+                int? WorkingIndex = null;
 
-                //grab the index of for this value
-                WorkingIndex = StringToLookThrough.IndexOf(StringValueToLookFor, WorkingIndex.Value + 1);
-
-                //if we have a match the return it
-                if (WorkingIndex > 0)
+                //loop through the string until we are done
+                while (WorkingIndex >= 0 || !WorkingIndex.HasValue)
                 {
-                    //return this record
-                    yield return WorkingIndex.Value;
+                    //if this is the first element search at 0
+                    if (!WorkingIndex.HasValue)
+                    {
+                        //Set it to 0
+                        WorkingIndex = 0;
+                    }
+
+                    //grab the index of for this value
+                    WorkingIndex = StringToLookThrough.IndexOf(StringValueToLookFor, WorkingIndex.Value + 1);
+
+                    //if we have a match the return it
+                    if (WorkingIndex > 0)
+                    {
+                        //return this record
+                        yield return WorkingIndex.Value;
+                    }
                 }
-            }
+            }       
         }
 
         #endregion
