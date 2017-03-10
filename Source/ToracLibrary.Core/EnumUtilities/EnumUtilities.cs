@@ -289,16 +289,23 @@ namespace ToracLibrary.Core.EnumUtilities
             //validate that this is an enum and a bit mask
             ValidateEnum<T>(true);
 
-            //loop through all the possible enum values
-            foreach (var thisEnumValue in GetValuesLazy<T>())
+            //go call the local iterator function
+            return Iterator();
+
+            //iterator to return the results
+            IEnumerable<T> Iterator()
             {
-                //check to see if it's part of the bit mask
-                if (BitMaskContainsValueHelper(WorkingEnumValue, thisEnumValue))
+                //loop through all the possible enum values
+                foreach (var thisEnumValue in GetValuesLazy<T>())
                 {
-                    //it is part of the bit mask, return it
-                    yield return thisEnumValue;
+                    //check to see if it's part of the bit mask
+                    if (BitMaskContainsValueHelper(WorkingEnumValue, thisEnumValue))
+                    {
+                        //it is part of the bit mask, return it
+                        yield return thisEnumValue;
+                    }
                 }
-            }
+            }    
         }
 
         #endregion
