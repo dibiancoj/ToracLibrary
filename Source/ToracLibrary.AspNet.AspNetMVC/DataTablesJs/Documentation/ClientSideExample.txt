@@ -1,0 +1,57 @@
+﻿//****** Javascript***********
+
+ <script type="text/javascript">
+        $('#MyTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                contentType: 'application/json; charset=utf-8',
+                datatype: 'json',
+                type: 'POST',
+                url:  'Home/GridDataSelect',
+                data: function (d) {
+                    return JSON.stringify({ parameters: d });
+                }
+            },
+            columns: [
+                       { name: 'FirstName', data: "firstName" },
+                       { name: 'LastName', data: "lastName" }
+            ]
+        });
+    </script>
+
+
+//************Html************
+
+<div class="row" style="margin-top:50px;">
+
+   <div class="col-xs-12">
+
+            <table id="MyTable">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+</div>
+
+
+//*********Controller / return Logic ***********
+     public DataTableResultSet<T> ProcessRequest<T>(DataTableRequestPackage GridParameters, IEnumerable<T> FullDataSet)
+            where T : class
+        {
+            var data = FullDataSet.AsQueryable();
+
+            //filter if they have the filter on
+
+            //do some sorting
+
+            var pagedData = data.Skip(GridParameters.Parameters.StartRecordNumber).Take(GridParameters.Parameters.RecordsPerPage).ToList();
+
+            return new DataTableResultSet<T> { DrawNumber = GridParameters.Parameters.Draw, DataSet = pagedData, FilteredRecordCount = data.Count(), DataSetRecordCount = data.Count() };
+        }

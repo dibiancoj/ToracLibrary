@@ -85,6 +85,12 @@
     <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />
     <Compile Include="CustomValidators\EnsureMinimumElementsAttribute.cs" />
     <Compile Include="CustomValueProviderFactory\JsonNetValueProviderFactory.cs" />
+    <Compile Include="DataTablesJs\ColumnConfiguration\DataTableColumnConfiguration.cs" />
+    <Compile Include="DataTablesJs\ColumnConfiguration\DataTableColumnOrder.cs" />
+    <Compile Include="DataTablesJs\Request\DataTableParameters.cs" />
+    <Compile Include="DataTablesJs\Request\DataTableRequestPackage.cs" />
+    <Compile Include="DataTablesJs\Response\DataTableResultSet.cs" />
+    <Compile Include="DataTablesJs\Search\DataTableSearch.cs" />
     <Compile Include="ExtensionMethods\Controller\ControllerExtensionMethods.cs" />
     <Compile Include="HtmlHelpers\MvcHtmlHelpers.cs" />
     <Compile Include="JqGrid\InlineFilters\JqGridInlineFilter.cs" />
@@ -105,6 +111,7 @@
     <Content Include="CustomModelBinders\AbstractOrInterfaceListBinder.txt" />
     <Content Include="CustomValidators\CustomValidationMethod.txt" />
     <Content Include="CustomValidators\RequiredIfExample.txt" />
+    <Content Include="DataTablesJs\Documentation\ClientSideExample.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
