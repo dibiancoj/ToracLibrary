@@ -28,12 +28,26 @@
         public DataTableResultSet<T> ProcessRequest<T>(DataTableRequestPackage GridParameters, IQueryable<T> FullDataSet)
             where T : class
         {
-            var data = FullDataSet.AsQueryable();
+           Expression<Func<T, bool>> baseFilter = null;
 
             //filter if they have the filter on
             foreach (var filtersToApply in BuildIndividualFilters<T>(GridParameters.Parameters.Search))
             {
-                data = data.Where(filtersToApply);
+                if (baseFilter == null)
+                {
+                    baseFilter = filtersToApply;
+                }
+                else
+                {
+                    baseFilter = ExpressionCombiner.CombineExpressions(baseFilter, ExpressionCombiner.CombineType.OrElse, filtersToApply);
+                }
+            }
+
+            var data = FullDataSet;
+
+            if (baseFilter != null)
+            {
+                data = data.Where(baseFilter);
             }
 
             //first sort parameter
