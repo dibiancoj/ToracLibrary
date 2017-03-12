@@ -44,7 +44,7 @@
                                            data.OrderBy(GridParameters.Parameters.ColumnConfiguration[sortBy.ColumnIndex].ColumnName) :
                                            data.OrderByDescending(GridParameters.Parameters.ColumnConfiguration[sortBy.ColumnIndex].ColumnName);
 
-            var pagedData = sortedDataSet.PaginateResults(GridParameters.Parameters.StartRecordNumber == 0 ? 1 : GridParameters.Parameters.StartRecordNumber / GridParameters.Parameters.RecordsPerPage, GridParameters.Parameters.RecordsPerPage).ToList();
+            var pagedData = sortedDataSet.PaginateResults(GridParameters.Parameters.StartRecordNumber == 0 ? 1 : (GridParameters.Parameters.StartRecordNumber / GridParameters.Parameters.RecordsPerPage) + 1, GridParameters.Parameters.RecordsPerPage).ToList();
 
             return new DataTableResultSet<T> { DrawNumber = GridParameters.Parameters.Draw, DataSet = pagedData, FilteredRecordCount = data.Count(), DataSetRecordCount = data.Count() };
         }
