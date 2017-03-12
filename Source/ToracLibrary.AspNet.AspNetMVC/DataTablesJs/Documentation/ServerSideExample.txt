@@ -1,4 +1,13 @@
 
+	public class RowOfData
+        {
+            [StringContainsFilterable(true)]
+            public string FirstName { get; set; }
+
+            [StringContainsFilterable(true)]
+            public string LastName { get; set; }
+        }
+
 
 	[HttpPost]
         public IActionResult GridDataSelect([FromBody] DataTableRequestPackage gridParameters)
@@ -11,12 +20,23 @@
 
 
 
+	Process - probably need to expand on this as this is a simple working with a string contains (case sensitive or case in-sensitive search)
+
 
 	/// <summary>
     /// Process the server side data table
     /// </summary>
     public class DataTableProcessor
     {
+
+        #region Properties
+
+        private static readonly MethodInfo StringContainsMethodInfo = typeof(string).GetMethod(nameof(string.Contains));
+        private static readonly MethodInfo StringToLowerMethodInfo = typeof(string).GetMethod(nameof(string.ToLowerInvariant));
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Process the request and return the result which will be returned to the client
@@ -28,7 +48,7 @@
         public DataTableResultSet<T> ProcessRequest<T>(DataTableRequestPackage GridParameters, IQueryable<T> FullDataSet)
             where T : class
         {
-           Expression<Func<T, bool>> baseFilter = null;
+            Expression<Func<T, bool>> baseFilter = null;
 
             //filter if they have the filter on
             foreach (var filtersToApply in BuildIndividualFilters<T>(GridParameters.Parameters.Search))
@@ -65,26 +85,41 @@
 
         #region Filterable
 
-        private IEnumerable<Expression<Func<T, bool>>> BuildIndividualFilters<T>(DataTableSearch searchConfig)
+        private static IEnumerable<Expression<Func<T, bool>>> BuildIndividualFilters<T>(DataTableSearch searchConfig)
         {
             if (string.IsNullOrEmpty(searchConfig.SearchText))
             {
-                yield break;
+                return Array.Empty<Expression<Func<T, bool>>>();
             }
 
-            var leftHandSide = Expression.Constant(searchConfig.SearchText, typeof(string));
+            return Iterator();
 
-            var stringContains = typeof(string).GetMethod(nameof(string.Contains));
-
-            ParameterExpression LambdaArgument = Expression.Parameter(typeof(T), "x");
-
-            foreach (var searchableProperty in PropertiesThatHasAttributeWithAttributeValueLazy<StringContainsFilterableAttribute>(typeof(T), true))
+            IEnumerable<Expression<Func<T, bool>>> Iterator()
             {
-                //TestData.Where(x => gridParameters.Parameters.Search.SearchText.Contains(x.FirstName));
+                var leftHandSideNoCase = Expression.Constant(searchConfig.SearchText.ToLower(), typeof(string));
+                var leftHandSideWithCase = Expression.Constant(searchConfig.SearchText, typeof(string));
 
-                var prop = Expression.Property(LambdaArgument, searchableProperty.Key);
+                ParameterExpression LambdaArgument = Expression.Parameter(typeof(T), "x");
 
-                yield return Expression.Lambda<Func<T, bool>>(Expression.Call(prop, stringContains, leftHandSide), new ReadOnlyCollection<ParameterExpression>(new[] { LambdaArgument }));
+                foreach (var searchableProperty in PropertiesThatHasAttributeWithAttributeValueLazy<StringContainsFilterableAttribute>(typeof(T), true))
+                {
+                    //TestData.Where(x => gridParameters.Parameters.Search.SearchText.Contains(x.FirstName));
+
+                    Expression prop = Expression.Property(LambdaArgument, searchableProperty.Key);
+                    ConstantExpression whichConstantToUse;
+
+                    if (searchableProperty.Value.CaseInsensitiveSearch)
+                    {
+                        prop = Expression.Call(prop, StringToLowerMethodInfo);
+                        whichConstantToUse = leftHandSideNoCase;
+                    }
+                    else
+                    {
+                        whichConstantToUse = leftHandSideWithCase;
+                    }
+
+                    yield return Expression.Lambda<Func<T, bool>>(Expression.Call(prop, StringContainsMethodInfo, whichConstantToUse), new ReadOnlyCollection<ParameterExpression>(new[] { LambdaArgument }));
+                }
             }
         }
 
@@ -104,6 +139,8 @@
                 }
             }
         }
+
+        #endregion
 
         #endregion
 
