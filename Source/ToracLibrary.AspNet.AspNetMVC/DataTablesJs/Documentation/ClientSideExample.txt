@@ -40,18 +40,3 @@
 
 </div>
 
-
-//*********Controller / return Logic ***********
-     public DataTableResultSet<T> ProcessRequest<T>(DataTableRequestPackage GridParameters, IEnumerable<T> FullDataSet)
-            where T : class
-        {
-            var data = FullDataSet.AsQueryable();
-
-            //filter if they have the filter on
-
-            //do some sorting
-
-            var pagedData = data.Skip(GridParameters.Parameters.StartRecordNumber).Take(GridParameters.Parameters.RecordsPerPage).ToList();
-
-            return new DataTableResultSet<T> { DrawNumber = GridParameters.Parameters.Draw, DataSet = pagedData, FilteredRecordCount = data.Count(), DataSetRecordCount = data.Count() };
-        }

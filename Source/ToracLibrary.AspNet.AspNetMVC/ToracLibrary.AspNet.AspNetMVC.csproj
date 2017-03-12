@@ -112,6 +112,7 @@
     <Content Include="CustomValidators\CustomValidationMethod.txt" />
     <Content Include="CustomValidators\RequiredIfExample.txt" />
     <Content Include="DataTablesJs\Documentation\ClientSideExample.txt" />
+    <Content Include="DataTablesJs\Documentation\ServerSideExample.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">

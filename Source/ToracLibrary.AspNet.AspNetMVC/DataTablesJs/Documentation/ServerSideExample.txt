@@ -1,0 +1,96 @@
+
+
+	[HttpPost]
+        public IActionResult GridDataSelect([FromBody] DataTableRequestPackage gridParameters)
+        {
+
+            //TestData.Where(x => gridParameters.Parameters.Search.SearchText.Contains(x.FirstName));
+
+            return Json(new DataTableProcessor().ProcessRequest(gridParameters, TestData.AsQueryable()));
+        }
+
+
+
+
+	/// <summary>
+    /// Process the server side data table
+    /// </summary>
+    public class DataTableProcessor
+    {
+
+        /// <summary>
+        /// Process the request and return the result which will be returned to the client
+        /// </summary>
+        /// <typeparam name="T">Type of each row in the grid</typeparam>
+        /// <param name="GridParameters">Parameters of the grid configuration that is passed from the client to the server</param>
+        /// <param name="FullDataSet"></param>
+        /// <returns>The result which is returned back to the client which is processed</returns>
+        public DataTableResultSet<T> ProcessRequest<T>(DataTableRequestPackage GridParameters, IQueryable<T> FullDataSet)
+            where T : class
+        {
+            var data = FullDataSet.AsQueryable();
+
+            //filter if they have the filter on
+            foreach (var filtersToApply in BuildIndividualFilters<T>(GridParameters.Parameters.Search))
+            {
+                data = data.Where(filtersToApply);
+            }
+
+            //first sort parameter
+            var sortBy = GridParameters.Parameters.SortOrder[0];
+
+            //do some sorting
+            var sortedDataSet = sortBy.SortOrder == DataTableColumnOrder.DataTableSortOrder.asc ?
+                                           data.OrderBy(GridParameters.Parameters.ColumnConfiguration[sortBy.ColumnIndex].ColumnName) :
+                                           data.OrderByDescending(GridParameters.Parameters.ColumnConfiguration[sortBy.ColumnIndex].ColumnName);
+
+            var pagedData = sortedDataSet.PaginateResults(GridParameters.Parameters.StartRecordNumber == 0 ? 1 : GridParameters.Parameters.StartRecordNumber / GridParameters.Parameters.RecordsPerPage, GridParameters.Parameters.RecordsPerPage).ToList();
+
+            return new DataTableResultSet<T> { DrawNumber = GridParameters.Parameters.Draw, DataSet = pagedData, FilteredRecordCount = data.Count(), DataSetRecordCount = data.Count() };
+        }
+
+        #region Filterable
+
+        private IEnumerable<Expression<Func<T, bool>>> BuildIndividualFilters<T>(DataTableSearch searchConfig)
+        {
+            if (string.IsNullOrEmpty(searchConfig.SearchText))
+            {
+                yield break;
+            }
+
+            var leftHandSide = Expression.Constant(searchConfig.SearchText, typeof(string));
+
+            var stringContains = typeof(string).GetMethod(nameof(string.Contains));
+
+            ParameterExpression LambdaArgument = Expression.Parameter(typeof(T), "x");
+
+            foreach (var searchableProperty in PropertiesThatHasAttributeWithAttributeValueLazy<StringContainsFilterableAttribute>(typeof(T), true))
+            {
+                //TestData.Where(x => gridParameters.Parameters.Search.SearchText.Contains(x.FirstName));
+
+                var prop = Expression.Property(LambdaArgument, searchableProperty.Key);
+
+                yield return Expression.Lambda<Func<T, bool>>(Expression.Call(prop, stringContains, leftHandSide), new ReadOnlyCollection<ParameterExpression>(new[] { LambdaArgument }));
+            }
+        }
+
+        private static IEnumerable<KeyValuePair<PropertyInfo, TAttributeType>> PropertiesThatHasAttributeWithAttributeValueLazy<TAttributeType>(Type ObjectType, bool IncludeInheritItems) where TAttributeType : Attribute
+        {
+            //let's loop through each property info
+            foreach (PropertyInfo PropertyInfoToTest in ObjectType.GetProperties())
+            {
+                //attempt to get the custom attribute
+                var CustomAttributeAttemptToFind = PropertyInfoToTest.GetCustomAttribute<TAttributeType>(IncludeInheritItems);
+
+                //did we find it
+                if (CustomAttributeAttemptToFind != null)
+                {
+                    //we found the attribute, return the pair
+                    yield return new KeyValuePair<PropertyInfo, TAttributeType>(PropertyInfoToTest, CustomAttributeAttemptToFind);
+                }
+            }
+        }
+
+        #endregion
+
+    }
