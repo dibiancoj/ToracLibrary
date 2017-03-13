@@ -40,12 +40,12 @@ namespace ToracLibrary.Parser.Parser
             foreach (var Token in ReversePolishNotationTokens)
             {
                 //if this is a number then add it to the stack
-                if (Token is NumberLiteralToken)
+                if (Token is NumberLiteralToken CastedNumberLiteral)
                 {
                     //add the number to the stack
-                    ResultStack.Push(((NumberLiteralToken)Token).Value);
+                    ResultStack.Push(CastedNumberLiteral.Value);
                 }
-                else if (Token is OperatorBaseToken)
+                else if (Token is OperatorBaseToken CastedOperatorToken)
                 {
                     //this is a operator. all of them deal with 2 numbers
                     if (ResultStack.Count < 2)
@@ -58,7 +58,7 @@ namespace ToracLibrary.Parser.Parser
                     var SecondNumber = ResultStack.Pop();
 
                     //add the result to the stack
-                    ResultStack.Push(((OperatorBaseToken)Token).Calculate(FirstNumber, SecondNumber));
+                    ResultStack.Push(CastedOperatorToken.Calculate(FirstNumber, SecondNumber));
                 }
                 else
                 {
@@ -111,10 +111,10 @@ namespace ToracLibrary.Parser.Parser
                         //this is a number, we want the numbers to be first.
                         yield return Reader.Current;
                     }
-                    else if (Reader.Current is OperatorBaseToken)
+                    else if (Reader.Current is OperatorBaseToken OperatorToken)
                     {
                         //cast this into an operator
-                        var CastedOperator = (OperatorBaseToken)Reader.Current;
+                        var CastedOperator = OperatorToken;
 
                         //this is an operator (+,-,*,/)
                         //do we have any items (or does this item have to go before any other operator items. ie: + has to go after *)
@@ -148,10 +148,8 @@ namespace ToracLibrary.Parser.Parser
                             OperatorStack.Push(CastedOperator);
                         }
                     }
-                    else if (Reader.Current is OrderBaseToken)
+                    else if (Reader.Current is OrderBaseToken CastedOrderBaseToken)
                     {
-                        var CastedOrderBaseToken = Reader.Current as OrderBaseToken;
-
                         //which order base?
                         if (CastedOrderBaseToken is LeftParenthesisOrderToken)
                         {
