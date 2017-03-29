@@ -89,7 +89,13 @@ namespace ToracLibrary.Serialization.Json
 
         #endregion
 
-        #region Other Helpers
+        #region JObject and JToken
+
+        // notes 
+        //To get a node to a specific data type
+        //Call myJTokenNode.Value<string>();
+        //To deserialize it into an object call myJTokenNode.ToObject<Person>();
+        //For enums - call myJokenNode.ToObject<MyEnumType>();
 
         #region Public Methods
 
@@ -109,8 +115,8 @@ namespace ToracLibrary.Serialization.Json
         /// </summary>
         /// <param name="JsonObject">JObject - JObject.Parse(JSON In String A Variable)</param>
         /// <param name="JPathQuerySelector">The query selector. ie: "field_shared_main_image_1x1", 0, "url"</param>
-        /// <returns>The value of the node in a string. Cast to whatever value you would like. Will return null if it can't be found</returns>
-        public static string JsonValueFromPath(JObject JsonObject, params object[] JPathQuerySelector)
+        /// <returns>The node. Call .ToObject for object deserialization. or .Value(string) to convert it to a string, etc.</returns>
+        public static JToken JsonValueFromPath(JObject JsonObject, params object[] JPathQuerySelector)
         {
             //go parse the data
             var ParsedNode = JTokenValueFromPath(JsonObject, JPathQuerySelector);
@@ -123,7 +129,7 @@ namespace ToracLibrary.Serialization.Json
             }
 
             //case it and return it
-            return (string)ParsedNode;
+            return ParsedNode;
         }
 
         /// <summary>
@@ -147,7 +153,7 @@ namespace ToracLibrary.Serialization.Json
             }
 
             //go serialize it and return the object of T
-            return Deserialize<T>(ParsedNode.ToString());
+            return ParsedNode.ToObject<T>();
         }
 
         #endregion
