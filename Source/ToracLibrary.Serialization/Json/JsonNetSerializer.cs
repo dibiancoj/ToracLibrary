@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,6 +83,17 @@ namespace ToracLibrary.Serialization.Json
         #region Other Helpers
 
         #region Public Methods
+
+        /// <summary>
+        /// Load a JObject from a stream
+        /// </summary>
+        /// <param name="StreamToLoadfrom">stream to load from</param>
+        /// <returns>The loaded JObject</returns>
+        public static JObject JObjectFromStream(Stream StreamToLoadfrom)
+        {
+            //In Asp.net Core --> Stream = bindingContext.ActionContext.HttpContext.Request.Body
+            return JObject.Load(new JsonTextReader(new StreamReader(StreamToLoadfrom, Encoding.UTF8)));
+        }
 
         /// <summary>
         /// Allows you to find a specific field from a JObject with less code
