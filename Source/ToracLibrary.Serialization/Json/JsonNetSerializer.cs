@@ -16,6 +16,15 @@ namespace ToracLibrary.Serialization.Json
     public static class JsonNetSerializer
     {
 
+        #region Static Properties
+
+        /// <summary>
+        /// Abstract class type handling. Pass in settings into serialize and deserialize to handle abstract class
+        /// </summary>
+        public static readonly JsonSerializerSettings AbstractClassSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
+        #endregion
+
         #region Serialize
 
         #region Serialize With No Parameters
