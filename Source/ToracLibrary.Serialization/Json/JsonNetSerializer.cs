@@ -105,7 +105,7 @@ namespace ToracLibrary.Serialization.Json
         {
             //go parse the data
             var ParsedNode = JTokenValueFromPath(JsonObject, JPathQuerySelector);
-            
+
             //if its null return the null value
             if (ParsedNode == null)
             {

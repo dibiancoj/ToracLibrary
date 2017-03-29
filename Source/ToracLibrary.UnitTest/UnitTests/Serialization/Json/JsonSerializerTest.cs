@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 using ToracLibrary.Serialization.Json;
+using ToracLibrary.Serialization.Json.ExtensionMethods;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 
@@ -119,6 +122,70 @@ namespace ToracLibrary.UnitTest.Serialization
 
             //go test the child id now
             Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).Id);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region JObjects
+
+        #region Load From Stream
+
+        /// <summary>
+        /// test creating an jtoken from a stream
+        /// </summary>
+        [Fact]
+        public void JObjectFromStreamTest1()
+        {
+            //create the stream to use
+            using (var StreamToUse = @"{ ""Value"":""State""}".ToStream())
+            {
+                //go run the test method
+                var LoadFromStreamResult = JsonNetSerializer.JObjectFromStream(StreamToUse);
+
+                //validate we can grab the value object
+                Assert.Equal("State", LoadFromStreamResult["Value"].Value<string>());
+            }
+        }
+
+        #endregion
+
+        #region ConvertToEnum
+
+        /// <summary>
+        /// enum to test JTokenConvertToEnum
+        /// </summary>
+        private enum TestEnumForJTokenConvertToEnum
+        {
+            Town = 1,
+            State = 2,
+            Country = 3
+        }
+
+        /// <summary>
+        /// test converting a jtoken object to an enum
+        /// </summary>
+        [Fact]
+        public void JTokenConvertToEnumTest1()
+        {
+            //test token for strings
+            var TestTokenForStrings = JToken.Parse(@"{ ""Value"":""State""}")["Value"];
+
+            //test token for numbers
+            var TestTokenForNumbers = JToken.Parse(@"{ ""Value"":""3""}")["Value"];
+
+            //shouldn't be able to parse string
+            var TestTokenForNonParseableString = JToken.Parse(@"{ ""Value"":""CantParse""}")["Value"];
+
+            //test with a number value
+            Assert.Equal(TestEnumForJTokenConvertToEnum.State, TestTokenForStrings.ToEnum<TestEnumForJTokenConvertToEnum>().Value);
+
+            //test with a string value
+            Assert.Equal(TestEnumForJTokenConvertToEnum.Country, TestTokenForNumbers.ToEnum<TestEnumForJTokenConvertToEnum>().Value);
+
+            //make sure we can't parse this string
+            Assert.False(TestTokenForNonParseableString.ToEnum<TestEnumForJTokenConvertToEnum>().HasValue);
         }
 
         #endregion

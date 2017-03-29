@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -402,7 +403,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
                         yield return WorkingIndex.Value;
                     }
                 }
-            }       
+            }
         }
 
         #endregion
@@ -479,6 +480,39 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
             //return the string
             return Sb.ToString();
+        }
+
+        #endregion
+
+        #region To Stream
+
+        /// <summary>
+        /// Write a string into a stream
+        /// </summary>
+        /// <param name="StringToWriteIntoAStream">String to write into a stream</param>
+        /// <returns>Stream. Be Sure to Dispose of it</returns>
+        public static MemoryStream ToStream(this string StringToWriteIntoAStream)
+        {
+            //can't dispose of anything otherwise you won't be able to read it...The calling method needs to make sure they dispose of the stream
+
+            //create the memory stream
+            var MemoryStreamToUse = new MemoryStream();
+
+            //create the writer
+            var WriterToUse = new StreamWriter(MemoryStreamToUse);
+
+            //write the string data
+            WriterToUse.Write(StringToWriteIntoAStream);
+
+            //flush it out
+            WriterToUse.Flush();
+
+            //set the position to the beg of the stream
+            MemoryStreamToUse.Position = 0;
+
+            //go run the test method
+            return MemoryStreamToUse;
+
         }
 
         #endregion
