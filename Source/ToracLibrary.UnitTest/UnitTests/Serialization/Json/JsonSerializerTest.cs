@@ -86,6 +86,15 @@ namespace ToracLibrary.UnitTest.Serialization
 
         #endregion
 
+        #region Static Properties
+
+        /// <summary>
+        /// Test string ot use for the json query path tests
+        /// </summary>
+        private static readonly string SerializedJsonString = JsonNetSerializer.Serialize(TestJsonPath.CreateDummyRecord());
+
+        #endregion
+
         #region Unit Tests
 
         /// <summary>
@@ -94,12 +103,6 @@ namespace ToracLibrary.UnitTest.Serialization
         [Fact]
         public void JsonQueryPathNonGenericTest1()
         {
-            //create the dummy record
-            var RecordToTest = TestJsonPath.CreateDummyRecord();
-
-            //let's serialize it into a json string
-            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
-
             //test the base id
             Assert.Equal(TestJsonPath.IdToTest, JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id)).Value<int>());
 
@@ -113,12 +116,6 @@ namespace ToracLibrary.UnitTest.Serialization
         [Fact]
         public void JsonQueryPathNonGenericTest2()
         {
-            //create the dummy record
-            var RecordToTest = TestJsonPath.CreateDummyRecord();
-
-            //let's serialize it into a json string
-            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
-
             //go test the child id now
             Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).ToObject<TestJsonPath>().Id);
         }
@@ -129,12 +126,6 @@ namespace ToracLibrary.UnitTest.Serialization
         [Fact]
         public void JsonQueryPathGenericTest1()
         {
-            //create the dummy record
-            var RecordToTest = TestJsonPath.CreateDummyRecord();
-
-            //let's serialize it into a json string
-            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
-
             //go test the child id now
             Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).Id);
         }
@@ -145,17 +136,46 @@ namespace ToracLibrary.UnitTest.Serialization
         [Fact]
         public void JsonQueryPathGenericTest2()
         {
-            //create the dummy record
-            var RecordToTest = TestJsonPath.CreateDummyRecord();
-
-            //let's serialize it into a json string
-            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
-
             //test the base id
             Assert.Equal(TestJsonPath.IdToTest, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id)));
 
             //go test the child id now
             Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), nameof(TestJsonPath.Id)));
+        }
+
+        /// <summary>
+        /// test the conversion to a nullable type that is not found. Should return default (T) which is null for a nullable int
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathGenericTestCantFindPropertyTest1()
+        {
+            //test the base id
+            Assert.Null(JsonNetSerializer.JsonValueFromPath<int?>(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
+
+            //go test the child id now
+            Assert.Null(JsonNetSerializer.JsonValueFromPath<int?>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), "PropertyNameDoesntExist"));
+        }
+
+        /// <summary>
+        /// test the conversion to a primitive type that is not found. Should return default (T). This test doesn't use a nullable type so we want the result to be default(int)
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathGenericTestCantFindPropertyTest2()
+        {
+            //test the base id
+            Assert.Equal(default(int), JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
+
+            //go test the child id now
+            Assert.Equal(default(int), JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), "PropertyNameDoesntExist"));
+        }
+
+        /// <summary>
+        /// test the conversion to a class type that is not found. This is a class test that should result in a null value.
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathGenericTestCantFindPropertyForClassObjectTest2()
+        {
+            Assert.Null(JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
         }
 
         #endregion

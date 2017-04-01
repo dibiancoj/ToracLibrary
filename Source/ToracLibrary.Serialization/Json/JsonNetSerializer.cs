@@ -118,18 +118,8 @@ namespace ToracLibrary.Serialization.Json
         /// <returns>The node. Call .ToObject for object deserialization. or .Value(string) to convert it to a string, etc.</returns>
         public static JToken JsonValueFromPath(JObject JsonObject, params object[] JPathQuerySelector)
         {
-            //go parse the data
-            var ParsedNode = JTokenValueFromPath(JsonObject, JPathQuerySelector);
-
-            //if its null return the null value
-            if (ParsedNode == null)
-            {
-                //return the null value
-                return null;
-            }
-
-            //case it and return it
-            return ParsedNode;
+            //go parse the data and return the jtoken
+            return JTokenValueFromPath(JsonObject, JPathQuerySelector);
         }
 
         /// <summary>
@@ -138,11 +128,21 @@ namespace ToracLibrary.Serialization.Json
         /// <typeparam name="T">Type of the value you want to return. Will do a json deserialize after it finds the value</typeparam>
         /// <param name="JsonObject">JObject - JObject.Parse(JSON In String A Variable)</param>
         /// <param name="JPathQuerySelector">The query selector. ie: "field_shared_main_image_1x1", 0, "url"</param>
-        /// <returns>The value of the node in a type of t. Will return null if it can't be found</returns>
+        /// <returns>The value of the node in a type of t. Will return default(T) if it can't be found</returns>
         public static T JsonValueFromPath<T>(JObject JsonObject, params object[] JPathQuerySelector)
         {
             //use the overload then convert it
-            return JsonValueFromPath(JsonObject, JPathQuerySelector).ToObject<T>();
+            var ResultOfParse = JsonValueFromPath(JsonObject, JPathQuerySelector);
+
+            //if its null return right away
+            if (ResultOfParse == null)
+            {
+                //can't find node. Returning default T
+                return default(T);
+            }
+
+            //otherwise try to convert it
+            return ResultOfParse.ToObject<T>();
         }
 
         #endregion
