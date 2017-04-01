@@ -101,10 +101,10 @@ namespace ToracLibrary.UnitTest.Serialization
             var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
 
             //test the base id
-            Assert.Equal(TestJsonPath.IdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id))));
+            Assert.Equal(TestJsonPath.IdToTest, JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id)).Value<int>());
 
             //go test the child id now
-            Assert.Equal(TestJsonPath.ChildIdToTest, Convert.ToInt32(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), nameof(TestJsonPath.Id))));
+            Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), nameof(TestJsonPath.Id)).Value<int>());
         }
 
         /// <summary>
