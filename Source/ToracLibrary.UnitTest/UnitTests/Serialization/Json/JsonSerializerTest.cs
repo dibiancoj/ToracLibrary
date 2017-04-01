@@ -121,6 +121,16 @@ namespace ToracLibrary.UnitTest.Serialization
         }
 
         /// <summary>
+        /// test converting to an object where we can't find the object
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathNonGenericCantFindPropertyTest1()
+        {
+            //go test the child id now
+            Assert.Null(JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
+        }
+
+        /// <summary>
         /// test the conversion to an object using the generic overload
         /// </summary>
         [Fact]
