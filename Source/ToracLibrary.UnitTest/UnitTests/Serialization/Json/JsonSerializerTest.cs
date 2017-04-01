@@ -89,10 +89,10 @@ namespace ToracLibrary.UnitTest.Serialization
         #region Unit Tests
 
         /// <summary>
-        /// test converting to a string
+        /// test converting to a string using the non generic version of the method
         /// </summary>
         [Fact]
-        public void JsonQueryPathTest1()
+        public void JsonQueryPathNonGenericTest1()
         {
             //create the dummy record
             var RecordToTest = TestJsonPath.CreateDummyRecord();
@@ -108,10 +108,26 @@ namespace ToracLibrary.UnitTest.Serialization
         }
 
         /// <summary>
-        /// test the conversion to an object overload
+        /// test converting to an object using the non generic version of the method
         /// </summary>
         [Fact]
-        public void JsonQueryPathTest2()
+        public void JsonQueryPathNonGenericTest2()
+        {
+            //create the dummy record
+            var RecordToTest = TestJsonPath.CreateDummyRecord();
+
+            //let's serialize it into a json string
+            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
+
+            //go test the child id now
+            Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).ToObject<TestJsonPath>().Id);
+        }
+
+        /// <summary>
+        /// test the conversion to an object using the generic overload
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathGenericTest1()
         {
             //create the dummy record
             var RecordToTest = TestJsonPath.CreateDummyRecord();
@@ -121,6 +137,25 @@ namespace ToracLibrary.UnitTest.Serialization
 
             //go test the child id now
             Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<TestJsonPath>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child)).Id);
+        }
+
+        /// <summary>
+        /// test the conversion to a primitive type using the generic version
+        /// </summary>
+        [Fact]
+        public void JsonQueryPathGenericTest2()
+        {
+            //create the dummy record
+            var RecordToTest = TestJsonPath.CreateDummyRecord();
+
+            //let's serialize it into a json string
+            var SerializedJsonString = JsonNetSerializer.Serialize(RecordToTest);
+
+            //test the base id
+            Assert.Equal(TestJsonPath.IdToTest, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Id)));
+
+            //go test the child id now
+            Assert.Equal(TestJsonPath.ChildIdToTest, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), nameof(TestJsonPath.Id)));
         }
 
         #endregion

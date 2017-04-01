@@ -140,20 +140,9 @@ namespace ToracLibrary.Serialization.Json
         /// <param name="JPathQuerySelector">The query selector. ie: "field_shared_main_image_1x1", 0, "url"</param>
         /// <returns>The value of the node in a type of t. Will return null if it can't be found</returns>
         public static T JsonValueFromPath<T>(JObject JsonObject, params object[] JPathQuerySelector)
-            where T : class
         {
-            //go parse the data
-            var ParsedNode = JTokenValueFromPath(JsonObject, JPathQuerySelector);
-
-            //if its null return the null value
-            if (ParsedNode == null)
-            {
-                //return the null value
-                return null;
-            }
-
-            //go serialize it and return the object of T
-            return ParsedNode.ToObject<T>();
+            //use the overload then convert it
+            return JsonValueFromPath(JsonObject, JPathQuerySelector).ToObject<T>();
         }
 
         #endregion
