@@ -26,14 +26,8 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
             //set the value
             ParameterValue = ParameterValueToSet;
 
-            //make sure the parameter type is not null
-            if (ParameterTypeToSet == null)
-            {
-                throw new Exception("Parameter Type Can't Be Null");
-            }
-
             //set the type
-            ParameterType = ParameterTypeToSet;
+            ParameterType = ParameterTypeToSet ?? throw new Exception("Parameter Type Can't Be Null");
         }
 
         /// <summary>
