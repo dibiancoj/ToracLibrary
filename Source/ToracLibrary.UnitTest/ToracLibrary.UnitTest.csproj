@@ -262,6 +262,7 @@
     <Compile Include="UnitTests\Core\Mathematical\StandardDeviatoin\StandardDeviationTest.cs" />
     <Compile Include="UnitTests\Core\Paging\DataSetPagingTest.cs" />
     <Compile Include="UnitTests\Core\Permutations\PermutationTest.cs" />
+    <Compile Include="UnitTests\Core\Reflection\InvokeTest.cs" />
     <Compile Include="UnitTests\Core\Reflection\ReflectionTest.cs" />
     <Compile Include="UnitTests\Core\RegularExpressions\RegularExpressionsTest.cs" />
     <Compile Include="UnitTests\Core\Security\Encryption\EncryptionSecurityTest.cs" />
