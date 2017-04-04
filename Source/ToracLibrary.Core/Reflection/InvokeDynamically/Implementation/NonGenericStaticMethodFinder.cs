@@ -4,7 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.Reflection.InvokeDynamically.Base;
+using ToracLibrary.Core.ReflectionDynamic.Invoke.BaseClasses;
+using ToracLibrary.Core.ReflectionDynamic.Invoke.Parameters;
 
 namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 {
