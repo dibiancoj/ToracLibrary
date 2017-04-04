@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
-using ToracLibrary.Core.Reflection;
 using ToracLibrary.Core.ReflectionDynamic;
-using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
 using static ToracLibrary.Core.ReflectionDynamic.ImplementingClasses;
@@ -367,54 +364,7 @@ namespace ToracLibrary.UnitTest.Core
 
         }
 
-        #endregion
-
-        #region Overload Method Finder
-
-        [Fact]
-        public void OverloadMethodFinderTest1()
-        {
-            //method name to look for
-            const string MethodNameToLookFor = nameof(BaseDeriveReflectionClass.OverloadedMethod);
-
-            //the class type to look in
-            var ClassTypeToLookIn = typeof(BaseDeriveReflectionClass);
-
-            //let's try to find the overload with 0 parameters
-            var MethodInfoWith0ParametersPassingInNull = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, null);
-            var MethodInfoWith0Parameters = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, Array.Empty<Type>());
-            var MethodInfoWith1ParameterString = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(string) });
-            var MethodInfoWith1ParametersBoolean = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(bool) });
-            var MethodThatCantBeFound = OverloadedMethodFinder.FindOverloadedMethodToCall(MethodNameToLookFor, ClassTypeToLookIn, new Type[] { typeof(string), typeof(string) });
-
-            //make sure the first 4 can be found
-            Assert.NotNull(MethodInfoWith0ParametersPassingInNull);
-
-            //make sure the method exists with 0 parameters passing in an empty array
-            Assert.NotNull(MethodInfoWith0Parameters);
-
-            //let's find overload with (string parameter)
-            Assert.NotNull(MethodInfoWith1ParameterString);
-
-            //let's find overload with (string parameter, bool parameter)
-            Assert.NotNull(MethodInfoWith1ParametersBoolean);
-
-            //let's make sure the method returns null if it can't find the overload
-            Assert.Null(MethodThatCantBeFound);
-
-            //now let's make sure the parameters are the same
-            Assert.Equal(0, MethodInfoWith0Parameters.GetParameters().Length);
-
-            //make sure the first parameter is a string
-            Assert.Equal(1, MethodInfoWith1ParameterString.GetParameters().Length);
-            Assert.Equal(typeof(string), MethodInfoWith1ParameterString.GetParameters()[0].ParameterType);
-
-            //make sure this overload has a boolean in the first spot
-            Assert.Equal(1, MethodInfoWith1ParametersBoolean.GetParameters().Length);
-            Assert.Equal(typeof(bool), MethodInfoWith1ParametersBoolean.GetParameters()[0].ParameterType);
-        }
-
-        #endregion
+        #endregion 
 
     }
 

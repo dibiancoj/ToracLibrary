@@ -5,7 +5,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
-using ToracLibrary.Core.Reflection;
+using ToracLibrary.Core.ReflectionDynamic;
+using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExpressionTrees.API
@@ -128,10 +129,16 @@ namespace ToracLibrary.Core.ExpressionTrees.API
             //                                      .First(x => x.GetParameters().Length == 2)
             //                                      .MakeGenericMethod(typeof(Z));
 
-            var ContainsOffOfIEnumerable = OverloadedMethodFinder.FindOverloadedMethodToCall("Contains",
-                                                                                             typeof(Enumerable),
-                                                                                             typeof(IEnumerable<TListType>),
-                                                                                             typeof(TListType)).MakeGenericMethod(typeof(TListType));
+            var ContainsOffOfIEnumerable = new GenericStaticMethodFinder(typeof(Enumerable), nameof(Enumerable.Contains), 
+                new Type[] 
+                {
+                    typeof(IEnumerable<TListType>)
+                }, 
+                new List<GenericTypeParameter>
+                {
+                    new GenericTypeParameter(typeof(IEnumerable<TListType>), true),
+                    new GenericTypeParameter(typeof(TListType), true)
+                }).FindMethodToInvoke();
 
             //grab the lst and make it a constants
             ConstantExpression ConstantListExpressionParameter = Expression.Constant(ListToCheck, typeof(IEnumerable<TListType>));

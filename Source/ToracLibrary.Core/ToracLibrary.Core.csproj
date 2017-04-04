@@ -121,13 +121,13 @@
     </Compile>
     <Compile Include="Reflection\AttributeHelpers.cs" />
     <Compile Include="Reflection\ImplementingClasses.cs" />
+    <Compile Include="Reflection\InvokeDynamically\Base\BaseMethodTypeFinder.cs" />
     <Compile Include="Reflection\InvokeDynamically\GenericTypeParameter.cs" />
     <Compile Include="Reflection\InvokeDynamically\Implementation\GenericInstanceMethodFinder.cs" />
     <Compile Include="Reflection\InvokeDynamically\Implementation\GenericStaticMethodFinder.cs" />
     <Compile Include="Reflection\InvokeDynamically\Implementation\NonGenericStaticMethodFinder.cs" />
     <Compile Include="Reflection\InvokeDynamically\Implementation\NonGenericInstanceMethodFinder.cs" />
     <Compile Include="Reflection\InvokeDynamically\Interface\IMethodTypeFinder.cs" />
-    <Compile Include="Reflection\OverloadMethodFinder.cs" />
     <Compile Include="Reflection\PropertyHelpers.cs" />
     <Compile Include="RegularExpressions\NumberParser.cs" />
     <Compile Include="RegularExpressions\HtmlTagRemoval.cs" />

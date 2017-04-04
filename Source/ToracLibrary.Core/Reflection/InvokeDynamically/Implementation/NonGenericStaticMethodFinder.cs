@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.Reflection.InvokeDynamically.Base;
 
 namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 {
@@ -11,7 +12,7 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
     /// <summary>
     /// Method finder for a non generic static methods
     /// </summary>
-    public class NonGenericStaticMethodFinder : IMethodTypeFinder
+    public class NonGenericStaticMethodFinder : BaseMethodTypeFinder, IMethodTypeFinder
     {
 
         #region Constructor
@@ -58,7 +59,9 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
         /// <returns>MethodInfo ready to be invoke at run time with everything configured</returns>
         public MethodInfo FindMethodToInvoke()
         {
-            return ClassType.GetMethod(MethodName, ParametersOfMethod.ToArray());
+            var t = ClassType.GetMethods().Where(x => x.Name == MethodName).ToArray();
+
+            return ClassType.GetMethods().First(x => x.Name == MethodName && ParameterTypesMatch(ParametersOfMethod.Select(y => new GenericTypeParameter(y, false)).ToList(), x.GetParameters()));
         }
 
         #endregion

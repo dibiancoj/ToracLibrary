@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.Reflection.InvokeDynamically.Base;
 
 namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 {
@@ -11,7 +12,7 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
     /// <summary>
     /// Method finder for a non generic instance methods
     /// </summary>
-    public class NonGenericInstanceMethodFinder : IMethodTypeFinder
+    public class NonGenericInstanceMethodFinder : BaseMethodTypeFinder, IMethodTypeFinder
     {
 
         #region Constructor

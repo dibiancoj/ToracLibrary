@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static ToracLibrary.Core.ReflectionDynamic.Invoke.GenericStaticMethodFinder;
+using ToracLibrary.Core.Reflection.InvokeDynamically.Base;
 
 namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 {
@@ -12,7 +12,7 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
     /// <summary>
     /// Method finder for a generic instance methods
     /// </summary>
-    public class GenericInstanceMethodFinder : IMethodTypeFinder
+    public class GenericInstanceMethodFinder : BaseMethodTypeFinder, IMethodTypeFinder
     {
 
         #region Constructor

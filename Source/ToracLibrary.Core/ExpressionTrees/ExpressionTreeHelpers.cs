@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
-using ToracLibrary.Core.Reflection;
 using ToracLibrary.Core.ReflectionDynamic;
+using ToracLibrary.Core.ReflectionDynamic.Invoke;
 using ToracLibrary.Core.ToracAttributes;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
@@ -159,10 +159,15 @@ namespace ToracLibrary.Core.ExpressionTrees
             PropertyInfo LastPropertyInTree = PropertiesInTree.Last();
 
             //now we need to invoke the func using the correct property type so it will work with EF. lets go invoke that since we know the property we are looking for and its data type
-            MethodInfo SortFuncBuilder = OverloadedMethodFinder.FindOverloadedMethodToCall(nameof(PropertyHelpers.GetPropertyOfObjectExpressionFunc), typeof(PropertyHelpers), typeof(IEnumerable<PropertyInfo>));
-
-            //lets create the generic version of the sort func builder function
-            MethodInfo SortFuncGenericBuilder = SortFuncBuilder.MakeGenericMethod(typeof(T), LastPropertyInTree.PropertyType);
+            MethodInfo SortFuncGenericBuilder = new GenericStaticMethodFinder(typeof(PropertyHelpers), nameof(PropertyHelpers.GetPropertyOfObjectExpressionFunc),
+                new Type[]
+                {
+                    typeof(T), LastPropertyInTree.PropertyType
+                },
+                new List<GenericTypeParameter>
+                {
+                    new GenericTypeParameter(typeof(IEnumerable<PropertyInfo>), false)
+                }).FindMethodToInvoke();
 
             //let's go grab the sort predicate
             Expression SortPredicate = (Expression)SortFuncGenericBuilder.Invoke(null, new object[] { PropertiesInTree });

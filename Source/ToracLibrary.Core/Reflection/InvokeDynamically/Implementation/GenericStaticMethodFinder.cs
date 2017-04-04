@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.Reflection.InvokeDynamically.Base;
 
 namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 {
@@ -11,7 +12,7 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
     /// <summary>
     /// Method finder for a generic static methods
     /// </summary>
-    public class GenericStaticMethodFinder : IMethodTypeFinder
+    public class GenericStaticMethodFinder : BaseMethodTypeFinder, IMethodTypeFinder
     {
 
         #region Constructor
@@ -95,37 +96,6 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
 
             //no generic parameters use the regular overload
             return new NonGenericStaticMethodFinder(ClassType, MethodName, ParametersOfMethod.Select(x => x.ParameterType)).FindMethodToInvoke().MakeGenericMethod(GenericMethodTypes.ToArray());
-        }
-
-        /// <summary>
-        /// Do the parameters match between the two method signatures
-        /// </summary>
-        /// <param name="ParametersWeAreLookingFor">Parameter set we are looking for</param>
-        /// <param name="ParametersMethodContains">Parameters the method we are checking contains</param>
-        /// <returns>true if the parameters match</returns>
-        private static bool ParameterTypesMatch(IList<GenericTypeParameter> ParametersWeAreLookingFor, IList<ParameterInfo> ParametersMethodContains)
-        {
-            //need to check the parameters now
-            for (int i = 0; i < ParametersWeAreLookingFor.Count; i++)
-            {
-                //is this a generic parameter?
-                if (ParametersWeAreLookingFor[i].IsGenericType)
-                {
-                    //if the parameter types don't match then this method doesn't match
-                    if (ParametersMethodContains[i].ParameterType.GetGenericTypeDefinition() != ParametersWeAreLookingFor[i].ParameterType)
-                    {
-                        return false;
-                    }
-                }
-                else if (ParametersMethodContains[i].ParameterType != ParametersWeAreLookingFor[i].ParameterType)
-                {
-                    //regular parameter doesn't match
-                    return false;
-                }
-            }
-
-            //everything matched...return treu
-            return true;
         }
 
         #endregion
