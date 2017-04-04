@@ -68,6 +68,12 @@ namespace ToracLibrary.UnitTest.Core
                 return BaseNumber + InvokeStaticMethodResult;
             }
 
+            public static int InvokeStaticGenericMethodPassingInT<T>(int BaseNumber, T Item)
+                where T : TestGenericClass
+            {
+                return BaseNumber + Item.Id;
+            }
+
             #endregion
 
             #region Instance Generic Methods
@@ -89,6 +95,11 @@ namespace ToracLibrary.UnitTest.Core
 
             #endregion
 
+        }
+
+        private class TestGenericClass
+        {
+            public int Id { get { return InvokeRegularMethod.InvokeStaticMethodResult; } }
         }
 
         #endregion
@@ -202,6 +213,25 @@ namespace ToracLibrary.UnitTest.Core
 
             //let's go invoke this method dynamically (static method)
             Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult + NumberToAdd, new GenericStaticMethodFinder(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticGenericMethodWithGenericParameters), new Type[] { typeof(string) }, Parameters).FindMethodToInvoke().Invoke(null, new object[] { NumberToAdd, new string[] { "Test1", "Test2" } }));
+        }
+
+        [Fact]
+        public void InvokeGenericRegularStaticMethodWithPassingInTTest1()
+        {
+            //number to pass in
+            const int NumberToAdd = 10;
+
+            //let's go invoke this method dynamically (static method)
+            Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult, new GenericStaticMethodFinder(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticGenericMethodPassingInT),
+                new Type[]
+                {
+                    typeof(TestGenericClass)
+                },
+                new List<GenericTypeParameter>
+                {
+                    new GenericTypeParameter(typeof(int),false),
+                    new GenericTypeParameter(typeof(TestGenericClass),true)
+                }).FindMethodToInvoke().Invoke(null, new object[] { NumberToAdd, new TestGenericClass() }));
         }
 
         #endregion

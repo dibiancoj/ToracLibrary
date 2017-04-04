@@ -59,8 +59,6 @@ namespace ToracLibrary.Core.ReflectionDynamic.Invoke
         /// <returns>MethodInfo ready to be invoke at run time with everything configured</returns>
         public MethodInfo FindMethodToInvoke()
         {
-            var t = ClassType.GetMethods().Where(x => x.Name == MethodName).ToArray();
-
             return ClassType.GetMethods().First(x => x.Name == MethodName && ParameterTypesMatch(ParametersOfMethod.Select(y => new GenericTypeParameter(y, false)).ToList(), x.GetParameters()));
         }
 
