@@ -29,6 +29,12 @@ namespace ToracLibrary.Core.Reflection.InvokeDynamically.Base
                 //is this a generic parameter?
                 if (ParametersWeAreLookingFor[i].IsGenericType)
                 {
+                    //is this T? not ienumerable<T>....just (T item)
+                    if (ParametersMethodContains[i].ParameterType.IsGenericParameter)
+                    {
+                        continue;
+                    }
+
                     //if the parameter types don't match then this method doesn't match
                     if (ParametersMethodContains[i].ParameterType.GetGenericTypeDefinition() != ParametersWeAreLookingFor[i].ParameterType)
                     {

@@ -93,6 +93,12 @@ namespace ToracLibrary.UnitTest.Core
                 return BaseNumber + InvokeStaticMethodResult;
             }
 
+            public int InvokeInstanceGenericMethodPassingInT<T>(int BaseNumber, T Item)
+             where T : TestGenericClass
+            {
+                return BaseNumber + Item.Id;
+            }
+
             #endregion
 
         }
@@ -215,6 +221,9 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult + NumberToAdd, new GenericStaticMethodFinder(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticGenericMethodWithGenericParameters), new Type[] { typeof(string) }, Parameters).FindMethodToInvoke().Invoke(null, new object[] { NumberToAdd, new string[] { "Test1", "Test2" } }));
         }
 
+        /// <summary>
+        /// Invoke a generic static method where we pass in T as a parameter
+        /// </summary>
         [Fact]
         public void InvokeGenericRegularStaticMethodWithPassingInTTest1()
         {
@@ -222,7 +231,7 @@ namespace ToracLibrary.UnitTest.Core
             const int NumberToAdd = 10;
 
             //let's go invoke this method dynamically (static method)
-            Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult, new GenericStaticMethodFinder(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticGenericMethodPassingInT),
+            Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult + NumberToAdd, new GenericStaticMethodFinder(typeof(InvokeRegularMethod), nameof(InvokeRegularMethod.InvokeStaticGenericMethodPassingInT),
                 new Type[]
                 {
                     typeof(TestGenericClass)
@@ -231,7 +240,7 @@ namespace ToracLibrary.UnitTest.Core
                 {
                     new GenericTypeParameter(typeof(int),false),
                     new GenericTypeParameter(typeof(TestGenericClass),true)
-                }).FindMethodToInvoke().Invoke(null, new object[] { NumberToAdd, new TestGenericClass() }));
+                }).FindMethodToInvoke().Invoke(null, new object[] { NumberToAdd, new TestGenericClass(), }));
         }
 
         #endregion
@@ -292,6 +301,31 @@ namespace ToracLibrary.UnitTest.Core
 
             //let's go invoke this method dynamically (static method)
             Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult + NumberToAdd, new GenericInstanceMethodFinder(InstanceOfObjectWithClass, nameof(InvokeRegularMethod.InvokeInstanceGenericMethodWithGenericParameters), new Type[] { typeof(string) }, Parameters).FindMethodToInvoke().Invoke(InstanceOfObjectWithClass, new object[] { NumberToAdd, new string[] { "Test1", "Test2" } }));
+        }
+
+        /// <summary>
+        /// Invoke a generic instance method where we pass in T as a parameter
+        /// </summary>
+        [Fact]
+        public void InvokeGenericRegularInstanceMethodWithParametersInTGenericTest1()
+        {
+            //instance of the class that contains this method
+            var InstanceOfObjectWithClass = new InvokeRegularMethod();
+
+            //number to pass in
+            const int NumberToAdd = 10;
+
+            //let's go invoke this method dynamically (static method)
+            Assert.Equal(InvokeRegularMethod.InvokeStaticMethodResult + NumberToAdd, new GenericInstanceMethodFinder(InstanceOfObjectWithClass, nameof(InvokeRegularMethod.InvokeInstanceGenericMethodPassingInT),
+                new Type[]
+                {
+                    typeof(TestGenericClass)
+                },
+                new List<GenericTypeParameter>
+                {
+                    new GenericTypeParameter(typeof(int),false),
+                    new GenericTypeParameter(typeof(TestGenericClass),true)
+                }).FindMethodToInvoke().Invoke(InstanceOfObjectWithClass, new object[] { NumberToAdd, new TestGenericClass(), }));
         }
 
         #endregion

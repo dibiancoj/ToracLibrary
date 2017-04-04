@@ -132,11 +132,11 @@ namespace ToracLibrary.Core.ExpressionTrees.API
             var ContainsOffOfIEnumerable = new GenericStaticMethodFinder(typeof(Enumerable), nameof(Enumerable.Contains), 
                 new Type[] 
                 {
-                    typeof(IEnumerable<TListType>)
+                    typeof(TListType)
                 }, 
                 new List<GenericTypeParameter>
                 {
-                    new GenericTypeParameter(typeof(IEnumerable<TListType>), true),
+                    new GenericTypeParameter(typeof(IEnumerable<>), true),
                     new GenericTypeParameter(typeof(TListType), true)
                 }).FindMethodToInvoke();
 
