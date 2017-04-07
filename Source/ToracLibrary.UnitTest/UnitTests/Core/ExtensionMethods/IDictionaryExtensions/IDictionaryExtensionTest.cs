@@ -97,6 +97,45 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Get Or Add
+
+        /// <summary>
+        /// Unit test for GetOrAdd to a dictionary.
+        /// </summary>
+        [Fact]
+        public void GetOrAddTest1()
+        {
+            //how many times this has been created
+            int HowManyTimesCreated = 0;
+
+            //value to use to test
+            const int UniqueId = 9999;
+
+            //create a test dictionary which we will use
+            var TestDictionary = new Dictionary<int, DummyObject>();
+
+            //try to get it. It shouldn't be found...so we will return the creator (Xunit has the same method. namespace issues so calling it with class name)
+            var Result = IDictionaryExtensionMethods.GetOrAdd(TestDictionary, UniqueId, () =>
+            {
+                //increase the tally
+                HowManyTimesCreated++;
+
+                //return the object
+                return new DummyObject(UniqueId, UniqueId.ToString());
+            });
+
+            //test the entry
+            Assert.Equal(UniqueId, TestDictionary[UniqueId].Id);
+
+            //now make sure if we try to add the same item that we don't throw the exception
+            Assert.Equal(UniqueId, TestDictionary.GetOrAdd(UniqueId, () => throw new IndexOutOfRangeException("This shouldn't Be Called")).Id);
+
+            //make sure we only every call the method once
+            Assert.Equal(1, HowManyTimesCreated);
+        }
+
+        #endregion
+
     }
 
 }
