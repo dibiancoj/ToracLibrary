@@ -152,6 +152,53 @@ namespace ToracLibrary.Core.ExpressionTrees.API
             return Expression.Lambda<Func<T, bool>>(ContainsMethodCall, RightHandSide.ParametersForExpression);
         }
 
+        /* Example of string contains where we pass in the string to search on through the func...As well as TGridRow and Return IGridRow...And adding the different properties to search on through an OrElse Statement
+             public virtual Expression<Func<string, IGridRow, bool>> BuildInlineFilterExpression(SectionStore sectionStore)
+        {
+            //declare the lambda argument
+            ParameterExpression LambdaArgument = Expression.Parameter(typeof(string), "xContains");
+            ParameterExpression RecordArgument = Expression.Parameter(typeof(IGridRow), "x");
+
+            Expression<Func<string, IGridRow, bool>> baseExpression = null;
+
+            //loop through all the properties we are going to filter on
+            foreach (string propertyName in sectionStore.StringPropertyCache)
+            {
+                //grab the property of T that we are searching on
+                var PropertyToSearchOn = Expression.PropertyOrField(Expression.Convert(RecordArgument, sectionStore.SectionRecord.TypeOfGridRow), propertyName);
+
+                //set the working expression to make sure the item isn't null
+                var ExpressionToAdd = Expression.Equal(Expression.Call(typeof(string).GetMethod(nameof(string.IsNullOrEmpty)), PropertyToSearchOn), Expression.Constant(false));
+
+                //grab the contains with the ignore case method (in torac library)
+                var ContainsIgnoreCaseMethod = typeof(StringExtensionMethods).GetMethod(nameof(StringExtensionMethods.Contains), new Type[] { typeof(string), typeof(string), typeof(StringComparison) });
+
+                //let's combine the 2 methods (so the Is Not Null Or Empty and then the case insensitive contains clause)
+                ExpressionToAdd = Expression.AndAlso(ExpressionToAdd, Expression.Call(ContainsIgnoreCaseMethod, PropertyToSearchOn, LambdaArgument, Expression.Constant(StringComparison.OrdinalIgnoreCase, typeof(StringComparison))));
+
+                //Build up this expression
+                var ExpressionToCombine = Expression.Lambda<Func<string, IGridRow, bool>>(ExpressionToAdd, LambdaArgument, RecordArgument);
+
+                //add the working expression to the base expression we are building up
+                if (baseExpression == null)
+                {
+                    //if we have nothing then just set it
+                    baseExpression = ExpressionToCombine;
+                }
+                else
+                {
+                    //go remap the second expression so we can add an OrElse
+                    var NewSecondExpression = new ExpressionParameterRemapper(baseExpression.Parameters, ExpressionToCombine.Parameters).VisitAndConvert(ExpressionToCombine.Body, CombineType.OrElse.ToString());
+
+                    //use an or else and reset the base expression
+                    baseExpression = Expression.Lambda<Func<string, IGridRow, bool>>(Expression.OrElse(baseExpression.Body, NewSecondExpression), LambdaArgument, RecordArgument);
+                }
+            }
+
+            //return it
+            return baseExpression;
+        }*/
+
         /// <summary>
         /// Builds a dynamic expression which test if the property name contains the ContainTest string Passed in
         /// </summary>
