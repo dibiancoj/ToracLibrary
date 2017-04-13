@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -213,6 +213,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNet.AspNetM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.AspNet.AspNetMVC", "Source\ToracLibrary.AspNet.AspNetMVC\ToracLibrary.AspNet.AspNetMVC.csproj", "{B38A458B-00B6-4EE4-9A90-26E29490F3E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.HttpClientService", "Source\ToracLibrary.HttpClientService\ToracLibrary.HttpClientService.csproj", "{5F42CB80-4775-4B00-9872-550B79F69F9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -315,6 +317,10 @@ Global
 		{B38A458B-00B6-4EE4-9A90-26E29490F3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38A458B-00B6-4EE4-9A90-26E29490F3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38A458B-00B6-4EE4-9A90-26E29490F3E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,5 +376,6 @@ Global
 		{7CE442B0-1E75-4B90-87CC-3D6435F5B20A} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{8AFCBC5F-6763-4195-8211-CDD3B7496CCA} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{B38A458B-00B6-4EE4-9A90-26E29490F3E8} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
+		{5F42CB80-4775-4B00-9872-550B79F69F9F} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 	EndGlobalSection
 EndGlobal
