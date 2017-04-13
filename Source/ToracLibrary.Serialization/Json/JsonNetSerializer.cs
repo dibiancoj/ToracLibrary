@@ -87,6 +87,33 @@ namespace ToracLibrary.Serialization.Json
             return JsonConvert.DeserializeObject<T>(JsonData, SerializerSettings);
         }
 
+        #region Deserialize From Stream
+
+        /// <summary>
+        /// Deserializes an item from a stream to an object. This is a little faster based on documentation because we don't need to load the entire string into memory. We can just read from the stream. This is great when we make web request calls
+        /// </summary>
+        /// <typeparam name="T">Type to deserialize</typeparam>
+        /// <param name="StreamToReadFrom">Stream to read from</param>
+        /// <returns>the deserialized object</returns>
+        public static T DeserializeFromStream<T>(Stream StreamToReadFrom)
+        {
+            //this is great if you make a web request and you get a stream back.
+
+            using (StreamReader StreamReaderToUse = new StreamReader(StreamToReadFrom))
+            {
+                using (JsonReader JsonReaderToUse = new JsonTextReader(StreamReaderToUse))
+                {
+                    //create the json.net engine
+                    var SerializerEngine = new JsonSerializer();
+
+                    //read the json from a stream - json size doesn't matter because only a small piece is read at a time from the HTTP request
+                    return SerializerEngine.Deserialize<T>(JsonReaderToUse);
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region JObject and JToken

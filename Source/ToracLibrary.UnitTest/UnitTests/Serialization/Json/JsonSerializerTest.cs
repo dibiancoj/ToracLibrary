@@ -45,6 +45,32 @@ namespace ToracLibrary.UnitTest.Serialization
 
         #endregion
 
+        #region Deserialization From Stream
+
+        [Fact]
+        public void JsonDeserializationFromStreamTest1()
+        {
+            //create the dummy record
+            var RecordToTest = DummyObject.CreateDummyRecord();
+
+            //let's serialize it into a json string
+            var JsonInStream = JsonNetSerializer.Serialize(RecordToTest).ToStream();
+
+            //let's de-serialize it back from the stream
+            var DeserializedStringObject = JsonNetSerializer.DeserializeFromStream<DummyObject>(JsonInStream);
+
+            //let's test the data
+            Assert.NotNull(DeserializedStringObject);
+
+            //check the properties. check the id
+            Assert.Equal(RecordToTest.Id, DeserializedStringObject.Id);
+
+            //check the description
+            Assert.Equal(RecordToTest.Description, DeserializedStringObject.Description);
+        }
+
+        #endregion
+
         #region JQuery Path Test
 
         #region Frameworks
