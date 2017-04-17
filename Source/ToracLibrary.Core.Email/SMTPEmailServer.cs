@@ -34,6 +34,7 @@ namespace ToracLibrary.Core.Email
     /// Host = "smtp.gmail.com"
     /// Enable SSL = True
     /// </example>
+    [Obsolete("use MailKit if possible. Microsoft just came out and said to use MailKit because its better and faster. https://github.com/jstedfast/MailKit")]
     public partial class SMTPEmailServer : ISMTPEmailServer
     {
 
