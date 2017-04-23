@@ -24,7 +24,7 @@ namespace ToracLibrary.HttpClientService
         /// <param name="Headers">Additional headers to make to the request</param>
         /// <param name="BodyParameters">Parameters that get sent in the content</param>
         /// <returns>Built up task with the wrapped up call</returns>
-        Task<HttpResponseMessage> MakeRequest(HttpMethod RequestType, string Url, AcceptTypeEnum AcceptType, IEnumerable<KeyValuePair<string, string>> Headers, ByteArrayContent BodyParameters);
+        Task<HttpResponseMessage> MakeRequestAsync(HttpMethod RequestType, string Url, AcceptTypeEnum AcceptType, IEnumerable<KeyValuePair<string, string>> Headers, ByteArrayContent BodyParameters);
 
     }
 

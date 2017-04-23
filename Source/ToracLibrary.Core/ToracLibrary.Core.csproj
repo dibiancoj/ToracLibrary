@@ -141,6 +141,7 @@
     <Compile Include="ToracAttributes\InvokedDynamicallyAtRuntimeAttribute.cs" />
     <Compile Include="DataTypes\PrimitiveTypes.cs" />
     <Compile Include="ToracAttributes\ExpressionTrees\LinqToObjectsCompatibleAttribute.cs" />
+    <Compile Include="ToracAttributes\ClassIsNotTestableAttribute.cs" />
     <Compile Include="ToracAttributes\MethodIsNotTestableAttribute.cs" />
     <Compile Include="ToracAttributes\UnitTestUsedAtRunTimeAttribute.cs" />
     <Compile Include="Units\ComputerSizeUnitConverter.cs" />
