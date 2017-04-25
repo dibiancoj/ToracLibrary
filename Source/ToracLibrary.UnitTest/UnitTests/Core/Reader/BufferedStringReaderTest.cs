@@ -30,10 +30,10 @@ namespace ToracLibrary.UnitTest.Core
             using (var ReaderToUse = new BufferedStringReader(string.Empty))
             {
                 //just run a peak to verify we have no characters
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
 
                 //read the value
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
             }
         }
 
@@ -94,16 +94,16 @@ namespace ToracLibrary.UnitTest.Core
                 ReaderToUse.Read();
 
                 //make sure we return -1 on all commands
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
 
                 //test the End of file...when passing in > 0 at the end
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1).ToString());
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1));
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1));
 
                 //test the read method now
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
-                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
             }
         }
 
