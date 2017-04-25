@@ -57,6 +57,15 @@ namespace ToracLibrary.Core.Readers
 
         #endregion
 
+        #region Constants
+
+        /// <summary>
+        /// No more characters value.
+        /// </summary>
+        public const string NoMoreCharacters = "-1";
+
+        #endregion
+
         #region Methods
 
         /// <summary>

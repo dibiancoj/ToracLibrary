@@ -22,6 +22,22 @@ namespace ToracLibrary.UnitTest.Core
         }
 
         /// <summary>
+        /// Make sure a blank string works.
+        /// </summary>
+        [Fact]
+        public void BlankStringTest1()
+        {
+            using (var ReaderToUse = new BufferedStringReader(string.Empty))
+            {
+                //just run a peak to verify we have no characters
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+
+                //read the value
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
+            }
+        }
+
+        /// <summary>
         /// Ensure if read is the first action that it reads
         /// </summary>
         [Fact]
@@ -49,9 +65,6 @@ namespace ToracLibrary.UnitTest.Core
         {
             //string to test with
             const string TestString = "test";
-
-            //no more characters
-            const string NoMoreCharacters = "-1";
 
             //create the reader
             using (var ReaderToUse = new BufferedStringReader(TestString))
@@ -81,16 +94,16 @@ namespace ToracLibrary.UnitTest.Core
                 ReaderToUse.Read();
 
                 //make sure we return -1 on all commands
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(0).ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0).ToString());
 
                 //test the End of file...when passing in > 0 at the end
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(1).ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(1).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1).ToString());
 
                 //test the read method now
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Read().ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Read().ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read().ToString());
             }
         }
 
