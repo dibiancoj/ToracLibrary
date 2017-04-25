@@ -119,6 +119,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Readers\BufferedStringReader.cs" />
     <Compile Include="Reflection\AttributeHelpers.cs" />
     <Compile Include="Reflection\ImplementingClasses.cs" />
     <Compile Include="Reflection\InvokeDynamically\Base\BaseMethodTypeFinder.cs" />
