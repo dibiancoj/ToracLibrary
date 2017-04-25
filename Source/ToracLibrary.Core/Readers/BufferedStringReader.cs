@@ -22,6 +22,12 @@ namespace ToracLibrary.Core.Readers
         /// <param name="StringToRead">String to iterate over</param>
         public BufferedStringReader(string StringToRead)
         {
+            //make sure we have a value (We only throw if null. Blank strings are fine)
+            if (StringToRead == null)
+            {
+                throw new ArgumentNullException(nameof(StringToRead));
+            }
+
             //create a new buffer
             Buffer = new Queue<int>();
 

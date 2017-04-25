@@ -12,10 +12,40 @@ namespace ToracLibrary.UnitTest.Core
     {
 
         /// <summary>
+        /// Ensure that you can't pass in a null string value
+        /// </summary>
+        [Fact]
+        public void BufferedStringNullValueTest1()
+        {
+            //null value
+            Assert.Throws<ArgumentNullException>(() => new BufferedStringReader(null));
+        }
+
+        /// <summary>
+        /// Ensure if read is the first action that it reads
+        /// </summary>
+        [Fact]
+        public void BufferedStringReadRightAwayTest1()
+        {
+            //string to test with
+            const string TestString = "test";
+
+            //create the reader
+            using (var ReaderToUse = new BufferedStringReader(TestString))
+            {
+                //read the value
+                Assert.Equal(TestString[0], (char)ReaderToUse.Read());
+
+                //just run a peak to verify we moved the reader
+                Assert.Equal(TestString[1], (char)ReaderToUse.Peek(0));
+            }
+        }
+
+        /// <summary>
         /// Test the buffered string reader. Simple test with multiple scenarios
         /// </summary>
         [Fact]
-        public void SimpleBufferedStringReaderTest1()
+        public void BufferedStringReaderTest1()
         {
             //string to test with
             const string TestString = "test";
