@@ -9,7 +9,7 @@ namespace ToracLibrary.Core.Readers
 {
 
     /// <summary>
-    /// Buffered string reader so you can peek multiple lines and still have them read back
+    /// Buffered string reader so you can peek multiple characters
     /// </summary>
     public class BufferedStringReader : IDisposable
     {
