@@ -29,7 +29,7 @@ namespace ToracLibrary.Parser.Tokenizer
             using (var ExpressionReader = new StringReader(ExpressionToScan))
             {
                 //keep reading until we are done
-                while (HaveMoreCharacters(ExpressionReader))
+                while (HasMoreCharacters(ExpressionReader))
                 {
                     //what character is this?
                     var CurrentCharacterRead = (char)ExpressionReader.Read();
@@ -45,7 +45,7 @@ namespace ToracLibrary.Parser.Tokenizer
                     char? CharacterPeekedAt = null; //closest thing to a null character
 
                     //do we have another character
-                    if (HaveMoreCharacters(ExpressionReader))
+                    if (HasMoreCharacters(ExpressionReader))
                     {
                         //we have a character
                         CharacterPeekedAt = (char)ExpressionReader.Peek();
@@ -72,7 +72,7 @@ namespace ToracLibrary.Parser.Tokenizer
         /// </summary>
         /// <param name="Reader">Reader to check</param>
         /// <returns>if we have more characters</returns>
-        private static bool HaveMoreCharacters(StringReader Reader)
+        private static bool HasMoreCharacters(StringReader Reader)
         {
             //what is the peek result. Is it negative 1
             return Reader.Peek() != -1;
