@@ -51,13 +51,13 @@ namespace ToracLibrary.Core.Readers
         /// <summary>
         /// String reader to iterate over
         /// </summary>
-        private readonly StringReader Reader;
+        private StringReader Reader { get; }
 
         /// <summary>
         /// Buffer used so we can peek with and read back. Using a list instead of a queue collection so we don't have to call ElementAt In Peek. Benchmark Dot Net said the list is much faster based on the code that is implemented.
         /// A queue doesn't have an indexer so I can't grab a value at a specific index without looping through the entire collection
         /// </summary>
-        private readonly List<int> Buffer;
+        private List<int> Buffer { get; }
 
         /// <summary>
         /// Holds a flag if the class has been disposed yet or called to be disposed yet
