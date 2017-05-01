@@ -237,7 +237,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
-        #region  Output Friendly Description Of IEnumerable
+        #region Output Friendly Description Of IEnumerable
 
         #region Non Index Overload
 
