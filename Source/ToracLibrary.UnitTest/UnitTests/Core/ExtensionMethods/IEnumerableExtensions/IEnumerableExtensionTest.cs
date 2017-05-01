@@ -18,10 +18,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #region UnTyped IEnumerable
 
-        #region For Each
+        #region Count
 
         /// <summary>
-        /// Unit test the basic functionality of count on IEnumerable
+        /// Unit test the basic functionality of count on an untyped IEnumerable
         /// </summary>
         [Fact]
         public void IEnumerableCountTest1()
