@@ -9,7 +9,7 @@ namespace ToracLibrary.Core.Readers
 {
 
     /// <summary>
-    /// Buffered string reader so you can peek multiple lines and still have them read back
+    /// Buffered string reader so you can peek multiple characters
     /// </summary>
     public class BufferedStringReader : IDisposable
     {
@@ -22,12 +22,27 @@ namespace ToracLibrary.Core.Readers
         /// <param name="StringToRead">String to iterate over</param>
         public BufferedStringReader(string StringToRead)
         {
+            //make sure we have a value (We only throw if null. Blank strings are fine)
+            if (StringToRead == null)
+            {
+                throw new ArgumentNullException(nameof(StringToRead));
+            }
+
             //create a new buffer
-            Buffer = new Queue<int>();
+            Buffer = new List<int>();
 
             //create a new string reader to iterate over
             Reader = new StringReader(StringToRead);
         }
+
+        #endregion
+
+        #region Constants
+
+        /// <summary>
+        /// No more characters value.
+        /// </summary>
+        public const int NoMoreCharacters = -1;
 
         #endregion
 
@@ -36,12 +51,13 @@ namespace ToracLibrary.Core.Readers
         /// <summary>
         /// String reader to iterate over
         /// </summary>
-        private readonly StringReader Reader;
+        private StringReader Reader { get; }
 
         /// <summary>
-        /// Buffer used so we can peek with and read back.
+        /// Buffer used so we can peek with and read back. Using a list instead of a queue collection so we don't have to call ElementAt In Peek. Benchmark Dot Net said the list is much faster based on the code that is implemented.
+        /// A queue doesn't have an indexer so I can't grab a value at a specific index without looping through the entire collection
         /// </summary>
-        private readonly Queue<int> Buffer;
+        private List<int> Buffer { get; }
 
         /// <summary>
         /// Holds a flag if the class has been disposed yet or called to be disposed yet
@@ -57,11 +73,11 @@ namespace ToracLibrary.Core.Readers
         /// Peek at a character and don't consume it
         /// </summary>
         /// <param name="CharacterIndex">What index stream do you want to read. 0 would be the next character in line</param>
-        /// <returns>The character at the specified index</returns>
+        /// <returns>The character at the specified index. -1 returned if we are at EndOfFile</returns>
         public int Peek(int CharacterIndex)
         {
-            ///loop through the numbers of characters you want to read
-            for (int i = 0; i <= CharacterIndex; i++)
+            ///loop through the numbers of characters you want to read. Start at the buffer last index since we don't need to add those to the queue
+            for (int i = Buffer.Count; i <= CharacterIndex; i++)
             {
                 //do we have this in our buffer?
                 if (Buffer.Count == 0 || i >= Buffer.Count)
@@ -77,18 +93,18 @@ namespace ToracLibrary.Core.Readers
                     }
 
                     //we don't have it in the buffer. Go read it and put it in the buffer
-                    Buffer.Enqueue(ReadValue);
+                    Buffer.Add(ReadValue);
                 }
             }
 
             //go grab the specified item from the buffer now
-            return Buffer.ElementAt(CharacterIndex);
+            return Buffer[CharacterIndex];
         }
 
         /// <summary>
         /// Read the next character and consume it
         /// </summary>
-        /// <returns>the specified character with consume it</returns>
+        /// <returns>the specified character while consuming it. -1 returned if we are at EndOfFile</returns>
         public int Read()
         {
             //if we have nothing in the buffer
@@ -98,8 +114,14 @@ namespace ToracLibrary.Core.Readers
                 return Reader.Read();
             }
 
-            //we have stuff in the buffer...go grab it and return it
-            return Buffer.Dequeue();
+            //we have stuff in the buffer...go grab it and return it. Always grab the element at 0 (basically a queue collection)
+            int ItemToReturn = Buffer[0];
+
+            //remove the item from the buffer now
+            Buffer.RemoveAt(0);
+
+            //now return the item we found
+            return ItemToReturn;
         }
 
         #endregion

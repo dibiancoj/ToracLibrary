@@ -12,16 +12,59 @@ namespace ToracLibrary.UnitTest.Core
     {
 
         /// <summary>
-        /// Test the buffered string reader. Simple test with multiple scenarios
+        /// Ensure that you can't pass in a null string value
         /// </summary>
         [Fact]
-        public void SimpleBufferedStringReaderTest1()
+        public void BufferedStringNullValueTest1()
+        {
+            //null value
+            Assert.Throws<ArgumentNullException>(() => new BufferedStringReader(null));
+        }
+
+        /// <summary>
+        /// Make sure a blank string works.
+        /// </summary>
+        [Fact]
+        public void BlankStringTest1()
+        {
+            using (var ReaderToUse = new BufferedStringReader(string.Empty))
+            {
+                //just run a peak to verify we have no characters
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
+
+                //read the value
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
+            }
+        }
+
+        /// <summary>
+        /// Ensure if read is the first action that it reads
+        /// </summary>
+        [Fact]
+        public void BufferedStringReadRightAwayTest1()
         {
             //string to test with
             const string TestString = "test";
 
-            //no more characters
-            const string NoMoreCharacters = "-1";
+            //create the reader
+            using (var ReaderToUse = new BufferedStringReader(TestString))
+            {
+                //read the value
+                Assert.Equal(TestString[0], (char)ReaderToUse.Read());
+
+                //just run a peak to verify we moved the reader
+                Assert.Equal(TestString[1], (char)ReaderToUse.Peek(0));
+            }
+        }
+
+        /// <summary>
+        /// Test the buffered string reader. Simple test with multiple scenarios
+        /// </summary>
+        [Fact]
+        public void BufferedStringReaderTest1()
+        {
+            //string to test with
+            const string TestString = "test";
 
             //create the reader
             using (var ReaderToUse = new BufferedStringReader(TestString))
@@ -51,16 +94,16 @@ namespace ToracLibrary.UnitTest.Core
                 ReaderToUse.Read();
 
                 //make sure we return -1 on all commands
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(0).ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(0).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(0));
 
                 //test the End of file...when passing in > 0 at the end
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(1).ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Peek(1).ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1));
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Peek(1));
 
                 //test the read method now
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Read().ToString());
-                Assert.Equal(NoMoreCharacters, ReaderToUse.Read().ToString());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
+                Assert.Equal(BufferedStringReader.NoMoreCharacters, ReaderToUse.Read());
             }
         }
 
