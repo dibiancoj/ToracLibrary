@@ -22,7 +22,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
     /// </summary>
     /// <remarks>Works with Entity Framework 6.0 DbContext. Properties are immutable</remarks>
     /// <typeparam name="TEfContextType">Is the specific context type. Mainly used so we can type the specific entity model if you want to call stored procedures</typeparam>
-    public class EntityFrameworkDP<TEfContextType> : IDisposable
+    public class EntityFrameworkDP<TEfContextType> : IDisposable, IEntityFrameworkDataRepository
         where TEfContextType : DbContext, new()
     {
 
@@ -602,9 +602,9 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         /// <summary>
         /// Adds the specified entity
         /// </summary>
+        /// <typeparam name="T">Type Of Item To Query</typeparam>
         /// <param name="EntityToAdd">Entity To Add</param>
         /// <param name="CommitChanges">Do you want to commit the changes in this method. If false make sure you call SaveChanges to commit the database</param>
-        /// <typeparam name="T">Type Of Item To Query</typeparam>
         /// <remarks>Must Call Save Changes To Commit To The Database If CommitChanges is false.Save Changes is called normally. Set to false and call savechanges async if you want to async call save changes</remarks>
         public void Add<T>(T EntityToAdd, bool CommitChanges) where T : class
         {
@@ -622,9 +622,9 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         /// <summary>
         /// Adds the list of records passed in to the specified entity
         /// </summary>
+        /// <typeparam name="T">Type Of Item To Query</typeparam>
         /// <param name="EntitiesToAdd">List Of Entities To Add</param>
         /// <param name="CommitChanges">Do you want to commit the changes in this method. If false make sure you call SaveChanges to commit the database</param>
-        /// <typeparam name="T">Type Of Item To Query</typeparam>
         /// <remarks>Must Call Save Changes To Commit To The Database If CommitChanges is false. Save Changes is called normally. Set to false and call savechanges async if you want to async call save changes</remarks>
         public void AddRange<T>(IEnumerable<T> EntitiesToAdd, bool CommitChanges) where T : class
         {

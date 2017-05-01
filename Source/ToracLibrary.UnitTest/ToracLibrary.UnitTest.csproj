@@ -284,6 +284,7 @@
     <Compile Include="UnitTests\EntityFramework\DataContext\T4TemplateTest.cs" />
     <Compile Include="UnitTests\EntityFramework\DataContext\Ref_Test.cs" />
     <Compile Include="UnitTests\EntityFramework\DataContext\Test.cs" />
+    <Compile Include="UnitTests\EntityFramework\UnitTests\EntityFrameworkRepositoryTest.cs" />
     <Compile Include="UnitTests\EntityFramework\UnitTests\EntityFrameworkTest.cs" />
     <Compile Include="Framework\DIContainerForUnitTest\DIUnitTestContainer.cs" />
     <Compile Include="Framework\DummyObject.cs" />

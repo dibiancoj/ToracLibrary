@@ -53,9 +53,12 @@
   <ItemGroup>
     <Compile Include="EntityFrameworkDP.cs" />
     <Compile Include="EFUnTypedDP.cs" />
+    <Compile Include="IEntityFrameworkDataRepository.cs" />
     <Compile Include="Logger\EFSqlLogger.cs" />
     <Compile Include="Logger\MyEFSqlLoggerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ITypedRepository.cs" />
+    <Compile Include="Repository\TypedRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

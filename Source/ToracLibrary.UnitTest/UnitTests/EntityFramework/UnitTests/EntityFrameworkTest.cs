@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
+using ToracLibrary.Core.DataProviders.EntityFrameworkDP.Repository;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
