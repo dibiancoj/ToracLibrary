@@ -25,7 +25,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
             #region Constructor
 
-            public Ref_TestRepository(IEntityFrameworkDataRepository context)
+            public Ref_TestRepository(IEntityFrameworkRepository context)
             {
                 Context = context;
             }
@@ -34,7 +34,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
             #region Properties
 
-            private IEntityFrameworkDataRepository Context { get; }
+            private IEntityFrameworkRepository Context { get; }
 
             #endregion
 
@@ -54,7 +54,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
             #region Constructor
 
-            public Ref_TestTypedRepository(ITypedRepository<Ref_Test> context)
+            public Ref_TestTypedRepository(IEntityFrameworkTypedRepository<Ref_Test> context)
             {
                 Context = context;
             }
@@ -63,7 +63,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
             #region Properties
 
-            private ITypedRepository<Ref_Test> Context { get; }
+            private IEntityFrameworkTypedRepository<Ref_Test> Context { get; }
 
             #endregion
 
@@ -80,6 +80,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #endregion
 
+        #region Unit Tests
+
         /// <summary>
         /// Make sure we can mock the entity framework data repository
         /// </summary>
@@ -87,7 +89,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
         public void MockEntityFrameworkRepositoryTest1()
         {
             //mock the ef data repository
-            var MockEFDataRepository = new Mock<IEntityFrameworkDataRepository>();
+            var MockEFDataRepository = new Mock<IEntityFrameworkRepository>();
 
             //data to return
             var DataToReturn = new[]
@@ -117,7 +119,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
         public void MockEntityFrameworkTypedRepositoryTest1()
         {
             //mock the ef data repository
-            var MockEFTypedDataRepository = new Mock<ITypedRepository<Ref_Test>>();
+            var MockEFTypedDataRepository = new Mock<IEntityFrameworkTypedRepository<Ref_Test>>();
 
             //data to return
             var DataToReturn = new[]
@@ -139,6 +141,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             //make sure we only call it once
             MockEFTypedDataRepository.Verify(x => x.Fetch(false), Times.Once);
         }
+
+        #endregion
 
     }
 

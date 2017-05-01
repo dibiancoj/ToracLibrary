@@ -13,7 +13,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
     /// Interace so entity framework data provider can be mocked. This is a universal where you pass in a type of T to each method. Use the ITypedRepository for a specific type throughout the repository
     /// </summary>
     /// <remarks>Not all methods are implemented. Will add as we need them</remarks>
-    public interface IEntityFrameworkDataRepository
+    public interface IEntityFrameworkRepository
     {
 
         /// <summary>

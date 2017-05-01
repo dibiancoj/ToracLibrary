@@ -14,7 +14,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Repository
     /// </summary>
     /// <typeparam name="TRepositoryType">Type of the repository</typeparam>
     /// <remarks>Not all methods are added. Add as needed</remarks>
-    public class TypedRepository<TEfContextType, TRepositoryType> : ITypedRepository<TRepositoryType>
+    public class EntityFrameworkTypedRepository<TEfContextType, TRepositoryType> : IEntityFrameworkTypedRepository<TRepositoryType>
         where TEfContextType : DbContext, new()
         where TRepositoryType : class
     {
@@ -25,7 +25,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Repository
         /// Constructor
         /// </summary>
         /// <param name="ContextToSet">Entity Framework Context</param>
-        public TypedRepository(EntityFrameworkDP<TEfContextType> ContextToSet)
+        public EntityFrameworkTypedRepository(EntityFrameworkDP<TEfContextType> ContextToSet)
         {
             Context = ContextToSet;
         }

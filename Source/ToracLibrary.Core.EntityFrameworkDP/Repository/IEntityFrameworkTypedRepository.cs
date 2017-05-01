@@ -12,7 +12,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Repository
     /// Provides a typed repository for a single type of T.
     /// </summary>
     /// <remarks>Not all methods are added. Add as needed</remarks>
-    public interface ITypedRepository<T>
+    public interface IEntityFrameworkTypedRepository<T>
         where T : class
     {
 
