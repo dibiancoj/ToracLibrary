@@ -76,6 +76,15 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
         /// <param name="EntitiesToDelete">Entities to delete</param>
         /// <param name="CommitChanges">Do you want to commit the changes in this method. If false make sure you call SaveChanges to commit the database</param>
         /// <remarks>Must Call Save Changes To Commit To The Database If CommitChanges is false. Save Changes is called normally. Set to false and call savechanges async if you want to async call save changes</remarks>
+        void DeleteRange<T>(IEnumerable<T> EntitiesToDelete, bool CommitChanges) where T : class;
+
+        /// <summary>
+        /// Deletes the specified entities passed in
+        /// </summary>
+        /// <typeparam name="T">Type Of Item To Query</typeparam>
+        /// <param name="EntitiesToDelete">Entities to delete</param>
+        /// <param name="CommitChanges">Do you want to commit the changes in this method. If false make sure you call SaveChanges to commit the database</param>
+        /// <remarks>Must Call Save Changes To Commit To The Database If CommitChanges is false. Save Changes is called normally. Set to false and call savechanges async if you want to async call save changes</remarks>
         Task DeleteRangeAsync<T>(IEnumerable<T> EntitiesToDelete, bool CommitChanges) where T : class;
 
         /// <summary>

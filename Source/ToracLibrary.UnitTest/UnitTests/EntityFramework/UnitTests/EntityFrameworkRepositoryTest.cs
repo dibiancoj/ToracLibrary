@@ -82,6 +82,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
         #region Unit Tests
 
+        #region Un-Typed Repository
+
         /// <summary>
         /// Make sure we can mock the entity framework data repository
         /// </summary>
@@ -112,6 +114,10 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             MockEFDataRepository.Verify(x => x.Fetch<Ref_Test>(false), Times.Once);
         }
 
+        #endregion
+
+        #region Typed Repository
+
         /// <summary>
         /// Make sure we can mock the entity framework Typed data repository
         /// </summary>
@@ -141,6 +147,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
             //make sure we only call it once
             MockEFTypedDataRepository.Verify(x => x.Fetch(false), Times.Once);
         }
+
+        #endregion
 
         #endregion
 
