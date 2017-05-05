@@ -245,7 +245,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             //alternative would be to use string join
 
             //break the func into a variable for read ability
-            Func<T, int, string> TextBuilder = (thisItem, thisIndex) => SingleItemOutputMethod(thisItem);
+            Func<T, int, string> TextBuilder = (Item, IndexofItem) => SingleItemOutputMethod(Item);
 
             //use the overload. just modify the func for the extra parameter that this overload doesn't care bout
             return CollectionToOutput.ToOutputString(TextBuilder, DelimiterString);
