@@ -46,11 +46,8 @@ namespace ToracLibrary.AspNet.AspNetMVC.Mocking
         /// <returns></returns>
         private ViewEngineResult FindMockedIView(string ViewNameToFind)
         {
-            //view to find
-            IView ViewFetchAttempt;
-
             //go try to find the view
-            if (ViewsToMock.TryGetValue(ViewNameToFind, out ViewFetchAttempt))
+            if (ViewsToMock.TryGetValue(ViewNameToFind, out var ViewFetchAttempt))
             {
                 //we have the view, return it
                 return new ViewEngineResult(ViewsToMock[ViewNameToFind], this);
@@ -64,16 +61,16 @@ namespace ToracLibrary.AspNet.AspNetMVC.Mocking
 
         #region Implementation
 
-        public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
+        public ViewEngineResult FindPartialView(ControllerContext ControllerContext, string PartialViewName, bool UseCache)
         {
             //go grab the partial view and return it
-            return FindMockedIView(partialViewName);
+            return FindMockedIView(PartialViewName);
         }
 
-        public ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
+        public ViewEngineResult FindView(ControllerContext ControllerContext, string ViewName, string MasterName, bool UseCache)
         {
             //go grab the view and return it
-            return FindMockedIView(viewName);
+            return FindMockedIView(ViewName);
         }
 
         public void ReleaseView(ControllerContext controllerContext, IView view)
