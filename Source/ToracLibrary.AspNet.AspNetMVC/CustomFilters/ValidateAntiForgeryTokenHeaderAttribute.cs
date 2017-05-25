@@ -17,7 +17,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
     {
 
         /*
-         [ValidateAntiForgeryTokenOnJqueryAjax]
+         [ValidateAntiForgeryTokenOnJqueryAjax("__RequestVerificationToken")]
          ControllerMethod()
 
 
@@ -55,7 +55,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
         /// <summary>
         /// Holds the key in the header that we will search for the token with
         /// </summary>
-        public string RequestHeaderKeyToLookForToken { get; }
+        private string RequestHeaderKeyToLookForToken { get; }
 
         #endregion
 

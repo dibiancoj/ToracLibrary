@@ -150,20 +150,10 @@ namespace ToracLibrary.AspNet.AspNetMVC.ExtensionMethods.ControllerExtensions
         /// <returns>Rendered partial view as string</returns>
         private static string RenderViewToStringHelper(this Controller ControllerToRenderWith, ViewTypeToLoad.ViewTypeToRender ViewType, string ViewNameToRender, object Model, ViewDataDictionary ViewBagData, string LayoutPage)
         {
-            //holds the view to render
-            ViewEngineResult ViewResult;
-
-            //is this a view or partial view
-            if (ViewType == ViewTypeToLoad.ViewTypeToRender.PartialView)
-            {
-                //it's a view go find me the partial view
-                ViewResult = ViewEngines.Engines.FindPartialView(ControllerToRenderWith.ControllerContext, ViewNameToRender);
-            }
-            else
-            {
-                //its a partial view, go grab the view
-                ViewResult = ViewEngines.Engines.FindView(ControllerToRenderWith.ControllerContext, ViewNameToRender, LayoutPage);
-            }
+            //go grab the view or partial view we want to render
+            ViewEngineResult ViewResult = ViewType == ViewTypeToLoad.ViewTypeToRender.PartialView ?
+                                    ViewEngines.Engines.FindPartialView(ControllerToRenderWith.ControllerContext, ViewNameToRender) :
+                                    ViewEngines.Engines.FindView(ControllerToRenderWith.ControllerContext, ViewNameToRender, LayoutPage);
 
             //let's go validate we found the partial view (wan't to do it here rather then going into render razor..otherwise developer has to back track and look up the callstack to find out why it's null)
             if (ViewResult == null)

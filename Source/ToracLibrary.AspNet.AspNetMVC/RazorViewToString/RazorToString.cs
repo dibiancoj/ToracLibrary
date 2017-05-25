@@ -36,10 +36,10 @@ namespace ToracLibrary.AspNet.AspNetMVC.RazorViewToString
             if (ViewBagData.AnyWithNullCheck())
             {
                 //we need to make sure we include both the controller and the view data we pass in...so add the view data to the controllers view data
-                foreach (KeyValuePair<string, object> thisViewBagItem in ViewBagData)
+                foreach (KeyValuePair<string, object> ViewBagItemToAdd in ViewBagData)
                 {
                     //add the view data to the controller's view data
-                    ControllerToRenderWith.ViewData.Add(thisViewBagItem);
+                    ControllerToRenderWith.ViewData.Add(ViewBagItemToAdd);
                 }
             }
 
@@ -53,7 +53,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.RazorViewToString
                 RazorViewToRender.View.Render(ViewContextToUse, ViewStringWriter);
 
                 //return the string which contains the html for this partial view with the model and view data embedded
-                return ViewStringWriter.GetStringBuilder().ToString();
+                return ViewStringWriter.ToString();
             }
         }
 
