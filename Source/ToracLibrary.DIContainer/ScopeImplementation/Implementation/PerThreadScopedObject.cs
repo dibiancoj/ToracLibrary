@@ -94,19 +94,13 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
             {
                 if (disposing)
                 {
-                    //for singleton's instance that implement idisposable, we want to eagerly call dispose the object
-
-                    //do we have an instance?
+                    //try to dispose of anything that should be disposed
                     if (Instance != null)
                     {
                         //so we have an instance...now does it implement idisposable?
-                        var IDisposeCheck = Instance as IDisposable;
-
-                        //does it implement IDisposable?
-                        if (IDisposeCheck != null)
+                        if (Instance is IDisposable DisposeOfItemInsance)
                         {
-                            //now call dispose on this object
-                            IDisposeCheck.Dispose();
+                            DisposeOfItemInsance.Dispose();
                         }
                     }
                 }

@@ -53,28 +53,22 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomModelBinders.CustomValidators
                 return false;
             }
 
-            //try to case this to an ilist so we can grab the count
-            var CastedToIListTry = value as ICollection;
-
-            //were we able to cast this?
-            if (CastedToIListTry != null)
+            //try to cast it as a collectoin
+            if (value is ICollection CastedToIListTry)
             {
                 //we have it in a list, just return the check
                 return IsValidHelperMethod(CastedToIListTry.Count, MinimumNumberOfElementsAllowed);
             }
 
-            //let's try to cast this to ienumerable
-            var CastedToIEnumerableTry = value as IEnumerable;
-
-            //could we cast this?
-            if (CastedToIEnumerableTry == null)
+            //try to cast it as the lowest implemented that we can count
+            if (value is IEnumerable CastedIEnumerable)
             {
-                //throw an exception
-                throw new InvalidCastException("Not Able To Cast Property To IEnumerable In EnsureMinimumElementsAttribute. Type Is = " + value.GetType().Name);
+                //let's try to count these item and compare it
+                return IsValidHelperMethod(CastedIEnumerable.Count(), MinimumNumberOfElementsAllowed);
             }
 
-            //let's try to count these item and compare it
-            return IsValidHelperMethod(CastedToIListTry.Count(), MinimumNumberOfElementsAllowed);
+            //if we get here...we can't cast it to something we count...so throw here
+            throw new InvalidCastException("Not Able To Cast Property To IEnumerable In EnsureMinimumElementsAttribute. Type Is = " + value.GetType().Name);
         }
 
         #endregion
