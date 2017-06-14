@@ -123,20 +123,10 @@ namespace ToracLibrary.Core.Permutations
                 //loop through the elements
                 foreach (T StartingElement in ListToPermute)
                 {
-                    //grab the remaining items
-                    IEnumerable<T> RemainingItems;
-
-                    //are the items exclusive?
-                    if (ItemsAreExclusive)
-                    {
-                        //grab everything but this item that is at the specified index
-                        RemainingItems = ExcludeAtIndexLazy(ListToPermute, StartingElementIndex);
-                    }
-                    else
-                    {
-                        //just use the list of items
-                        RemainingItems = ListToPermute;
-                    }
+                    //grab the remaining items. Are the items exclusive?
+                    var RemainingItems = ItemsAreExclusive ?
+                                     ExcludeAtIndexLazy(ListToPermute, StartingElementIndex) :
+                                     ListToPermute;
 
                     //loop through the next set recursively
                     foreach (var PermutationOfRemainder in PermuteLazy(RemainingItems, LengthMinus1, ItemsAreExclusive))

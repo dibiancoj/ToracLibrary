@@ -108,7 +108,7 @@ namespace ToracLibrary.AspNet.SessionState
                     if (string.Equals(CacheEntryValue.GetType().ToString(), "System.Web.SessionState.InProcSessionState", StringComparison.OrdinalIgnoreCase))
                     {
                         //this is a session object...let's go grab the items in this key
-                        SessionStateItemCollection SessionObjects = (SessionStateItemCollection)CacheEntryValue.GetType().GetField("_sessionItems", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(CacheEntryValue);
+                        var SessionObjects = (SessionStateItemCollection)CacheEntryValue.GetType().GetField("_sessionItems", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(CacheEntryValue);
 
                         //make sure we have something before we try to loop through the keys
                         if (SessionObjects != null)

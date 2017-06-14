@@ -26,10 +26,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         public static int Count(this IEnumerable CollectionToCount)
         {
             //let's try to cast it first so we don't have to loop through the collection. This will help with performance on large collections
-            ICollection TryToCastAsCollection = CollectionToCount as ICollection;
-
-            //were we able to cast it?
-            if (TryToCastAsCollection != null)
+            if (CollectionToCount is ICollection TryToCastAsCollection)
             {
                 //it's some sort of collection...let's return it because its a property
                 return TryToCastAsCollection.Count;
@@ -89,15 +86,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
                 return false;
             }
 
-            //did we pass in a null (from the other overload?)
-            if (Predicate == null)
-            {
-                //use the regular any
-                return Collection.Any();
-            }
-
-            //otherwise use the predicate version
-            return Collection.Any(Predicate);
+            //use the any method with the overload
+            return Predicate == null ?
+                    Collection.Any() :
+                    Collection.Any(Predicate);
         }
 
         #endregion

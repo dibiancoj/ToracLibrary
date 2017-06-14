@@ -57,8 +57,18 @@ namespace ToracLibrary.DIContainer.ScopeImplementation
             //singleton will only create it once, so singleton's will use the regular activator because it won't benefit of creating the object once. The cost
             //of the expression tree compile is too hight.
 
-            //if we have an instance then return it. Otherwise go create a new object
-            return Instance ?? Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, RegisteredObjectToBuild.ResolveConstructorParametersLazy(Container).ToArray());
+            //do we need to create an instance? This handles the derived per thread scoped object
+            if (Instance != null)
+            {
+                //we have a valid instance, return it
+                return Instance;
+            }
+
+            //go build the instance and store it
+            Instance = Activator.CreateInstance(RegisteredObjectToBuild.ConcreteType, RegisteredObjectToBuild.ResolveConstructorParametersLazy(Container).ToArray());
+
+            //now return the object we created. Don't return the instance which could be a derived typed
+            return Instance;
         }
 
         #endregion
