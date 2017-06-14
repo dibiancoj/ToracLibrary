@@ -845,18 +845,8 @@ namespace ToracLibrary.Redis
                 if (disposing)
                 {
                     //dispose of the stream
-                    if (ResponseStream != null)
-                    {
-                        //dispose calls close - verified in .net source code
-                        ResponseStream.Dispose();
-                    }
-
-                    //dispose of the socket
-                    if (SocketConnection != null)
-                    {
-                        //this should close the socket as well
-                        SocketConnection.Dispose();
-                    }
+                    ResponseStream?.Dispose();
+                    SocketConnection?.Dispose();
                 }
             }
             this.Disposed = true;
