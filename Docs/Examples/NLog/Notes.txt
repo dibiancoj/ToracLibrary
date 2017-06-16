@@ -1,5 +1,7 @@
 ** Sample config with log and email **
 
+You can put this in the web.config and do a transform. Don't need to use the nlog.config which isn't transformable
+
 <?xml version="1.0" encoding="utf-8" ?>
 <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
