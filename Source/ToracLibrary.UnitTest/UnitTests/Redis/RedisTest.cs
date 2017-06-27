@@ -159,10 +159,10 @@ namespace ToracLibrary.UnitTest.Core
                 const int ValueToTest = 123;
 
                 //go save the test value
-                Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>(string.Format($"Set {Key} {ValueToTest}")));
+                Assert.Equal(RedisClient.OKCommandResult, Redis.SendCommand<string>($"Set {Key} {ValueToTest}"));
 
                 //get the test value
-                var Response = Convert.ToInt32(RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>(string.Format($"Get {Key}"))));
+                var Response = Convert.ToInt32(RedisClient.ByteArrayToString(Redis.SendCommand<byte[]>($"Get {Key}")));
 
                 //make sure we get a pong back
                 Assert.Equal(ValueToTest, Response);
