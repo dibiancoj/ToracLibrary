@@ -37,7 +37,7 @@ namespace ToracLibrary.UnitTest.Core
         public void AlphabetCharactersTest1()
         {
             //loop through all the characters and test it
-            var ResultOfCall = new HashSet<char>(AllAlphaBetCharactersLazy());
+            var ResultOfCall = new HashSet<char>(AllAlphaBetCharacters());
 
             //holds an independent string incase characters.constant gets modified by accident
             const string Alphabet = "abcdefghijklmnopqrstuvwxyz";

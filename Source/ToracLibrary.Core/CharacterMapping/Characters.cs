@@ -41,16 +41,12 @@ namespace ToracLibrary.Core.CharacterMapping
         /// <summary>
         /// Returns the alphabet characters in the english language
         /// </summary>
-        /// <returns>all the alphabet characters in the english language in an iterator</returns>
+        /// <returns>all the alphabet characters in the english language</returns>
         /// <remarks>Call .ToUpper() if you want uppercase</remarks>
-        public static IEnumerable<char> AllAlphaBetCharactersLazy()
+        public static IEnumerable<char> AllAlphaBetCharacters()
         {
-            //loop through each character
-            foreach (var Character in AlphabetCharacters)
-            {
-                //return the character
-                yield return Character;
-            }
+            //return the string which is an array of characters
+            return AlphabetCharacters;
         }
 
         #endregion
