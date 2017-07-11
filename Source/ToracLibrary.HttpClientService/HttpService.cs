@@ -143,7 +143,7 @@ namespace ToracLibrary.HttpClientService
         /// <param name="Url">Url to make the web request into</param>
         /// <param name="AcceptType">Accept typ</param>
         /// <param name="Headers">Additional headers to make to the request</param>
-        /// <param name="BodyParameters">Parameters that get sent in the content</param>
+        /// <param name="BodyParameters">Parameters that get sent in the content. ** if using httpget then pass in null **</param>
         /// <returns>Built up task with the wrapped up call</returns>
         public Task<HttpResponseMessage> MakeRequestAsync(HttpMethod RequestType, string Url, AcceptTypeEnum AcceptType, IEnumerable<KeyValuePair<string, string>> Headers, ByteArrayContent BodyParameters)
         {
