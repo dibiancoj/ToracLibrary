@@ -168,7 +168,7 @@ namespace ToracLibrary.HttpClientService
                 }
             }
 
-            //set the request content (either JSON or FormUrlEncodedContent)
+            //set the request content (either JSON or FormUrlEncodedContent or null [if http get])
             RequestToMake.Content = BodyParameters;
 
             //go send the request and return the task
