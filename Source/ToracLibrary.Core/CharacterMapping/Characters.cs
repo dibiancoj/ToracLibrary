@@ -16,7 +16,7 @@ namespace ToracLibrary.Core.CharacterMapping
         #region Constants
 
         /// <summary>
-        /// Holds the alphabet in a string. Call .ToCharArray() if you want it in a char array or run a foreach loop. 
+        /// Holds the alphabet in a string. 
         /// </summary>
         public const string AlphabetCharacters = "abcdefghijklmnopqrstuvwxyz";
 
