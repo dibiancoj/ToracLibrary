@@ -6,3 +6,5 @@
   mockValidicSvc.CallBase = true;
 
   //then setup anything you want to moq
+
+  This will run some methods as the regular method...and some as mocked.
