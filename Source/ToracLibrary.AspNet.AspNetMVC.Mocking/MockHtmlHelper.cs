@@ -21,7 +21,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.Mocking
         /// </summary>
         /// <typeparam name="TModel">type of model</typeparam>
         /// <param name="ModelToUse">Model to use for the test</param>
-        /// <returns></returns>
+        /// <returns>Html Helper object</returns>
         public static HtmlHelper<TModel> GetMockedHtmlHelper<TModel>(TModel ModelToUse)
         {
             //create the view data (which contains the model)
