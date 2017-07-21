@@ -1,0 +1,10 @@
+
+  the key is .As<IValidicService>()
+  var mockValidicSvc = new Mock<ValidicService>(logger, mockPortalApi.Object, mockHttpPortalSvcPassThrough.Object).As<IValidicService>();
+
+  //then call base = true so it runs the implementation
+  mockValidicSvc.CallBase = true;
+
+  //then setup anything you want to moq
+
+  This will run some methods as the regular method...and some as mocked.
