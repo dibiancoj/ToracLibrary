@@ -24,7 +24,9 @@ namespace ToracLibrary.HttpClientService
         /// <summary>
         /// Constructor where the httpclient will be created on each request
         /// </summary>
+        /// <remarks>since Microsoft says tries to use a singleton we are going to set it in the service so atleast we don't re-use it for multiple calls when you have an instance of this service.</remarks>
         public HttpService()
+            : this(new HttpClient())
         {
         }
 
@@ -65,12 +67,17 @@ namespace ToracLibrary.HttpClientService
 
         #endregion
 
-        #region Constants
+        #region Constants - Static Variables
 
         /// <summary>
         /// Json content type
         /// </summary>
         private const string JsonContentType = "application/json";
+
+        /// <summary>
+        /// Json media type so we don't need to create a new instance each time.
+        /// </summary>
+        private static readonly MediaTypeWithQualityHeaderValue JsonMediaType = new MediaTypeWithQualityHeaderValue(JsonContentType);
 
         #endregion
 
@@ -147,15 +154,11 @@ namespace ToracLibrary.HttpClientService
         /// <returns>Built up task with the wrapped up call</returns>
         public Task<HttpResponseMessage> MakeRequestAsync(HttpMethod RequestType, string Url, AcceptTypeEnum AcceptType, IEnumerable<KeyValuePair<string, string>> Headers, ByteArrayContent BodyParameters)
         {
-            //http client we are going to use. Don't wrap this in a dispose because the calling method will fail
-            //if we have a client to use ...then use it. Otherwise just create a basic http client
-            var HttpClientToUse = ClientToUse ?? new HttpClient();
-
-            //add the accept type
-            HttpClientToUse.DefaultRequestHeaders.Accept.Add(AcceptTypeToMediaQuality(AcceptType));
-
             //go create the initial request
-            HttpRequestMessage RequestToMake = new HttpRequestMessage(RequestType, Url);
+            var RequestToMake = new HttpRequestMessage(RequestType, Url);
+
+            //add the accept headers
+            RequestToMake.Headers.Accept.Add(AcceptTypeToMediaQuality(AcceptType));
 
             //do we have any headers
             if (Headers.AnyWithNullCheck())
@@ -178,7 +181,7 @@ namespace ToracLibrary.HttpClientService
             RequestToMake.Content = BodyParameters;
 
             //go send the request and return the task
-            return HttpClientToUse.SendAsync(RequestToMake);
+            return ClientToUse.SendAsync(RequestToMake);
         }
 
         #endregion
@@ -195,7 +198,7 @@ namespace ToracLibrary.HttpClientService
             //what accept type do we want
             if (acceptTypeId == AcceptTypeEnum.JSON)
             {
-                return new MediaTypeWithQualityHeaderValue(JsonContentType);
+                return JsonMediaType;
             }
 
             throw new NotImplementedException();
