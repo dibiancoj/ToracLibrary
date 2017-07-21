@@ -168,6 +168,12 @@ namespace ToracLibrary.HttpClientService
                 }
             }
 
+            //make sure a get doesn't pass in a body
+            if (RequestType == HttpMethod.Get && BodyParameters != null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(BodyParameters), "HttpGet Should Be Called With A Null Body As Bodys Are Not Permitted For An HttpGet.");
+            }
+
             //set the request content (either JSON or FormUrlEncodedContent or null [if http get])
             RequestToMake.Content = BodyParameters;
 
