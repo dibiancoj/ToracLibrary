@@ -52,5 +52,8 @@ If you don’t specify a target migration, Migrations will use the latest migratio
 
 Run the "Update-Database -Script -SourceMigration: $InitialDatabase -TargetMigration: AddPostAbstract" command in Package Manager Console
 
+-- you can alwyas run the following if you don't know what updates you need
+"Update-Database -Script"
+
 in code you can always do the following (if you have rights to create the database on the box)
  myContext.Database.CreateIfNotExists(); //this will create the database and apply all migrations that are registered
