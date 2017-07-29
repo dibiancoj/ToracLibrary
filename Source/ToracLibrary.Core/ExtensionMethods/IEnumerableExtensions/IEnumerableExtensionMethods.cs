@@ -102,6 +102,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <typeparam name="T">Type of Enumerable</typeparam>
         /// <param name="EnumerableToCheck">Enumerable to check and return the value off of</param>
         /// <returns>The original IEnumerable (if not null). Or an empty enumerable with 0 elements if the enumerable passed is null</returns>
+        /// <remarks>Please note this is slower then checking for null. Multiple reasons including the foreach still allocated the enumerator 'GetEnumerator'</remarks>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> EnumerableToCheck)
         {
             //if null return the empty T
