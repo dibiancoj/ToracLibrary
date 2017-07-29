@@ -121,6 +121,36 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Empty If Null Tests
+
+        /// <summary>
+        /// Test an enumerable that is not empty. Should pass back the original enumerable
+        /// </summary>
+        [Fact]
+        public void EmptyIfNullWithEnumerableThatIsNotNullTest1()
+        {
+            //original item to test
+            var OriginalEnumerable = new List<string> { "1", "2", "3" };
+
+            //go use the helper to check the result
+            FrameworkHelperMethods.UnitTestArrayElements(OriginalEnumerable, OriginalEnumerable.EmptyIfNull());
+        }
+
+        /// <summary>
+        /// Test an enumerable that is not empty. Should pass back the original enumerable
+        /// </summary>
+        [Fact]
+        public void EmptyIfNullWithEnumerableThatIsNullTest1()
+        {
+            //original item to test
+            List<string> OriginalEnumerable = null;
+
+            //go grab the result. (pass in empty enumerable...because the result should be empty)
+            FrameworkHelperMethods.UnitTestArrayElements(Enumerable.Empty<string>(), OriginalEnumerable.EmptyIfNull());
+        }
+
+        #endregion
+
         #region First Index Of Element
 
         /// <summary>
