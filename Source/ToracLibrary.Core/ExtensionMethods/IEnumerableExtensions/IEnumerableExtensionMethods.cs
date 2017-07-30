@@ -97,7 +97,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         #region Empty If Null
 
         /// <summary>
-        /// Returns an IEnumerable if the item is null. This way you don't need to check for a null value. ie: a for loop
+        /// Returns an IEnumerable if the item is null. This way you don't need to check for a null value. ie: a foreach loop
         /// </summary>
         /// <typeparam name="T">Type of Enumerable</typeparam>
         /// <param name="EnumerableToCheck">Enumerable to check and return the value off of</param>
