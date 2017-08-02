@@ -2,7 +2,7 @@ Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >.
 Branch name and stuff is case sensitive!
 
 ---------------------------------------------------------------------------------------
- 
+  
 -- Basic --
 1. Grab latest from server "git fetch origin"
 
