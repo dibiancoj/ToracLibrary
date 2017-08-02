@@ -1,1 +1,30 @@
---simple commands for git
+
+-- Basic --
+1. Switch Branches
+	"git checkout BranchName" <-- branch name is the branch you want to switch into
+
+2. Check the status of files
+	"git status"
+
+3. To stage changes
+	"git add FileNameToAdd"
+	or 
+	"git add -A" <-- stages all files changes. 
+
+4. To go from staging to commited
+	"git commit -m MessageToGiveTheCommit" <-- Message to give the commit
+
+5. Push commits to the server
+	"git commit -u origin"
+
+-- Branching --
+1. Branch From Master Into New Local Directory
+	"git branch NewBranchName" <-- New Branch Name is the name you want to give this new branch
+	Or to create and change to the new branch you can use
+	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
+
+
+
+
+
+-- Stashing Changes (like shelving in tfs)
