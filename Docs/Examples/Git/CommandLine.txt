@@ -40,8 +40,9 @@ Branch name and stuff is case sensitive!
 	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
 2. Make your changes
 3. "git merge <BranchToMergeInto>"  <-- branch name you want to merge into
-4. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
-5. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
+4. "git push" <-- to push the merge to the server
+5. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
+6. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
 
 
 -- Stashing Changes (like shelving in tfs)
