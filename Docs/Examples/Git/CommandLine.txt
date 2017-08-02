@@ -2,27 +2,37 @@ Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >.
 
 
 -- Basic --
-1. Switch Branches
+1. Grab latest from server "git fetch origin"
+
+2. Switch Branches
 	"git checkout <BranchName>" <-- branch name is the branch you want to switch into
 
-2. Check the status of files
+3. Check the status of files
 	"git status"
 
-3. To stage changes
+4. To stage changes
 	"git add <FileNameToAdd>"
 	or 
 	"git add -A" <-- stages all files changes. 
 
-4. To go from staging to commited
+5. To go from staging to commited
 	"git commit -m <MessageToGiveTheCommit>" <-- Message to give the commit
 
-5. Push commits to the server
+6. Push commits to the server
 	"git push -u origin <BranchName>" <-- branch name is the branch you want to push it to.
+
+
+
+
 
 -- Cherry Picking, This is grabbing 1 specific change and merging that. --
 1. Grab the hash of the change you want to merge / push
 2. Change to the branch you want to merge this change into ("git checkout <BranchName>")
-2. "git cherry-pick <HashOfChange>" <-- hash from step #1
+3. "git cherry-pick <HashOfChange>" <-- hash from step #1
+4. "git push"  <-- pushes the changes you just cherry picked to the server.
+
+
+
 
 -- Branching --
 1. Branch From Master Into New Local Directory
@@ -30,8 +40,14 @@ Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >.
 	Or to create and change to the new branch you can use
 	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
 
-
+2. Try to cherry pick...Otherwise lookup the merge command. 
+3. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
+4. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
 
 
 
 -- Stashing Changes (like shelving in tfs)
+1. Make your changes
+2. To 'shelve or stash them' use "git stash"
+3. To pull up your changes to your working env. use "git status pop". Note: This will remove the stash. So if you un-do your changes you won't be able to pull them back. TFS makes you delete the shelve. GIT uses like a stack. Once you pop it, it won't be there.
+4. You can always use "git stash list" to see what is currently stashed.
