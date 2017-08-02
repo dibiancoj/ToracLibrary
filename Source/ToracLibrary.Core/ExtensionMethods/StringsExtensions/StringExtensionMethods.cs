@@ -32,12 +32,6 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             //Index Of -1 => Not Found
             //Index Of 0  => If str is empty or null
 
-            //make sure the value we are checking for or the value we are checking against is not null
-            if (StringToLookForValueIn.IsNullOrEmpty() || ValueToCheckTheStringFor.IsNullOrEmpty())
-            {
-                return false;
-            }
-
             //just return the result now because we have a legit string
             return StringToLookForValueIn.IndexOf(ValueToCheckTheStringFor, WhichComparison) >= 0;
         }
@@ -52,22 +46,8 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <remarks>stringToCheckIn.Contains("ValueToCheckForInSide (stringToCheckIn)", StringComparison.OrdinalIgnoreCase);</remarks>
         public static bool Contains(this IEnumerable<string> StringsToLookThrough, string ValueToCheckTheStringFor, StringComparison WhichComparison)
         {
-            //Index Of -1 => Not Found
-            //Index Of 0  => If str is empty or null
-
-            //loop through all the strings and see if we can find a match
-            foreach (string StringToTest in StringsToLookThrough)
-            {
-                //use the singlar method so we have code reuse
-                if (StringToTest.Contains(ValueToCheckTheStringFor, WhichComparison))
-                {
-                    //we found a match, so return true
-                    return true;
-                }
-            }
-
-            //can't find the item
-            return false;
+            //just loop through all the string we are trying to match and return if we find 1 match
+            return StringsToLookThrough.Any(x => x.Contains(ValueToCheckTheStringFor, WhichComparison));
         }
 
         #endregion
