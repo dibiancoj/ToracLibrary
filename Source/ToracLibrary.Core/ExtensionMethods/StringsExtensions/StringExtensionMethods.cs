@@ -46,8 +46,19 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <remarks>stringToCheckIn.Contains("ValueToCheckForInSide (stringToCheckIn)", StringComparison.OrdinalIgnoreCase);</remarks>
         public static bool Contains(this IEnumerable<string> StringsToLookThrough, string ValueToCheckTheStringFor, StringComparison WhichComparison)
         {
-            //just loop through all the string we are trying to match and return if we find 1 match
-            return StringsToLookThrough.Any(x => x.Contains(ValueToCheckTheStringFor, WhichComparison));
+            //we could use an Any() call in linq but it was a tad bit slower. Since this is a hot path in most of my stuff going to leave it in the foreach loop
+            foreach (string StringToTest in StringsToLookThrough)
+            {
+                //use the singlar method so we have code reuse
+                if (StringToTest.Contains(ValueToCheckTheStringFor, WhichComparison))
+                {
+                    //we found a match, so return true
+                    return true;
+                }
+            }
+
+            //can't find the item
+            return false;
         }
 
         #endregion
