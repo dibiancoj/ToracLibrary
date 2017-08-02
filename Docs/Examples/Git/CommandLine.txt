@@ -1,6 +1,8 @@
 Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >. They are just there to show you its not a literal value
 Branch name and stuff is case sensitive!
 
+---------------------------------------------------------------------------------------
+
 -- Basic --
 1. Grab latest from server "git fetch origin"
 
@@ -28,13 +30,15 @@ Branch name and stuff is case sensitive!
 **Note you can add all the files and commit in 1 statement **
 	-Use "git push -u -m  <MessageToGiveTheCommit>" <-- Message to give the commit
 
+---------------------------------------------------------------------------------------
 
--- Cherry Picking, This is grabbing 1 specific change and merging that. --
+-- Cherry Picking, This is grabbing 1 specific change and pusing that to another branch. --
 1. Grab the hash of the change you want to merge / push
 2. Change to the branch you want to merge this change into ("git checkout <BranchName>")
 3. "git cherry-pick <HashOfChange>" <-- hash from step #1
 4. "git push"  <-- pushes the changes you just cherry picked to the server.
 
+---------------------------------------------------------------------------------------
 
 -- Branching --
 1. Branch From Master Into New Local Directory
@@ -47,6 +51,7 @@ Branch name and stuff is case sensitive!
 5. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
 6. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
 
+---------------------------------------------------------------------------------------
 
 -- Stashing Changes (like shelving in tfs)
 1. Make your changes
