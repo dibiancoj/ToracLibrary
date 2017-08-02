@@ -1,21 +1,28 @@
+Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >. They are just there to show you its not a literal value
+
 
 -- Basic --
 1. Switch Branches
-	"git checkout BranchName" <-- branch name is the branch you want to switch into
+	"git checkout <BranchName>" <-- branch name is the branch you want to switch into
 
 2. Check the status of files
 	"git status"
 
 3. To stage changes
-	"git add FileNameToAdd"
+	"git add <FileNameToAdd>"
 	or 
 	"git add -A" <-- stages all files changes. 
 
 4. To go from staging to commited
-	"git commit -m MessageToGiveTheCommit" <-- Message to give the commit
+	"git commit -m <MessageToGiveTheCommit>" <-- Message to give the commit
 
 5. Push commits to the server
-	"git commit -u origin"
+	"git push -u origin <BranchName>" <-- branch name is the branch you want to push it to.
+
+-- Cherry Picking, This is grabbing 1 specific change and merging that. --
+1. Grab the hash of the change you want to merge / push
+2. Change to the branch you want to merge this change into ("git checkout <BranchName>")
+2. "git cherry-pick <HashOfChange>" <-- hash from step #1
 
 -- Branching --
 1. Branch From Master Into New Local Directory
