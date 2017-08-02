@@ -28,7 +28,7 @@ Branch name and stuff is case sensitive!
 	B. "git reset --hard origin/master"
 
 **Note you can add all the files and commit in 1 statement **
-	-Use "git commit -A -m  <MessageToGiveTheCommit>" <-- Message to give the commit
+	-Use "git commit -a -m  <MessageToGiveTheCommit>" <-- Message to give the commit
 
 ---------------------------------------------------------------------------------------
 
