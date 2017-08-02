@@ -33,8 +33,6 @@ Branch name and stuff is case sensitive!
 4. "git push"  <-- pushes the changes you just cherry picked to the server.
 
 
-
-
 -- Branching --
 1. Branch From Master Into New Local Directory
 	"git branch NewBranchName" <-- New Branch Name is the name you want to give this new branch
