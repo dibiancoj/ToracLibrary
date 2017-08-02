@@ -1,5 +1,5 @@
 Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >. They are just there to show you its not a literal value
-
+Branch name and stuff is case sensitive!
 
 -- Basic --
 1. Grab latest from server "git fetch origin"
@@ -21,8 +21,9 @@ Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >.
 6. Push commits to the server
 	"git push -u origin <BranchName>" <-- branch name is the branch you want to push it to.
 
-
-
+7. To toally reset your branch to what is on the server (2 step process0)
+	A. "git fetch origin"
+	B. "git reset --hard origin/master"
 
 
 -- Cherry Picking, This is grabbing 1 specific change and merging that. --
@@ -39,11 +40,10 @@ Note: Below you will see < Some Text > (inside brackets.) Don't type the < or >.
 	"git branch NewBranchName" <-- New Branch Name is the name you want to give this new branch
 	Or to create and change to the new branch you can use
 	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
-
-2. Try to cherry pick...Otherwise lookup the merge command. 
-3. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
-4. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
-
+2. Make your changes
+3. "git merge <BranchToMergeInto>"  <-- branch name you want to merge into
+4. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
+5. To delete the branch on teh server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
 
 
 -- Stashing Changes (like shelving in tfs)
