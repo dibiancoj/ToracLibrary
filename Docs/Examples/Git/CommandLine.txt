@@ -25,6 +25,9 @@ Branch name and stuff is case sensitive!
 	A. "git fetch origin"
 	B. "git reset --hard origin/master"
 
+**Note you can add all the files and commit in 1 statement **
+	-Use "git push -u -m  <MessageToGiveTheCommit>" <-- Message to give the commit
+
 
 -- Cherry Picking, This is grabbing 1 specific change and merging that. --
 1. Grab the hash of the change you want to merge / push
