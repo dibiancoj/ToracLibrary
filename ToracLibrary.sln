@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -220,6 +220,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Moq", "Moq", "{ABF6CC66-CA6
 		Docs\Examples\Moq\MixAndMatchInterfaceAndImplementation.txt = Docs\Examples\Moq\MixAndMatchInterfaceAndImplementation.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{9D0F7A31-2CA8-453B-AA92-33F422F6000B}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Git\CommandLine.txt = Docs\Examples\Git\CommandLine.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -383,5 +388,6 @@ Global
 		{B38A458B-00B6-4EE4-9A90-26E29490F3E8} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{5F42CB80-4775-4B00-9872-550B79F69F9F} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{ABF6CC66-CA69-442C-BBAC-2EC7B5F7A6AA} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{9D0F7A31-2CA8-453B-AA92-33F422F6000B} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 EndGlobal
