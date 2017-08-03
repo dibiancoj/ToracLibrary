@@ -13,7 +13,6 @@ using System.Transactions;
 using ToracLibrary.Core.DataProviders.ADO;
 using ToracLibrary.Core.DataProviders.SqlBuilder;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
-using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 
 namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
 {
@@ -662,7 +661,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP
             //for the add just run an Add method and that will save. The update will work in this method
 
             //going to use the UpsertRange helper method. creating an array is a little overhead more then we need, but it prevents duplicate code.
-            UpsertRange(EntityToAddOrUpdate.ToIEnumerableLazy(), CommitChanges);
+            UpsertRange(new T[] { EntityToAddOrUpdate }, CommitChanges);
         }
 
         /// <summary>
