@@ -25,10 +25,10 @@ namespace ToracLibrary.Caching
             //an implementation to get it that way too
 
             //loop through the cache items
-            foreach (KeyValuePair<string, object> thisItemInCache in MemoryCache.Default)
+            foreach (KeyValuePair<string, object> ItemInCache in MemoryCache.Default)
             {
                 //use yield result so we don't have to throw this guy in a list before returning it
-                yield return thisItemInCache;
+                yield return ItemInCache;
             }
         }
 
