@@ -349,7 +349,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
-        #region Prepend and Append Single Item With List Iterator
+        #region Prepend and Append Single Item With Enumerable
 
         /// <summary>
         /// Adds a single item at the first element in the list
