@@ -27,13 +27,7 @@ namespace ToracLibrary.Core.Paging.BuildPagerText.Keywords
         /// <summary>
         /// Keyword to replace and look for
         /// </summary>
-        public string KeyWord
-        {
-            get
-            {
-                return KeyWordTag;
-            }
-        }
+        public string KeyWord => KeyWordTag;
 
         /// <summary>
         /// Replacement Value To Set
