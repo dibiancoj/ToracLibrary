@@ -17,7 +17,7 @@
 
         #region Setup
 
-        [Setup]
+        [GlobalSetup]
         public void Setup()
         {
         }
