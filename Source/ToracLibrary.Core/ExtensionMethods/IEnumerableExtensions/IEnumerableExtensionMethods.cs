@@ -341,7 +341,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             }
 
             //yield return the current group if we have less then the max
-            if (CurrentGroup.AnyWithNullCheck())
+            if (CurrentGroup.Any())
             {
                 yield return CurrentGroup;
             }
