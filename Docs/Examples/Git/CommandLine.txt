@@ -24,11 +24,13 @@ Branch name and stuff is case sensitive!
 	"git push -u origin <BranchName>" <-- branch name is the branch you want to push it to.
 
 7. To toally reset your branch to what is on the server (2 step process0)
-	A. "git fetch origin"
-	B. "git reset --hard origin/master"
+	First Step:"git fetch origin"
+	Second Step:"git reset --hard origin/master"
 
 **Note you can add all the files and commit in 1 statement **
 	-Use "git commit -a -m  <MessageToGiveTheCommit>" <-- Message to give the commit
+
+You can also open "gitk" which is the simple gui for git. The gui is not the greatest so the command line is better for simple changes.
 
 ---------------------------------------------------------------------------------------
 
