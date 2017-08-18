@@ -320,6 +320,12 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <returns>chunked up items</returns>
         public static IEnumerable<IEnumerable<T>> ChunkUpListItemsLazy<T>(this IEnumerable<T> CollectionToChunk, int MaxNumberOfItemsInBucket)
         {
+            //ensure we pass in more then 0 items
+            if (MaxNumberOfItemsInBucket < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(MaxNumberOfItemsInBucket), "Parameter Must Be >= 1");
+            }
+
             //the current group we are inserting into
             var CurrentGroup = new List<T>();
 
