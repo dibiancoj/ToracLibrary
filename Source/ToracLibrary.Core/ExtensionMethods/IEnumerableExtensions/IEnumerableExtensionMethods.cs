@@ -201,10 +201,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             //lst.ForEach(x => x.Id = -1); (lst is IEnumerable of a model class)
 
             //loop through each element and invoke the item
-            foreach (T thisElement in CollectionToProcess)
+            foreach (T ElementToProcess in CollectionToProcess)
             {
                 //let's go invoke the element
-                MethodToRunOnEachElement.Invoke(thisElement);
+                MethodToRunOnEachElement.Invoke(ElementToProcess);
             }
         }
 
