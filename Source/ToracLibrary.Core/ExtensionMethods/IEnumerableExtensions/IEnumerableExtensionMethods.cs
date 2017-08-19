@@ -97,7 +97,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         #region Empty If Null
 
         /// <summary>
-        /// Returns an IEnumerable if the item is null. This way you don't need to check for a null value. ie: a foreach loop
+        /// Returns an empty ienumerable if the item is null. This way you don't need to check for a null value. ie: a foreach loop
         /// </summary>
         /// <typeparam name="T">Type of Enumerable</typeparam>
         /// <param name="EnumerableToCheck">Enumerable to check and return the value off of</param>
@@ -201,10 +201,10 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             //lst.ForEach(x => x.Id = -1); (lst is IEnumerable of a model class)
 
             //loop through each element and invoke the item
-            foreach (T thisElement in CollectionToProcess)
+            foreach (T ElementToProcess in CollectionToProcess)
             {
                 //let's go invoke the element
-                MethodToRunOnEachElement.Invoke(thisElement);
+                MethodToRunOnEachElement.Invoke(ElementToProcess);
             }
         }
 
@@ -320,6 +320,12 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <returns>chunked up items</returns>
         public static IEnumerable<IEnumerable<T>> ChunkUpListItemsLazy<T>(this IEnumerable<T> CollectionToChunk, int MaxNumberOfItemsInBucket)
         {
+            //ensure we pass in more then 0 items
+            if (MaxNumberOfItemsInBucket < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(MaxNumberOfItemsInBucket), "Parameter Must Be >= 1");
+            }
+
             //the current group we are inserting into
             var CurrentGroup = new List<T>();
 
@@ -341,7 +347,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
             }
 
             //yield return the current group if we have less then the max
-            if (CurrentGroup.AnyWithNullCheck())
+            if (CurrentGroup.Any())
             {
                 yield return CurrentGroup;
             }

@@ -470,6 +470,20 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             }
         }
 
+        [Fact]
+        public void ChunkUpListMaxNumberZeroRaiseException()
+        {
+            //grab the dummy list
+            var DummyCreatedList = DummyObject.CreateDummyListLazy(2).ToArray();
+
+            //these should throw an exception
+            Assert.Throws<ArgumentOutOfRangeException>(() => DummyCreatedList.ChunkUpListItemsLazy(0).ToArray());
+            Assert.Throws<ArgumentOutOfRangeException>(() => DummyCreatedList.ChunkUpListItemsLazy(-1).ToArray());
+
+            //positive test so it shouldn't throw
+            Assert.Equal(2, DummyCreatedList.ChunkUpListItemsLazy(1).SelectMany(x => x).Count());
+        }
+
         #endregion
 
         #region Prepend and Append With Single Item
