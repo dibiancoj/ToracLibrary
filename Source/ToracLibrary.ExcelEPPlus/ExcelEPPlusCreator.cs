@@ -57,11 +57,16 @@ namespace ToracLibrary.ExcelEPPlus
     //do a sort and write otherwise epplus has to reorder the cells to the get them in the write sort order.
     //for big worksheets this gets really slow...so  cells.OrderBy(x => x.RowIndex).ThenBy(x => x.ColumnIndex).ToArray()
 
+    //style as date with no time
+    //thisCell.Style.Numberformat.Format = "mm-dd-yyyy";
+    //style with date and time
+    //thisCell.Style.Numberformat.Format = "mm-dd-yyyy hh:mm AM/PM";
+
     /// <summary>
     /// Creates Excel Files Using EPPlus
     /// </summary>
     /// <remarks>Is Server safe and you don't need Excel installed. Uses the Open XML SDK. Class is immutable</remarks>
-    public class ExcelEPPlusCreator
+    public class ExcelEPPlusCreator : IDisposable
     {
 
         #region Constructor
@@ -143,6 +148,26 @@ namespace ToracLibrary.ExcelEPPlus
 
             //go grab the package and return the byte array
             return ExcelCreatorPackage.GetAsByteArray();
+        }
+
+        /// <summary>
+        /// Auto fit all the columns in all worksheets
+        /// </summary>
+        public void AutoFitColumns()
+        {
+            foreach (var WorkSheetToFormat in ExcelCreatorPackage.Workbook.Worksheets)
+            {
+                AutoFitColumnsInASpreadSheet(WorkSheetToFormat);
+            }
+        }
+
+        /// <summary>
+        /// Auto fit the columns in a spreadsheet
+        /// </summary>
+        /// <param name="SpreadSheetToAutoFit">Spreadsheet to auto fit all the columns</param>
+        public void AutoFitColumnsInASpreadSheet(ExcelWorksheet SpreadSheetToAutoFit)
+        {
+            SpreadSheetToAutoFit.Cells[SpreadSheetToAutoFit.Dimension.Start.Row, SpreadSheetToAutoFit.Dimension.Start.Column, SpreadSheetToAutoFit.Dimension.End.Row, SpreadSheetToAutoFit.Dimension.End.Column].AutoFitColumns();
         }
 
         #endregion
