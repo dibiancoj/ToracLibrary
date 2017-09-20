@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ToracLibrary.Core.EnumUtilities;
 using ToracLibrary.ExcelEPPlus.Builder.Attributes;
 using ToracLibrary.ExcelEPPlus.Builder.Configuration;
-using ToracLibrary.ExcelEPPlus.Builder.Writers;
 using static ToracLibrary.ExcelEPPlus.Builder.Formatters.Formatter;
 
 namespace ToracLibrary.ExcelEPPlus.Builder
@@ -150,6 +149,11 @@ namespace ToracLibrary.ExcelEPPlus.Builder
                 throw new ArgumentNullException("Please call addHeader before building");
             }
 
+            if (HeaderConfiguration.RowIndexToWriteInto < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(HeaderConfiguration.RowIndexToWriteInto), "Header must write into a cell that is greater then 0");
+            }
+
             if (!ColumnConfiguration.Any())
             {
                 throw new ArgumentOutOfRangeException(nameof(ColumnConfiguration), "No Column Configuration Have Been Generated. Please Call AddDataMapping For Each Column");
@@ -160,8 +164,11 @@ namespace ToracLibrary.ExcelEPPlus.Builder
                 throw new NullReferenceException(nameof(DataSet));
             }
 
+            //we are going to cache the enum to column index so we don't have to keep calc in writeheaders and writebody
+            var ColumnEnumCachedLookup = EnumUtility.GetValuesLazy<TColumnEnum>().ToDictionary(x => x, x => Convert.ToInt32(x));
+
             //get the starting data row index
-            int StartToWriteBodyAtRowIndex = BodyStartRowIndex();
+            int StartToWriteBodyAtRowIndex = HeaderConfiguration.RowIndexToWriteInto + 1;
 
             //add the worksheet
             ExcelCreator.AddWorkSheet(WorkSheetName);
@@ -170,10 +177,10 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             var WorkingSpreadSheet = ExcelCreator.WorkSheetSelect(WorkSheetName);
 
             //add the headers
-            HeaderWriter.WriteHeadersToWorksheet<TColumnEnum>(WorkingSpreadSheet, HeaderConfiguration.RowIndexToWriteInto, HeaderConfiguration.MakeBold, HeaderConfiguration.AddAutoFilter);
+            WriteHeadersToWorksheet(WorkingSpreadSheet, ColumnEnumCachedLookup);
 
             //go add the data in the spreadsheet
-            BodyWriter.WriteBodyInSpreadSheet(WorkingSpreadSheet, DataSet, StartToWriteBodyAtRowIndex, ColumnConfiguration);
+            WriteBodyInSpreadSheet(WorkingSpreadSheet, ColumnEnumCachedLookup, DataSet, StartToWriteBodyAtRowIndex);
 
             //do we want to autofit the columns
             if (HeaderConfiguration.AutoFitTheColumns)
@@ -185,7 +192,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             AddColumnFormatters(WorkingSpreadSheet, StartToWriteBodyAtRowIndex);
 
             //any widths we need to apply
-            AddColumnWidth(WorkingSpreadSheet);
+            AddColumnWidth(WorkingSpreadSheet, ColumnEnumCachedLookup);
         }
 
         #endregion
@@ -220,21 +227,15 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         }
 
         /// <summary>
-        /// what is the row index that the body starts at
-        /// </summary>
-        /// <returns>row index</returns>
-        private int BodyStartRowIndex()
-        {
-            return HeaderConfiguration.RowIndexToWriteInto + 1;
-        }
-
-        /// <summary>
         /// Add a column formatter to a worksheet
         /// </summary>
         /// <param name="WorkSheetToWriteTo">SpreadhSheet to write into</param>
         /// <param name="BodyStartRowIndex">The row index where the body starts to write into</param>
         private void AddColumnFormatters(ExcelWorksheet WorkSheetToWriteTo, int BodyStartRowIndex)
         {
+            //we are going to grab all the formatters and cache them this way we don't have to keep checking the attribute which is costly
+            var FormatterLookup = EnumUtility.GetValuesLazy<ExcelBuilderFormatters>().ToDictionary(x => x, x => EnumUtility.CustomAttributeGet<ExcelFormatterAttribute>(x).FormatterToUse);
+
             //loop through all the configurations (will never be null)
             foreach (var ColumnToFormat in ColumnConfiguration.Where(x => x.Value.Formatter.HasValue))
             {
@@ -242,7 +243,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
                 int ColumnIndex = Convert.ToInt32(ColumnToFormat.Key);
 
                 //format the cell
-                WorkSheetToWriteTo.Cells[BodyStartRowIndex, ColumnIndex, WorkSheetToWriteTo.Dimension.End.Row, ColumnIndex].Style.Numberformat.Format = EnumUtility.CustomAttributeGet<ExcelFormatterAttribute>(ColumnToFormat.Value.Formatter.Value).FormatterToUse;
+                WorkSheetToWriteTo.Cells[BodyStartRowIndex, ColumnIndex, WorkSheetToWriteTo.Dimension.End.Row, ColumnIndex].Style.Numberformat.Format = FormatterLookup[ColumnToFormat.Value.Formatter.Value];
             }
         }
 
@@ -250,17 +251,85 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         /// Set a column width
         /// </summary>
         /// <param name="WorkSheetToWriteTo">SpreadhSheet to write into</param>
-        private void AddColumnWidth(ExcelWorksheet WorkSheetToWriteTo)
+        /// <param name="ColumnIndexCacheLookup">Contains a mapping of TColumnEnum and the column index so we dont need to re-calc everything for multiple methods</param>
+        private void AddColumnWidth(ExcelWorksheet WorkSheetToWriteTo, IDictionary<TColumnEnum, int> ColumnIndexCacheLookup)
         {
             //loop through all the configurations (will never be null)
             foreach (var ColumnToSetWidth in ColumnConfiguration.Where(x => x.Value.ColumnWidth.HasValue))
             {
                 //Grab the column index that we are up to
-                int ColumnIndex = Convert.ToInt32(ColumnToSetWidth.Key);
+                int ColumnIndex = ColumnIndexCacheLookup[ColumnToSetWidth.Key];
 
                 //format the cell
                 WorkSheetToWriteTo.Column(ColumnIndex).Width = ColumnToSetWidth.Value.ColumnWidth.Value;
             }
+        }
+
+        /// <summary>
+        /// Write the headers into the worksheet
+        /// </summary>
+        /// <param name="WorkSheet">worksheet to write into</param>
+        /// <param name="ColumnIndexCacheLookup">Contains a mapping of TColumnEnum and the column index so we dont need to re-calc everything for multiple methods</param>
+        private void WriteHeadersToWorksheet(ExcelWorksheet WorkSheet, IDictionary<TColumnEnum, int> ColumnIndexCacheLookup)
+        {
+            //loop through the values
+            foreach (var EnumValue in ColumnIndexCacheLookup)
+            {
+                //grab the enum value
+                Enum EnumValueAsEnum = EnumValue.Key as Enum;
+
+                //make sure we have valid entries
+                if (EnumValue.Value == 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(EnumValue.Value), "Column index must be greater then 0. Please check enum value = " + EnumValue + " for an invalid enum value.");
+                }
+
+                if (EnumValueAsEnum == null)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(EnumValueAsEnum), "EnumValue is null when converted to an enum. TColumnEnum must be an enum.");
+                }
+
+                //write the header
+                WorkSheet.Cells[HeaderConfiguration.RowIndexToWriteInto, EnumValue.Value].Value = EnumUtility.CustomAttributeGet<ExcelColumnHeaderAttribute>(EnumValueAsEnum).ColumnHeader;
+            }
+
+            if (HeaderConfiguration.MakeBold || HeaderConfiguration.AddAutoFilter)
+            {
+                var HeaderRowRange = WorkSheet.Cells[HeaderConfiguration.RowIndexToWriteInto, ColumnIndexCacheLookup.Values.Min(), HeaderConfiguration.RowIndexToWriteInto, ColumnIndexCacheLookup.Values.Max()];
+
+                HeaderRowRange.Style.Font.Bold = HeaderConfiguration.MakeBold;
+                HeaderRowRange.AutoFilter = HeaderConfiguration.AddAutoFilter;
+            }
+        }
+
+        /// <summary>
+        /// Add the data in the body of the spreadsheet
+        /// </summary>
+        /// <param name="WorkSheetToWriteInto">spreadsheet to write into</param>
+        /// <param name="ColumnIndexCacheLookup">Contains a mapping of TColumnEnum and the column index so we dont need to re-calc everything for multiple methods</param>
+        /// <param name="DataSet">DataSet to write</param>
+        /// <param name="RowIndexToStartWriting">Row index to starting writing at</param>
+        /// <returns>Row index that we are done writing</returns>
+        private int WriteBodyInSpreadSheet(ExcelWorksheet WorkSheetToWriteInto, IDictionary<TColumnEnum, int> ColumnIndexCacheLookup, IEnumerable<TDataRowType> DataSet, int RowIndexToStartWriting)
+        {
+            //the row index we write to
+            int CurrentRowIndex = RowIndexToStartWriting;
+
+            //loop through the dataset
+            foreach (var RecordToWrite in DataSet)
+            {
+                //loop through the columns now
+                foreach (var ColumnToWrite in ColumnIndexCacheLookup)
+                {
+                    WorkSheetToWriteInto.Cells[CurrentRowIndex, ColumnToWrite.Value].Value = ColumnConfiguration[ColumnToWrite.Key].DataMapper(RecordToWrite);
+                }
+
+                //increase the row index
+                CurrentRowIndex++;
+            }
+
+            //return the current row - 1 (because we incremented after the last row)
+            return CurrentRowIndex - 1;
         }
 
         #endregion

@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Moq;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using ToracLibrary.ExcelEPPlus.Builder;
 using ToracLibrary.ExcelEPPlus;
-using Moq;
+using ToracLibrary.ExcelEPPlus.Builder;
 using ToracLibrary.ExcelEPPlus.Builder.Attributes;
 using ToracLibrary.ExcelEPPlus.Builder.Formatters;
-using OfficeOpenXml;
+using Xunit;
 
 namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
 {
@@ -19,6 +16,15 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
     /// </summary>
     public class ExcelEPPlusTest
     {
+
+        #region Constants
+
+        /// <summary>
+        /// Spreadsheet name to use it tests
+        /// </summary>
+        private const string WorksheetNameToUse = "WorkSheet12345";
+
+        #endregion
 
         #region Framework
 
@@ -55,7 +61,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public static ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool AutoFitColumns = true)
         {
             return new ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow>(CreatorMock.Object)
-                            .AddWorkSheet("Jason")
+                            .AddWorkSheet(WorksheetNameToUse)
                             .AddHeader(1, true, true, AutoFitColumns)
                             .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
                             .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
@@ -85,7 +91,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void NoColumnMappingShouldThrow()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => BlankBuilder()
-                                                                .AddWorkSheet("Jason")
+                                                                .AddWorkSheet(WorksheetNameToUse)
                                                                 .AddHeader(1, true, true, true)
                                                                 .Build(ExcelEPPlusDataRow.BuildTestData()));
         }
@@ -97,7 +103,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void NoHeaderSetShouldThrow()
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
-                                                                .AddWorkSheet("Jason")
+                                                                .AddWorkSheet(WorksheetNameToUse)
                                                                 .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
                                                                 .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
                                                                 .Build(null));
@@ -110,7 +116,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void NoDataSetShouldThrow()
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
-                                                                .AddWorkSheet("Jason")
+                                                                .AddWorkSheet(WorksheetNameToUse)
                                                                 .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
                                                                 .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
                                                                 .Build(null));
@@ -139,7 +145,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void ConfigIsCorrect()
         {
             var Config = BlankBuilder()
-                            .AddWorkSheet("Jason")
+                            .AddWorkSheet(WorksheetNameToUse)
                             .AddHeader(1, true, true, true)
                             .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
                             .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
@@ -147,7 +153,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
                             .AddColumnFormatter(EPPlusUnitTestColumns.Column3Date, Formatter.ExcelBuilderFormatters.Date)
                             .AddColumnWidth(EPPlusUnitTestColumns.Column3Date, 50);
 
-            Assert.Equal("Jason", Config.WorkSheetName);
+            Assert.Equal(WorksheetNameToUse, Config.WorkSheetName);
 
             //header config
             Assert.Equal(1, Config.HeaderConfiguration.RowIndexToWriteInto);

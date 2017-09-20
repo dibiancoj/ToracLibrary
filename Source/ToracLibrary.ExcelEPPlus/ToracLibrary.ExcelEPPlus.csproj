@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
@@ -47,8 +49,6 @@
   <ItemGroup>
     <Compile Include="Builder\Attributes\ExcelColumnHeaderAttribute.cs" />
     <Compile Include="Builder\Attributes\ExcelFormatterAttribute.cs" />
-    <Compile Include="Builder\Writers\BodyWriter.cs" />
-    <Compile Include="Builder\Writers\HeaderWriter.cs" />
     <Compile Include="Builder\Configuration\FluentColumnConfiguration.cs" />
     <Compile Include="Builder\Configuration\FluentHeaderConfiguration.cs" />
     <Compile Include="Builder\ExcelFluentWorksheetBuilder.cs" />
