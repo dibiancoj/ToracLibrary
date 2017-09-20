@@ -45,11 +45,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\Attributes\ExcelColumnHeaderAttribute.cs" />
+    <Compile Include="Builder\Attributes\ExcelFormatterAttribute.cs" />
+    <Compile Include="Builder\Writers\BodyWriter.cs" />
+    <Compile Include="Builder\Writers\HeaderWriter.cs" />
+    <Compile Include="Builder\Configuration\FluentColumnConfiguration.cs" />
+    <Compile Include="Builder\Configuration\FluentHeaderConfiguration.cs" />
+    <Compile Include="Builder\ExcelFluentWorksheetBuilder.cs" />
+    <Compile Include="Builder\Formatters\Formatter.cs" />
     <Compile Include="ExcelEPPlusCreator.cs" />
+    <Compile Include="IExcelEPPlusCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToracLibrary.Core\ToracLibrary.Core.csproj">
+      <Project>{8E0E1685-D77E-4447-9F3B-3E025A2BE642}</Project>
+      <Name>ToracLibrary.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

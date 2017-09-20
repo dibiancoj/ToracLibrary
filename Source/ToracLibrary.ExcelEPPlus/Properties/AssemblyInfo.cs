@@ -34,3 +34,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+//allow us to test internal classes in the unit test project
+[assembly: InternalsVisibleTo("ToracLibrary.UnitTest")]

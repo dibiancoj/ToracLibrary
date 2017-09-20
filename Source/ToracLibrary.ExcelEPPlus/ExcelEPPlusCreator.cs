@@ -66,7 +66,7 @@ namespace ToracLibrary.ExcelEPPlus
     /// Creates Excel Files Using EPPlus
     /// </summary>
     /// <remarks>Is Server safe and you don't need Excel installed. Uses the Open XML SDK. Class is immutable</remarks>
-    public class ExcelEPPlusCreator : IDisposable
+    public class ExcelEPPlusCreator : IExcelEPPlusCreator, IDisposable
     {
 
         #region Constructor
@@ -138,19 +138,6 @@ namespace ToracLibrary.ExcelEPPlus
         }
 
         /// <summary>
-        /// Save the workbook and returns the byte array.
-        /// </summary>
-        /// <returns>Byte Array</returns>
-        /// <remarks>See ToracTechnologies.Library.IO To Save A File From Byte Array</remarks>
-        public byte[] SaveWorkBook()
-        {
-            //See ToracTechnologies.Library.IO To Save A File From Byte Array
-
-            //go grab the package and return the byte array
-            return ExcelCreatorPackage.GetAsByteArray();
-        }
-
-        /// <summary>
         /// Auto fit all the columns in all worksheets
         /// </summary>
         public void AutoFitColumns()
@@ -168,6 +155,19 @@ namespace ToracLibrary.ExcelEPPlus
         public void AutoFitColumnsInASpreadSheet(ExcelWorksheet SpreadSheetToAutoFit)
         {
             SpreadSheetToAutoFit.Cells[SpreadSheetToAutoFit.Dimension.Start.Row, SpreadSheetToAutoFit.Dimension.Start.Column, SpreadSheetToAutoFit.Dimension.End.Row, SpreadSheetToAutoFit.Dimension.End.Column].AutoFitColumns();
+        }
+
+        /// <summary>
+        /// Save the workbook and returns the byte array.
+        /// </summary>
+        /// <returns>Byte Array</returns>
+        /// <remarks>See ToracTechnologies.Library.IO To Save A File From Byte Array</remarks>
+        public byte[] SaveWorkBook()
+        {
+            //See ToracTechnologies.Library.IO To Save A File From Byte Array
+
+            //go grab the package and return the byte array
+            return ExcelCreatorPackage.GetAsByteArray();
         }
 
         #endregion
