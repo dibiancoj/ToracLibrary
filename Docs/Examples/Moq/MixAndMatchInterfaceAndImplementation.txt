@@ -10,5 +10,5 @@
   This will run some methods as the regular method...and some as mocked.
 
 
-  (haven't test but i believe it works)
-  Shorthand = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
+  //one line short hand
+  var Shorthand = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();

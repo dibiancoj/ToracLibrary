@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ToracLibrary.ExcelEPPlus;
 using ToracLibrary.ExcelEPPlus.Builder;
 using ToracLibrary.ExcelEPPlus.Builder.Attributes;
@@ -48,26 +49,24 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
 
             public static IEnumerable<ExcelEPPlusDataRow> BuildTestData()
             {
-                yield return new ExcelEPPlusDataRow { Id = 1, Text = "Test1", CreatedDate = DateTime.Now };
-                yield return new ExcelEPPlusDataRow { Id = 2, Text = "Test2", CreatedDate = DateTime.Now };
+                yield return new ExcelEPPlusDataRow { Id = 1, Text = "Test1", CreatedDate = new DateTime(2017, 1, 1) };
+                yield return new ExcelEPPlusDataRow { Id = 2, Text = "Test2", CreatedDate = new DateTime(2017, 1, 2) };
             }
         }
 
-        public static ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow> BlankBuilder()
+        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> BlankBuilder()
         {
-            return new ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow>(new Mock<IExcelEPPlusCreator>().Object);
+            return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(new Mock<IExcelEPPlusCreator>().Object);
         }
 
-        public static ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool AutoFitColumns = true)
+        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool AutoFitColumns = true)
         {
-            return new ExcelFluentWorksheetBuilder<EPPlusUnitTestColumns, ExcelEPPlusDataRow>(CreatorMock.Object)
+            return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(CreatorMock.Object)
                             .AddWorkSheet(WorksheetNameToUse)
                             .AddHeader(1, true, true, AutoFitColumns)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column3Date, x => x.CreatedDate)
-                            .AddColumnFormatter(EPPlusUnitTestColumns.Column3Date, Formatter.ExcelBuilderFormatters.Date)
-                            .AddColumnWidth(EPPlusUnitTestColumns.Column3Date, 50);
+                            .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column1, "Column 1", x => x.Id)
+                            .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column2, "Column 2", x => x.Text)
+                            .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column3Date, "Column 3", x => x.CreatedDate, Formatter.ExcelBuilderFormatters.Date, 50);
         }
 
         #endregion
@@ -104,8 +103,8 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
                                                                 .AddWorkSheet(WorksheetNameToUse)
-                                                                .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
-                                                                .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
+                                                                .AddColumnConfiguration(1, "Column 1", x => x.Id)
+                                                                .AddColumnConfiguration(2, "Column 2", x => x.Text)
                                                                 .Build(null));
         }
 
@@ -117,8 +116,21 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
                                                                 .AddWorkSheet(WorksheetNameToUse)
-                                                                .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
-                                                                .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
+                                                                .AddColumnConfiguration(1, "Column 1", x => x.Id)
+                                                                .AddColumnConfiguration(2, "Column 2", x => x.Text)
+                                                                .Build(null));
+        }
+
+        /// <summary>
+        /// make sure if we pass in a null data set that it throws an error
+        /// </summary>        
+        [Fact]
+        public void DuplicateColumnIndexThrow()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => BlankBuilder()
+                                                                .AddWorkSheet(WorksheetNameToUse)
+                                                                .AddColumnConfiguration(1, "Column 1", x => x.Id)
+                                                                .AddColumnConfiguration(1, "Column 2", x => x.Text)
                                                                 .Build(null));
         }
 
@@ -147,11 +159,9 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             var Config = BlankBuilder()
                             .AddWorkSheet(WorksheetNameToUse)
                             .AddHeader(1, true, true, true)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column1, x => x.Id)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column2, x => x.Text)
-                            .AddDataMapping(EPPlusUnitTestColumns.Column3Date, x => x.CreatedDate)
-                            .AddColumnFormatter(EPPlusUnitTestColumns.Column3Date, Formatter.ExcelBuilderFormatters.Date)
-                            .AddColumnWidth(EPPlusUnitTestColumns.Column3Date, 50);
+                            .AddColumnConfiguration(1, "Column 1", x => x.Id)
+                            .AddColumnConfiguration(2, "Column 2", x => x.Text)
+                            .AddColumnConfiguration(3, "Column 3", x => x.CreatedDate, FormatterToAdd: Formatter.ExcelBuilderFormatters.Date, WidthToSet: 50);
 
             Assert.Equal(WorksheetNameToUse, Config.WorkSheetName);
 
@@ -162,10 +172,9 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             Assert.True(Config.HeaderConfiguration.AddAutoFilter);
 
             //column configuration
-            Assert.Equal(EPPlusUnitTestColumns.Column3Date, Config.ColumnConfiguration[EPPlusUnitTestColumns.Column3Date].ColumnValue);
-            Assert.Equal(50, Config.ColumnConfiguration[EPPlusUnitTestColumns.Column3Date].ColumnWidth);
-            Assert.Equal(Formatter.ExcelBuilderFormatters.Date, Config.ColumnConfiguration[EPPlusUnitTestColumns.Column3Date].Formatter);
-            Assert.NotNull(Config.ColumnConfiguration[EPPlusUnitTestColumns.Column3Date].DataMapper);
+            Assert.Equal(50, Config.ColumnConfiguration.First(x => x.ColumnIndex == 3).ColumnWidth);
+            Assert.Equal(Formatter.ExcelBuilderFormatters.Date, Config.ColumnConfiguration.First(x => x.ColumnIndex == 3).Formatter);
+            Assert.NotNull(Config.ColumnConfiguration.First(x => x.ColumnIndex == 3).DataMapper);
         }
 
         /// <summary>
@@ -181,8 +190,27 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             CompleteDefaultConfig(MockEPPlusCreator)
                             .Build(ExcelEPPlusDataRow.BuildTestData());
 
-            Assert.True(true);
             MockEPPlusCreator.Verify(x => x.AutoFitColumnsInASpreadSheet(It.IsAny<ExcelWorksheet>()), Times.Once);
+
+            //write out the headers
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 1, "Column 1"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 1, "Column 2"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 1, "Column 3"), Times.Once);
+
+            var DataSet = ExcelEPPlusDataRow.BuildTestData().ToList();
+
+            //check the body now
+            //1st record
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 2, DataSet[0].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 2, DataSet[0].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 2, DataSet[0].CreatedDate), Times.Once);
+
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 3, DataSet[1].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 3, DataSet[1].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 3, DataSet[1].CreatedDate), Times.Once);
+
+            //make sure only 2 rows were written (body of data)
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 4, It.IsAny<object>()), Times.Never);
         }
 
         #endregion

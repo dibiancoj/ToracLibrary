@@ -45,6 +45,15 @@ namespace ToracLibrary.ExcelEPPlus
         void AutoFitColumnsInASpreadSheet(ExcelWorksheet SpreadSheetToAutoFit);
 
         /// <summary>
+        /// Write to a cell. Mainly used for unit test moqing
+        /// </summary>
+        /// <param name="SpreadSheetToWriteInto">Spreadsheet to write into</param>
+        /// <param name="ColumnIndex">Column index</param>
+        /// <param name="RowIndex">Row Index</param>
+        /// <param name="ValueToWrite">Value To Write</param>
+        void WriteToCell(ExcelWorksheet SpreadSheetToWriteInto, int ColumnIndex, int RowIndex, object ValueToWrite);
+
+        /// <summary>
         /// Save the workbook and returns the byte array.
         /// </summary>
         /// <returns>Byte Array</returns>

@@ -13,8 +13,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder.Configuration
     /// </summary>
     /// <typeparam name="TColumnEnum">Column Enum Type</typeparam>
     /// <typeparam name="TDataRowType">Holds the row data type for each row outputted in excel</typeparam>
-    internal class FluentColumnConfiguration<TColumnEnum, TDataRowType>
-           where TColumnEnum : struct
+    internal class FluentColumnConfiguration<TDataRowType>
     {
 
         #region Constructor
@@ -22,10 +21,19 @@ namespace ToracLibrary.ExcelEPPlus.Builder.Configuration
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ColumnValueToSet">Column we are configuring</param>
-        public FluentColumnConfiguration(TColumnEnum ColumnValueToSet)
+        /// <param name="ColumnIndexToSet">Index of the column this is going to. First column is 1</param>
+        /// <param name="HeaderDisplayTextToSet">Header text to display</param>
+        /// <param name="DataMapperToSet">Mapper which takes the row object and returns the column value</param>
+        /// <param name="FormatterToSet">Any additional formatter settings for this column. ie: date column</param>
+        /// <param name="ColumnWidthToSet">A specific column width. This will overwrite auto width column setting for the individual column</param>
+        public FluentColumnConfiguration(int ColumnIndexToSet, string HeaderDisplayTextToSet, Func<TDataRowType, object> DataMapperToSet, ExcelBuilderFormatters? FormatterToSet, double? ColumnWidthToSet)
         {
-            ColumnValue = ColumnValueToSet;
+            //ColumnKey = ColumnKeyToSet;
+            ColumnIndex = ColumnIndexToSet;
+            HeaderDisplayText = HeaderDisplayTextToSet;
+            DataMapper = DataMapperToSet;
+            Formatter = FormatterToSet;
+            ColumnWidth = ColumnWidthToSet;
         }
 
         #endregion
@@ -33,24 +41,29 @@ namespace ToracLibrary.ExcelEPPlus.Builder.Configuration
         #region Properties
 
         /// <summary>
-        /// Column that we are configuring
+        /// Index of the column this is going to. First column is 1
         /// </summary>
-        internal TColumnEnum ColumnValue { get; set; }
+        internal int ColumnIndex { get; }
 
         /// <summary>
-        /// Format to output the columnw ith
+        /// Header text to display
         /// </summary>
-        internal ExcelBuilderFormatters? Formatter { get; set; }
+        internal string HeaderDisplayText { get; }
 
         /// <summary>
-        /// Set a column to a specific width
+        /// Mapper which takes the row object and returns the column value
         /// </summary>
-        internal double? ColumnWidth { get; set; }
+        internal Func<TDataRowType, object> DataMapper { get; }
 
         /// <summary>
-        /// Holds the data mapper that retrieves the value to output in excel
+        /// Any additional formatter settings for this column. ie: date column
         /// </summary>
-        internal Func<TDataRowType, object> DataMapper { get; set; }
+        internal ExcelBuilderFormatters? Formatter { get; }
+
+        /// <summary>
+        /// A specific column width. This will overwrite auto width column setting for the individual column
+        /// </summary>
+        internal double? ColumnWidth { get; }
 
         #endregion
 
