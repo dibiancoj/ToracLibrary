@@ -54,6 +54,18 @@ namespace ToracLibrary.ExcelEPPlus
         void WriteToCell(ExcelWorksheet SpreadSheetToWriteInto, int ColumnIndex, int RowIndex, object ValueToWrite);
 
         /// <summary>
+        /// Make an excel range bold
+        /// </summary>
+        /// <param name="RangeToMakeBold">Range to make bold</param>
+        void MakeRangeBold(ExcelRange RangeToMakeBold);
+
+        /// <summary>
+        /// Add an auto filter to an excel range
+        /// </summary>
+        /// <param name="RangeToAddFilterIn">Range to add the auto filter in</param>
+        void AddAutoFilter(ExcelRange RangeToAddFilterIn);
+
+        /// <summary>
         /// Save the workbook and returns the byte array.
         /// </summary>
         /// <returns>Byte Array</returns>

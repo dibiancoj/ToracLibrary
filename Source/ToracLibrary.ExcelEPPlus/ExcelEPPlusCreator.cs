@@ -170,6 +170,24 @@ namespace ToracLibrary.ExcelEPPlus
         }
 
         /// <summary>
+        /// Make an excel range bold
+        /// </summary>
+        /// <param name="RangeToMakeBold">Range to make bold</param>
+        public void MakeRangeBold(ExcelRange RangeToMakeBold)
+        {
+            RangeToMakeBold.Style.Font.Bold = true;
+        }
+
+        /// <summary>
+        /// Add an auto filter to an excel range
+        /// </summary>
+        /// <param name="RangeToAddFilterIn">Range to add the auto filter in</param>
+        public void AddAutoFilter(ExcelRange RangeToAddFilterIn)
+        {
+            RangeToAddFilterIn.AutoFilter = true;
+        }
+
+        /// <summary>
         /// Save the workbook and returns the byte array.
         /// </summary>
         /// <returns>Byte Array</returns>

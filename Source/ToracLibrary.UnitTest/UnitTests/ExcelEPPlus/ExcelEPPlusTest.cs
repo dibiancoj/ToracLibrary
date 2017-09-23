@@ -59,11 +59,11 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(new Mock<IExcelEPPlusCreator>().Object);
         }
 
-        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool AutoFitColumns = true)
+        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool MakeHeaderBold = true, bool AddAutoFilter = true, bool AutoFitColumns = true)
         {
             return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(CreatorMock.Object)
                             .AddWorkSheet(WorksheetNameToUse)
-                            .AddHeader(1, true, true, AutoFitColumns)
+                            .AddHeader(1, MakeHeaderBold, AddAutoFilter, AutoFitColumns)
                             .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column1, "Column 1", x => x.Id)
                             .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column2, "Column 2", x => x.Text)
                             .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column3Date, "Column 3", x => x.CreatedDate, Formatter.ExcelBuilderFormatters.Date, 50);
@@ -151,6 +151,34 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         }
 
         /// <summary>
+        /// Ensure a header of not bold doesn't create a bold header
+        /// </summary>        
+        [Fact]
+        public void HeaderIsNotBold()
+        {
+            var MockEPPlusCreator = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
+
+            CompleteDefaultConfig(MockEPPlusCreator, MakeHeaderBold: false)
+                           .Build(ExcelEPPlusDataRow.BuildTestData());
+            
+            MockEPPlusCreator.Verify(x => x.MakeRangeBold(It.IsAny<ExcelRange>()), Times.Never);
+        }
+
+        /// <summary>
+        /// Ensure a header doesn't add an auto filter
+        /// </summary>        
+        [Fact]
+        public void HeaderDoesntAddAutoFilter()
+        {
+            var MockEPPlusCreator = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
+
+            CompleteDefaultConfig(MockEPPlusCreator, AddAutoFilter: false)
+                           .Build(ExcelEPPlusDataRow.BuildTestData());
+
+            MockEPPlusCreator.Verify(x => x.AddAutoFilter(It.IsAny<ExcelRange>()), Times.Never);
+        }
+
+        /// <summary>
         /// make sure if we get the correct configuration after the fluent build up
         /// </summary>        
         [Fact]
@@ -185,11 +213,22 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         {
             var MockEPPlusCreator = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
 
-            MockEPPlusCreator.Setup(x => x.AutoFitColumnsInASpreadSheet(It.IsAny<ExcelWorksheet>()));
-
             CompleteDefaultConfig(MockEPPlusCreator)
                             .Build(ExcelEPPlusDataRow.BuildTestData());
 
+            //verify add worksheet is called once
+            MockEPPlusCreator.Verify(x => x.AddWorkSheet(WorksheetNameToUse), Times.Once);
+
+            //verify select worksheet is called once
+            MockEPPlusCreator.Verify(x => x.WorkSheetSelect(WorksheetNameToUse), Times.Once);
+
+            //verify we made the header bold
+            MockEPPlusCreator.Verify(x => x.MakeRangeBold(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify we added the auto filter
+            MockEPPlusCreator.Verify(x => x.AddAutoFilter(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify the auto fit
             MockEPPlusCreator.Verify(x => x.AutoFitColumnsInASpreadSheet(It.IsAny<ExcelWorksheet>()), Times.Once);
 
             //write out the headers

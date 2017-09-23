@@ -231,8 +231,15 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             {
                 var HeaderRowRange = WorkSheet.Cells[HeaderConfiguration.RowIndexToWriteInto, MinColumnIndex, HeaderConfiguration.RowIndexToWriteInto, MaxColumnIndex];
 
-                HeaderRowRange.Style.Font.Bold = HeaderConfiguration.MakeBold;
-                HeaderRowRange.AutoFilter = HeaderConfiguration.AddAutoFilter;
+                if (HeaderConfiguration.MakeBold)
+                {
+                    ExcelCreator.MakeRangeBold(HeaderRowRange);
+                }
+
+                if (HeaderConfiguration.AddAutoFilter)
+                {
+                    ExcelCreator.AddAutoFilter(HeaderRowRange);
+                }
             }
         }
 
