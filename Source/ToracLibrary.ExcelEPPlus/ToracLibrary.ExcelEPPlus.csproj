@@ -51,8 +51,9 @@
     <Compile Include="Builder\Attributes\ExcelFormatterAttribute.cs" />
     <Compile Include="Builder\Configuration\FluentColumnConfiguration.cs" />
     <Compile Include="Builder\Configuration\FluentHeaderConfiguration.cs" />
-    <Compile Include="Builder\ExcelFluentWorksheetBuilder.cs" />
+    <Compile Include="Builder\ExcelFluentBuilder.cs" />
     <Compile Include="Builder\Formatters\Formatter.cs" />
+    <Compile Include="Builder\ExcelFluentWorkSheetBuilder.cs" />
     <Compile Include="ExcelEPPlusCreator.cs" />
     <Compile Include="IExcelEPPlusCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

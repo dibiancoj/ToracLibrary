@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToracLibrary.Core.EnumUtilities;
 using ToracLibrary.ExcelEPPlus.Builder.Attributes;
 using ToracLibrary.ExcelEPPlus.Builder.Configuration;
@@ -13,10 +11,10 @@ namespace ToracLibrary.ExcelEPPlus.Builder
 {
 
     /// <summary>
-    /// Contains the fluent api to build a worksheet
+    /// Provides a fluent api to build a specific workbook
     /// </summary>
     /// <typeparam name="TDataRowType">Each row of the spreadsheet will be mapped to this data type</typeparam>
-    public class ExcelFluentWorksheetBuilder<TDataRowType>
+    public class ExcelFluentWorkSheetBuilder<TDataRowType>
     {
 
         #region Constructor
@@ -24,10 +22,13 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ExcelCreatorToSet">Excel Creator to use to render the excel file</param>
-        public ExcelFluentWorksheetBuilder(IExcelEPPlusCreator ExcelCreatorToSet)
+        /// <param name="ExcelBuilderToSet">Excel builder to use</param>
+        /// <param name="WorkSheetNameToSet">Contains the worksheet name to use</param>
+        public ExcelFluentWorkSheetBuilder(ExcelFluentBuilder ExcelBuilderToSet, string WorkSheetNameToSet)
         {
-            ExcelCreator = ExcelCreatorToSet;
+            ExcelBuilder = ExcelBuilderToSet;
+            WorkSheetName = WorkSheetNameToSet;
+
             ColumnConfiguration = new List<FluentColumnConfiguration<TDataRowType>>();
         }
 
@@ -36,9 +37,9 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         #region Properties
 
         /// <summary>
-        /// Contains the EP Plus wrapper that we use to actually add and save to the spreadsheet
+        /// Excel builder
         /// </summary>
-        private IExcelEPPlusCreator ExcelCreator { get; }
+        private ExcelFluentBuilder ExcelBuilder { get; }
 
         /// <summary>
         /// Contains the worksheet name to use
@@ -57,19 +58,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
 
         #endregion
 
-        #region Fluent API Methods
-
-        /// <summary>
-        /// Add a worksheet to the builder
-        /// </summary>
-        /// <param name="WorkSheetNameToAdd">worksheet name to add</param>
-        /// <returns>Fluent API Object</returns>
-        public ExcelFluentWorksheetBuilder<TDataRowType> AddWorkSheet(string WorkSheetNameToAdd)
-        {
-            WorkSheetName = WorkSheetNameToAdd;
-
-            return this;
-        }
+        #region Methods
 
         /// <summary>
         /// Add the header configuration into the builder
@@ -79,7 +68,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         /// <param name="AddAutoFilter">add the auto filter to the headers</param>
         /// <param name="AutoFitColumns">auto fit the columns</param>
         /// <returns>Fluent API Object</returns>
-        public ExcelFluentWorksheetBuilder<TDataRowType> AddHeader(int RowIndexToWriteTo, bool MakeBold, bool AddAutoFilter, bool AutoFitColumns)
+        public ExcelFluentWorkSheetBuilder<TDataRowType> AddHeader(int RowIndexToWriteTo, bool MakeBold, bool AddAutoFilter, bool AutoFitColumns)
         {
             HeaderConfiguration = new FluentHeaderConfiguration(RowIndexToWriteTo, MakeBold, AddAutoFilter, AutoFitColumns);
 
@@ -95,7 +84,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         /// <param name="FormatterToSet">Any additional formatter settings for this column. ie: date column</param>
         /// <param name="ColumnWidthToSet">A specific column width. This will overwrite auto width column setting for the individual column</param>
         /// <returns>Fluent API Object</returns>
-        public ExcelFluentWorksheetBuilder<TDataRowType> AddColumnConfiguration(int ColumnIndex, string HeaderName, Func<TDataRowType, object> Mapper, ExcelBuilderFormatters? FormatterToAdd = null, double? WidthToSet = null)
+        public ExcelFluentWorkSheetBuilder<TDataRowType> AddColumnConfiguration(int ColumnIndex, string HeaderName, Func<TDataRowType, object> Mapper, ExcelBuilderFormatters? FormatterToAdd = null, double? WidthToSet = null)
         {
             if (ColumnConfiguration.Any(x => x.ColumnIndex == ColumnIndex))
             {
@@ -115,7 +104,8 @@ namespace ToracLibrary.ExcelEPPlus.Builder
         /// Build the worksheet and add it to the ExcelEPPlusCreator to be saved
         /// </summary>
         /// <param name="DataSet">Dataset to build the excel sheet with</param>
-        public void Build(IEnumerable<TDataRowType> DataSet)
+        /// <returns>The main excel builder worksheet so you can add more worksheets</returns>
+        public ExcelFluentBuilder Build(IEnumerable<TDataRowType> DataSet)
         {
             //make sure there is a specified worksheet name
             if (string.IsNullOrEmpty(WorkSheetName))
@@ -148,10 +138,10 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             int StartToWriteBodyAtRowIndex = HeaderConfiguration.RowIndexToWriteInto + 1;
 
             //add the worksheet
-            ExcelCreator.AddWorkSheet(WorkSheetName);
+            ExcelBuilder.ExcelCreator.AddWorkSheet(WorkSheetName);
 
             //grab the working spreadsheet
-            var WorkingSpreadSheet = ExcelCreator.WorkSheetSelect(WorkSheetName);
+            var WorkingSpreadSheet = ExcelBuilder.ExcelCreator.WorkSheetSelect(WorkSheetName);
 
             //add the headers
             WriteHeadersToWorksheet(WorkingSpreadSheet);
@@ -162,7 +152,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             //do we want to autofit the columns
             if (HeaderConfiguration.AutoFitTheColumns)
             {
-                ExcelCreator.AutoFitColumnsInASpreadSheet(WorkingSpreadSheet);
+                ExcelBuilder.ExcelCreator.AutoFitColumnsInASpreadSheet(WorkingSpreadSheet);
             }
 
             //any formatters we need to apply
@@ -170,6 +160,9 @@ namespace ToracLibrary.ExcelEPPlus.Builder
 
             //any widths we need to apply
             AddColumnWidth(WorkingSpreadSheet);
+
+            //return the builder so the end user can add more worksheets
+            return ExcelBuilder;
         }
 
         #endregion
@@ -224,7 +217,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
             foreach (var ColumnToWrite in ColumnConfiguration)
             {
                 //write the header
-                ExcelCreator.WriteToCell(WorkSheet, ColumnToWrite.ColumnIndex, HeaderConfiguration.RowIndexToWriteInto, ColumnToWrite.HeaderDisplayText);
+                ExcelBuilder.ExcelCreator.WriteToCell(WorkSheet, ColumnToWrite.ColumnIndex, HeaderConfiguration.RowIndexToWriteInto, ColumnToWrite.HeaderDisplayText);
             }
 
             if (HeaderConfiguration.MakeBold || HeaderConfiguration.AddAutoFilter)
@@ -233,12 +226,12 @@ namespace ToracLibrary.ExcelEPPlus.Builder
 
                 if (HeaderConfiguration.MakeBold)
                 {
-                    ExcelCreator.MakeRangeBold(HeaderRowRange);
+                    ExcelBuilder.ExcelCreator.MakeRangeBold(HeaderRowRange);
                 }
 
                 if (HeaderConfiguration.AddAutoFilter)
                 {
-                    ExcelCreator.AddAutoFilter(HeaderRowRange);
+                    ExcelBuilder.ExcelCreator.AddAutoFilter(HeaderRowRange);
                 }
             }
         }
@@ -265,7 +258,7 @@ namespace ToracLibrary.ExcelEPPlus.Builder
                 //loop through the columns now
                 foreach (var ColumnToWrite in SortedColumnIndex)
                 {
-                    ExcelCreator.WriteToCell(WorkSheetToWriteInto, ColumnToWrite.ColumnIndex, CurrentRowIndex, ColumnToWrite.DataMapper(RecordToWrite));
+                    ExcelBuilder.ExcelCreator.WriteToCell(WorkSheetToWriteInto, ColumnToWrite.ColumnIndex, CurrentRowIndex, ColumnToWrite.DataMapper(RecordToWrite));
                 }
 
                 //increase the row index

@@ -54,15 +54,15 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             }
         }
 
-        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> BlankBuilder()
+        public static ExcelFluentBuilder BlankBuilder()
         {
-            return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(new Mock<IExcelEPPlusCreator>().Object);
+            return new ExcelFluentBuilder(new Mock<IExcelEPPlusCreator>().Object);
         }
 
-        public static ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool MakeHeaderBold = true, bool AddAutoFilter = true, bool AutoFitColumns = true)
+        public static ExcelFluentWorkSheetBuilder<ExcelEPPlusDataRow> CompleteDefaultConfig(Mock<IExcelEPPlusCreator> CreatorMock, bool MakeHeaderBold = true, bool AddAutoFilter = true, bool AutoFitColumns = true)
         {
-            return new ExcelFluentWorksheetBuilder<ExcelEPPlusDataRow>(CreatorMock.Object)
-                            .AddWorkSheet(WorksheetNameToUse)
+            return new ExcelFluentBuilder(CreatorMock.Object)
+                            .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                             .AddHeader(1, MakeHeaderBold, AddAutoFilter, AutoFitColumns)
                             .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column1, "Column 1", x => x.Id)
                             .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column2, "Column 2", x => x.Text)
@@ -74,23 +74,13 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         #region Unit Tests
 
         /// <summary>
-        /// make sure if we don't specify a worksheet name that it throws an error
-        /// </summary>        
-        [Fact]
-        public void NoWorkSheetNameShouldThrow()
-        {
-            Assert.Throws<NullReferenceException>(() => BlankBuilder()
-                                                        .Build(ExcelEPPlusDataRow.BuildTestData()));
-        }
-
-        /// <summary>
         /// make sure if we don't specify a column configuration that it throws an error
         /// </summary>        
         [Fact]
         public void NoColumnMappingShouldThrow()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => BlankBuilder()
-                                                                .AddWorkSheet(WorksheetNameToUse)
+                                                                .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                                                                 .AddHeader(1, true, true, true)
                                                                 .Build(ExcelEPPlusDataRow.BuildTestData()));
         }
@@ -102,7 +92,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void NoHeaderSetShouldThrow()
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
-                                                                .AddWorkSheet(WorksheetNameToUse)
+                                                                .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                                                                 .AddColumnConfiguration(1, "Column 1", x => x.Id)
                                                                 .AddColumnConfiguration(2, "Column 2", x => x.Text)
                                                                 .Build(null));
@@ -115,7 +105,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void NoDataSetShouldThrow()
         {
             Assert.Throws<ArgumentNullException>(() => BlankBuilder()
-                                                                .AddWorkSheet(WorksheetNameToUse)
+                                                                .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                                                                 .AddColumnConfiguration(1, "Column 1", x => x.Id)
                                                                 .AddColumnConfiguration(2, "Column 2", x => x.Text)
                                                                 .Build(null));
@@ -128,7 +118,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void DuplicateColumnIndexThrow()
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => BlankBuilder()
-                                                                .AddWorkSheet(WorksheetNameToUse)
+                                                                .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                                                                 .AddColumnConfiguration(1, "Column 1", x => x.Id)
                                                                 .AddColumnConfiguration(1, "Column 2", x => x.Text)
                                                                 .Build(null));
@@ -160,7 +150,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
 
             CompleteDefaultConfig(MockEPPlusCreator, MakeHeaderBold: false)
                            .Build(ExcelEPPlusDataRow.BuildTestData());
-            
+
             MockEPPlusCreator.Verify(x => x.MakeRangeBold(It.IsAny<ExcelRange>()), Times.Never);
         }
 
@@ -185,7 +175,7 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         public void ConfigIsCorrect()
         {
             var Config = BlankBuilder()
-                            .AddWorkSheet(WorksheetNameToUse)
+                            .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
                             .AddHeader(1, true, true, true)
                             .AddColumnConfiguration(1, "Column 1", x => x.Id)
                             .AddColumnConfiguration(2, "Column 2", x => x.Text)
@@ -251,6 +241,89 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
             //make sure only 2 rows were written (body of data)
             MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 4, It.IsAny<object>()), Times.Never);
         }
+
+        /// <summary>
+        /// Build renders correctly with multiple worksheets
+        /// </summary>        
+        [Fact]
+        public void BuildRendersCorrectlyWithMultipleWorksheets()
+        {
+            var MockEPPlusCreator = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
+
+            const string SecondWorksheetNameToUse = "WorksheetNumber2";
+
+            //2nd spreadsheet data
+            var SecondWorkSheetDataSet = new List<Tuple<int, string>>
+            {
+                new Tuple<int, string>(1,"1"),
+                new Tuple<int, string>(2,"2"),
+            };
+
+            var Config = new ExcelFluentBuilder(MockEPPlusCreator.Object)
+                                //build spreadsheet 1 (we are duplicating the config code here so we can see the full syntax and ensure we like it)
+                                .AddWorkSheet<ExcelEPPlusDataRow>(WorksheetNameToUse)
+                                    .AddHeader(1, true, true, true)
+                                    .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column1, "Column 1", x => x.Id)
+                                    .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column2, "Column 2", x => x.Text)
+                                    .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column3Date, "Column 3", x => x.CreatedDate, Formatter.ExcelBuilderFormatters.Date, 50)
+                                .Build(ExcelEPPlusDataRow.BuildTestData())
+
+                                //add the next spreadsheet
+                                .AddWorkSheet<Tuple<int, string>>(SecondWorksheetNameToUse)
+                                    .AddHeader(1, false, false, false)
+                                    .AddColumnConfiguration(1, "Column A", x => x.Item1)
+                                    .AddColumnConfiguration(2, "Column B", x => x.Item2)
+                                .Build(SecondWorkSheetDataSet);
+
+            //grab both worksheets so we can check which one gets rendered to
+            var WorkSheet1 = Config.ExcelCreator.WorkSheetSelect(WorksheetNameToUse);
+            var WorkSheet2 = Config.ExcelCreator.WorkSheetSelect(SecondWorksheetNameToUse);
+
+            //verify add worksheet is called once
+            MockEPPlusCreator.Verify(x => x.AddWorkSheet(WorksheetNameToUse), Times.Once);
+            MockEPPlusCreator.Verify(x => x.AddWorkSheet(SecondWorksheetNameToUse), Times.Once);
+
+            //verify select worksheet is called once (we call it twice so we call it above to get the instance)
+            MockEPPlusCreator.Verify(x => x.WorkSheetSelect(WorksheetNameToUse), Times.Exactly(2));
+            MockEPPlusCreator.Verify(x => x.WorkSheetSelect(SecondWorksheetNameToUse), Times.Exactly(2));
+
+            //verify we made the header bold
+            MockEPPlusCreator.Verify(x => x.MakeRangeBold(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify we added the auto filter
+            MockEPPlusCreator.Verify(x => x.AddAutoFilter(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify the auto fit
+            MockEPPlusCreator.Verify(x => x.AutoFitColumnsInASpreadSheet(It.Is<ExcelWorksheet>(y => y == WorkSheet1)), Times.Once);
+
+            //write out the headers
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 1, 1, "Column 1"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 2, 1, "Column 2"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 3, 1, "Column 3"), Times.Once);
+
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet2), 1, 1, "Column A"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet2), 2, 1, "Column B"), Times.Once);
+
+            var DataSet = ExcelEPPlusDataRow.BuildTestData().ToList();
+
+            //check the body now
+            //1st record
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 1, 2, DataSet[0].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 2, 2, DataSet[0].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 3, 2, DataSet[0].CreatedDate), Times.Once);
+
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 1, 3, DataSet[1].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 2, 3, DataSet[1].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet1), 3, 3, DataSet[1].CreatedDate), Times.Once);
+
+            //make sure only 2 rows were written (body of data)
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet2), 1, 4, It.IsAny<object>()), Times.Never);
+
+            //handle the 2nd worksheet
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet2), 1, 2, SecondWorkSheetDataSet[0].Item1), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.Is<ExcelWorksheet>(y => y == WorkSheet2), 2, 2, SecondWorkSheetDataSet[0].Item2), Times.Once);
+        }
+
 
         #endregion
 
