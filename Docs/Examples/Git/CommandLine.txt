@@ -47,8 +47,9 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 	"git branch NewBranchName" <-- New Branch Name is the name you want to give this new branch
 	Or to create and change to the new branch you can use
 	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
-2. Make your changes
-3. "git merge <BranchToMergeInto>"  <-- branch name you want to merge into
+2. Make your changes and push them up to the server
+3. Change to the branch you want to merge into "git checkout master"
+4. "git merge <BranchToMergeFrom>"  <-- branch name you want to merge from
 4. "git push" <-- to push the merge to the server
 5. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
 6. To delete the branch on the server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
