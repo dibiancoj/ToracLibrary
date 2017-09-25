@@ -243,6 +243,58 @@ namespace ToracLibrary.UnitTest.UnitTests.ExcelEPPlus
         }
 
         /// <summary>
+        /// Build renders correctly with a dynamic data row object. Used when we don't know the object. You could use object then use reflection or expression trees. This is the easiest setup when you don't know the data type. 
+        /// </summary>        
+        [Fact]
+        public void BuildRendersCorrectlyWithDynamicType()
+        {
+            var MockEPPlusCreator = new Mock<ExcelEPPlusCreator>() { CallBase = true }.As<IExcelEPPlusCreator>();
+
+             new ExcelFluentBuilder(MockEPPlusCreator.Object)
+                              .AddWorkSheet<dynamic>(WorksheetNameToUse)
+                                  .AddHeader(1, true, true, true)
+                                  .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column1, "Column 1", x => x.Id)
+                                  .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column2, "Column 2", x => x.Text)
+                                  .AddColumnConfiguration((int)EPPlusUnitTestColumns.Column3Date, "Column 3", x => x.CreatedDate, Formatter.ExcelBuilderFormatters.Date, 50)
+                              .Build(ExcelEPPlusDataRow.BuildTestData());
+
+            //verify add worksheet is called once
+            MockEPPlusCreator.Verify(x => x.AddWorkSheet(WorksheetNameToUse), Times.Once);
+
+            //verify select worksheet is called once
+            MockEPPlusCreator.Verify(x => x.WorkSheetSelect(WorksheetNameToUse), Times.Once);
+
+            //verify we made the header bold
+            MockEPPlusCreator.Verify(x => x.MakeRangeBold(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify we added the auto filter
+            MockEPPlusCreator.Verify(x => x.AddAutoFilter(It.IsAny<ExcelRange>()), Times.Once);
+
+            //verify the auto fit
+            MockEPPlusCreator.Verify(x => x.AutoFitColumnsInASpreadSheet(It.IsAny<ExcelWorksheet>()), Times.Once);
+
+            //write out the headers
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 1, "Column 1"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 1, "Column 2"), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 1, "Column 3"), Times.Once);
+
+            var DataSet = ExcelEPPlusDataRow.BuildTestData().ToList();
+
+            //check the body now
+            //1st record
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 2, DataSet[0].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 2, DataSet[0].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 2, DataSet[0].CreatedDate), Times.Once);
+
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 3, DataSet[1].Id), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 2, 3, DataSet[1].Text), Times.Once);
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 3, 3, DataSet[1].CreatedDate), Times.Once);
+
+            //make sure only 2 rows were written (body of data)
+            MockEPPlusCreator.Verify(x => x.WriteToCell(It.IsAny<ExcelWorksheet>(), 1, 4, It.IsAny<object>()), Times.Never);
+        }
+
+        /// <summary>
         /// Build renders correctly with multiple worksheets
         /// </summary>        
         [Fact]
