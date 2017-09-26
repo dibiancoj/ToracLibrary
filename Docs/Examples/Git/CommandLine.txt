@@ -61,3 +61,5 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 2. To 'shelve or stash them' use "git stash"
 3. To pull up your changes to your working env. use "git status pop". Note: This will remove the stash. So if you un-do your changes you won't be able to pull them back. TFS makes you delete the shelve. GIT uses like a stack. Once you pop it, it won't be there.
 4. You can always use "git stash list" to see what is currently stashed.
+
+test
