@@ -47,7 +47,10 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 	"git branch NewBranchName" <-- New Branch Name is the name you want to give this new branch
 	Or to create and change to the new branch you can use
 	"git checkout -b NewBranchName" <-- New Branch Name is the name you want to give this new branch
-2. Make your changes and push them up to the server ie: "git commit -a -m "documentation changes"...then "git push origin nameofbranchyouarein" 
+2. Make your changes and push them up to the server 
+		ie: 
+			Step A. "git commit -a -m "documentation changes"
+			Step B. "git push origin nameofbranchyouarein" 
 3. Change to the branch you want to merge into "git checkout master"
 4. "git merge <BranchToMergeFrom>"  <-- branch name you want to merge from
 5. "git push" <-- to push the merge to the server
