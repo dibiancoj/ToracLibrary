@@ -84,7 +84,7 @@ namespace ToracLibrary.UnitTest.Core
             catch (Exception ex)
             {
                 //grab the error tree and check to make sure we only have 1 error
-                Assert.Equal(1, RetrieveExceptionHistoryLazy(ex).Count());
+                Assert.Single(RetrieveExceptionHistoryLazy(ex));
             }
         }
 

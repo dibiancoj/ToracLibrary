@@ -23,7 +23,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void SingleObjectToIEnumerableTest1()
         {
             //make sure we only have 1 record. This should prove it's in a form of ienumerable
-            Assert.Equal(1, DummyObject.CreateDummyRecord().ToIEnumerableLazy().Count());
+            Assert.Single(DummyObject.CreateDummyRecord().ToIEnumerableLazy());
         }
 
         /// <summary>

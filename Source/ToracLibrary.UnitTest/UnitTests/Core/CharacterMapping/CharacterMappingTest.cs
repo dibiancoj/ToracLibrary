@@ -49,7 +49,7 @@ namespace ToracLibrary.UnitTest.Core
             foreach (var RequiredCharacter in Alphabet)
             {
                 //make sure its there
-                Assert.True(ResultOfCall.Contains(RequiredCharacter));
+                Assert.Contains(RequiredCharacter, ResultOfCall);
             }
         }
 

@@ -50,8 +50,8 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(2, ResultOfQuery.Length);
 
             //check the id's to make sure we have the id's we want
-            Assert.True(ResultOfQuery.Any(x => x.Id == FirstExpressionIdToFetch));
-            Assert.True(ResultOfQuery.Any(x => x.Id == SecondExpressionIdToFetch));
+            Assert.Contains(ResultOfQuery, x => x.Id == FirstExpressionIdToFetch);
+            Assert.Contains(ResultOfQuery, x => x.Id == SecondExpressionIdToFetch);
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(2, ResultOfQuery.Length);
 
                 //check the id's to make sure we have the id's we want
-                Assert.True(ResultOfQuery.Any(x => x.Id == FirstExpressionIdToFetch));
-                Assert.True(ResultOfQuery.Any(x => x.Id == SecondExpressionIdToFetch));
+                Assert.Contains(ResultOfQuery, x => x.Id == FirstExpressionIdToFetch);
+                Assert.Contains(ResultOfQuery, x => x.Id == SecondExpressionIdToFetch);
             }
         }
 
@@ -116,7 +116,7 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(HowManyRecordsToBuild - 1, ResultOfQuery.Length);
 
             //make sure we don't have the id we wanted to exclude
-            Assert.False(ResultOfQuery.Any(x => x.Id == IdToFetch));
+            Assert.DoesNotContain(ResultOfQuery, x => x.Id == IdToFetch);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(HowManyRecordsToBuild - 1, ResultOfQuery.Length);
 
                 //make sure we don't have the id we wanted to exclude
-                Assert.False(ResultOfQuery.Any(x => x.Id == IdToFetch));
+                Assert.DoesNotContain(ResultOfQuery, x => x.Id == IdToFetch);
             }
         }
 

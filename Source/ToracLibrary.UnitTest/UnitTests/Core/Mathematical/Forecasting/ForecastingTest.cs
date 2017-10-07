@@ -90,22 +90,22 @@ namespace ToracLibrary.UnitTest.Core
 
                 if (i == 0)
                 {
-                    Assert.Equal(null, LineResult.ForecastedValue);
+                    Assert.Null(LineResult.ForecastedValue);
                     Assert.Equal(10, LineResult.CurrentPeriodValue);
                 }
                 else if (i == 1)
                 {
-                    Assert.Equal(null, LineResult.ForecastedValue);
+                    Assert.Null(LineResult.ForecastedValue);
                     Assert.Equal(20, LineResult.CurrentPeriodValue);
                 }
                 else if (i == 2)
                 {
-                    Assert.Equal(null, LineResult.ForecastedValue);
+                    Assert.Null(LineResult.ForecastedValue);
                     Assert.Equal(30, LineResult.CurrentPeriodValue);
                 }
                 else if (i == 3)
                 {
-                    Assert.Equal(null, LineResult.ForecastedValue);
+                    Assert.Null(LineResult.ForecastedValue);
                     Assert.Equal(40, LineResult.CurrentPeriodValue);
                 }
                 else if (i == 4)

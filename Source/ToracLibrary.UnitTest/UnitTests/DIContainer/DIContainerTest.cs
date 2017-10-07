@@ -320,7 +320,7 @@ namespace ToracLibrary.UnitTest.DIContainer
             DIContainer.ClearAllRegistrations();
 
             //make sure we have 0 items in the container
-            Assert.Equal(0, DIContainer.AllRegistrationSelectLazy().Count());
+            Assert.Empty(DIContainer.AllRegistrationSelectLazy());
         }
 
         #endregion
@@ -357,7 +357,7 @@ namespace ToracLibrary.UnitTest.DIContainer
             Assert.Equal(3, ItemsRegistered.Length);
 
             //make sure we have factory 1
-            Assert.True(ItemsRegistered.Any(x => x.FactoryName == FactoryName1));
+            Assert.Contains(ItemsRegistered, x => x.FactoryName == FactoryName1);
 
             //make sure the logger is a transient
             Assert.Equal(DIContainerScope.Transient, ItemsRegistered.First(x => x.FactoryName == FactoryName1).ObjectScope);
@@ -369,10 +369,10 @@ namespace ToracLibrary.UnitTest.DIContainer
             Assert.Equal(DIContainerScope.Singleton, ItemsRegistered.First(x => x.TypeToResolve == typeof(SqlDIProvider)).ObjectScope);
 
             //make sure we have factory 2
-            Assert.True(ItemsRegistered.Any(x => x.FactoryName == FactoryName2));
+            Assert.Contains(ItemsRegistered, x => x.FactoryName == FactoryName2);
 
             //make sure we have the sql di provider now
-            Assert.True(ItemsRegistered.Any(x => x.ConcreteType == typeof(SqlDIProvider)));
+            Assert.Contains(ItemsRegistered, x => x.ConcreteType == typeof(SqlDIProvider));
         }
 
         #endregion

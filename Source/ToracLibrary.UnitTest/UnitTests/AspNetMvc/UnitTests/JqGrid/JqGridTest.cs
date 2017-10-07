@@ -85,7 +85,7 @@ namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.JqGrid
                 var QueryResults = SqlQuery.Where(FilterQuery).ToArray();
 
                 //now test it
-                Assert.Equal(1, QueryResults.Length);
+                Assert.Single(QueryResults);
 
                 //make sure we have the id = 2
                 Assert.Equal(IdToQuery, QueryResults.First().Id);

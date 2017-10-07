@@ -57,10 +57,10 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(2, ResultsOfLinqToObject.Length);
 
             //make sure we have the first item
-            Assert.True(ResultsOfLinqToObject.Any(x => x.Id == FirstExpressionIdToFetch));
+            Assert.Contains(ResultsOfLinqToObject, x => x.Id == FirstExpressionIdToFetch);
 
             //make sure we have the 2nd item
-            Assert.True(ResultsOfLinqToObject.Any(x => x.Id == SecondExpressionIdToFetch));
+            Assert.Contains(ResultsOfLinqToObject, x => x.Id == SecondExpressionIdToFetch);
         }
 
         /// <summary>
@@ -99,10 +99,10 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(2, ResultsOfLinqToObject.Length);
 
                 //make sure we have the first item
-                Assert.True(ResultsOfLinqToObject.Any(x => x.Id == FirstExpressionIdToFetch));
+                Assert.Contains(ResultsOfLinqToObject, x => x.Id == FirstExpressionIdToFetch);
 
                 //make sure we have the 2nd item
-                Assert.True(ResultsOfLinqToObject.Any(x => x.Id == SecondExpressionIdToFetch));
+                Assert.Contains(ResultsOfLinqToObject, x => x.Id == SecondExpressionIdToFetch);
             }
         }
 
@@ -142,10 +142,10 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
 
             //make sure we have the correct id
-            Assert.True(ResultsOfLinqToObject.Any(x => x.IdInGrid == CollectionToQuery[0].Id));
+            Assert.Contains(ResultsOfLinqToObject, x => x.IdInGrid == CollectionToQuery[0].Id);
 
             //make sure we have the correct description
-            Assert.True(ResultsOfLinqToObject.Any(x => x.DescriptionInGrid == CollectionToQuery[0].Description));
+            Assert.Contains(ResultsOfLinqToObject, x => x.DescriptionInGrid == CollectionToQuery[0].Description);
         }
 
         /// <summary>
@@ -178,10 +178,10 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
 
                 //make sure we have the correct id
-                Assert.True(ResultsOfLinqToObject.Any(x => x.IdInGrid == CollectionToQuery[0].Id));
+                Assert.Contains(ResultsOfLinqToObject, x => x.IdInGrid == CollectionToQuery[0].Id);
 
                 //make sure we have the correct description
-                Assert.True(ResultsOfLinqToObject.Any(x => x.DescriptionInGrid == CollectionToQuery[0].Description));
+                Assert.Contains(ResultsOfLinqToObject, x => x.DescriptionInGrid == CollectionToQuery[0].Description);
             }
         }
 
@@ -220,7 +220,7 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
 
             //make sure we have the correct id
-            Assert.True(ResultsOfLinqToObject.Any(x => x.SubIdInGrid == CollectionToQuery[0].Id));
+            Assert.Contains(ResultsOfLinqToObject, x => x.SubIdInGrid == CollectionToQuery[0].Id);
 
             //make sure we have the correct id and description
             Assert.Equal(CollectionToQuery[0].Id, ResultsOfLinqToObject.First().SubObject.IdInGrid);
@@ -256,7 +256,7 @@ namespace ToracLibrary.UnitTest.Core
                 Assert.Equal(CollectionToQuery.Length, ResultsOfLinqToObject.Length);
 
                 //make sure we have the correct id
-                Assert.True(ResultsOfLinqToObject.Any(x => x.SubIdInGrid == CollectionToQuery[0].Id));
+                Assert.Contains(ResultsOfLinqToObject, x => x.SubIdInGrid == CollectionToQuery[0].Id);
 
                 //make sure we have the correct id and description
                 Assert.Equal(CollectionToQuery[0].Id, ResultsOfLinqToObject.First().SubObject.IdInGrid);

@@ -770,7 +770,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
                 var RecordsToFind = await DP.Find<Ref_Test>(x => x.Id >= LastRecordInTable.Id, false).ToArrayAsync().ConfigureAwait(false);
 
                 //make sure we only have 1 record
-                Assert.Equal(1, RecordsToFind.Length);
+                Assert.Single(RecordsToFind);
                 Assert.Equal(LastRecordInTable.Id, RecordsToFind[0].Id);
                 Assert.Equal(LastRecordInTable.Description, RecordsToFind[0].Description);
             }
@@ -794,7 +794,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
                 var RecordsToFind = await DP.Fetch<Ref_Test>(false).Where(x => x.Id >= LastRecordInTable.Id).ToArrayAsync().ConfigureAwait(false);
 
                 //make sure we only have 1 record
-                Assert.Equal(1, RecordsToFind.Length);
+                Assert.Single(RecordsToFind);
                 Assert.Equal(LastRecordInTable.Id, RecordsToFind[0].Id);
                 Assert.Equal(LastRecordInTable.Description, RecordsToFind[0].Description);
             }
@@ -934,8 +934,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
 
                 //run the tests now
                 Assert.Equal(2, AnimalsInTable.Length);
-                Assert.Equal(1, CatsInTable.Length);
-                Assert.Equal(1, DogsInTable.Length);
+                Assert.Single(CatsInTable);
+                Assert.Single(DogsInTable);
 
                 //go check the size for each cat, dog
                 DogSizeTester.Invoke(DogsInTable[0]);
@@ -954,8 +954,8 @@ namespace ToracLibrary.UnitTest.Core.DataProviders.EntityFrameworkDP
                 var CatInAnimalCollection = AnimalsInTable.OfType<Cat>().ToArray();
 
                 //make sure we have 1 of each in animals
-                Assert.Equal(1, DogInAnimlCollection.Length);
-                Assert.Equal(1, CatInAnimalCollection.Length);
+                Assert.Single(DogInAnimlCollection);
+                Assert.Single(CatInAnimalCollection);
 
                 //check the size in the animal collection
                 //go check the size for each cat, dog

@@ -183,10 +183,10 @@ namespace ToracLibrary.UnitTest.Core
             var ImplementationResults = RetrieveImplementingClassesLazy(typeof(BaseDeriveReflectionClass)).ToArray();
 
             //we should currently have (class is above)
-            Assert.Equal(1, ImplementationResults.Length);
+            Assert.Single(ImplementationResults);
 
             //check it's the sql server data provider
-            Assert.True(ImplementationResults.Any(x => x == typeof(DeriveReflectionClass)));
+            Assert.Contains(ImplementationResults, x => x == typeof(DeriveReflectionClass));
         }
 
         #endregion
@@ -337,10 +337,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultsOfMethod = AttributeHelpers.PropertiesThatHasAttributeDefinedLazy<DeriveReflectionClass, DescriptionAttribute>(false).ToArray();
 
             //let's make sure we have 1 properties (the field doesn't get picked up in this method)
-            Assert.Equal(1, ResultsOfMethod.Length);
+            Assert.Single(ResultsOfMethod);
 
             //make sure we have the correct property
-            Assert.True(ResultsOfMethod.Any(x => x.Name == nameof(DeriveReflectionClass.NullIdProperty)));
+            Assert.Contains(ResultsOfMethod, x => x.Name == nameof(DeriveReflectionClass.NullIdProperty));
         }
 
         #endregion
@@ -354,10 +354,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultsOfMethod = AttributeHelpers.PropertiesThatHasAttributeWithAttributeValueLazy<DeriveReflectionClass, DescriptionAttribute>(false).ToArray();
 
             //let's make sure we have 1 properties (the field doesn't get picked up in this method)
-            Assert.Equal(1, ResultsOfMethod.Length);
+            Assert.Single(ResultsOfMethod);
 
             //make sure we have the correct property
-            Assert.True(ResultsOfMethod.Any(x => x.Key.Name == nameof(DeriveReflectionClass.NullIdProperty)));
+            Assert.Contains(ResultsOfMethod, x => x.Key.Name == nameof(DeriveReflectionClass.NullIdProperty));
 
             //check that we have the correct value now
             Assert.Equal(DescriptionAttribute.DescriptionValueToTest, ResultsOfMethod.First(x => x.Key.Name == nameof(DeriveReflectionClass.NullIdProperty)).Value.Description);

@@ -75,7 +75,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
                 var DataSetToTest = DP.GetDataSet("RefTestStoredProcTest", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
 
                 //make sure we have 1 table
-                Assert.Equal(1, DataSetToTest.Tables.Count);
+                Assert.Single(DataSetToTest.Tables);
 
                 //check the row count now
                 Assert.Equal(1, DataSetToTest.Tables[0].Rows.Count);
@@ -104,7 +104,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
                 var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test AS T WHERE T.Id = @Id", CommandType.Text, new SqlParameter[] { new SqlParameter("@Id", IdToQuery) });
 
                 //make sure we have 1 table
-                Assert.Equal(1, DataSetToTest.Tables.Count);
+                Assert.Single(DataSetToTest.Tables);
 
                 //check the row count now
                 Assert.Equal(1, DataSetToTest.Tables[0].Rows.Count);
@@ -130,7 +130,7 @@ namespace ToracLibrary.UnitTest.Core.DataProviders
                 var DataSetToTest = DP.GetDataSet("SELECT * FROM Ref_Test", CommandType.Text);
 
                 //make sure we have 1 table
-                Assert.Equal(1, DataSetToTest.Tables.Count);
+                Assert.Single(DataSetToTest.Tables);
 
                 //check the row count now
                 Assert.Equal(DataProviderSetupTearDown.DefaultRecordsToInsert, DataSetToTest.Tables[0].Rows.Count);

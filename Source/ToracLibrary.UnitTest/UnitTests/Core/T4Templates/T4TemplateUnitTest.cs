@@ -34,7 +34,7 @@ namespace ToracLibrary.UnitTest.Core.T4Templates
             for (int i = 1; i <= 3; i++)
             {
                 //make sure we have a value
-                Assert.NotNull(EnumValues.Any(x => x == ("Item" + i)));
+                Assert.Contains(EnumValues, x => x == ("Item" + i));
             }
         }
 

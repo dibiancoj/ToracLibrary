@@ -42,7 +42,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             //now check to see we get the correct result for that item we just added
             Assert.True(TestDictionary.ContainsKey(24));
             Assert.False(TestDictionary.TryAdd(24, new DummyObject(24, "24")));
-            Assert.Equal(1, TestDictionary.Count);
+            Assert.Single(TestDictionary);
 
             //try to add another new item
             Assert.False(TestDictionary.ContainsKey(25));

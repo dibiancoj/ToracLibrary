@@ -259,7 +259,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             Assert.Equal(2, ResultsOfDistinctBy.Length);
 
             //make sure we only have 1 distint value for the duplicate tag (make sure it's truly distinct)
-            Assert.Equal(1, ResultsOfDistinctBy.Where(x => x.DuplicateText == DuplicateTextTag).Count());
+            Assert.Single(ResultsOfDistinctBy.Where(x => x.DuplicateText == DuplicateTextTag));
 
             //make sure the duplicate text matches what we set
             Assert.Equal(DuplicateTextTag, ResultsOfDistinctBy.FirstOrDefault(x => x.DuplicateText == DuplicateTextTag).DuplicateText);

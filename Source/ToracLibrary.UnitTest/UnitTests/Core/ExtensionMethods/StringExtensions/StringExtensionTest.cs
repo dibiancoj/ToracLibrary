@@ -28,7 +28,6 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         [InlineData("Jason", "JASON")]
         [InlineData("JASON", "JASON")]
         [InlineData("jason2", "JASON")]
-        [InlineData("jason2", "JASON")]
         [Theory]
         public void StringContainsTrueTest1(string ValueToTest, string ContainsValueToTest)
         {
@@ -164,7 +163,6 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         [InlineData("jason.com@")]
         [InlineData("jason@")]
         [InlineData("j ason@aol.com")]
-        [InlineData("jason.com@")]
         [InlineData("jason@com.")]
         [InlineData("@jasoncom.")]
         [Theory]
@@ -311,8 +309,8 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             Assert.Equal(2, Results.Count());
 
             //test the indexes
-            Assert.True(Results.Any(x => x == 11));
-            Assert.True(Results.Any(x => x == 42));
+            Assert.Contains(Results, x => x == 11);
+            Assert.Contains(Results, x => x == 42);
         }
 
         #endregion

@@ -42,10 +42,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultOfQuery = DummyObject.CreateDummyListLazy(10).AsQueryable().Where(ExpressionThatWasBuilt).ToArray();
 
             //we should have 1 records
-            Assert.Equal(1, ResultOfQuery.Length);
+            Assert.Single(ResultOfQuery);
 
             //check the id's to make sure we have the id's we want
-            Assert.True(ResultOfQuery.Any(x => x.Id == IdToFetch));
+            Assert.Contains(ResultOfQuery, x => x.Id == IdToFetch);
         }
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultOfQuery = DummyObject.CreateDummyListLazy(10).AsQueryable().Where(ExpressionThatWasBuilt).ToArray();
 
             //we should have 1 records
-            Assert.Equal(1, ResultOfQuery.Length);
+            Assert.Single(ResultOfQuery);
 
             //check the id's to make sure we have the id's we want
-            Assert.True(ResultOfQuery.Any(x => x.Id == IdToFetch));
+            Assert.Contains(ResultOfQuery, x => x.Id == IdToFetch);
         }
 
         /// <summary>
@@ -97,10 +97,10 @@ namespace ToracLibrary.UnitTest.Core
                 var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();
 
                 //we should have 1 records
-                Assert.Equal(1, ResultOfQuery.Length);
+                Assert.Single(ResultOfQuery);
 
                 //check the id's to make sure we have the id's we want
-                Assert.True(ResultOfQuery.Any(x => x.Id == IdToFetch));
+                Assert.Contains(ResultOfQuery, x => x.Id == IdToFetch);
             }
         }
 
@@ -128,10 +128,10 @@ namespace ToracLibrary.UnitTest.Core
                 var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();
 
                 //we should have 1 records
-                Assert.Equal(1, ResultOfQuery.Length);
+                Assert.Single(ResultOfQuery);
 
                 //check the id's to make sure we have the id's we want
-                Assert.True(ResultOfQuery.Any(x => x.Id == IdToFetch));
+                Assert.Contains(ResultOfQuery, x => x.Id == IdToFetch);
             }
         }
 
@@ -164,7 +164,7 @@ namespace ToracLibrary.UnitTest.Core
             foreach (int IdToCheck in IdsToFetch)
             {
                 //check the id's to make sure we have the id's we want
-                Assert.True(ResultOfQuery.Any(x => x.Id == IdToCheck));
+                Assert.Contains(ResultOfQuery, x => x.Id == IdToCheck);
             }
         }
 
@@ -198,7 +198,7 @@ namespace ToracLibrary.UnitTest.Core
                 foreach (int IdToCheck in IdsToFetch)
                 {
                     //check the id's to make sure we have the id's we want
-                    Assert.True(ResultOfQuery.Any(x => x.Id == IdToCheck));
+                    Assert.Contains(ResultOfQuery, x => x.Id == IdToCheck);
                 }
             }
         }
@@ -226,10 +226,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultOfQuery = DummyObject.CreateDummyListLazy(10).AsQueryable().Where(x => x.Id == IdToFetch).Select(ExpressionThatWasBuilt).ToArray();
 
             //we should have the 1 records
-            Assert.Equal(1, ResultOfQuery.Length);
+            Assert.Single(ResultOfQuery);
 
             //make sure the result is the id and it matches the id to fetch
-            Assert.True(ResultOfQuery.Any(x => x == IdToFetch));
+            Assert.Contains(ResultOfQuery, x => x == IdToFetch);
         }
 
         /// <summary>
@@ -256,10 +256,10 @@ namespace ToracLibrary.UnitTest.Core
                 var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(x => x.Id == IdToFetch).Select(ExpressionThatWasBuilt).ToArray();
 
                 //we should have the 1 records
-                Assert.Equal(1, ResultOfQuery.Length);
+                Assert.Single(ResultOfQuery);
 
                 //make sure the result is the id and it matches the id to fetch
-                Assert.True(ResultOfQuery.Any(x => x == IdToFetch));
+                Assert.Contains(ResultOfQuery, x => x == IdToFetch);
             }
         }
 
@@ -289,10 +289,10 @@ namespace ToracLibrary.UnitTest.Core
             var ResultOfQuery = DataSource.AsQueryable().Where(ExpressionThatWasBuilt).ToArray();
 
             //we should have the 1 records
-            Assert.Equal(1, ResultOfQuery.Length);
+            Assert.Single(ResultOfQuery);
 
             //make sure the result is the id and it matches the id to fetch
-            Assert.True(ResultOfQuery.Any(x => x.Id == IdWeAreSetting));
+            Assert.Contains(ResultOfQuery, x => x.Id == IdWeAreSetting);
 
             //---------------------
             //now let run a mix cased (should return 0 records)
@@ -333,10 +333,10 @@ namespace ToracLibrary.UnitTest.Core
                 var ResultOfQuery = DP.Fetch<Ref_Test>(false).Where(ExpressionThatWasBuilt).ToArray();
 
                 //we should have the 1 records
-                Assert.Equal(1, ResultOfQuery.Length);
+                Assert.Single(ResultOfQuery);
 
                 //make sure the result is the id and it matches the id to fetch
-                Assert.True(ResultOfQuery.Any(x => x.Id == IdWeAreSetting));
+                Assert.Contains(ResultOfQuery, x => x.Id == IdWeAreSetting);
 
                 //ef doesn't allow for case searches...so ignore the string contains overload
             }

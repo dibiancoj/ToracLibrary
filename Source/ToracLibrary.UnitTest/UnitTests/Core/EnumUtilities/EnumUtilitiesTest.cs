@@ -84,10 +84,10 @@ namespace ToracLibrary.UnitTest.Core
             Assert.Equal(4, EnumValuesToTest.Length);
 
             //make sure we have the 3 enum values now
-            Assert.True(EnumValuesToTest.Any(x => x == TestEnum.City));
-            Assert.True(EnumValuesToTest.Any(x => x == TestEnum.State));
-            Assert.True(EnumValuesToTest.Any(x => x == TestEnum.Country));
-            Assert.True(EnumValuesToTest.Any(x => x == TestEnum.Planet));
+            Assert.Contains(EnumValuesToTest, x => x == TestEnum.City);
+            Assert.Contains(EnumValuesToTest, x => x == TestEnum.State);
+            Assert.Contains(EnumValuesToTest, x => x == TestEnum.Country);
+            Assert.Contains(EnumValuesToTest, x => x == TestEnum.Planet);
         }
 
         #endregion
@@ -114,9 +114,8 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Try Parse To Nullable. This will be a negative test that it can't parse
         /// </summary>
-        [InlineData("State123")]
-        [Theory]
-        public void TryParseToNullableTest2(string ValueToTest)
+        [Fact]
+        public void TryParseToNullableTest2()
         {
             //try to parse state
             var ResultOfParse = EnumUtility.TryParseToNullable<TestEnum>("State123");
@@ -128,9 +127,9 @@ namespace ToracLibrary.UnitTest.Core
         /// <summary>
         /// Try Parse To Nullable. Ensure case insensitive works
         /// </summary>
-        [InlineData("state", TestEnum.State)]
+        [InlineData(TestEnum.State)]
         [Theory]
-        public void TryParseToNullableTest3(string ValueToTest, TestEnum ShouldBeEnumValue)
+        public void TryParseToNullableTest3(TestEnum ShouldBeEnumValue)
         {
             //try to parse state
             var ResultOfParse = EnumUtility.TryParseToNullable<TestEnum>("state", true);
