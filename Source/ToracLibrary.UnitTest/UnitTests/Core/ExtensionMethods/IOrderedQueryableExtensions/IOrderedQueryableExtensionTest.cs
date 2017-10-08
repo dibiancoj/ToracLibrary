@@ -17,6 +17,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     /// <summary>
     /// Unit test to IOrderedQueryable Extension Methods
     /// </summary>
+    [Collection("DatabaseUnitTests")] //we have database tests in here so we don't want to parallize them. So becaues of those test we don't run this set in parallel which causes issuees
     public class IOrderedQueryableExtensionTest
     {
 

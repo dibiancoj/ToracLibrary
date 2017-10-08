@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.EntityFrameworkDP;
-using ToracLibrary.Core.DataProviders.EntityFrameworkDP.Repository;
 using ToracLibrary.UnitTest.EntityFramework.DataContext;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
