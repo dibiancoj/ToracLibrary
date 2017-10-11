@@ -94,6 +94,23 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
         #endregion
 
+        #region Coalesce
+
+        /// <summary>
+        /// Finds the first item that is not null. Returns null if all items are null
+        /// </summary>
+        /// <typeparam name="T">Type Of The IEnumerable</typeparam>
+        /// <param name="Collection">Collection To Check Against</param>
+        /// <returns>first item that is not null. Returns null if all items are null</returns>
+        public static T Coalesce<T>(this IEnumerable<T> Collection)
+        {
+            //if you don't have a list you would just do item1 ?? item2 ?? item3 ?? item4...i
+            //for ienumerable we will build this so it saves you some typing
+            return Collection.FirstOrDefault(x => x != null);
+        }
+
+        #endregion
+
         #region Empty If Null
 
         /// <summary>
