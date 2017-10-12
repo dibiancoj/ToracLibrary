@@ -1,6 +1,31 @@
 
+*** Configuration Binding ***
+
 //configure a section in the config to a c# class. Registers for di container IOptions<SecuritySettings>
 services.Configure<SecuritySettings>(Configuration.GetSection("AuthenticatedUsers"));
 
 //if you need to grab configuration in the ConfigureServices method in startup you can do the following
 Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
+
+------------------------------------------------------------------------------------------------------------------------
+
+*** Json Serialization To Regular Case ***
+
+    services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver();
+            });
+
+------------------------------------------------------------------------------------------------------------------------
+
+*** Add special authentication filters. This requires that you must be in the list of users to run a controller that has [Authorized]. This example has windows auth with x.User.Identity.Name but you could use claims based checks ***
+
+  var validUsers = new HashSet<string>(Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users, StringComparer.OrdinalIgnoreCase);
+
+  services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAssertion(x => validUsers.Contains(x.User.Identity.Name)).Build();
+
+                config.Filters.Add(new AuthorizeFilter(policy));
+
+            }
