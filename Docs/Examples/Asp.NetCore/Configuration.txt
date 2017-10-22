@@ -4,3 +4,6 @@ services.Configure<SecuritySettings>(Configuration.GetSection("AuthenticatedUser
 
 //if you need to grab configuration in the ConfigureServices method in startup you can do the following
 Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
+
+
+To have specific options reload on config change inject IOptionsSnapshot<> vs IOptions
