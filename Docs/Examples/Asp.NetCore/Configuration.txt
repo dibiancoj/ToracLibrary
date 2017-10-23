@@ -7,6 +7,8 @@ services.Configure<SecuritySettings>(Configuration.GetSection("AuthenticatedUser
 //if you need to grab configuration in the ConfigureServices method in startup you can do the following
 Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
 
+you can get a config value or a service in startup by calling "var serviceProvider = services.BuildServiceProvider();"
+
 ------------------------------------------------------------------------------------------------------------------------
 
 *** Json Serialization To Regular Case ***
