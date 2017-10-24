@@ -276,7 +276,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void StringToByteArrayTest1()
         {
             //loop through the elements to test using the helper method for this
-            FrameworkHelperMethods.UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToByteArray());
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToByteArray());
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void StringToByteArrayTest2()
         {
             //loop through the elements to test using the helper method for this
-            FrameworkHelperMethods.UnitTestArrayElements(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
         }
 
         #endregion

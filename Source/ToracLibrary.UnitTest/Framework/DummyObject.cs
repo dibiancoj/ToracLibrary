@@ -54,7 +54,7 @@ namespace ToracLibrary.UnitTest.Framework
             for (int i = 0; i < HowManyItems; i++)
             {
                 //create a new record
-                yield return new DummyObject(i, "Test_" + i.ToString());
+                yield return new DummyObject(i, "Test_" + i);
             }
         }
 

@@ -133,7 +133,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var OriginalEnumerable = new List<string> { "1", "2", "3" };
 
             //go use the helper to check the result
-            FrameworkHelperMethods.UnitTestArrayElements(OriginalEnumerable, OriginalEnumerable.EmptyIfNull());
+            Assert.Equal(OriginalEnumerable, OriginalEnumerable.EmptyIfNull());
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             List<string> OriginalEnumerable = null;
 
             //go grab the result. (pass in empty enumerable...because the result should be empty)
-            FrameworkHelperMethods.UnitTestArrayElements(Enumerable.Empty<string>(), OriginalEnumerable.EmptyIfNull());
+            Assert.Equal(Enumerable.Empty<string>(), OriginalEnumerable.EmptyIfNull());
         }
 
         #endregion
