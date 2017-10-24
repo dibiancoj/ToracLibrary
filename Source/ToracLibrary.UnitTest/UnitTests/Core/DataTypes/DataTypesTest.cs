@@ -27,8 +27,6 @@ namespace ToracLibrary.UnitTest.Core
         [InlineData(typeof(int?))]
         [InlineData(typeof(Int64))]
         [InlineData(typeof(Int64?))]
-        [InlineData(typeof(Single))]
-        [InlineData(typeof(Single?))]
         [InlineData(typeof(double))]
         [InlineData(typeof(double?))]
         [InlineData(typeof(float))]
