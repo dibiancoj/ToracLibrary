@@ -78,5 +78,26 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             Assert.Equal("Basic " + expectedHeaderValue, request.Headers.First().Value);
         }
 
+        [Fact(DisplayName = "Body Parameters Throw For Specific Http Methods")]
+        public void NoBodyAvailableForSpecificHttpMethod()
+        {
+            var mockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
+
+            //check the json request parameters
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetJsonRequestParameters("Test"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetJsonRequestParameters("Test"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetJsonRequestParameters("Test"));
+
+            var formsEncodedValues = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("Test","Test")
+            };
+
+            //check the forms encoded
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
+            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
+        }
+
     }
 }

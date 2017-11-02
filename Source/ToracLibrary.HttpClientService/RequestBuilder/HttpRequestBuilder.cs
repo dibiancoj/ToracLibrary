@@ -81,7 +81,7 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <param name="InterceptorToAdd">Interceptor to add</param>
         /// <returns>request builder object</returns>
         public HttpRequestBuilder AddPreRequestInterceptor(Func<HttpRequestBuilder, HttpRequestBuilder> InterceptorToAdd)
-        {
+        {            
             //lazy init the list
             if (PreRequestInterceptors == null)
             {
@@ -135,6 +135,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <returns>HttpRequestBuilder object</returns>
         public HttpRequestBuilder SetJsonRequestParameters<T>(T Parameter)
         {
+            if (!CanHaveBodyParameter(HttpRequestMethod))
+            {
+                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethod.ToString());
+            }
+
             Body = JsonDataToSendInRequest(Parameter);
             return this;
         }
@@ -146,6 +151,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <returns>HttpRequestBuilder object</returns>
         public HttpRequestBuilder SetFormUrlEncodedContentRequestParameter(IEnumerable<KeyValuePair<string, string>> Parameters)
         {
+            if (!CanHaveBodyParameter(HttpRequestMethod))
+            {
+                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethod.ToString());
+            }
+
             Body = new FormUrlEncodedContent(Parameters);
             return this;
         }
@@ -163,6 +173,18 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         #endregion
 
         #region Private Helpers
+
+        /// <summary>
+        /// Is a body parameter availabel for this http method
+        /// </summary>
+        /// <param name="HttpMethod">Method type</param>
+        /// <returns>If it is ok and passes validation</returns>
+        private static bool CanHaveBodyParameter(HttpMethod HttpMethod)
+        {
+            return HttpMethod != HttpMethod.Get &&
+                HttpMethod != HttpMethod.Options &&
+                HttpMethod != HttpMethod.Head;
+        }
 
         /// <summary>
         /// Helper to create the basic authentication value
