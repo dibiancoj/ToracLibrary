@@ -374,6 +374,21 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Surround With
+
+        /// <summary>
+        /// Test to make sure the Base 64 Encoding Works works
+        /// </summary>
+        [InlineData("Test12345hts")]
+        [InlineData("456vsdfidsajf sdfds")]
+        [Theory]
+        public void Base64Encoded(string ValueToTest)
+        {
+            Assert.Equal(ValueToTest, ValueToTest.ToBase64Encode().ToBase64Decode());
+        }
+
+        #endregion
+
     }
 
 }

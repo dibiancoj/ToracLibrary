@@ -508,6 +508,30 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
+        #region Base 64 Encoding
+
+        /// <summary>
+        /// Convert a string to a base 64 encoded string. Can be used for basic authentication
+        /// </summary>
+        /// <param name="StringToEncode">string to convert to base 64 encoded</param>
+        /// <returns>Encoded base 64 string</returns>
+        public static string ToBase64Encode(this string StringToEncode)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(StringToEncode));
+        }
+
+        /// <summary>
+        /// Convert a base 64 encoded string back to a regular string value
+        /// </summary>
+        /// <param name="StringToDecode">string to decode from base 64 encoded</param>
+        /// <returns>Encoded base 64 string</returns>
+        public static string ToBase64Decode(this string StringToEncode)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(StringToEncode));
+        }
+
+        #endregion
+
     }
 
 }
