@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.Core.ToracAttributes;
+using ToracLibrary.HttpClientService.RequestBuilder;
 using ToracLibrary.Serialization.Json;
+
+[assembly: InternalsVisibleTo("ToracLibrary.UnitTest")]
 
 namespace ToracLibrary.HttpClientService
 {
@@ -114,6 +118,17 @@ namespace ToracLibrary.HttpClientService
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Create a request builder object and return it
+        /// </summary>
+        /// <param name="Url">Url to send a request to</param>
+        /// <param name="HttpRequestMethod">Http method type</param>
+        /// <returns>HttpRequestBuilder object</returns>
+        public HttpRequestBuilder CreateRequest(string Url, HttpMethod HttpRequestMethod)
+        {
+            return new HttpRequestBuilder(this, Url, HttpRequestMethod);
+        }
 
         /*  request.Content = new FormUrlEncodedContent(new[]
                   {

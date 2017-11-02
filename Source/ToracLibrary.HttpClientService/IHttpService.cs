@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.HttpClientService.RequestBuilder;
 using static ToracLibrary.HttpClientService.HttpService;
 
 namespace ToracLibrary.HttpClientService
@@ -25,6 +26,14 @@ namespace ToracLibrary.HttpClientService
         /// <param name="BodyParameters">Parameters that get sent in the content</param>
         /// <returns>Built up task with the wrapped up call</returns>
         Task<HttpResponseMessage> MakeRequestAsync(HttpMethod RequestType, string Url, AcceptTypeEnum AcceptType, IEnumerable<KeyValuePair<string, string>> Headers, ByteArrayContent BodyParameters);
+
+        /// <summary>
+        /// Create a request builder object and return it
+        /// </summary>
+        /// <param name="Url">Url to send a request to</param>
+        /// <param name="HttpRequestMethod">Http method type</param>
+        /// <returns>HttpRequestBuilder object</returns>
+        HttpRequestBuilder CreateRequest(string Url, HttpMethod HttpRequestMethod);
 
     }
 
