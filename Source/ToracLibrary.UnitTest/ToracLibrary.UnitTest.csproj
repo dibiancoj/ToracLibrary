@@ -229,7 +229,7 @@
     <Compile Include="UnitTests\ExcelEPPlus\ExcelEPPlusTest.cs" />
     <Compile Include="UnitTests\Graphics\GraphicsTest.cs" />
     <Compile Include="UnitTests\HtmlParsing\HtmlParsingTest.cs" />
-    <Compile Include="UnitTests\HttpService\HtmlRequestTest.cs" />
+    <Compile Include="UnitTests\HttpService\HtmlRequestBuilderTest.cs" />
     <Compile Include="UnitTests\JasonSerializer\JasonSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
