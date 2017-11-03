@@ -29,7 +29,6 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             Url = UrlToSet;
             HttpRequestMethod = HttpRequestMethodToSet;
             HttpClientService = HttpClientServiceToSet;
-            Headers = new List<KeyValuePair<string, string>>();
         }
 
         #endregion
@@ -81,7 +80,7 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <param name="InterceptorToAdd">Interceptor to add</param>
         /// <returns>request builder object</returns>
         public HttpRequestBuilder AddPreRequestInterceptor(Func<HttpRequestBuilder, HttpRequestBuilder> InterceptorToAdd)
-        {            
+        {
             //lazy init the list
             if (PreRequestInterceptors == null)
             {
@@ -93,18 +92,6 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         }
 
         /// <summary>
-        /// add a single request header
-        /// </summary>
-        /// <param name="Key">header key</param>
-        /// <param name="Value">header value</param>
-        /// <returns>HttpRequestBuilder object</returns>
-        public HttpRequestBuilder AddHeader(string Key, string Value)
-        {
-            Headers.Add(new KeyValuePair<string, string>(Key, Value));
-            return this;
-        }
-
-        /// <summary>
         /// Add a basic authentication header
         /// </summary>
         /// <param name="UserName">user name</param>
@@ -112,7 +99,24 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <returns>HttpRequestBuilder object</returns>
         public HttpRequestBuilder AddBasicAuthentication(string UserName, string Password)
         {
-            Headers.Add(new KeyValuePair<string, string>("Authorization", $"Basic {BasicAuthenticationHeaderValue(UserName, Password)}"));
+            AddHeader("Authorization", $"Basic {BasicAuthenticationHeaderValue(UserName, Password)}");
+            return this;
+        }
+
+        /// <summary>
+        /// add a single request header
+        /// </summary>
+        /// <param name="Key">header key</param>
+        /// <param name="Value">header value</param>
+        /// <returns>HttpRequestBuilder object</returns>
+        public HttpRequestBuilder AddHeader(string Key, string Value)
+        {
+            if (Headers == null)
+            {
+                Headers = new List<KeyValuePair<string, string>>();
+            }
+
+            Headers.Add(new KeyValuePair<string, string>(Key, Value));
             return this;
         }
 
@@ -123,6 +127,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <returns>HttpRequestBuilder object</returns>
         public HttpRequestBuilder AddHeaders(IEnumerable<KeyValuePair<string, string>> headersToAdd)
         {
+            if (Headers == null)
+            {
+                Headers = new List<KeyValuePair<string, string>>();
+            }
+
             Headers.AddRange(headersToAdd);
             return this;
         }

@@ -28,14 +28,14 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             MockHttpClient.Setup(x => x.MakeRequestAsync(HttpMethod.Post, "PatientGet", HttpService.AcceptTypeEnum.JSON, It.Is(headerCheck), It.Is(bodycheck)))
                 .Returns(Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = HttpService.JsonDataToSendInRequest(ResponseFromServiceToTest) }));
 
-            var result = await MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
+            var Result = await MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
                                                 .AddHeader("Token", "TokenValue123")
                                                 .SetJsonRequestParameters(RequestParameters)
                                                 .AcceptJsonResponse<Tuple<string, string>>()
                                                 .SendRequestAsync();
 
-            Assert.Equal(ResponseFromServiceToTest.Item1, result.Item1);
-            Assert.Equal(ResponseFromServiceToTest.Item2, result.Item2);
+            Assert.Equal(ResponseFromServiceToTest.Item1, Result.Item1);
+            Assert.Equal(ResponseFromServiceToTest.Item2, Result.Item2);
         }
 
         [Fact(DisplayName = "Http Request Builder")]
@@ -52,51 +52,60 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             MockHttpClient.Setup(x => x.MakeRequestAsync(HttpMethod.Post, "PatientGet", HttpService.AcceptTypeEnum.JSON, It.Is(headerCheck), It.Is(bodycheck)))
                 .Returns(Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK) { Content = HttpService.JsonDataToSendInRequest(ResponseFromServiceToTest) }));
 
-            var result = await MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
+            var Result = await MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
                                                 .AddHeader("Token", "TokenValue123")
                                                 .SetJsonRequestParameters(RequestParameters)
                                                 .AddPreRequestInterceptor(x => x.AddHeader("PreRequestKey", "PreRequestValue"))
                                                 .AcceptJsonResponse<Tuple<string, string>>()
                                                 .SendRequestAsync();
 
-            Assert.Equal(ResponseFromServiceToTest.Item1, result.Item1);
-            Assert.Equal(ResponseFromServiceToTest.Item2, result.Item2);
+            Assert.Equal(ResponseFromServiceToTest.Item1, Result.Item1);
+            Assert.Equal(ResponseFromServiceToTest.Item2, Result.Item2);
         }
 
         [Fact(DisplayName = "Basic Authentication")]
         public void BasicAuthenticationTest1()
         {
-            var mockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
+            var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
 
-            var expectedHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes("jason:pw"));
+            var ExpectedHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes("jason:pw"));
 
-            var request = mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
-                .AddBasicAuthentication("jason", "pw");
+            var Request = MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Post)
+                            .AddBasicAuthentication("jason", "pw");
 
-            Assert.Single(request.Headers);
-            Assert.Equal("Authorization", request.Headers.First().Key);
-            Assert.Equal("Basic " + expectedHeaderValue, request.Headers.First().Value);
+            Assert.Single(Request.Headers);
+            Assert.Equal("Authorization", Request.Headers.Single().Key);
+            Assert.Equal("Basic " + ExpectedHeaderValue, Request.Headers.Single().Value);
         }
 
         [Fact(DisplayName = "Body Parameters Throw For Specific Http Methods")]
         public void NoBodyAvailableForSpecificHttpMethod()
         {
-            var mockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
+            var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
 
             //check the json request parameters
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetJsonRequestParameters("Test"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetJsonRequestParameters("Test"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetJsonRequestParameters("Test"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetJsonRequestParameters("Test"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetJsonRequestParameters("Test"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetJsonRequestParameters("Test"));
 
-            var formsEncodedValues = new List<KeyValuePair<string, string>>
+            var FormsEncodedValues = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("Test","Test")
             };
 
             //check the forms encoded
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
-            Assert.Throws<ArgumentOutOfRangeException>(() => mockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
+            Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
+        }
+
+        [Fact(DisplayName = "Ensure List Of Creates Gets Created On AddHeader Overloads")]
+        public void AddHeaderCreatesListOfHeaders()
+        {
+            var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
+
+            Assert.Single(MockHttpClient.Object.CreateRequest("test", HttpMethod.Get).AddHeader("Test", "Test").Headers);
+            Assert.Single(MockHttpClient.Object.CreateRequest("test", HttpMethod.Get).AddHeaders(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("Test", "Test") }).Headers);
         }
 
     }
