@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ToracLibrary.UnitTest.HttpClientServices
 {
-    public class HtmlRequestTest
+    public class HtmlRequestBuilderTest
     {
 
         [Fact(DisplayName = "Http Request Builder With No PreRequest Interceptors")]
@@ -78,8 +78,8 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             Assert.Equal("Basic " + ExpectedHeaderValue, Request.Headers.Single().Value);
         }
 
-        [Fact(DisplayName = "Body Parameters Throw For Specific Http Methods")]
-        public void NoBodyAvailableForSpecificHttpMethod()
+        [Fact(DisplayName = "Body Parameters Throw For Specific Http Methods For Json Request Body")]
+        public void NoBodyAvailableForSpecificHttpMethodForJson()
         {
             var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
 
@@ -87,8 +87,14 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetJsonRequestParameters("Test"));
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetJsonRequestParameters("Test"));
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetJsonRequestParameters("Test"));
+        }
 
-            var FormsEncodedValues = new List<KeyValuePair<string, string>>
+        [Fact(DisplayName = "Body Parameters Throw For Specific Http Methods For Forms Encoded Request Body")]
+        public void NoBodyAvailableForSpecificHttpMethodForFormsEncoded()
+        {
+            var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
+
+            var FormsEncodedValues = new KeyValuePair<string, string>[]
             {
                 new KeyValuePair<string, string>("Test","Test")
             };
@@ -97,15 +103,6 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Get).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Head).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
             Assert.Throws<ArgumentOutOfRangeException>(() => MockHttpClient.Object.CreateRequest("PatientGet", HttpMethod.Options).SetFormUrlEncodedContentRequestParameter(FormsEncodedValues));
-        }
-
-        [Fact(DisplayName = "Ensure List Of Creates Gets Created On AddHeader Overloads")]
-        public void AddHeaderCreatesListOfHeaders()
-        {
-            var MockHttpClient = new Mock<HttpService>() { CallBase = true }.As<IHttpService>();
-
-            Assert.Single(MockHttpClient.Object.CreateRequest("test", HttpMethod.Get).AddHeader("Test", "Test").Headers);
-            Assert.Single(MockHttpClient.Object.CreateRequest("test", HttpMethod.Get).AddHeaders(new KeyValuePair<string, string>[] { new KeyValuePair<string, string>("Test", "Test") }).Headers);
         }
 
     }
