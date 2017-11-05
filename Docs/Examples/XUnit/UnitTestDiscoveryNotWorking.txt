@@ -1,0 +1,5 @@
+If you're having problems discovering or running tests, you may be a victim of a corrupted runner cache inside Visual Studio. 
+To clear this cache, shut down all instances of Visual Studio, then delete the folder %TEMP%\VisualStudioTestExplorerExtensions.
+Also make sure your solution is only linked against a single version of the Visual Studio runner NuGet package (xunit.runner.visualstudio).
+
+The deleting of %TEMP%\VisualStudioTestExplorerExtensions worked for me
