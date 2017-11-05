@@ -53,11 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RequestBuilder\HttpRequestBuilder.cs" />
-    <Compile Include="HttpService.cs" />
-    <Compile Include="IHttpService.cs" />
+    <Compile Include="HttpServiceClient\HttpService.cs" />
+    <Compile Include="HttpServiceClient\IHttpService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestBuilder\HttpRequestBuilderJson.cs" />
+    <Compile Include="Provider\HttpClientProvider.cs" />
+    <Compile Include="Provider\IHttpClientProvider.cs" />
+    <Compile Include="RequestBuilder\ContentTypeLookup.cs" />
+    <Compile Include="RequestBuilder\HttpRequestBuilder.cs" />
+    <Compile Include="ResponseHandlers\ResponseHandlerJson.cs" />
+    <Compile Include="ResponseHandlers\ResponseHandlerText.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

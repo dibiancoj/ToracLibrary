@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ExtensionMethods.StringExtensions;
-using static ToracLibrary.HttpClientService.HttpService;
+using ToracLibrary.HttpClientService.HttpServiceClient;
+using ToracLibrary.HttpClientService.ResponseHandlers;
+
+[assembly: InternalsVisibleTo("ToracLibrary.UnitTest")]
 
 namespace ToracLibrary.HttpClientService.RequestBuilder
 {
 
     /// <summary>
-    /// Allows you to build up an http call in a fluent api
+    /// Is a fluent api to build up a http request and send it
     /// </summary>
     public class HttpRequestBuilder
     {
@@ -21,14 +25,41 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="HttpClientServiceToSet">http client service to use</param>
-        /// <param name="UrlToSet">url to send the request to</param>
-        /// <param name="HttpRequestMethodToSet">request type to use</param>
-        public HttpRequestBuilder(IHttpService HttpClientServiceToSet, string UrlToSet, HttpMethod HttpRequestMethodToSet)
+        /// <param name="HttpClientServiceToSet">Http Client Services Which Does The Actual Sending Of The Message</param>
+        /// <param name="UrlToSend">Url To Send The Web Request To</param>
+        /// <param name="HttpRequestMethodTypeToSet">Web Request Type. ie: Get, Post, Put, etc.</param>
+        public HttpRequestBuilder(IHttpService HttpClientServiceToSet, string UrlToSend, HttpMethod HttpRequestMethodTypeToSet)
         {
-            Url = UrlToSet;
-            HttpRequestMethod = HttpRequestMethodToSet;
             HttpClientService = HttpClientServiceToSet;
+            UrlToSendRequestTo = UrlToSend;
+            HttpRequestMethodType = HttpRequestMethodTypeToSet;
+        }
+
+        #endregion
+
+        #region Enum
+
+        /// <summary>
+        /// Accept type this wrapper supports
+        /// </summary>
+        public enum AcceptTypeEnum
+        {
+
+            /// <summary>
+            /// Json response type
+            /// </summary>
+            JSON = 0,
+
+            /// <summary>
+            /// Html response type
+            /// </summary>
+            Html = 1,
+
+            /// <summary>
+            /// Plain text response type
+            /// </summary>
+            Text = 2
+
         }
 
         #endregion
@@ -36,37 +67,37 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         #region Properties
 
         /// <summary>
-        /// Http client service
+        /// Http Client Services Which Does The Actual Sending Of The Message
         /// </summary>
         internal IHttpService HttpClientService { get; private set; }
 
         /// <summary>
-        /// Request interceptors
+        /// Holds any interceptors you want before you send the request
         /// </summary>
-        internal List<Func<HttpRequestBuilder, HttpRequestBuilder>> PreRequestInterceptors { get; private set; }
+        internal List<Action<HttpRequestBuilder>> PreRequestInterceptors { get; private set; }
 
         /// <summary>
-        /// Url to use
+        /// Url to send the request to
         /// </summary>
-        internal string Url { get; private set; }
+        internal string UrlToSendRequestTo { get; private set; }
 
         /// <summary>
-        /// Request method type
+        /// Web Request Type. ie: Get, Post, Put, etc.
         /// </summary>
-        internal HttpMethod HttpRequestMethod { get; private set; }
+        internal HttpMethod HttpRequestMethodType { get; private set; }
 
         /// <summary>
-        /// accept type
+        /// Accept type which contains the data formats your request will except. ie: Json, Xml, etc.
         /// </summary>
         internal AcceptTypeEnum AcceptType { get; set; }
 
         /// <summary>
-        /// headers
+        /// Headers for the request
         /// </summary>
         internal List<KeyValuePair<string, string>> Headers { get; private set; }
 
         /// <summary>
-        /// body of the request
+        /// Content Body. The body parameters for the request
         /// </summary>
         internal ByteArrayContent Body { get; private set; }
 
@@ -75,16 +106,15 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         #region Fluent Methods
 
         /// <summary>
-        /// add a pre request interceptor
+        /// Add a pre request interceptor to adjust the request
         /// </summary>
         /// <param name="InterceptorToAdd">Interceptor to add</param>
-        /// <returns>request builder object</returns>
-        public HttpRequestBuilder AddPreRequestInterceptor(Func<HttpRequestBuilder, HttpRequestBuilder> InterceptorToAdd)
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public HttpRequestBuilder AddPreRequestInterceptor(Action<HttpRequestBuilder> InterceptorToAdd)
         {
-            //lazy init the list
             if (PreRequestInterceptors == null)
             {
-                PreRequestInterceptors = new List<Func<HttpRequestBuilder, HttpRequestBuilder>>();
+                PreRequestInterceptors = new List<Action<HttpRequestBuilder>>();
             }
 
             PreRequestInterceptors.Add(InterceptorToAdd);
@@ -92,11 +122,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         }
 
         /// <summary>
-        /// Add a basic authentication header
+        /// Add basic authentication to the header list
         /// </summary>
-        /// <param name="UserName">user name</param>
-        /// <param name="Password">password</param>
-        /// <returns>HttpRequestBuilder object</returns>
+        /// <param name="UserName">User name to add to the basic authentication header</param>
+        /// <param name="Password">Password to add to the basic authentication header</param>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
         public HttpRequestBuilder AddBasicAuthentication(string UserName, string Password)
         {
             AddHeader("Authorization", $"Basic {BasicAuthenticationHeaderValue(UserName, Password)}");
@@ -104,11 +134,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         }
 
         /// <summary>
-        /// add a single request header
+        /// Add a header to the request
         /// </summary>
-        /// <param name="Key">header key</param>
-        /// <param name="Value">header value</param>
-        /// <returns>HttpRequestBuilder object</returns>
+        /// <param name="Key">Key of the header to add</param>
+        /// <param name="Value">Value of the header to add</param>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
         public HttpRequestBuilder AddHeader(string Key, string Value)
         {
             if (Headers == null)
@@ -121,89 +151,192 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         }
 
         /// <summary>
-        /// add a list of request headers
+        /// Add a list of headers to the request
         /// </summary>
-        /// <param name="headersToAdd">List of headers to add</param>
-        /// <returns>HttpRequestBuilder object</returns>
-        public HttpRequestBuilder AddHeaders(IEnumerable<KeyValuePair<string, string>> headersToAdd)
+        /// <param name="HeadersToAdd">Headers to add to the request</param>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public HttpRequestBuilder AddHeaders(IEnumerable<KeyValuePair<string, string>> HeadersToAdd)
         {
             if (Headers == null)
             {
                 Headers = new List<KeyValuePair<string, string>>();
             }
 
-            Headers.AddRange(headersToAdd);
+            Headers.AddRange(HeadersToAdd);
             return this;
         }
 
         /// <summary>
-        /// Add a request body
+        /// Add a json request body
         /// </summary>
-        /// <typeparam name="T">Request body type</typeparam>
-        /// <param name="Parameters">Parameter to add</param>
-        /// <returns>HttpRequestBuilder object</returns>
-        public HttpRequestBuilder SetJsonRequestParameters<T>(T Parameter)
+        /// <typeparam name="TRequestBodyType">Type of the request body</typeparam>
+        /// <param name="RequestParameterBody">Instance of the request body for the parameter</param>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public HttpRequestBuilder SetJsonRequestParameters<TRequestBodyType>(TRequestBodyType RequestParameterBody)
         {
-            if (!CanHaveBodyParameter(HttpRequestMethod))
+            if (!CanHaveBody(HttpRequestMethodType))
             {
-                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethod.ToString());
+                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethodType.ToString());
             }
 
-            Body = JsonDataToSendInRequest(Parameter);
+            Body = JsonDataToSendInRequest(RequestParameterBody);
             return this;
         }
 
         /// <summary>
-        /// Use form encoded body parameters
+        /// Adds a forms encoded request body
         /// </summary>
-        /// <param name="Parameters">Parameters to use in the body</param>
-        /// <returns>HttpRequestBuilder object</returns>
-        public HttpRequestBuilder SetFormUrlEncodedContentRequestParameter(IEnumerable<KeyValuePair<string, string>> Parameters)
+        /// <param name="RequestParameters">Request parameters to add to the body which will be url encoded</param>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public HttpRequestBuilder SetFormUrlEncodedContentRequestParameter(IEnumerable<KeyValuePair<string, string>> RequestParameters)
         {
-            if (!CanHaveBodyParameter(HttpRequestMethod))
+            if (!CanHaveBody(HttpRequestMethodType))
             {
-                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethod.ToString());
+                throw new ArgumentOutOfRangeException("Request Body Not Available On " + HttpRequestMethodType.ToString());
             }
 
-            Body = new FormUrlEncodedContent(Parameters);
+            Body = new FormUrlEncodedContent(RequestParameters);
             return this;
         }
 
+        #region Response Handlers
+
         /// <summary>
-        /// Turn this request object into a json response
+        /// Expect a specific Json model type back for the request. This is returned in the http response
         /// </summary>
-        /// <typeparam name="TResponse">Request response type to deserialize</typeparam>
-        /// <returns>HttpRequestBuilderJson of TResponse</returns>
-        public HttpRequestBuilderJson<TResponse> AcceptJsonResponse<TResponse>()
+        /// <typeparam name="TResponseType">response type</typeparam>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public ResponseHandlerJson<TResponseType> AcceptJsonResponse<TResponseType>()
         {
-            return new HttpRequestBuilderJson<TResponse>(this);
+            return new ResponseHandlerJson<TResponseType>(this);
         }
+
+        /// <summary>
+        /// Expect Html back from the response
+        /// </summary>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public ResponseHandlerText AcceptHtmlResponse()
+        {
+            return new ResponseHandlerText(this, AcceptTypeEnum.Html);
+        }
+
+        /// <summary>
+        /// Expect text back from the response
+        /// </summary>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public ResponseHandlerText AcceptTextResponse()
+        {
+            return new ResponseHandlerText(this, AcceptTypeEnum.Text);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Internal Static Methods
+
+        /// <summary>
+        /// Convert a request builder to a http request message
+        /// </summary>
+        /// <returns>Http request message to send</returns>
+        internal HttpRequestMessage ToHttpRequestMessage()
+        {
+            //any pre - request interceptors
+            if (PreRequestInterceptors != null)
+            {
+                foreach (var PreRequestToRun in PreRequestInterceptors)
+                {
+                    PreRequestToRun(this);
+                }
+            }
+
+            //go create the initial request
+            var RequestToMake = new HttpRequestMessage(HttpRequestMethodType, UrlToSendRequestTo);
+
+            //add the accept headers
+            RequestToMake.Headers.Accept.Add(AcceptTypeToMediaQuality(AcceptType));
+
+            //do we have any headers
+            if (Headers != null)
+            {
+                //loop through the headers and add them
+                foreach (var HeaderToAdd in Headers)
+                {
+                    //add the specific header
+                    RequestToMake.Headers.Add(HeaderToAdd.Key, HeaderToAdd.Value);
+                }
+            }
+
+            //set the request content (either JSON or FormUrlEncodedContent or null [if http get])
+            RequestToMake.Content = Body;
+
+            //return the request
+            return RequestToMake;
+        }
+
+        /// <summary>
+        /// Converts an object into a string content which you send in a json request
+        /// </summary>
+        /// <typeparam name="T">Type of the param object to send</typeparam>
+        /// <param name="objectParameters">parameter object to send</param>
+        /// <returns>String content which you can pass into MakeRequest</returns>
+        internal static StringContent JsonDataToSendInRequest<T>(T objectParameters)
+        {
+            return new StringContent(JsonConvert.SerializeObject(objectParameters), Encoding.UTF8, ContentTypeLookup.JsonContentType);
+        }
+
 
         #endregion
 
         #region Private Helpers
 
         /// <summary>
-        /// Is a body parameter availabel for this http method
+        /// Can the specific method type passed in have a body?
         /// </summary>
-        /// <param name="HttpMethod">Method type</param>
-        /// <returns>If it is ok and passes validation</returns>
-        private static bool CanHaveBodyParameter(HttpMethod HttpMethod)
+        /// <param name="HttpMethodType">Http method type that we want to check</param>
+        /// <returns>true if it can have a body</returns>
+        private static bool CanHaveBody(HttpMethod HttpMethodType)
         {
-            return HttpMethod != HttpMethod.Get &&
-                HttpMethod != HttpMethod.Options &&
-                HttpMethod != HttpMethod.Head;
+            return HttpMethodType != HttpMethod.Get &&
+                 HttpMethodType != HttpMethod.Options &&
+                 HttpMethodType != HttpMethod.Head;
         }
 
         /// <summary>
-        /// Helper to create the basic authentication value
+        /// Creates the base 64 encoded value to set in the header
         /// </summary>
-        /// <param name="UserName">User name</param>
-        /// <param name="Password">password</param>
-        /// <returns>Encoded</returns>
+        /// <param name="UserName">User name to pass through</param>
+        /// <param name="Password">Password to pass through</param>
+        /// <returns>Encoded value to add to the header</returns>
         private static string BasicAuthenticationHeaderValue(string UserName, string Password)
         {
-            return $"{UserName}:{Password}".ToBase64Encode();
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes($"{UserName}:{Password}"));
+        }
+
+        /// <summary>
+        /// Determine what media type header value we are setting from the accept type enum value we pass in
+        /// </summary>
+        /// <param name="acceptTypeId">Accept type id we want to use for this request</param>
+        /// <returns>Converted MediaTypeWithQualityHeaderValue</returns>
+        private static MediaTypeWithQualityHeaderValue AcceptTypeToMediaQuality(AcceptTypeEnum acceptTypeId)
+        {
+            //what accept type do we want
+            if (acceptTypeId == AcceptTypeEnum.JSON)
+            {
+                return ContentTypeLookup.JsonMediaType;
+            }
+
+            if (acceptTypeId == AcceptTypeEnum.Html)
+            {
+                return ContentTypeLookup.HtmlMediaType;
+            }
+
+            if (acceptTypeId == AcceptTypeEnum.Text)
+            {
+                return ContentTypeLookup.TextMediaType;
+            }
+
+            throw new NotImplementedException();
         }
 
         #endregion
