@@ -112,7 +112,7 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         #region Fluent Methods
 
         /// <summary>
-        /// Add a pre request interceptor to adjust the request
+        /// Add a pre-request interceptor to adjust the request
         /// </summary>
         /// <param name="InterceptorToAdd">Interceptor to add</param>
         /// <returns>HttpRequestBuilder to build up the fluent api</returns>
@@ -298,13 +298,12 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// Converts an object into a string content which you send in a json request
         /// </summary>
         /// <typeparam name="T">Type of the param object to send</typeparam>
-        /// <param name="objectParameters">parameter object to send</param>
+        /// <param name="ObjectParameters">parameter object to send</param>
         /// <returns>String content which you can pass into MakeRequest</returns>
-        internal static StringContent JsonDataToSendInRequest<T>(T objectParameters)
+        internal static StringContent JsonDataToSendInRequest<T>(T ObjectParameters)
         {
-            return new StringContent(JsonConvert.SerializeObject(objectParameters), Encoding.UTF8, ContentTypeLookup.JsonContentType);
+            return new StringContent(JsonConvert.SerializeObject(ObjectParameters), Encoding.UTF8, ContentTypeLookup.JsonContentType);
         }
-
 
         #endregion
 
@@ -336,27 +335,27 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         /// <summary>
         /// Determine what media type header value we are setting from the accept type enum value we pass in
         /// </summary>
-        /// <param name="acceptTypeId">Accept type id we want to use for this request</param>
+        /// <param name="AcceptTypeId">Accept type id we want to use for this request</param>
         /// <returns>Converted MediaTypeWithQualityHeaderValue</returns>
-        private static MediaTypeWithQualityHeaderValue AcceptTypeToMediaQuality(AcceptTypeEnum acceptTypeId)
+        private static MediaTypeWithQualityHeaderValue AcceptTypeToMediaQuality(AcceptTypeEnum AcceptTypeId)
         {
             //what accept type do we want
-            if (acceptTypeId == AcceptTypeEnum.JSON)
+            if (AcceptTypeId == AcceptTypeEnum.JSON)
             {
                 return ContentTypeLookup.JsonMediaType;
             }
 
-            if (acceptTypeId == AcceptTypeEnum.Html)
+            if (AcceptTypeId == AcceptTypeEnum.Html)
             {
                 return ContentTypeLookup.HtmlMediaType;
             }
 
-            if (acceptTypeId == AcceptTypeEnum.Text)
+            if (AcceptTypeId == AcceptTypeEnum.Text)
             {
                 return ContentTypeLookup.TextMediaType;
             }
 
-            if (acceptTypeId == AcceptTypeEnum.EmptyResponse)
+            if (AcceptTypeId == AcceptTypeEnum.EmptyResponse)
             {
                 return null;
             }

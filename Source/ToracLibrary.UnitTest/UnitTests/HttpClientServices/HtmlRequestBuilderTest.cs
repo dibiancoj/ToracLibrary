@@ -224,6 +224,29 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             Assert.Throws<ArgumentOutOfRangeException>(() => new HttpRequestBuilder(MockHttpService.Object, "PatientGet", HttpMethod.Options).SetFormUrlEncodedContentRequestParameter(formsEncodedValues));
         }
 
+        [Fact(DisplayName = "Send Raw Request")]
+        public async Task SendRawRequest()
+        {
+            const string UrlToCall = "GetPartialViewHtml";
+            var ResponseFromServiceToTest = "<html>Text</html>";
+            var MockHttpService = new Mock<IHttpService>();
+
+            MockHttpService.Setup(x => x.SendAsync(It.Is<HttpRequestMessage>(y =>
+                            UriMatch(y.RequestUri, UrlToCall) &&
+                            HtmlAcceptHeaderIsFound(y.Headers))))
+
+                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(ResponseFromServiceToTest) }));
+
+            var Response = await new HttpRequestBuilder(MockHttpService.Object, UrlToCall, HttpMethod.Get)
+                                    .AcceptHtmlResponse()
+                                    .SendRawRequestAsync();
+
+            Assert.True(Response.IsSuccessStatusCode);
+            Assert.Equal(ResponseFromServiceToTest, Response.Content.ReadAsStringAsync().Result);
+
+            MockHttpService.Verify(x => x.SendAsync(It.IsAny<HttpRequestMessage>()), Times.Once);
+        }
+
         #endregion
 
     }

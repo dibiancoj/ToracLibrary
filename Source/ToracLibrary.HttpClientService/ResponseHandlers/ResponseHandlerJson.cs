@@ -40,13 +40,22 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
         #region Public Methods
 
         /// <summary>
+        /// Send a request and get the raw response back.
+        /// </summary>
+        /// <returns>task of HttpResponseMessage</returns>
+        public async Task<HttpResponseMessage> SendRawRequestAsync()
+        {
+            return await RequestBuilder.HttpClientService.SendAsync(RequestBuilder.ToHttpRequestMessage()).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Send the request and return the response
         /// </summary>
         /// <returns>Task of the response model</returns>
         public async Task<TResponseType> SendRequestAsync()
         {
             //go make the request
-            HttpResponseMessage RawRequestResponse = await RequestBuilder.HttpClientService.SendAsync(RequestBuilder.ToHttpRequestMessage()).ConfigureAwait(false);
+            var RawRequestResponse = await SendRawRequestAsync().ConfigureAwait(false);
 
             //make sure it succeeded. If it didn't, it will throw an error. (different then just checking the status because this will throw)
             RawRequestResponse.EnsureSuccessStatusCode();
