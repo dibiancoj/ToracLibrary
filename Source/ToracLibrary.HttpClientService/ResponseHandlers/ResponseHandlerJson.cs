@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ToracLibrary.HttpClientService.RequestBuilder;
+using ToracLibrary.Serialization.Json;
 using static ToracLibrary.HttpClientService.RequestBuilder.HttpRequestBuilder;
 
 namespace ToracLibrary.HttpClientService.ResponseHandlers
@@ -53,30 +54,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
             RawRequestResponse.EnsureSuccessStatusCode();
 
             //we are "ok" with a 200. Go deserialize the response and return the result
-            return await DeserializeToJson(RawRequestResponse);
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Deserialize the response using streams for better GC with larger responses
-        /// </summary>
-        /// <param name="RawHttpResponse">Raw http response from the request</param>
-        /// <returns>Task of the response instance</returns>
-        private async Task<TResponseType> DeserializeToJson(HttpResponseMessage RawHttpResponse)
-        {
-            //serialize a little faster with less gc for a long json document. Using streams instead of ReadAsStringAsync()
-
-            using (var StreamToUse = await RawHttpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false))
-            using (var StreamReaderToUse = new StreamReader(StreamToUse))
-            using (var JsonReaderToUse = new JsonTextReader(StreamReaderToUse))
-            {
-                // read the json from a stream
-                // json size doesn't matter because only a small piece is read at a time from the HTTP request
-                return new JsonSerializer().Deserialize<TResponseType>(JsonReaderToUse);
-            }
+            return JsonNetSerializer.DeserializeFromStream<TResponseType>(await RawRequestResponse.Content.ReadAsStreamAsync());
         }
 
         #endregion

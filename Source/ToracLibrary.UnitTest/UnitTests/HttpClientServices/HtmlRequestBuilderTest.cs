@@ -47,7 +47,7 @@ namespace ToracLibrary.UnitTest.HttpClientServices
 
         #region Unit Tests
 
-        [Fact(DisplayName = "Basic Http Request")]
+        [Fact(DisplayName = "Basic Json Http Request")]
         public async Task BasicHttpJsonRequestTest1()
         {
             const string UrlToCall = "PatientSave";
