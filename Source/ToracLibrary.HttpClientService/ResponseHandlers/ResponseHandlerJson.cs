@@ -11,7 +11,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
     /// Handles a json accept type. HttpRequestBuilder will create a new instance once it says "Accept Json"
     /// </summary>
     /// <typeparam name="TResponseType"></typeparam>
-    public class ResponseHandlerJson<TResponseType>
+    public class ResponseHandlerJson<TResponseType> : IResponseHandler<TResponseType>
     {
 
         #region Constructor
@@ -33,7 +33,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
         /// <summary>
         /// Request builder that has the parameters we have already built up
         /// </summary>
-        private HttpRequestBuilder RequestBuilder { get; set; }
+        private HttpRequestBuilder RequestBuilder { get; }
 
         #endregion
 

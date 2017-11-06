@@ -13,7 +13,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
     /// <summary>
     /// Handles a response that will be empty. ie: Head command
     /// </summary>
-    public class ResponseHandlerEmpty
+    public class ResponseHandlerEmpty : IResponseHandler<HttpResponseMessage>
     {
 
         #region Constructor
@@ -35,7 +35,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
         /// <summary>
         /// Request builder that has the parameters we have already built up
         /// </summary>
-        private HttpRequestBuilder RequestBuilder { get; set; }
+        private HttpRequestBuilder RequestBuilder { get; }
 
         #endregion
 
