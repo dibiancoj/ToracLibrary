@@ -17,19 +17,19 @@ namespace ToracLibrary.UnitTest.UnitTests.HttpClientServices
         [Fact(DisplayName = "Http Client Provider Test")]
         public void RequestBuilderTest1()
         {
-            var provider = new HttpClientProvider();
+            var Provider = new HttpClientProvider();
 
-            var service1 = new KeyValuePair<string, IHttpService>("1", new HttpService(new HttpClient()));
-            var service2 = new KeyValuePair<string, IHttpService>("2", new HttpService(new HttpClient()));
+            var Service1 = new KeyValuePair<string, IHttpService>("1", new HttpService(new HttpClient()));
+            var Service2 = new KeyValuePair<string, IHttpService>("2", new HttpService(new HttpClient()));
 
-            provider.RegisterHttpClientService(service1.Key, service1.Value);
-            provider.RegisterHttpClientService(service2.Key, service2.Value);
+            Provider.RegisterHttpClientService(Service1.Key, Service1.Value);
+            Provider.RegisterHttpClientService(Service2.Key, Service2.Value);
 
-            Assert.Equal(service1.Value, provider.ResolveHttpClientService("1"));
-            Assert.Equal(service2.Value, provider.ResolveHttpClientService("2"));
+            Assert.Equal(Service1.Value, Provider.ResolveHttpClientService("1"));
+            Assert.Equal(Service2.Value, Provider.ResolveHttpClientService("2"));
 
             //make sure this isn't equal
-            Assert.NotEqual(service2.Value, provider.ResolveHttpClientService("1"));
+            Assert.NotEqual(Service2.Value, Provider.ResolveHttpClientService("1"));
         }
 
         [Fact(DisplayName = "Http Client Service Provider Can't Find Entry")]
