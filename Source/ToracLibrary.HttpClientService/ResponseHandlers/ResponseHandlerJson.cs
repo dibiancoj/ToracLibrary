@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using ToracLibrary.HttpClientService.RequestBuilder;
 using ToracLibrary.Serialization.Json;
