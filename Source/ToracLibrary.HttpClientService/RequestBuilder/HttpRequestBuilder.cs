@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.HttpClientService.HttpServiceClient;
 using ToracLibrary.HttpClientService.ResponseHandlers;
 
@@ -242,7 +243,7 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
         internal HttpRequestMessage ToHttpRequestMessage()
         {
             //any pre - request interceptors
-            if (PreRequestInterceptors != null)
+            if (PreRequestInterceptors.AnyWithNullCheck())
             {
                 foreach (var PreRequestToRun in PreRequestInterceptors)
                 {
@@ -257,7 +258,7 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             RequestToMake.Headers.Accept.Add(AcceptTypeToMediaQuality(AcceptType));
 
             //do we have any headers
-            if (Headers != null)
+            if (Headers.AnyWithNullCheck())
             {
                 //loop through the headers and add them
                 foreach (var HeaderToAdd in Headers)
