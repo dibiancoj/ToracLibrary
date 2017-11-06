@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.HttpClientService;
 using ToracLibrary.HttpClientService.HttpServiceClient;
 using ToracLibrary.HttpClientService.RequestBuilder;
 using Xunit;
