@@ -59,7 +59,12 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             /// <summary>
             /// Plain text response type
             /// </summary>
-            Text = 2
+            Text = 2,
+
+            /// <summary>
+            /// When no response is needed. ie: head
+            /// </summary>
+            EmptyResponse = 3
 
         }
 
@@ -230,6 +235,15 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             return new ResponseHandlerText(this, AcceptTypeEnum.Text);
         }
 
+        /// <summary>
+        /// Expect no response back ie: head call
+        /// </summary>
+        /// <returns>HttpRequestBuilder to build up the fluent api</returns>
+        public ResponseHandlerEmpty AcceptNoResponse()
+        {
+            return new ResponseHandlerEmpty(this);
+        }
+
         #endregion
 
         #endregion
@@ -254,8 +268,13 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             //go create the initial request
             var RequestToMake = new HttpRequestMessage(HttpRequestMethodType, UrlToSendRequestTo);
 
-            //add the accept headers
-            RequestToMake.Headers.Accept.Add(AcceptTypeToMediaQuality(AcceptType));
+            //add the accept headers (could be null if you are calling a head
+            var AcceptTypeToUse = AcceptTypeToMediaQuality(AcceptType);
+
+            if (AcceptTypeToUse != null)
+            {
+                RequestToMake.Headers.Accept.Add(AcceptTypeToUse);
+            }
 
             //do we have any headers
             if (Headers.AnyWithNullCheck())
@@ -335,6 +354,11 @@ namespace ToracLibrary.HttpClientService.RequestBuilder
             if (acceptTypeId == AcceptTypeEnum.Text)
             {
                 return ContentTypeLookup.TextMediaType;
+            }
+
+            if (acceptTypeId == AcceptTypeEnum.EmptyResponse)
+            {
+                return null;
             }
 
             throw new NotImplementedException();

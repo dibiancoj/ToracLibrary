@@ -98,6 +98,26 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             MockHttpService.Verify(x => x.SendAsync(It.IsAny<HttpRequestMessage>()), Times.Once);
         }
 
+        [Fact(DisplayName = "Basic Head Http Request. Contains No Response")]
+        public async Task BasicHeadRequestWithNoBodyResponseTest1()
+        {
+            const string UrlToCall = "HeadCommand";
+            var MockHttpService = new Mock<IHttpService>();
+
+            MockHttpService.Setup(x => x.SendAsync(It.Is<HttpRequestMessage>(y =>
+                            UriMatch(y.RequestUri, UrlToCall))))
+
+                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)));
+
+            var Response = await new HttpRequestBuilder(MockHttpService.Object, UrlToCall, HttpMethod.Head)
+                                    .AcceptNoResponse()
+                                    .SendRequestAsync();
+
+            Assert.True(Response.IsSuccessStatusCode);
+
+            MockHttpService.Verify(x => x.SendAsync(It.IsAny<HttpRequestMessage>()), Times.Once);
+        }
+
         [Fact(DisplayName = "Http Request With PreRequest Interceptors")]
         public async Task JsonRequestWithPreRequestInterceptor()
         {
