@@ -76,6 +76,24 @@ namespace ToracLibrary.UnitTest.HttpClientServices
             MockHttpService.Verify(x => x.SendAsync(It.IsAny<HttpRequestMessage>()), Times.Once);
         }
 
+        [Fact(DisplayName = "Basic Json Http Request Fails")]
+        public async Task BasicHttpJsonRequestFailsTest1()
+        {
+            const string UrlToCall = "PatientSave";
+
+            var MockHttpService = new Mock<IHttpService>();
+
+            MockHttpService.Setup(x => x.SendAsync(It.Is<HttpRequestMessage>(y => UriMatch(y.RequestUri, UrlToCall))))
+                .Returns(Task.FromResult(new HttpResponseMessage(HttpStatusCode.InternalServerError)));
+
+            await Assert.ThrowsAsync<HttpRequestException>(() =>
+            {
+                return new HttpRequestBuilder(MockHttpService.Object, UrlToCall, HttpMethod.Get)
+                                        .AcceptJsonResponse<bool>()
+                                        .SendRequestAsync();
+            });
+        }
+
         [Fact(DisplayName = "Basic Html Http Request")]
         public async Task BasicHttpHtmlRequestTest1()
         {
