@@ -1,0 +1,9 @@
+--to store cookies inbetween requests.
+
+ie:
+1. Call a head and get a session id and log in
+2. Make a post and pass in that cookie id that has your session id
+
+CookieContainerToUse = new CookieContainer();
+HandlerToUse = new HttpClientHandler() { CookieContainer = CookieContainerToUse };
+HttpClientToUse = new HttpClient(HandlerToUse) { BaseAddress = topBraidConfiguration.BaseEvnUri };
