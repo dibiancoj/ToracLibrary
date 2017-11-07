@@ -39,9 +39,9 @@ namespace ToracLibrary.HttpClientService.Provider
         /// <returns>IHttpClientService. Throws error if not found</returns>
         public IHttpService ResolveHttpClientService(string Key)
         {
-            if (RegisteredClients.TryGetValue(Key, out IHttpService tryGetClient))
+            if (RegisteredClients.TryGetValue(Key, out IHttpService TryGetClient))
             {
-                return tryGetClient;
+                return TryGetClient;
             }
 
             throw new ArgumentOutOfRangeException(nameof(Key), "Registered Http Client Not Registered In Provider");

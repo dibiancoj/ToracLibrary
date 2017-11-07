@@ -42,7 +42,6 @@ namespace ToracLibrary.HttpClientService
         /// </summary>
         internal static readonly MediaTypeWithQualityHeaderValue TextMediaType = new MediaTypeWithQualityHeaderValue(TextPlainContentType);
 
-
     }
 
 }
