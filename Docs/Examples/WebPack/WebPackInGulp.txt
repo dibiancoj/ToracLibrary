@@ -1,0 +1,50 @@
+Package.Json
+
+    "gulp": "3.9.1",
+    "webpack-stream": "4.0.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-es2015": "6.24.1"
+	
+	
+	
+	
+webpack.config.js 
+
+"use strict";
+
+module.exports = {
+    entry: {
+        WebPackPage: "./wwwroot/js/Pages/WebPagePageUI.js"
+    },
+    output: {
+        //use this when we run from gulp because gulp outputs with full path. So we just tack on the file name we want and gulp will put it in the directory we want
+        filename: '[name]Bundle.js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader?presets[]=es2015'
+            }
+        ]
+    }
+};
+
+
+Gulp.js
+
+var gulp = require('gulp');
+
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
+const webpackConfig = require('./webpack.config.js');
+
+gulp.task('default', () => {
+});
+
+gulp.task("js", () => {
+     gulp.src("./wwwroot/js/Pages/WebPagePageUI.js")
+        .pipe(webpackStream(webpackConfig), webpack)
+         .pipe(gulp.dest("./wwwroot/js/Distribution"));
+});
