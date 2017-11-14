@@ -246,6 +246,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPack", "WebPack", "{9B06E13C-5336-4E41-BD20-F876EBB517CF}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\WebPack\CompileDownToEs5.txt = Docs\Examples\WebPack\CompileDownToEs5.txt
+		Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt = Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt
 		Docs\Examples\WebPack\WebPackInGulp.txt = Docs\Examples\WebPack\WebPackInGulp.txt
 	EndProjectSection
 EndProject
