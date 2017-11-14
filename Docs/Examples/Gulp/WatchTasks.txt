@@ -7,4 +7,5 @@ or
 gulp.task('default', ....
 
 
-This just start the watch task while developing or in visual studio on start. (only have used the start task. Haven't tested the vs on start - start gulp task)
+1. This just start the watch task while developing  in the task runner explorer
+2. add /// <binding ProjectOpened='default' /> on the top of the gulp file or in the task runner bind to on solution start (the binding creates the /// <bindin... tag at the top of the file). This way when the solution opens it starts the watcher

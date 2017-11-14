@@ -1,0 +1,7 @@
+Create a text file on the directory. Then in program.cs
+
+   public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseEnvironment(File.ReadAllText("Env"))   <-- add this. Read a file in a directory or the parent directory or something like that
+                .Build();

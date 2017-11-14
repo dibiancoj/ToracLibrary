@@ -229,6 +229,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", "{6B3B89CA-FE44-4F2B-96CC-5541865518B4}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\Asp.NetCore\Configuration.txt = Docs\Examples\Asp.NetCore\Configuration.txt
+		Docs\Examples\Asp.NetCore\MutliEnvOnSameServer.txt = Docs\Examples\Asp.NetCore\MutliEnvOnSameServer.txt
 		Docs\Examples\Asp.NetCore\Solution.txt = Docs\Examples\Asp.NetCore\Solution.txt
 	EndProjectSection
 EndProject
