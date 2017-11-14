@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -248,6 +248,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPack", "WebPack", "{9B06
 		Docs\Examples\WebPack\WebPackInGulp.txt = Docs\Examples\WebPack\WebPackInGulp.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gulp", "Gulp", "{524170C6-F0E4-413E-B134-9C434AD672C7}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Gulp\WatchTasks.txt = Docs\Examples\Gulp\WatchTasks.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -416,6 +421,7 @@ Global
 		{4AD2786D-3245-49FA-A268-DB7AA9335A4E} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{7E0C16C9-31D2-4DA0-B5DE-7114EED64DF9} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{9B06E13C-5336-4E41-BD20-F876EBB517CF} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{524170C6-F0E4-413E-B134-9C434AD672C7} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

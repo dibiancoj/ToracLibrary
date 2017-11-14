@@ -1,0 +1,10 @@
+gulp.task('watchTask', function () {
+    gulp.watch("./wwwroot/js/**/*.js", ['js']);
+});
+
+
+or 
+gulp.task('default', ....
+
+
+This just start the watch task while developing or in visual studio on start. (only have used the start task. Haven't tested the vs on start - start gulp task)
