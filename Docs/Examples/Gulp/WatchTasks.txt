@@ -9,3 +9,26 @@ gulp.task('default', ....
 
 1. This just start the watch task while developing  in the task runner explorer
 2. add /// <binding ProjectOpened='default' /> on the top of the gulp file or in the task runner bind to on solution start (the binding creates the /// <bindin... tag at the top of the file). This way when the solution opens it starts the watcher
+
+
+------------------------------------------------------------------------------------------------
+Note: if this runs twice this usually means you are creating something in default that is raising another event in the file change
+ie: 
+Files
+	Distribution
+	Services
+
+So the service file raises a change which goes and creates a distribution which raises again.
+
+I couldn't get the not globbing to work in this scenario so i just wrote every folder to include instead of excluding the distribution folder. Another option would be to move the distribution outside of the js folder 
+
+working example (just watch anything in the following folders [framework, services, pages])
+gulp.task('default', function () {
+    gulp.watch(["./wwwroot/js/framework/**/*.js", "./wwwroot/js/services/**/*.js", "./wwwroot/js/pages/**/*.js"], ['js']);
+});
+
+gulp.task("js", () => {
+     gulp.src("./wwwroot/js/Pages/*.js")
+        .pipe(webpackStream(webpackConfig), webpack)
+         .pipe(gulp.dest("./wwwroot/js/Distribution"));
+});
