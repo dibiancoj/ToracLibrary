@@ -44,7 +44,7 @@ gulp.task('default', () => {
 });
 
 gulp.task("js", () => {
-     gulp.src("./wwwroot/js/Pages/WebPagePageUI.js")
+      gulp.src("./wwwroot/js/Pages/*.js") <-- doesn't matter what it is because it uses the config values to build
         .pipe(webpackStream(webpackConfig), webpack)
          .pipe(gulp.dest("./wwwroot/js/Distribution"));
 });

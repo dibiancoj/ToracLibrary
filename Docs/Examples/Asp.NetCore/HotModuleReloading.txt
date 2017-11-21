@@ -1,0 +1,43 @@
+Add nuget package
+ <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
+ 
+ 
+------------------------
+ On startup.cs --> Configure
+ 
+ app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
+------------------------
+
+In webpack.config.js (add public path property)
+
+"use strict";
+const path = require('path');
+
+const bundleOutputDir = './wwwroot/js/distribution';
+
+
+module.exports = {
+    entry: {
+        vueIndex: "./wwwroot/js/VueIndex.js"
+    },
+    output: {
+        path: path.join(__dirname, bundleOutputDir),
+        filename: '[name].js',
+        publicPath: 'js/distribution/'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: "babel-loader"
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader?presets[]=es2015'
+            }
+        ]
+    }
+};

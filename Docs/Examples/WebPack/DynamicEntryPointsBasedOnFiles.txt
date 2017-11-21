@@ -1,0 +1,28 @@
+"use strict";
+
+var glob = require('glob');
+var path = require('path');
+
+module.exports = {
+
+	//all files in this directory will be entry points. So multiple page app. Will pick up each js file and create a bundle / entry point
+    entry: glob.sync('./wwwroot/js/Pages/**.js')
+        .reduce(function (obj, el) {
+
+            obj[path.parse(el).name] = el;
+
+            return obj;
+        }, {}),
+    output: {
+        //use this when we run from gulp because gulp outputs with full path
+        filename: '[name]Bundle.js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader?presets[]=es2015'
+            }
+        ]
+    }
+};
