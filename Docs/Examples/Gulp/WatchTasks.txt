@@ -1,5 +1,5 @@
 gulp.task('watchTask', function () {
-    gulp.watch("./wwwroot/js/**/*.js", ['js']); <-- array with 'js' is the gulp tasks to run when something changed
+    gulp.watch("wwwroot/js/**/*.js", ['js']); <-- array with 'js' is the gulp tasks to run when something changed
 });
 
 
@@ -18,17 +18,18 @@ Files
 	Distribution
 	Services
 
-So the service file raises a change which goes and creates a distribution which raises again.
+So the service file raises a change which goes and creates a distribution which raises again
 
-I couldn't get the not globbing to work in this scenario so i just wrote every folder to include instead of excluding the distribution folder. Another option would be to move the distribution outside of the js folder 
+1. Move the distribution outside of the folder you are watching.
+2. Use the following - which excludes the distribution folder. ie: ! [not glob pattern]
 
-working example (just watch anything in the following folders [framework, services, pages])
 gulp.task('default', function () {
-    gulp.watch(["./wwwroot/js/framework/**/*.js", "./wwwroot/js/services/**/*.js", "./wwwroot/js/pages/**/*.js"], ['js']);
+    //gulp.watch(["wwwroot/js/framework/**/*.js", "wwwroot/js/services/**/*.js", "wwwroot/js/pages/**/*.js"], ['js']);
+    gulp.watch(["wwwroot/js/**/*.js", "!wwwroot/js/distribution/**/*.js"], ['js']);
 });
 
 gulp.task("js", () => {
-     gulp.src("./wwwroot/js/Pages/*.js")
+     gulp.src("wwwroot/js/Pages/*.js")
         .pipe(webpackStream(webpackConfig), webpack)
-         .pipe(gulp.dest("./wwwroot/js/Distribution"));
+         .pipe(gulp.dest("wwwroot/js/Distribution"));
 });
