@@ -1,0 +1,13 @@
+Add auto antiforgery token on every request (it automatically ignores heads, gets, etc. Only validates on posts, etc.)
+
+ services.AddMvc(options =>
+    {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    });
+
+
+--------------------------------------------------------------
+
+Request Validation replacement on model
+
+[RegularExpression(@"^[a-zA-Z1-9 -.?']*$")] <--DataAnnotations on the inbound model class. Something like this for a regular expression.
