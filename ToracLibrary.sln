@@ -81,6 +81,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IIS", "IIS", "{80C20C8B-3333-4DB3-BA5F-00AF094740E3}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt = Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt
+		Docs\Examples\IIS\LogParser.txt = Docs\Examples\IIS\LogParser.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JqGrid", "JqGrid", "{C7F1AA86-12F6-4218-A35F-87373F77338C}"
