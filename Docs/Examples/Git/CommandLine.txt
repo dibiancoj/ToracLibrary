@@ -15,7 +15,7 @@ Branch name and stuff is case sensitive!
 4. To stage changes
 	"git add <FileNameToAdd>"
 	or 
-	"git add -A" <-- stages all files changes. 
+	"git add -A" <-- stages all files changes. Or "git add ."
 
 5. To go from staging to commited
 	"git commit -m <MessageToGiveTheCommit>" <-- Message to give the commit
@@ -31,6 +31,8 @@ Branch name and stuff is case sensitive!
 	-Use "git commit -a -m  <MessageToGiveTheCommit>" <-- Message to give the commit
 
 You can also open "gitk" which is the simple gui for git. The gui is not the greatest so the command line is better for simple changes.
+
+8. "git log" will show you the commit log
 
 ---------------------------------------------------------------------------------------
 
@@ -65,3 +67,14 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 3. To pull up your changes to your working env. use "git stash pop". Note: This will remove the stash. So if you un-do your changes you won't be able to pull them back. TFS makes you delete the shelve. GIT uses like a stack. Once you pop it, it won't be there.
 4. You can always use "git stash list" to see what is currently stashed.
 Note: Instead of "git stash pop" you can use "git stash apply" which pulls the changes into your workspace but ALSO leaves it stashed away.
+
+
+-------------- Git just using local folders -----------------------------
+1. Create a folder
+2. Command line into that folder. 
+3. "git init" --> which creates a .git folder. You can restore from that folder
+
+If you ever want to restore from JUST the .git folder.
+1. Create a new folder
+2. from the folder that has the ".git" folder....run 'git clone .git "c:\mynewfoldertocloneinto"'
+(you should set the path to the .git folder as well)
