@@ -1,12 +1,11 @@
 ﻿BEGIN TRY
 		BEGIN TRANSACTION
 	
-		--logic to run in a transaction
-		
+		--logic to run in a transaction		
 
 		COMMIT TRANSACTION
-	END TRY
+END TRY
 	
-	BEGIN CATCH
+BEGIN CATCH
 		ROLLBACK TRANSACTION
-	END CATCH  
+END CATCH  
