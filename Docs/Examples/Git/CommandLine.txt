@@ -78,3 +78,5 @@ If you ever want to restore from JUST the .git folder.
 1. Create a new folder
 2. from the folder that has the ".git" folder....run 'git clone .git "c:\mynewfoldertocloneinto"'
 (you should set the path to the .git folder as well)
+
+--------------- Rebase ----------------------
