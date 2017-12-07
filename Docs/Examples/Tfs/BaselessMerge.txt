@@ -1,4 +1,4 @@
-Using the visual studio Dev command prompt:
+Using the Visual Studio Dev command prompt:
 
 Sytnax:
 Tf merge /baseless <<source path>> <<target path>> /recursive 
