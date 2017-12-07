@@ -69,7 +69,7 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 Note: Instead of "git stash pop" you can use "git stash apply" which pulls the changes into your workspace but ALSO leaves it stashed away.
 
 
--------------- Git just using local folders -----------------------------
+----------------------------- Git just using local folders -----------------------------
 1. Create a folder
 2. Command line into that folder. 
 3. "git init" --> which creates a .git folder. You can restore from that folder
