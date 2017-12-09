@@ -31,7 +31,7 @@ Branch name and stuff is case sensitive!
 
 You can also open "gitk" which is the simple gui for git. The gui is not the greatest so the command line is better for simple changes.
 
-8. "git log" will show you the commit log
+8. "git log" will show you the commit log. You can do "git log --all --graph" which shows you all branches in the graph format.
 
 ----------------------------- Cherry Picking (Merging Specific Changes) -----------------------------
 1. Grab the hash of the change you want to merge / push
