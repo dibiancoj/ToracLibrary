@@ -3,6 +3,7 @@
 
 1. "Enable-Migrations" this just gives you the initial folder and the command to turn on migrations
 2. Add-Migration InitialCreate: (this creates the base database structure which is your base line). It really just is the add-migration command with a name called initial create so we know what our base line is
+** if you have an existing database use Add-Migration InitialCreate â€“IgnoreChanges **
 3. Add a property in a table, or remove whatever...then add it to the list of changes by using "add-migration DescriptionToGiveChange"
 
 To update your database to the latest version, run the following:
@@ -47,8 +48,8 @@ Getting a SQL Script - with migrations
 
 If another developer wants these changes on their machine they can just sync once we check our changes into source control. Once they have our new migrations they can just run the Update-Database command to have the changes applied locally. However if we want to push these changes out to a test server, and eventually production, we probably want a SQL script we can hand off to our DBA.
 
-Run the Update-Database command but this time specify the –Script flag so that changes are written to a script rather than applied. We’ll also specify a source and target migration to generate the script for. We want a script to go from an empty database ($InitialDatabase) to the latest version (migration AddPostAbstract).
-If you don’t specify a target migration, Migrations will use the latest migration as the target. If you don't specify a source migrations, Migrations will use the current state of the database.
+Run the Update-Database command but this time specify the â€“Script flag so that changes are written to a script rather than applied. Weâ€™ll also specify a source and target migration to generate the script for. We want a script to go from an empty database ($InitialDatabase) to the latest version (migration AddPostAbstract).
+If you donâ€™t specify a target migration, Migrations will use the latest migration as the target. If you don't specify a source migrations, Migrations will use the current state of the database.
 
 Run the "Update-Database -Script -SourceMigration: $InitialDatabase -TargetMigration: AddPostAbstract" command in Package Manager Console
 
