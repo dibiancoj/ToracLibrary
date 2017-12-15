@@ -1,0 +1,6 @@
+If you are making a web request to local host fiddler won't pick it up.
+
+Instead of using localhost just flip the url you are calling to localhost.fiddler
+
+ie: From: http://localhost:9999/mycall
+    To:   http://localhost.fiddler:9999/mycall
