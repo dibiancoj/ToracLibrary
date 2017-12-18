@@ -1,0 +1,20 @@
+
+
+		public async Task<IActionResult> EditMarkdown(string file, string category)
+        {
+			//start task 1
+            var markdownFile = MarkdownHttpService.MarkDownDetail(file, category);
+			
+			//start task 2
+            var topics = TopicsHttpService.TopicsSelectAll();
+
+			//wait for both of them to be done
+            await Task.WhenAll(markdownFile, topics);
+
+			//since they are both completed, just await to get the result. Better then using .Result
+            return View(new EditMarkdownViewModel
+            {
+                MarkdownFile = await markdownFile,
+                Topics = await topics
+            });
+        }
