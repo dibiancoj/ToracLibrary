@@ -1,0 +1,21 @@
+
+
+From: 
+		System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                (se, cert, chain, sslerror) =>
+                {
+                    return true;
+                };
+				
+To:
+
+	--create the wcf client
+	var clientSvc = new Jason.UnityServiceClient(Jason.UnityServiceClient.EndpointConfiguration.basichttp, "https://vscistlwebapps1/unity/unityservice.svc/Unityservice");
+
+	--set the specific client to ignore the cert
+	clientSvc.ClientCredentials.ServiceCertificate.SslCertificateAuthentication =
+		new X509ServiceCertificateAuthentication()
+			{
+				CertificateValidationMode = X509CertificateValidationMode.None,
+                RevocationMode = X509RevocationMode.NoCheck
+            };
