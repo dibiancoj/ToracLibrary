@@ -389,6 +389,22 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Remove Spaces
+
+        /// <summary>
+        /// Test to make sure the spaces are removed
+        /// </summary>
+        [InlineData("Test123", "Test123")]
+        [InlineData("Test 1 2 3 4 5", "Test12345")]
+        [InlineData("Test 1 2 345", "Test12345")]
+        [Theory]
+        public void RemoveSpaces(string ValueToTest, string ExpectedValue)
+        {
+            Assert.Equal(ExpectedValue, ValueToTest.RemoveSpaces());
+        }
+
+        #endregion
+
     }
 
 }

@@ -532,6 +532,20 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
+        #region Remove Spaces
+
+        /// <summary>
+        /// Remove all spaces for the given string
+        /// </summary>
+        /// <param name="StringToRemoveSpacesFrom">String to remove all spaces from</param>
+        /// <returns>String with reomved spaces</returns>
+        public static string RemoveSpaces(this string StringToRemoveSpacesFrom)
+        {
+            return Regex.Replace(StringToRemoveSpacesFrom, @"\s+", string.Empty);
+        }
+
+        #endregion
+
     }
 
 }
