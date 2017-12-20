@@ -1,6 +1,7 @@
 
 
 From: 
+		--this was a static factory so you don't set it on the instance of the service client
 		System.Net.ServicePointManager.ServerCertificateValidationCallback +=
                 (se, cert, chain, sslerror) =>
                 {
