@@ -98,14 +98,13 @@ namespace ToracLibrary.Serialization.Json
         public static T DeserializeFromStream<T>(Stream StreamToReadFrom)
         {
             //this is great if you make a web request and you get a stream back.
-
             using (StreamReader StreamReaderToUse = new StreamReader(StreamToReadFrom))
             {
                 using (JsonReader JsonReaderToUse = new JsonTextReader(StreamReaderToUse))
                 {
                     //create the json.net engine
                     var SerializerEngine = new JsonSerializer();
-
+                    
                     //read the json from a stream - json size doesn't matter because only a small piece is read at a time from the HTTP request
                     return SerializerEngine.Deserialize<T>(JsonReaderToUse);
                 }
@@ -165,7 +164,7 @@ namespace ToracLibrary.Serialization.Json
             if (ResultOfParse == null)
             {
                 //can't find node. Returning default T
-                return default(T);
+                return default;
             }
 
             //otherwise try to convert it

@@ -61,7 +61,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IDictionaryExtensions
             }
 
             //we never found it...just return null
-            return default(TValue);
+            return default;
         }
 
         /// <summary>

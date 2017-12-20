@@ -199,10 +199,10 @@ namespace ToracLibrary.UnitTest.Serialization
         public void JsonQueryPathGenericTestCantFindPropertyTest2()
         {
             //test the base id
-            Assert.Equal(default(int), JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
+            Assert.Equal(default, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), "PropertyNameDoesntExist"));
 
             //go test the child id now
-            Assert.Equal(default(int), JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), "PropertyNameDoesntExist"));
+            Assert.Equal(default, JsonNetSerializer.JsonValueFromPath<int>(JObject.Parse(SerializedJsonString), nameof(TestJsonPath.Child), "PropertyNameDoesntExist"));
         }
 
         /// <summary>
