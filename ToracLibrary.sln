@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -269,6 +269,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks-Threading", "Tasks-Th
 		Docs\Examples\Tasks-Threading\AwaitMultipleTasks.txt = Docs\Examples\Tasks-Threading\AwaitMultipleTasks.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JSON", "JSON", "{51324BBD-53A9-4122-8FDD-F2C0FEF98F37}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\JSON\HttpPostWithJsonData.txt = Docs\Examples\JSON\HttpPostWithJsonData.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -440,6 +445,7 @@ Global
 		{524170C6-F0E4-413E-B134-9C434AD672C7} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{F38DF9D9-EE31-4D25-BF05-6089DE3C2667} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{E185A4C2-7C2E-4EDB-85FD-2F4237E7EF7B} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{51324BBD-53A9-4122-8FDD-F2C0FEF98F37} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

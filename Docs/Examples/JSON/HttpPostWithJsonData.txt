@@ -1,0 +1,24 @@
+
+ return View(new IConnectViewModel
+            {
+                SerializedPostData = JsonConvert.SerializeObject(model),
+                //grab this from web.config in portal
+                IConnectPostUrlFromConfig = "https://www.PostTo/Post"
+            });
+
+
+<form enctype='text/plain' action="@Model.IConnectPostUrlFromConfig" method="post">
+    @*<input type="hidden" name='{"email":"test@test.com","clientid":"1234","patientid":"12345"}'  />*@
+    <input type="hidden" name='@Model.SerializedPostData'  />
+	
+    <input type="submit" />
+</form>
+
+
+@section scripts{
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $('#thisForm').submit();
+            });
+        </script>*@
+}
