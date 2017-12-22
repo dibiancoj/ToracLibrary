@@ -108,6 +108,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml Columns", "Xml Columns"
 		Docs\Examples\Sql\Xml Column\Insert.sql = Docs\Examples\Sql\Xml Column\Insert.sql
 		Docs\Examples\Sql\Xml Column\InsertNode.sql = Docs\Examples\Sql\Xml Column\InsertNode.sql
 		Docs\Examples\Sql\Xml Column\QueryXMLColumnDataType.sql = Docs\Examples\Sql\Xml Column\QueryXMLColumnDataType.sql
+		Docs\Examples\Sql\Xml Column\ReturnXmlNodeInSelect.sql = Docs\Examples\Sql\Xml Column\ReturnXmlNodeInSelect.sql
 		Docs\Examples\Sql\Xml Column\Select.sql = Docs\Examples\Sql\Xml Column\Select.sql
 		Docs\Examples\Sql\Xml Column\Update.sql = Docs\Examples\Sql\Xml Column\Update.sql
 		Docs\Examples\Sql\Xml Column\UpdateXmlAttributeColumn.sql = Docs\Examples\Sql\Xml Column\UpdateXmlAttributeColumn.sql
