@@ -154,10 +154,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         #region Any With Null Check Tests
 
         /// <summary>
-        /// Unit test the Coalesce
+        /// Unit test the Coalesce for a class
         /// </summary>
         [Fact]
-        public void CoalesceTest1()
+        public void CoalesceWithClassTest1()
         {
             DateTime? Date1 = null;
             DateTime? Date2 = new DateTime(2017, 1, 1);
@@ -171,6 +171,26 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
             //all items are null...this should return null
             Assert.Null(new DateTime?[] { Date1, Date1, null }.Coalesce());
+        }
+
+        /// <summary>
+        /// Unit test the Coalesce for a struct
+        /// </summary>
+        [Fact]
+        public void CoalesceWithStructTest1()
+        {
+            DateTime Date1 = new DateTime(2017, 1, 1);
+            DateTime Date2 = DateTime.MinValue;
+            DateTime Date3 = new DateTime(2017, 12, 1);
+
+            //date 2 is the first non default date
+            Assert.Equal(Date1, new DateTime[] { Date1, Date2, Date3 }.Coalesce());
+
+            //switch the order and make sure 2 is the returned value
+            Assert.Equal(Date3, new DateTime[] { Date2, Date3, Date1 }.Coalesce());
+
+            //all items are null...this should return null
+            Assert.Equal(DateTime.MinValue, new DateTime[] { Date2, Date2, DateTime.MinValue }.Coalesce());
         }
 
         #endregion
