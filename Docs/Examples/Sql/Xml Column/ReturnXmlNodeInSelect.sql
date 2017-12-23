@@ -1,4 +1,6 @@
 
+--key note is the x.query in the select. The ".query" will return an xml fragement 
+
 select x.query('COHORT/row/COHORT_INCLUSION_EVENTS/row/ADDITIONAL_DETAILS/row[NAME="status"]/VALUE')
 from CohortData as c
 CROSS APPLY C.Data.nodes('//row') AS xDoc(x)
