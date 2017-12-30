@@ -1,0 +1,53 @@
+
+
+In webpack.config.js
+
+"use strict";
+
+*** import webpack because we need it below where we create the plug in new webpack.optimize.CommonsChunkPlugin ***
+var webpack = require('webpack');
+
+var _wwwRoot = '/wwwroot/js/distribution'
+
+module.exports = {
+
+    entry: {
+
+		//add my vendor information here (this should match the name that we set below in new webpack.optimize.CommonsChunkPlugin options)
+        Vendor: ["./app/GlobalErrorHandling.js"],
+        Vendor2: ["./app/HttpClientHandler.js"],
+
+		//regular entry points
+        PortalRhio: "./app/Rhio.js"
+    }
+
+    output: {
+        path: __dirname + _wwwRoot,
+        filename: '[name].js'
+    },
+
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: "babel-loader"
+            }
+        ]
+    },
+
+	*** here we create the common plug in we need ***
+    plugins: [
+
+        new webpack.optimize.CommonsChunkPlugin({
+
+            //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
+            name: ["Vendor", "Vendor2"],
+
+            //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
+			//(with more entries, this ensures that no other module
+            //goes into the vendor chunk)
+            minChunks: Infinity
+        }),
+
+    ]
+};
