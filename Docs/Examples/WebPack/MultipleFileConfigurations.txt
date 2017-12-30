@@ -1,0 +1,47 @@
+
+Essentially just use module.exports then require [to import]
+
+
+------------------------------------
+
+In: webpack.entrypoint.config.js (this is the seperate file we want to store our entry points)
+
+//add to the exports module (ie: export it)
+module.exports = function entryPoints() {
+    return {
+        PortalRhio: "./app/Rhio.js"
+    }
+}
+
+-----------------------------
+
+
+In: webpack.config.js (main config file)
+
+"use strict";
+
+var _wwwRoot = '/wwwroot/js/distribution'
+
+*** Import our entry points data ***
+const entryPoints = require('./webpack.entrypoint.config');
+
+module.exports = {
+
+	*** just call the method to add the data ***
+    entry: entryPoints(),
+
+    output: {
+        path: __dirname + _wwwRoot,
+        filename: '[name].js'
+    },
+
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: "babel-loader"
+            }
+        ]
+    }
+};
+
