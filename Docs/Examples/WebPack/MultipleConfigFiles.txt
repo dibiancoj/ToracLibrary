@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------------------------------------------------------------
-**** Have multiple configs. ie: vendor and app. This way you only need to run vendor whenever you make vendor changes			 ****
+**** Have multiple configs. ie: dev vs production (if you need it bc config is completely different                              ****
 -------------------------------------------------------------------------------------------------------------------------------------
 
-Really just create another file ie: webpack.vendor.config.js
+Really just create another file ie: webpack.prod.config.js
 
-Put the sam exact settings for web pack...change whatever you need.
+Put the same exact settings for web pack...change whatever you need.
 
-Then to run "webpack --config webpack.vendor.config.js".
+Then to run "webpack --config webpack.prod.config.js".
