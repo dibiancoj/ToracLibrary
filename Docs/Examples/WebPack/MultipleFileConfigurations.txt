@@ -1,3 +1,6 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+**** store your entry points in another js file. This way you don't have a gigantic config file if you have alot of entry points ****
+-------------------------------------------------------------------------------------------------------------------------------------
 
 Essentially just use module.exports then require [to import]
 
