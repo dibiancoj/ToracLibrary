@@ -9,4 +9,4 @@ Put the same exact settings for web pack...change whatever you need.
 Then to run "webpack --config webpack.config.prod.js".
 
 
-Note: you can also do this with a vendor configuration. So the vendor stuff will be in the vendor. If you don't have alot of stuff try to do it in 1 file. Just cleaner and you don't have to remember to update vendor if you make a change
+Note: if you want a vendor split so less used library code doesnt have to run on every compile then use the dllplugin.
