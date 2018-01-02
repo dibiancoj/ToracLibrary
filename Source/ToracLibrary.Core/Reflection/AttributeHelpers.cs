@@ -77,20 +77,8 @@ namespace ToracLibrary.Core.ReflectionDynamic
             //this gets unit tested in Enums_UnitTest GetDescription_Test1 & GetDescription_Test2
 
             //cast type of T
-            Type TType = typeof(T);
-
             //try to grab the custom attribute
-            Attribute ResultOfSearchInProperty = MemberInfoToGetAttributeOffOf.GetCustomAttribute(TType);
-
-            //if we didn't find it just go return null
-            if (ResultOfSearchInProperty == null)
-            {
-                //never found it
-                return null;
-            }
-
-            //we found the custom attribute, cast it and return it
-            return (T)Convert.ChangeType(ResultOfSearchInProperty, TType);
+            return MemberInfoToGetAttributeOffOf.GetCustomAttribute<T>();
         }
 
         #endregion
