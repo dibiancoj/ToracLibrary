@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+**** Have multiple configs. ie: dev vs production (if you need it bc config is completely different                              ****
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Really just create another file ie: webpack.config.prod.js
+
+Put the same exact settings for web pack...change whatever you need.
+
+Then to run "webpack --config webpack.config.prod.js".
+
+
+Note: if you want a vendor split so less used library code doesnt have to run on every compile then use the dllplugin.

@@ -1,0 +1,50 @@
+-------------------------------------------------------------------------------------------------------------------------------------
+**** store your entry points in another js file. This way you don't have a gigantic config file if you have alot of entry points ****
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Essentially just use module.exports then require [to import]
+
+
+------------------------------------
+
+In: webpack.config.entrypointconfiguration.js (this is the seperate file we want to store our entry points)
+
+//add to the exports module (ie: export it)
+module.exports = function entryPoints() {
+    return {
+        PortalRhio: "./app/Rhio.js"
+    }
+}
+
+-----------------------------
+
+
+In: webpack.config.js (main config file)
+
+"use strict";
+
+var _wwwRoot = '/wwwroot/js/distribution'
+
+*** Import our entry points data ***
+const entryPoints = require('./webpack.config.entrypointconfiguration');
+
+module.exports = {
+
+	*** just call the method to add the data ***
+    entry: entryPoints(),
+
+    output: {
+        path: __dirname + _wwwRoot,
+        filename: '[name].js'
+    },
+
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: "babel-loader"
+            }
+        ]
+    }
+};
+

@@ -97,16 +97,16 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         #region Coalesce
 
         /// <summary>
-        /// Finds the first item that is not null. Returns null if all items are null
+        /// Finds the first item that is not the default value.
         /// </summary>
         /// <typeparam name="T">Type Of The IEnumerable</typeparam>
         /// <param name="Collection">Collection To Check Against</param>
-        /// <returns>first item that is not null. Returns null if all items are null</returns>
+        /// <returns>first item that is not the default value. If no items are returned then the default value of T will be returned.</returns>
         public static T Coalesce<T>(this IEnumerable<T> Collection)
         {
-            //if you don't have a list you would just do item1 ?? item2 ?? item3 ?? item4...i
-            //for ienumerable we will build this so it saves you some typing
-            return Collection.FirstOrDefault(x => x != null);
+            //if you don't have a list you would just do item1 ?? item2 ?? item3 ?? item4...
+            //using the Equals so we can handle structs instead of just checking for nulls
+            return Collection.FirstOrDefault(x => !Equals(x, default(T)));
         }
 
         #endregion

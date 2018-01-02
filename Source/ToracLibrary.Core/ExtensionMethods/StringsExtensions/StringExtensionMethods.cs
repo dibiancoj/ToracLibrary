@@ -109,24 +109,24 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             //we have the number formatted exactly with everything, return it
 
             //we need the string builder...so create the object (init the capacity in the sb to reduce memory a tad)
-            var FormattedPhoneNumber = new StringBuilder(14);
+            return new StringBuilder(14)
 
-            //set the area code
-            FormattedPhoneNumber.Append("(");
-            FormattedPhoneNumber.Append(PhoneNumber.Substring(0, 3));
-            FormattedPhoneNumber.Append(") ");
+                    //set the area code
+                    .Append("(")
+                    .Append(PhoneNumber.Substring(0, 3))
+                    .Append(") ")
 
-            //now lets set the first 3 digits of the regular #
-            FormattedPhoneNumber.Append(PhoneNumber.Substring(3, 3));
+                    //now lets set the first 3 digits of the regular #
+                    .Append(PhoneNumber.Substring(3, 3))
 
-            //add the dash
-            FormattedPhoneNumber.Append("-");
+                    //add the dash
+                    .Append("-")
 
-            //add the last 4
-            FormattedPhoneNumber.Append(PhoneNumber.Substring(6, 4));
+                    //add the last 4
+                    .Append(PhoneNumber.Substring(6, 4))
 
-            //return the formatted string
-            return FormattedPhoneNumber.ToString();
+                    //return the formatted string
+                    .ToString();
         }
 
         #endregion
@@ -161,19 +161,19 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             }
 
             //we have 9 characters, create the instance of the string builder becauase we need it (init the capacity to reduce memory just a tag)
-            var FormattedZipCode = new StringBuilder(10);
+            return new StringBuilder(10)
 
-            //Add the first 5 characters
-            FormattedZipCode.Append(ZipCode.Substring(0, 5));
+                //Add the first 5 characters
+                .Append(ZipCode.Substring(0, 5))
 
-            //add the dash
-            FormattedZipCode.Append("-");
+                //add the dash
+                .Append("-")
 
-            //return the last 4 digits
-            FormattedZipCode.Append(ZipCode.Substring(5, 4));
+                //return the last 4 digits
+                .Append(ZipCode.Substring(5, 4))
 
-            //return the formatted zip code
-            return FormattedZipCode.ToString();
+                //return the formatted zip code
+                .ToString();
         }
 
         #endregion
@@ -458,19 +458,19 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         public static string SurroundWith(this string StringToQuote, string StringToAddAtBegAndEnd)
         {
             //string builder to build it up
-            var Sb = new StringBuilder();
+            return new StringBuilder()
 
-            //first string value
-            Sb.Append(StringToAddAtBegAndEnd);
+                //first string value
+                .Append(StringToAddAtBegAndEnd)
 
-            //actual string value to surround with now
-            Sb.Append(StringToQuote);
+                //actual string value to surround with now
+                .Append(StringToQuote)
 
-            //end string value
-            Sb.Append(StringToAddAtBegAndEnd);
+                //end string value
+                .Append(StringToAddAtBegAndEnd)
 
-            //return the string
-            return Sb.ToString();
+                //return the string
+                .ToString();
         }
 
         #endregion
