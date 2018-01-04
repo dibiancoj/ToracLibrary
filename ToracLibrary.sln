@@ -278,6 +278,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JSON", "JSON", "{51324BBD-5
 		Docs\Examples\JSON\HttpPostWithJsonData.txt = Docs\Examples\JSON\HttpPostWithJsonData.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Javascript", "Javascript", "{FC5055AE-E75B-4DFE-9CD9-D9A902C9201C}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Javascript\Es6Modules.txt = Docs\Examples\Javascript\Es6Modules.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -450,6 +455,7 @@ Global
 		{F38DF9D9-EE31-4D25-BF05-6089DE3C2667} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{E185A4C2-7C2E-4EDB-85FD-2F4237E7EF7B} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{51324BBD-53A9-4122-8FDD-F2C0FEF98F37} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{FC5055AE-E75B-4DFE-9CD9-D9A902C9201C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

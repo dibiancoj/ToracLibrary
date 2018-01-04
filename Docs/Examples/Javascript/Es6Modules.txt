@@ -1,0 +1,30 @@
+// ****** singleton example ******
+
+class HttpClient{
+   GetData(){
+   .....
+   }
+}
+
+export const HttpClientService = new HttpClient();
+
+...then import (notice { } for non default modules)
+import { HttpClientService } from '../Framework/HttpClient';
+
+//to use it you already have an instance because we created an instance on the export
+HttpClientService.GetData()
+
+------------------------------------------------------
+
+// ****** default example ******
+
+export default class {
+
+}
+
+then import...(notice the no { } for default exports)
+
+import HttpClient from './Framework/HttpClient';
+
+//to use it you need to create an instance
+this.HttpClient = new HttpClient();
