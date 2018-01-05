@@ -1,3 +1,5 @@
+//grab "glob" from npm "npm i glob" or 'glob": "7.1.2"'
+
 "use strict";
 
 var glob = require('glob');

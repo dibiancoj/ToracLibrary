@@ -95,7 +95,7 @@ namespace ToracLibrary.Core.EnumUtilities
             //Equals = 1
 
             //grab the custom attributes now 
-            return EnumFieldValueGet(EnumValueToRetrieve).GetCustomAttribute(typeof(T)) as T;
+            return EnumFieldValueGet(EnumValueToRetrieve).GetCustomAttribute<T>();
         }
 
         /// <summary>

@@ -1,0 +1,10 @@
+--this is smart enough not to delete stuff that should be there. so you can run it normally without another config. Performance should be fine if you have a watcher
+
+npm install clean-webpack-plugin --save-dev
+
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+
+	   plugins: [
+        new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/js/Build/**.js')]),
+    ],
