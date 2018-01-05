@@ -9,3 +9,10 @@
   <Target Name="MyPostCompileTarget" BeforeTargets="Publish">
     <Exec Command="./node_modules/.bin/webpack -p" />
   </Target>
+
+
+
+  --to publish brining your own framework (google RuntimeIdentifiers for the complete list of tags)
+ <PropertyGroup>
+  <RuntimeIdentifiers>win7-x64;win81-x64</RuntimeIdentifiers>
+</PropertyGroup>
