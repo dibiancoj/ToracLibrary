@@ -5,3 +5,5 @@ Create a text file on the directory. Then in program.cs
                 .UseStartup<Startup>()
                 .UseEnvironment(File.ReadAllText("Env"))   <-- add this. Read a file in a directory or the parent directory or something like that
                 .Build();
+                
+                //to put it in the parent direction...use Directory.GetCurrentDirectory()..then grab the parent directory and read a file there.
