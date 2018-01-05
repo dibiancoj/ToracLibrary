@@ -11,3 +11,26 @@ Add auto antiforgery token on every request (it automatically ignores heads, get
 Request Validation replacement on model
 
 [RegularExpression(@"^[a-zA-Z1-9 -.?']*$")] <--DataAnnotations on the inbound model class. Something like this for a regular expression.
+
+
+
+--------------------------------------------------------------
+
+windows auth for specific users
+
+//add some type of authentication
+services.AddAuthentication(Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme);
+
+//add an authorize filter for the specific users
+  services.AddMvc(config =>
+            {
+              var validUsers = new HashSet<string>(configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users, StringComparer.OrdinalIgnoreCase);
+
+            var policy = new AuthorizationPolicyBuilder().RequireAssertion(x => validUsers.Contains(x.User.Identity.Name)).Build();
+
+            options.Filters.Add(new AuthorizeFilter(policy));
+
+
+//then on controller
+[Authorize]
+HomeController
