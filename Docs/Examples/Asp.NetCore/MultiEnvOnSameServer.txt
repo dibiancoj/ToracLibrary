@@ -1,7 +1,22 @@
-Create a text file on the directory. Then in program.cs
+Parent Directory with text file "Environment.txt".
+   Then src which contains the actual web site code. IIS is pointed to this directory
 
-   public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+
+
+    public static void Main(string[] args)
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+            var environment = File.ReadAllText(Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.FullName, "Environment.txt")).Trim();
+
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(currentDirectory)
+
+                .UseEnvironment(environment)
+                .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseEnvironment(File.ReadAllText("Env"))   <-- add this. Read a file in a directory or the parent directory or something like that
                 .Build();
+
+            host.Run();
+        }
