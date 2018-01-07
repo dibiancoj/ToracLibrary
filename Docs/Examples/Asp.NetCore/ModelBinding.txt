@@ -1,0 +1,44 @@
+**** bind a primitive type with json ajax post ****
+
+public IActionResult MyControllerMethod([FromBody] int cohortId)
+{
+}
+
+var dataParameters = 24;
+
+ return $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(dataParameters),
+            contentType: "application/json",
+            dataType: 'json'
+        });
+
+----------------------------------------------
+
+**** bind class with json ajax post ****
+
+//json data will be in the body. Make sure you have [FromBody] which is needed in asp.net core
+public IActionResult MyControllerMethod([FromBody] MyClass requestParameters)
+{
+}
+
+var dataParameters = { id: 5, txt: 'test'};
+
+ return $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(dataParameters),
+            contentType: "application/json",
+            dataType: 'json'
+        });
+
+
+----------------------------------------------
+
+**** to bind a regular post ****
+
+//just have a regular class parameter
+Just have public IActionResult CreateRecord(MyClass model)
+{
+}
