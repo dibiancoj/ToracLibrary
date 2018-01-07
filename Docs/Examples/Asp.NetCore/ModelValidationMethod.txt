@@ -1,0 +1,30 @@
+for advanced validation method
+
+(inherit from IValidatableObject...then implement validate)
+
+ public class MyViewModel : IValidatableObject
+    {
+
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
+        public string LastName { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var context = validationContext.GetService<DMSKTEFORMSContext>();
+
+            if (context.PatientInfo.AsNoTracking().Any(x => x.Mrn == MRN))
+            {
+                yield return new ValidationResult("MRN Already Exists In PatientInfo Table");
+            }
+
+            if (context.PatientInfo.AsNoTracking().Any(x => x.PatientExternalId == PatId))
+            {
+                yield return new ValidationResult("Pat Id Already Exists In PatientInfo Table");
+            }
+
+            yield return ValidationResult.Success;
+        }
+    }
