@@ -1,5 +1,5 @@
 
-
+--make sure you the startup project  is the dll or project where you have the migrations.
 
 1. "Enable-Migrations" this just gives you the initial folder and the command to turn on migrations
 2. Add-Migration InitialCreate: (this creates the base database structure which is your base line). It really just is the add-migration command with a name called initial create so we know what our base line is
