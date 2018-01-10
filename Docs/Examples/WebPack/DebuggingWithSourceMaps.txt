@@ -1,0 +1,40 @@
+--you can just put a break point in vs and have it hit the debugger when source maps are generated.
+
+--this is a very basic example. I haven't really worked through to the optimal setting.
+
+see https://webpack.js.org/configuration/devtool/ for detail information on what to use if we start to use it
+
+--basically you just set  devtool: "source-map",...or instead of "source-map" which ever method you want. 
+--instead of using this built in one you can use the ugilify plugin.
+--again, basic example read on up this.
+
+module.exports = {
+    entry: glob.sync('./app/EntryPoints/**.js')
+        .reduce(function (obj, el) {
+
+            obj[path.parse(el).name] = el;
+
+            return obj;
+        }, {}),
+   
+    output: {
+        publicPath: "/js/",
+        path: path.join(__dirname, '/wwwroot/js/Build'),
+        filename: '[name].build.js', // filename: '[name].build.js'
+        //libraryTarget: 'var',
+        //library: 'CreatorLibrary'
+    },
+    devtool: "source-map",
+    plugins: [
+        new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/js/Build/**.js')]),
+    ],
+    module: {
+        loaders: [
+            //compile down from es 2016 to 2015 so IE will work
+            {
+                test: /\.js$/,
+                loader: 'babel-loader?presets[]=es2015'
+            }
+        ]
+    }
+};
