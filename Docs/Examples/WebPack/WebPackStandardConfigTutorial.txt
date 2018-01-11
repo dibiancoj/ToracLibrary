@@ -15,7 +15,8 @@
 //"webpack -p --env.production" --> for production build (you are basically setting the env variable below)
 
 //*** note this example uses env.production vs setting the node env variable.
-//to use the alternative "SET NODE_ENV=production&& webpack -p"...then in config below use process.env.NODE_ENV. I think using the web pack variables is better for now
+//to use the alternative "SET NODE_ENV=production&& webpack -p"...then in config below use console.log('Node Env = ', process.env.NODE_ENV);. I think using the web pack variables is better for now
+//i like to use p because it minifies my code without pulling in more plugins
 
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
