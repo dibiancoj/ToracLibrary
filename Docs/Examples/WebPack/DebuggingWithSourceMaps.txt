@@ -6,7 +6,7 @@ see https://webpack.js.org/configuration/devtool/ for detail information on what
 
 --basically you just set  devtool: "source-map",...or instead of "source-map" which ever method you want. 
 --instead of using this built in one you can use the ugilify plugin.
---again, basic example read on up this.
+--again, basic example read on up this. It appears though the angular template uses this setting as well 'source-map'
 
 module.exports = {
     entry: glob.sync('./app/EntryPoints/**.js')
