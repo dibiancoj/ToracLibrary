@@ -14,7 +14,7 @@ module.exports = {
     entry: {
 
 		//add my vendor information here (this should match the name that we set below in new webpack.optimize.CommonsChunkPlugin options)
-        Vendor: ["./app/GlobalErrorHandling.js"],
+        Vendor: ["./app/GlobalErrorHandling.js", "./app/SomeOtherFileAsWell"],
         Vendor2: ["./app/HttpClientHandler.js"],
 
 		//regular entry points
