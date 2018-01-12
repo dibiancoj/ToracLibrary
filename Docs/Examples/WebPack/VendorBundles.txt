@@ -15,7 +15,8 @@ package.json
     "jquery": "2.2.0",
     "bootstrap": "3.3.7"
   }
-  
+------------------------------------------------------------------------------  
+  Note: you can use the DllPlugin to put the vendor in a seperate config. This will reduce intial run time. You would only run the vendor bundle on demand when you need it.
 ------------------------------------------------------------------------------
 
 *** import webpack because we need it below where we create the plug in new webpack.optimize.CommonsChunkPlugin ***
