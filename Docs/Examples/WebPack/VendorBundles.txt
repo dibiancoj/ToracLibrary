@@ -4,6 +4,20 @@ In webpack.config.js
 
 "use strict";
 
+package.json
+  "devDependencies": {
+    "webpack": "3.10.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-es2015": "6.24.1",
+    "clean-webpack-plugin": "0.1.17",
+    "path": "0.12.7",
+    "jquery": "2.2.0",
+    "bootstrap": "3.3.7"
+  }
+  
+------------------------------------------------------------------------------
+
 *** import webpack because we need it below where we create the plug in new webpack.optimize.CommonsChunkPlugin ***
 var webpack = require('webpack');
 
@@ -14,7 +28,8 @@ module.exports = {
     entry: {
 
 		//add my vendor information here (this should match the name that we set below in new webpack.optimize.CommonsChunkPlugin options)
-        Vendor: ["./app/GlobalErrorHandling.js", "./app/SomeOtherFileAsWell"],
+	VendorFramework: ['jquery', 'bootstrap'],
+        Vendor: ["./app/GlobalErrorHandling.js"],
         Vendor2: ["./app/HttpClientHandler.js"],
 
 		//regular entry points
@@ -41,13 +56,21 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
 
             //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
-            name: ["Vendor", "Vendor2"],
+            name: ["Vendor", "Vendor2", "VendorFramework"],
 
             //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
 			//(with more entries, this ensures that no other module
             //goes into the vendor chunk)
             minChunks: Infinity
         }),
+	
+	  //provide plugin puts jquery on the global namespace
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jquery: "jquery",
+                "window.jQuery": "jquery",
+                jQuery: "jquery"
+            })
 
     ]
 };
