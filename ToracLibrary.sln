@@ -56,6 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{20BD18E2-78E
 		Docs\Examples\Sql\RebuildAllIndexesInTableScript.sql = Docs\Examples\Sql\RebuildAllIndexesInTableScript.sql
 		Docs\Examples\Sql\RecursiveQueryWithCTE.sql = Docs\Examples\Sql\RecursiveQueryWithCTE.sql
 		Docs\Examples\Sql\RemoveAllForeignsInDb.sql = Docs\Examples\Sql\RemoveAllForeignsInDb.sql
+		Docs\Examples\Sql\SelectInto.sql = Docs\Examples\Sql\SelectInto.sql
 		Docs\Examples\Sql\Transaction.sql = Docs\Examples\Sql\Transaction.sql
 		Docs\Examples\Sql\UpdateWithAJoin.sql = Docs\Examples\Sql\UpdateWithAJoin.sql
 	EndProjectSection
