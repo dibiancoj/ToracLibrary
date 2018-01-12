@@ -256,6 +256,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPack", "WebPack", "{9B06
 		Docs\Examples\WebPack\CleanupDistributionFolder.txt = Docs\Examples\WebPack\CleanupDistributionFolder.txt
 		Docs\Examples\WebPack\CompileDownToEs5.txt = Docs\Examples\WebPack\CompileDownToEs5.txt
 		Docs\Examples\WebPack\DebuggingWithSourceMaps.txt = Docs\Examples\WebPack\DebuggingWithSourceMaps.txt
+		Docs\Examples\WebPack\DllPlugin_VendorInAnotherConfig.txt = Docs\Examples\WebPack\DllPlugin_VendorInAnotherConfig.txt
 		Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt = Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt
 		Docs\Examples\WebPack\MultipleConfigFiles.txt = Docs\Examples\WebPack\MultipleConfigFiles.txt
 		Docs\Examples\WebPack\MultipleFileConfigurations.txt = Docs\Examples\WebPack\MultipleFileConfigurations.txt

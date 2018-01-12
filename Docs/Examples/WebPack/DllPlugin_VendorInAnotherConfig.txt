@@ -1,0 +1,114 @@
+ *** this is used mainly so you can put vendor in another file and the you just load it whenever you change those libraries. It keeps your main webpack with your app stuff fast ***
+ 
+ *******************************************
+ Step 1: In webpack.config.js (look at the DllReferencePlugin at the bottom)
+ *******************************************
+
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
+
+module.exports = env => {
+ 
+    const isProduction = env && env.production ? true : false;
+    console.log('Production: ', isProduction);
+
+    return {
+
+        entry: {
+            Entry1: './App/MyEntryPoint1.js',
+            Entry2: './App/MyEntryPoint2.js',
+        },
+
+        output: {
+            filename: './wwwroot/Build/[name].Bundle.js'
+        },
+
+        devtool: isProduction ? 'none' : 'source-map',
+
+        module: {
+            loaders: [
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader?presets[]=es2015'
+                }
+            ]
+        },
+
+        plugins:
+        [
+          //this just cleans up the output folder so we don't have left over items that shouldn't be there.
+          new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/Build/*.*')]), //removes all files in this directory. Or you can do '/wwwroot/Build/**.js' if you want to delete just the js files
+
+          new webpack.DllReferencePlugin({
+                context: '.',
+                manifest: require('./wwwroot/Build/Framework/vendor-manifest.json'),
+            })
+        ]
+    };
+};
+
+ *******************************************
+ Step 2: In webpack.vendor.config.js
+ *******************************************
+
+const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
+
+module.exports = {
+    entry: {
+        Vendor: ['jquery', 'bootstrap'],
+    },
+    output: {
+        filename: './wwwroot/Build/Framework/vendor.bundle.js',
+        library: 'vendor_lib',
+    },
+    plugins: [
+        //this just cleans up the output folder so we don't have left over items that shouldn't be there.
+        new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/Build/Framework/*.*')]), //removes all files in this directory. Or you can do '/wwwroot/Build/**.js' if you want to delete just the js files
+
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jquery: "jquery",
+            "window.jQuery": "jquery",
+            jQuery: "jquery"
+        }),
+        new webpack.DllPlugin({
+            name: 'vendor_lib',
+            path: './wwwroot/Build/Framework/vendor-manifest.json',
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+
+            //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
+            name: ["Vendor"],
+
+            //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
+            //(with more entries, this ensures that no other module
+            //goes into the vendor chunk)
+            minChunks: Infinity
+        }),
+    ]
+};
+
+ *******************************************
+ Step 3: In your entry point file
+ *******************************************
+
+ //go import jquery so we can use it
+ import $ from 'jquery';
+
+$(document).ready(function () {
+    alert('entry point 3');
+});
+
+ *******************************************
+ Step 4: To build your vendor ** this produces the manifest file **
+ *******************************************
+ webpack --config webpack.vendor.config.js
+ 
+ *******************************************
+ Step 5: To build your regular file
+ *******************************************
+ webpack --config webpack.config.js
+
