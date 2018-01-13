@@ -1,31 +1,42 @@
 
+*** Web Pack Settings Or Auto Generate Files (gulp, etc.) ***
 ** note since web pack will regen your dist files the publish may get stuck with "can't find xyz file" because it was rebuilt
-just make sure the csproj ingnores this folder.. **
+
+just make sure the csproj ingnores this folder... Then we include those files on "PrepareForPublish **
 <ItemGroup>
     <Content Remove="wwwroot\Distribution\**\*" />
 </ItemGroup>
 
+  --for publishing use -p to minify
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="bower install" />
+    <Exec Command="./node_modules/.bin/webpack -p --env.production" />
+    <!--<Exec Command="dotnet bundle" />-->
+  
+     <ItemGroup>
+      <DistFiles Include="wwwroot\js\Build\**\*" />
+      <Content Include="@(DistFiles)" CopytoPublishDirectory="Always" />
+      <ContentWithTargetPath Include="@(DistFiles)" TargetPath="%(Identity)" CopyToPublishDirectory="Always" />
+    </ItemGroup>
+  </Target>
+
+*** End of Web Pack Settings Or Auto Generate Files (gulp, etc.) ***
+-----------------------------------------------------------------
+
+//some other options are "Build", "Publish"
 
 --if using a local web pack install then call this. Otherwise you can just use "webpack. Try to install locally
  <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="./node_modules/.bin/webpack -d" />
   </Target>
 
-
-  --for publishing use -p to minify
-   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm install" />
-    <Exec Command="bower install" />
-    <Exec Command="./node_modules/.bin/webpack -p --env.production" />
-    <Exec Command="dotnet bundle" />
-  </Target>
-
+  --there is also a publish keyword
   <Target Name="MyPostCompileTarget" BeforeTargets="Publish">
     <Exec Command="./node_modules/.bin/webpack -p" />
   </Target>
 
 -------------------------------------------------------------
-
 
   --to publish brining your own framework (google RuntimeIdentifiers for the complete list of tags)
  <PropertyGroup>
