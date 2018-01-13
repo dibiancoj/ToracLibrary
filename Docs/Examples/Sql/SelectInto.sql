@@ -1,0 +1,2 @@
+SELECT * INTO __MigrationHistory_Backup_1_12_2018
+FROM __MigrationHistory;

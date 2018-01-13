@@ -49,7 +49,7 @@ module.exports = env => {
 };
 
  *******************************************
- Step 2: In webpack.vendor.config.js
+ Step 2: In webpack.config.vendor.js
  *******************************************
 
 const webpack = require('webpack');
@@ -105,7 +105,7 @@ $(document).ready(function () {
  *******************************************
  Step 4: To build your vendor ** this produces the manifest file **
  *******************************************
- webpack --config webpack.vendor.config.js
+ webpack --config webpack.config.vendor.js
  
  *******************************************
  Step 5: To build your regular file
