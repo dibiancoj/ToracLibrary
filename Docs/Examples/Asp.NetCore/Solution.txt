@@ -1,4 +1,11 @@
 
+** note since web pack will regen your dist files the publish may get stuck with "can't find xyz file" because it was rebuilt
+just make sure the csproj ingnores this folder.. **
+<ItemGroup>
+    <Content Remove="wwwroot\Distribution\**\*" />
+</ItemGroup>
+
+
 --if using a local web pack install then call this. Otherwise you can just use "webpack. Try to install locally
  <Target Name="MyPreCompileTarget" BeforeTargets="Build">
     <Exec Command="./node_modules/.bin/webpack -d" />
@@ -6,10 +13,18 @@
 
 
   --for publishing use -p to minify
+   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="npm install" />
+    <Exec Command="bower install" />
+    <Exec Command="./node_modules/.bin/webpack -p --env.production" />
+    <Exec Command="dotnet bundle" />
+  </Target>
+
   <Target Name="MyPostCompileTarget" BeforeTargets="Publish">
     <Exec Command="./node_modules/.bin/webpack -p" />
   </Target>
 
+-------------------------------------------------------------
 
 
   --to publish brining your own framework (google RuntimeIdentifiers for the complete list of tags)
