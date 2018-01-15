@@ -1,4 +1,4 @@
-Package.Json (they made a change to a new package. updated docs below).
+Package.Json
 
 "babel-core": "6.26.0",
 "babel-loader": "7.1.2",
