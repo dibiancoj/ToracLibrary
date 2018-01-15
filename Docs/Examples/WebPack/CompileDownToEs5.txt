@@ -1,12 +1,12 @@
-Package.Json
+Package.Json (they made a change to a new package. updated docs below).
 
-"babel-core": "6.26.0",
-"babel-loader": "7.1.2",
-"babel-preset-es2015": "6.24.1"
+   "babel-loader": "7.1.2",
+    "babel-core": "6.26.0",
+    "babel-preset-env": "1.6.1",
 
 
 
-webpack.config.js (the load below is what needs to be inserted: ie: loader: 'babel-loader?presets[]=es2015')
+webpack.config.js (The module rules is what needs to be added)
 
 "use strict";
 
@@ -22,11 +22,18 @@ module.exports = {
         filename: '[name]Bundle.js'
     },
     module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader?presets[]=es2015'
-            }
-        ]
-    }
+            rules: [
+                {
+                    //compile down to es 2015
+                    test: /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                }
+            ]
+        }
 };
