@@ -1,32 +1,24 @@
-Package.Json
+Package.Json (they changed the babel stuff around november with breaking changes). Adjusted docs are below
 
-"babel-core": "6.26.0",
-"babel-loader": "7.1.2",
-"babel-preset-es2015": "6.24.1"
+"babel-core": "^6.26.0",
+"babel-loader": "^7.1.2",
+"babel-preset-env": "^1.6.1",
 
 
 
 webpack.config.js (The module rules is what needs to be added)
 
-"use strict";
-
-module.exports = {
-    entry: {
-        WebPackPage: "./wwwroot/js/Pages/WebPagePageUI.js"
-    },
-    output: {
-        //when just using web pack
-        //filename: "./wwwroot/js/Distribution/[name]Bundle.js"
-
-        //use this when we run from gulp because gulp outputs with full path
-        filename: '[name]Bundle.js'
-    },
-       module: {
-         loaders: [
-             {
-                 test: /\.js$/,
-                 loader: 'babel-loader?presets[]=es2015'
-             }
-         ]
-     }
-};
+ module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['babel-preset-env']
+                        }
+                    }
+                }
+            ]
+        }
