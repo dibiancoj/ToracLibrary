@@ -4,9 +4,9 @@
 /*
   "devDependencies": {
     "webpack": "3.10.0",
-    "babel-core": "6.26.0",
-    "babel-loader": "7.1.2",
-    "babel-preset-es2015": "6.24.1",
+    "babel-core": "^6.26.0",
+	"babel-loader": "^7.1.2",
+	"babel-preset-env": "^1.6.1",
     "clean-webpack-plugin": "0.1.17",
     "path": "0.12.7"
   }
@@ -39,11 +39,17 @@ module.exports = env => {
 
         devtool: isProduction ? 'none' : 'source-map',
 
-        module: {
-            loaders: [
+       module: {
+            rules: [
                 {
                     test: /\.js$/,
-                    loader: 'babel-loader?presets[]=es2015'
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['babel-preset-env']
+                        }
+                    }
                 }
             ]
         },
