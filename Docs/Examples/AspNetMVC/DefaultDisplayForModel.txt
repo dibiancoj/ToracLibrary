@@ -1,0 +1,15 @@
+If I have 
+
+public class MyClass
+{
+  public string Text{get;set;}
+}
+
+In a razor view i can do 
+@Html.DisplayFor(x => x.EditModel.MyClassInstance)
+
+Then it see's that MyClassInstance is of type MyClass and renders
+MyClass.cshtml <-- model in this view should be MyClass
+
+
+...Essentially a default view for a class.
