@@ -14,6 +14,23 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
     public static class ObjectExtensionMethods
     {
 
+        #region Casting
+
+        /// <summary>
+        /// Generic way to run object as...T. This way you don't need parenthesis when you need to cast it. Just a shorter sytnax instead of (myobject as T).Field. 
+        /// </summary>
+        /// <typeparam name="ToFrom">Object type to convert From</typeparam>
+        /// <typeparam name="TTo">Object type to convert to</typeparam>
+        /// <param name="ObjectToConvert">Object to convert</param>
+        /// <returns>TTo or null if it can't cast</returns>
+        public static TTo As<TTo>(this object ObjectToConvert)
+            where TTo : class
+        {
+            return ObjectToConvert as TTo;
+        }
+
+        #endregion
+
         #region Single Object To List
 
         /// <summary>
