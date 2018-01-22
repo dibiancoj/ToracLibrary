@@ -1,0 +1,67 @@
+In layout (you can put this in a tag helper as well)
+
+@functions {
+
+private string ActiveNavMenu(WhichNavItem action, WhichNavItem? selectedNavAction)
+{
+    return selectedNavAction.HasValue && selectedNavAction.Value == action ?
+        "activenav" :
+        null;
+}
+
+private WhichNavItem? SelectedNav()
+{
+    object tryToGetValue;
+
+    if (Context.Items.TryGetValue("NavMenu", out tryToGetValue))
+    {
+        return Enum.Parse<WhichNavItem>(tryToGetValue.ToString());
+    }
+
+    return null;
+}
+
+}
+
+   <li><a asp-area="" asp-controller="Home" asp-action="CreatePatientIndex" class="@ActiveNavMenu(WhichNavItem.PatientCreator,selectedNavMenu)">Create Patient Info</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="CohortInjectorIndex" class="@ActiveNavMenu(WhichNavItem.CohortInjector,selectedNavMenu)">Cohort Injector</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="CreateRawAssessment" class="@ActiveNavMenu(WhichNavItem.RawAssessment,selectedNavMenu)">Create Raw Assessment</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="RestartService" target="_blank">Restart Service</a></li>
+
+
+
+
+
+
+--------
+c# add filter
+
+    public class NavMenuFilterAttribute : ActionFilterAttribute
+    {
+
+        public NavMenuFilterAttribute(WhichNavItem whichNavItem)
+        {
+            NavMenu = whichNavItem;
+        }
+
+        private WhichNavItem NavMenu { get; }
+
+        public enum WhichNavItem
+        {
+            PatientCreator = 0,
+            CohortInjector = 1,
+            RawAssessment = 2
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            context.HttpContext.Items.Add("NavMenu", NavMenu);
+        }
+
+    }
+
+** controller --add attribute **
+ [NavMenuFilter(NavMenuFilterAttribute.WhichNavItem.PatientCreator)]
+        [HttpPost]
+        public IActionResult CreatePatientSubmit(CreatePatientViewModel model)
+        {
