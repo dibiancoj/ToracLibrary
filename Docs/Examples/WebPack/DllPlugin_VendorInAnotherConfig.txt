@@ -1,6 +1,11 @@
  *** this is used mainly so you can put vendor in another file and the you just load it whenever you change those libraries. It keeps your main webpack with your app stuff fast ***
 
- ** to bring in bootstrap or something with css you need to bring in a css loader. bootstrap also needs to handle fonts, etc. Look at angular example or webpack documentation to bring in css, svg, etc. **
+ ** to bring in bootstrap or something with css look for "css loading"
+ ** css loading npm 
+"css-loader": "0.28.9",
+"style-loader": "0.19.1",
+"file-loader": "1.1.6",
+"extract-text-webpack-plugin": "3.0.2"
  
  *******************************************
  Step 1: In webpack.config.js (look at the DllReferencePlugin at the bottom)
@@ -58,39 +63,74 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
-module.exports = {
-    entry: {
-        Vendor: ['jquery', 'bootstrap'],
-    },
-    output: {
-        filename: './wwwroot/Build/Framework/vendor.bundle.js',
-        library: 'vendor_lib',
-    },
-    plugins: [
-        //this just cleans up the output folder so we don't have left over items that shouldn't be there.
-        new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/Build/Framework/*.*')]), //removes all files in this directory. Or you can do '/wwwroot/Build/**.js' if you want to delete just the js files
+//css loading
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jquery: "jquery",
-            "window.jQuery": "jquery",
-            jQuery: "jquery"
-        }),
-        new webpack.DllPlugin({
-            name: 'vendor_lib',
-            path: './wwwroot/Build/Framework/vendor-manifest.json',
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
+module.exports = env => {
 
-            //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
-            name: ["Vendor"],
+ //css loading
+  const extractCSS = new ExtractTextPlugin('./wwwroot/Build/Framework/vendor.css');
 
-            //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
-            //(with more entries, this ensures that no other module
-            //goes into the vendor chunk)
-            minChunks: Infinity
-        }),
-    ]
+   const isProduction = env && env.production ? true : false;
+    console.log('Production: ', isProduction);
+
+	return {
+		entry: {
+			Vendor: ['jquery', 'bootstrap','bootstrap/dist/css/bootstrap.css'], //css-loading add any css files like bootstrap.css
+		},
+		output: {
+			filename: './wwwroot/Build/Framework/vendor.bundle.js',
+			library: 'vendor_lib',
+		},
+		module: {
+			//css loading
+            loaders: [
+                //css for bootstrap (or any css) import
+                {
+                    test: /\.css(\?|$)/,
+                    use: extractCSS.extract({ use: !isProduction ? 'css-loader' : 'css-loader?minimize' })
+                },
+                {
+                    test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                    use: [{
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: './wwwroot/Build/Framework/Fonts/'    // where the fonts will go
+                        }
+                    }]
+                },
+            ]
+        },
+		plugins: [
+
+			//css loading
+			extractCSS, 
+
+			//this just cleans up the output folder so we don't have left over items that shouldn't be there.
+			new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/Build/Framework/*.*')]), //removes all files in this directory. Or you can do '/wwwroot/Build/**.js' if you want to delete just the js files
+
+			new webpack.ProvidePlugin({
+				$: "jquery",
+				jquery: "jquery",
+				"window.jQuery": "jquery",
+				jQuery: "jquery"
+			}),
+			new webpack.DllPlugin({
+				name: 'vendor_lib',
+				path: './wwwroot/Build/Framework/vendor-manifest.json',
+			}),
+			new webpack.optimize.CommonsChunkPlugin({
+
+				//with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
+				name: ["Vendor"],
+
+				//*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
+				//(with more entries, this ensures that no other module
+				//goes into the vendor chunk)
+				minChunks: Infinity
+			}),
+		]};
 };
 
  *******************************************
