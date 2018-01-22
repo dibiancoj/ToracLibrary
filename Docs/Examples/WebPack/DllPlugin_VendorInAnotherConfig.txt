@@ -1,4 +1,6 @@
  *** this is used mainly so you can put vendor in another file and the you just load it whenever you change those libraries. It keeps your main webpack with your app stuff fast ***
+
+ ** to bring in bootstrap or something with css you need to bring in a css loader. bootstrap also needs to handle fonts, etc. Look at angular example or webpack documentation to bring in css, svg, etc. **
  
  *******************************************
  Step 1: In webpack.config.js (look at the DllReferencePlugin at the bottom)
