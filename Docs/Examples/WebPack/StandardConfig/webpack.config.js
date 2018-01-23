@@ -43,10 +43,16 @@ module.exports = env => {
         devtool: isProduction ? 'none' : 'source-map',
 
         module: {
-            loaders: [
+            rules: [
                 {
                     test: /\.js$/,
-                    loader: 'babel-loader?presets[]=es2015'
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['babel-preset-env']
+                        }
+                    }
                 }
             ]
         },
