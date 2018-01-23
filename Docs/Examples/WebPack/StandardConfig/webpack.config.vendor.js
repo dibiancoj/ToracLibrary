@@ -52,16 +52,18 @@ module.exports = env => {
                 name: 'vendor_lib',
                 path: './wwwroot/Build/Framework/vendor-manifest.json',
             }),
-            new webpack.optimize.CommonsChunkPlugin({
 
-                //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
-                name: ["Vendor"],
+            new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery' })
+            //new webpack.optimize.CommonsChunkPlugin({
 
-                //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
-                //(with more entries, this ensures that no other module
-                //goes into the vendor chunk)
-                minChunks: Infinity
-            })
+            //    //with out any additional parameters everything gets ordered from right to left. So vendor 2 has all the web pack plumbing. Then vendor just has its own stuff.
+            //    name: ["Vendor"],
+
+            //    //*** if you get a jsonp error with entry point it means the entry point is being loaded before the common chunk (vendor)
+            //    //(with more entries, this ensures that no other module
+            //    //goes into the vendor chunk)
+            //    minChunks: Infinity
+            //})
         ]
     }
 };
