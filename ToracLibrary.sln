@@ -301,7 +301,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultCon
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\WebPack\StandardConfig\package.json.txt = Docs\Examples\WebPack\StandardConfig\package.json.txt
 		Docs\Examples\WebPack\StandardConfig\webpack.config.js = Docs\Examples\WebPack\StandardConfig\webpack.config.js
-		Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js = Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js
+		Docs\Examples\WebPack\StandardConfig\webpack.config.vendor.js = Docs\Examples\WebPack\StandardConfig\webpack.config.vendor.js
 	EndProjectSection
 EndProject
 Global
