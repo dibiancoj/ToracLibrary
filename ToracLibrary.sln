@@ -264,8 +264,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPack", "WebPack", "{9B06
 		Docs\Examples\WebPack\MultipleFileConfigurations.txt = Docs\Examples\WebPack\MultipleFileConfigurations.txt
 		Docs\Examples\WebPack\StandardConfig\package.json.txt = Docs\Examples\WebPack\StandardConfig\package.json.txt
 		Docs\Examples\WebPack\VendorBundles.txt = Docs\Examples\WebPack\VendorBundles.txt
-		Docs\Examples\WebPack\StandardConfig\webpack.config.js = Docs\Examples\WebPack\StandardConfig\webpack.config.js
-		Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js = Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js
 		Docs\Examples\WebPack\WebPackInGulp.txt = Docs\Examples\WebPack\WebPackInGulp.txt
 	EndProjectSection
 EndProject
@@ -300,6 +298,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultConfig", "{65BA974C-97F4-4643-BBF2-71CC3CF47F17}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\WebPack\StandardConfig\package.json.txt = Docs\Examples\WebPack\StandardConfig\package.json.txt
+		Docs\Examples\WebPack\StandardConfig\webpack.config.js = Docs\Examples\WebPack\StandardConfig\webpack.config.js
+		Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js = Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
