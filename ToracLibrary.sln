@@ -262,9 +262,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebPack", "WebPack", "{9B06
 		Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt = Docs\Examples\WebPack\DynamicEntryPointsBasedOnFiles.txt
 		Docs\Examples\WebPack\MultipleConfigFiles.txt = Docs\Examples\WebPack\MultipleConfigFiles.txt
 		Docs\Examples\WebPack\MultipleFileConfigurations.txt = Docs\Examples\WebPack\MultipleFileConfigurations.txt
+		Docs\Examples\WebPack\StandardConfig\package.json.txt = Docs\Examples\WebPack\StandardConfig\package.json.txt
 		Docs\Examples\WebPack\VendorBundles.txt = Docs\Examples\WebPack\VendorBundles.txt
+		Docs\Examples\WebPack\StandardConfig\webpack.config.js = Docs\Examples\WebPack\StandardConfig\webpack.config.js
+		Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js = Docs\Examples\WebPack\StandardConfig\webpack.vendor.config.js
 		Docs\Examples\WebPack\WebPackInGulp.txt = Docs\Examples\WebPack\WebPackInGulp.txt
-		Docs\Examples\WebPack\WebPackStandardConfigTutorial.txt = Docs\Examples\WebPack\WebPackStandardConfigTutorial.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gulp", "Gulp", "{524170C6-F0E4-413E-B134-9C434AD672C7}"
@@ -296,6 +298,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt = Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultConfig", "{65BA974C-97F4-4643-BBF2-71CC3CF47F17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -471,6 +475,7 @@ Global
 		{51324BBD-53A9-4122-8FDD-F2C0FEF98F37} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{FC5055AE-E75B-4DFE-9CD9-D9A902C9201C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{03E40FED-AE23-4A4C-B2F6-1699AAA9668D} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{65BA974C-97F4-4643-BBF2-71CC3CF47F17} = {9B06E13C-5336-4E41-BD20-F876EBB517CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
