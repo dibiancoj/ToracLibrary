@@ -1,5 +1,5 @@
 ﻿//webpack --config webpack.vendor.config.js
-//webpack --config webpack.vendor.config.js--env.production = true -p
+//webpack --config webpack.vendor.config.js --env.production=true -p
 
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
