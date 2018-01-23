@@ -1,22 +1,5 @@
 ﻿"use strict";
 
-/*
-  "devDependencies": {
-    "webpack": "3.10.0",
-    "babel-core": "6.26.0",
-    "babel-loader": "7.1.2",
-    "babel-preset-es2015": "6.24.1",
-    "clean-webpack-plugin": "0.1.17",
-    "path": "0.12.7"
-  }
-*/
-
-//"webpack -p --env.production" --> for production build (you are basically setting the env variable below)
-
-//*** note this example uses env.production vs setting the node env variable.
-//to use the alternative "SET NODE_ENV=production&& webpack -p"...then in config below use console.log('Node Env = ', process.env.NODE_ENV);. I think using the web pack variables is better for now
-//i like to use p because it minifies my code without pulling in more plugins
-
 //webpack 
 //webpack --env.production=true -p
 
