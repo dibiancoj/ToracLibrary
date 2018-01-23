@@ -18,7 +18,7 @@
 //i like to use p because it minifies my code without pulling in more plugins
 
 //webpack 
-//webpack --env.production = true - p
+//webpack --env.production=true -p
 
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
