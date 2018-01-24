@@ -45,13 +45,18 @@ module.exports = env => {
           //this just cleans up the output folder so we don't have left over items that shouldn't be there.
             new CleanWebpackPlugin([path.join(__dirname, '/wwwroot/Build/App/*.*')]), //removes all files in this directory. Or you can do '/wwwroot/Build/**.js' if you want to delete just the js files
 
+            new webpack.DllReferencePlugin({
+                context: __dirname,
+                manifest: require('./wwwroot/Build/Framework/vendor-manifest.json')
+            })
+
             //if i don't want to import jquery on every screen i can do this and this will make jquery global
-            new webpack.ProvidePlugin({
-                $: "jquery",
-                jquery: "jquery",
-                "window.jQuery": "jquery",
-                jQuery: "jquery"
-            }),
+            //new webpack.ProvidePlugin({
+            //    $: "jquery",
+            //    jquery: "jquery",
+            //    "window.jQuery": "jquery",
+            //    jQuery: "jquery"
+            //}),
 
           new webpack.DllReferencePlugin({
                 context: '.',

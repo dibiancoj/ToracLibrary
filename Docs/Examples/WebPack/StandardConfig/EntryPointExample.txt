@@ -1,0 +1,4 @@
+import $ from 'jquery';
+import { PatientFactory } from '../PatientSearcher/PatientInfoFactory';
+import { CohortSvc } from '../Cohort/CohortService';
+import InitSelect2 from '../Framework/Layout.Select2.UI';
