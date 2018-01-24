@@ -304,6 +304,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultCon
 		Docs\Examples\WebPack\StandardConfig\webpack.config.vendor.js = Docs\Examples\WebPack\StandardConfig\webpack.config.vendor.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VueJs", "VueJs", "{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt = Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -479,6 +484,7 @@ Global
 		{FC5055AE-E75B-4DFE-9CD9-D9A902C9201C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{03E40FED-AE23-4A4C-B2F6-1699AAA9668D} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{65BA974C-97F4-4643-BBF2-71CC3CF47F17} = {9B06E13C-5336-4E41-BD20-F876EBB517CF}
+		{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

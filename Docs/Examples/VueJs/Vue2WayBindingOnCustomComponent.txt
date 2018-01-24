@@ -1,0 +1,63 @@
+Vue - add 2 way data binding to a custom component
+
+UI (take note of the v-model - <select2-component :options="dropDown.cohortItems" v-model="model.CohortId" :value="model.CohortId" :width="'450px'"></select2-component>
+
+
+****** Component *****
+
+** :value  and @input are needed in the component...Then you emit on  _this.$emit('input', e.params.data.id);
+
+<template>
+
+    <!--:style="widthCssOutput"-->
+    <select class="el" v-model="selected" :value="value" @input="updateModel()" :style="widthCssOutput"></select>
+
+</template>
+
+<script>
+
+    import $ from 'jquery';
+    import select2 from 'select2';
+
+    export default {
+        name: 'select2',
+        props: ['options', 'value', 'width', 'dropdown-change'],
+        data: function () {
+            return {
+                widthCssOutput: 'width:' + this.width,
+                selected: this.selectedvalue
+            }
+        },
+        mounted: function () {
+            var _this = this
+
+            $(this.$el)
+                // init select2
+                .select2(
+                {
+                    data: this.options,
+                    width: this.width
+                })
+                .val(this.selectedvalue)
+                .trigger('change')
+                // emit event on change.
+                .on('select2:select', function (e) {
+				    //you can put the emit in a method doesn't have to be here.
+                    _this.$emit('input', e.params.data.id);
+                })
+        },
+        watch: {
+            selected: function (value) {
+                // update value
+                $(this.$el).val(value)
+            },
+            options: function (options) {
+                // update options
+                $(this.$el).empty().select2({ data: options })
+            }
+        },
+        destroyed() {
+            $(this.$el).off().select2('destroy')
+        }
+    };
+</script>
