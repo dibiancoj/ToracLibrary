@@ -1,9 +1,7 @@
   watch: {
        
-        'model.CohortId': function (oldValue,newValue) {
-            // checkbox active state has changed
+        'model.CohortId': function (newValue,oldValue) {
             debugger;
             alert('change');
-            //this.block.someotherprop.changeme = 5;
         } 
     },
