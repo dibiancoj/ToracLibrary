@@ -1,0 +1,6 @@
+If you get node working in the console and vs is doing weird stuff...VS is probably pointing at the vs that shipped with it. (which might be a lower version)
+
+Tools, options,Projects & solutions, web package managment, external web tools
+
+add entry for node installation directory (up top...and first)
+Entry value = "C:\Program Files\nodejs"
