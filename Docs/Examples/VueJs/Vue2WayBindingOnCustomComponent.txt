@@ -45,9 +45,9 @@ UI (take note of the v-model - <select2-component :options="dropDown.cohortItems
                 })
         },
         watch: {
-            selected: function (value) {
+            value: function (value) {
                 // update value
-                $(this.$el).val(value)
+                $(this.$el).val(value).trigger('change');
             },
             options: function (options) {
                 // update options
