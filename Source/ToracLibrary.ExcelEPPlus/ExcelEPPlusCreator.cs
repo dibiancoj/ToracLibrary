@@ -62,6 +62,12 @@ namespace ToracLibrary.ExcelEPPlus
     //style with date and time
     //thisCell.Style.Numberformat.Format = "mm-dd-yyyy hh:mm AM/PM";
 
+
+    //***** helper methods ******
+    //EPPlus has built in stuff such as worksheet.Cells.LoadFromCollection or worksheet.Cells.LoadFromDataReader, datatable. This way you don't have spell everything out. 
+    //you can say write headers then add properties to your objects  [Display(Description = "Category Name")]. Then it will output in the header column
+    //***************************
+
     /// <summary>
     /// Creates Excel Files Using EPPlus
     /// </summary>
@@ -122,6 +128,8 @@ namespace ToracLibrary.ExcelEPPlus
         /// <returns>ExcelWorkbook</returns>
         public ExcelWorksheet AddWorkSheet(string WorkSheetName)
         {
+            var t = ExcelCreatorPackage.Workbook.Worksheets.Add(WorkSheetName); ;
+            t.Cells.LoadFromCollection
             //create the work sheet and return it
             return ExcelCreatorPackage.Workbook.Worksheets.Add(WorkSheetName);
         }
