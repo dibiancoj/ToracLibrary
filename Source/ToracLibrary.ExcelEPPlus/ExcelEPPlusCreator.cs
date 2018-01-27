@@ -128,8 +128,6 @@ namespace ToracLibrary.ExcelEPPlus
         /// <returns>ExcelWorkbook</returns>
         public ExcelWorksheet AddWorkSheet(string WorkSheetName)
         {
-            var t = ExcelCreatorPackage.Workbook.Worksheets.Add(WorkSheetName); ;
-            t.Cells.LoadFromCollection
             //create the work sheet and return it
             return ExcelCreatorPackage.Workbook.Worksheets.Add(WorkSheetName);
         }
