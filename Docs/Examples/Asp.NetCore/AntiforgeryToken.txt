@@ -1,0 +1,42 @@
+
+public void ConfigureServices(IServiceCollection services)
+ {
+   services.AddMvc(config =>
+            {
+				//this way it runs on every command to ensure all posts are validated
+                config.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            })
+}
+
+
+For a json / spa based approached
+
+In a razor view
+
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@functions{
+    public string GetAntiXsrfRequestToken()
+    {
+        return Xsrf.GetAndStoreTokens(Context).RequestToken;
+    }
+}
+
+<input id="Token" type="hidden" value="@GetAntiXsrfRequestToken()" />
+
+---------
+
+  (header value below)
+
+  AjaxPost(url, dataParameters) {
+
+        return $.ajax({
+            type: 'POST',
+            url: url,
+            headers: {
+                "RequestVerificationToken": $('#Token').val()
+            },
+            data: JSON.stringify(dataParameters),
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    }
