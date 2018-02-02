@@ -1,6 +1,9 @@
 ﻿namespace ToracLibrary.ExcelEPPlus.Builder
 {
 
+    //*** note: EPPlus has worksheet.Cells.LoadFromCollection or worksheet.Cells.LoadFromDataReader
+    //this fluent builder is really for when you need full control over the render
+
     /// <summary>
     /// Contains the fluent api to build a worksheet
     /// </summary>
