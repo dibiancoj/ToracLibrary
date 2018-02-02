@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -319,6 +319,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Node", "Node", "{79FB4D83-D
 		Docs\Examples\Node\Visual Studio Setting.txt = Docs\Examples\Node\Visual Studio Setting.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MomentJs", "MomentJs", "{7E31F4B7-C266-4F41-B467-2597B27F9134}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\MomentJs\FormatToString.txt = Docs\Examples\MomentJs\FormatToString.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -496,6 +501,7 @@ Global
 		{65BA974C-97F4-4643-BBF2-71CC3CF47F17} = {9B06E13C-5336-4E41-BD20-F876EBB517CF}
 		{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{79FB4D83-DC57-47C7-9F49-A037B4F8A9E8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{7E31F4B7-C266-4F41-B467-2597B27F9134} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

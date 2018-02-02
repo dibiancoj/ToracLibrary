@@ -1,0 +1,4 @@
+
+var myDate = new Date();
+
+ moment(myDate).format('MM/DD/YYYY h:MM A') 
