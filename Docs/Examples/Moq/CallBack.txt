@@ -1,0 +1,24 @@
+
+--you can have a callback when a mocked method is called. This way you can save stuff or what not.
+
+var myRecords = new List<User>();
+
+mockedRepository = new Mock<IUser>();
+
+mockedRepository.Setup(x => x.Save(It.Any<User>()))
+	.Callback<User>(usersPassedIn => myRecords.AddRange(usersPassedIn));
+
+--after the method is called, you will have the records in your "myRecords" list.
+
+---------------------------------------------------------------
+
+
+--multiple parameters to a method is supported...just add Callback<Parameter1Type,Parameter2Type>...
+
+Object doc;
+
+            patientInfoRepository.Setup(x => x.ExecutePatientSqlCommand("PatientManagerBulkUpdate @xDoc", It.IsAny<object[]>()))
+                 .Callback<string, object[]>((sql, parameters) =>
+                 {
+                     doc = parameters[0];
+                 });
