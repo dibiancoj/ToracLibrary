@@ -1,0 +1,27 @@
+
+            string sqlToRun = @"UPDATE dbo.PatientInfo
+	                                    SET
+		                                    BirthDate = X.Data.value('@birthdate[1]','datetime'),
+		                                    FirstName = X.Data.value('@firstname[1]','nvarchar(70)'),
+		                                    LastName = X.Data.value('@lastname[1]','nvarchar(70)'),
+		                                    EMail = X.Data.value('@email[1]','nvarchar(max)')
+			
+	                                FROM @xDoc.nodes('root/p') AS X(Data)
+	                                WHERE Id = X.Data.value('@id[1]','int')";
+
+            var xDoc = new XElement("root");
+
+            foreach (var user in usersToUpdate)
+            {
+                xDoc.Add(new XElement("p",
+                                new XAttribute("id", patient.Id),
+                                new XAttribute("birthdate", patient.BirthDate.ToString()),
+                                new XAttribute("firstname", patient.FirstName ?? string.Empty),
+                                new XAttribute("lastname", patient.LastName ?? string.Empty),
+                                new XAttribute("email", patient.EMail ?? string.Empty),
+            }
+
+			
+		//key here is to pass in new SqlXml
+Context.Database.ExecuteSqlCommand(sqlToRun, new SqlParameter("@xDoc", new SqlXml(xDoc.CreateReader())));
+ 

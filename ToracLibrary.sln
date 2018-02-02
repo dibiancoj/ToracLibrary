@@ -105,6 +105,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xml Columns", "Xml Columns"
 		Docs\Examples\Sql\Xml Column\CrossApplyWithXmlColumn.sql = Docs\Examples\Sql\Xml Column\CrossApplyWithXmlColumn.sql
 		Docs\Examples\Sql\Xml Column\DeleteNode.sql = Docs\Examples\Sql\Xml Column\DeleteNode.sql
 		Docs\Examples\Sql\Xml Column\DynamicUpdateWithVariableOrColumn.sql = Docs\Examples\Sql\Xml Column\DynamicUpdateWithVariableOrColumn.sql
+		Docs\Examples\Sql\Xml Column\EntityFrameworkCallInline.txt = Docs\Examples\Sql\Xml Column\EntityFrameworkCallInline.txt
 		Docs\Examples\Sql\Xml Column\ExistsQuery.sql = Docs\Examples\Sql\Xml Column\ExistsQuery.sql
 		Docs\Examples\Sql\Xml Column\InClause.sql = Docs\Examples\Sql\Xml Column\InClause.sql
 		Docs\Examples\Sql\Xml Column\Insert.sql = Docs\Examples\Sql\Xml Column\Insert.sql
