@@ -10,7 +10,7 @@ namespace ToracLibrary.HttpClientService.ResponseHandlers
     /// <summary>
     /// Handles a json accept type. HttpRequestBuilder will create a new instance once it says "Accept Json"
     /// </summary>
-    /// <typeparam name="TResponseType"></typeparam>
+    /// <typeparam name="TResponseType">Response type that will be deserialized from json into a model of T</typeparam>
     public class ResponseHandlerJson<TResponseType> : IResponseHandler<TResponseType>
     {
 
