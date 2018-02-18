@@ -107,9 +107,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             }
 
             //we have the number formatted exactly with everything, return it
-
-            //we need the string builder...so create the object (init the capacity in the sb to reduce memory a tad)
-            return new StringBuilder(14)
+            return new StringBuilder()
 
                     //set the area code
                     .Append("(")
@@ -161,7 +159,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             }
 
             //we have 9 characters, create the instance of the string builder becauase we need it (init the capacity to reduce memory just a tag)
-            return new StringBuilder(10)
+            return new StringBuilder()
 
                 //Add the first 5 characters
                 .Append(ZipCode.Substring(0, 5))
