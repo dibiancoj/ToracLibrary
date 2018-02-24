@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}"
 EndProject
@@ -298,6 +298,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{03E40FED-AE23-4A4C-B2F6-1699AAA9668D}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt = Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt
+		Docs\Examples\AspNetMVC\NestedLayouts.txt = Docs\Examples\AspNetMVC\NestedLayouts.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultConfig", "{65BA974C-97F4-4643-BBF2-71CC3CF47F17}"

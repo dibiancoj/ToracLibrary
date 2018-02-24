@@ -1,0 +1,45 @@
+ie:
+
+MasterLayout
+	-PublicLayout
+	-PrivateLayout
+	
+--------------------------------------------
+Master Layout
+<html>
+.....
+  @RenderBody()
+  @RenderSection("scripts", required: false)
+</html>
+**you would put your vendor scripts here.
+--------------------------------------------
+Public Layout
+
+@{
+    ViewData["Title"] = "Public";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Public</h2>
+
+@RenderBody()
+
+@section scripts{
+    @RenderSection("scripts", required: false)
+}
+
+**put your enrollment, login page layout here
+--------------------------------------------
+Regular View which will use either public or private
+
+@{
+    ViewData["Title"] = "Public";
+    Layout = "~/Views/Shared/Public.cshtml";
+}
+
+
+@section scripts{
+    <script src="~/Build/ClientApp/RawAssessmentCreator.UI.build.js" asp-append-version="true"></script>
+}
+
+**put your web site theme in here which is different then the login and enrollment page.
