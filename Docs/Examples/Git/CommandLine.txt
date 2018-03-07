@@ -74,3 +74,14 @@ If you ever want to restore from JUST the .git folder.
 ----------------------------- Rebase -----------------------------
 git rebase origin/master --> this moves all new changes in master into your working branch. This way you have the latest set of changes and you don't have a merge commit.
 ie: branch a new dev...then before merging back to master you can move any new changes from master into your branch and put your new changes at the top. 
+----------------------------- Git Ignore -------------------------
+If you add a git ignore but those files you are ignoring are already checked in then you will run into issues.
+run the following to fix
+
+git rm -r --cached .
+git add .
+git commit -m "fixed untracked files"
+
+Also, use something like the following in your ignore file
+**/wwwroot/Build/
+**/wwwroot/BuildFramework/
