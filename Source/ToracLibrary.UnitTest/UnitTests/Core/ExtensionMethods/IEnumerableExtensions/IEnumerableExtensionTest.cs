@@ -283,7 +283,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// Unit test the basic functionality of the Distinct By
         /// </summary>
         [Fact]
-        public void DistintByTest1()
+        public void DistinctByTest1()
         {
             //creat the id's that will have duplicates
             var DuplicateIds = new int[] { 3, 4 };
