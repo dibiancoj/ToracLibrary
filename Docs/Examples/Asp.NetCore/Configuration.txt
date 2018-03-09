@@ -35,3 +35,33 @@ Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
 
 
 To have specific options reload on config change inject IOptionsSnapshot<> vs IOptions
+
+-----------------------------------Adding another config that isn't app settings ---------------------------------------
+1. add "headandneck.json"
+	{
+	  "HeadAndNeckSettings": {
+			"Type": [ "Baseline", "Post-tx" ],
+			"SubSite": [ "Lip", "Neck" ]
+		}
+	}
+
+2. add class
+    public class HeadAndNeckAppSettings
+    {
+        public List<string> Type { get; set; }
+        public List<string> SubSite { get; set; }
+    }
+
+3. startup add .AddJsonFile("headandneck.json") --> full method chain is below
+
+ var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("headandneck.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+
+4. bind the configuration to the class
+
+services.Configure<HeadAndNeckAppSettings>(configuration.GetSection("HeadAndNeckSettings"));
