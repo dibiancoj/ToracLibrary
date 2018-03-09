@@ -85,3 +85,7 @@ git commit -m "fixed untracked files"
 Also, use something like the following in your ignore file
 **/wwwroot/Build/
 **/wwwroot/BuildFramework/
+
+
+----------------------------- Git UI -------------------------
+Source Tree is a pretty gui tool for git
