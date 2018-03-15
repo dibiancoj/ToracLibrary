@@ -77,8 +77,10 @@
   <ItemGroup>
     <Compile Include="AspNetMvcConstants.cs" />
     <Compile Include="ControllerCreation\ControllerHelpers.cs" />
+    <Compile Include="CustomActionsResults\BadRequestResult.cs" />
     <Compile Include="CustomActionsResults\JsonNetResult.cs" />
     <Compile Include="CustomFilters\AjaxJSONPostValidationAttribute.cs" />
+    <Compile Include="CustomFilters\AutoValidateModelAttribute.cs" />
     <Compile Include="CustomFilters\NoBrowserCacheAttribute.cs" />
     <Compile Include="CustomFilters\ValidateAntiForgeryTokenHeaderAttribute.cs" />
     <Compile Include="CustomFormatters\JsonPCustomFormatter.cs" />
