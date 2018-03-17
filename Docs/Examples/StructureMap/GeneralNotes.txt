@@ -1,0 +1,13 @@
+//grab by locator pattern
+var apiService = ObjectFactory.GetInstance<IApiService>();
+
+//register a collection
+	x.For<IFormFactory>().Use<NyFormFactory>();
+    x.For<IFormFactory>().Use<NJFormFactory>();
+
+    x.Scan(z =>
+    {
+		z.TheCallingAssembly();
+        z.AddAllTypesOf<IFormFactory>();
+        z.WithDefaultConventions();
+    });
