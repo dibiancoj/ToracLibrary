@@ -300,6 +300,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt = Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt
 		Docs\Examples\AspNetMVC\NestedLayouts.txt = Docs\Examples\AspNetMVC\NestedLayouts.txt
+		Docs\Examples\AspNetMVC\UrlHelperInController.txt = Docs\Examples\AspNetMVC\UrlHelperInController.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultConfig", "{65BA974C-97F4-4643-BBF2-71CC3CF47F17}"
