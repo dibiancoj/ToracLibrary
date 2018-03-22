@@ -29,6 +29,12 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
             return ObjectToConvert as TTo;
         }
 
+        /// <summary>
+        /// Short hand syntax for the 'is' statement. Using a not equal with is results in extra noise. Adding or's and and's makes it even worse. This is just easier syntax so you don't need brackets.
+        /// </summary>
+        /// <typeparam name="TIsCheck">Type to check if the parameter passed in is derived or the actual object type.</typeparam>
+        /// <param name="ObjectToEvaluate">Object to run a is against with the TIsCheckType</param>
+        /// <returns>If the object passed in is derived or is the actual object type</returns>
         public static bool Is<TIsCheck>(this object ObjectToEvaluate)
             where TIsCheck : class
         {
