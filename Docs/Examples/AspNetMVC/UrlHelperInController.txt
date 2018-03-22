@@ -1,0 +1,5 @@
+//in controller
+new UrlHelper(ControllerContext.RequestContext)
+
+//in filter 
+new UrlHelper(filterContext.RequestContext)

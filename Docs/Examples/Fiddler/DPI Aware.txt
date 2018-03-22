@@ -1,0 +1,7 @@
+With retina displays you get cut off text, menu bar is cut off.
+
+To fix:
+
+C:\Users\dibiancj\AppData\Local\Programs\Fiddler\Fiddler.exe -dpiAware
+
+..essentially just change fiddler to run with the -dpiAware command

@@ -277,6 +277,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gulp", "Gulp", "{524170C6-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fiddler", "Fiddler", "{F38DF9D9-EE31-4D25-BF05-6089DE3C2667}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Fiddler\DPI Aware.txt = Docs\Examples\Fiddler\DPI Aware.txt
 		Docs\Examples\Fiddler\LocalHostCapturing.txt = Docs\Examples\Fiddler\LocalHostCapturing.txt
 	EndProjectSection
 EndProject
@@ -298,7 +299,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{03E40FED-AE23-4A4C-B2F6-1699AAA9668D}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt = Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt
+		Docs\Examples\AspNetMVC\FormsAuthNoRedirectOnAjaxCall.txt = Docs\Examples\AspNetMVC\FormsAuthNoRedirectOnAjaxCall.txt
 		Docs\Examples\AspNetMVC\NestedLayouts.txt = Docs\Examples\AspNetMVC\NestedLayouts.txt
+		Docs\Examples\AspNetMVC\UrlHelperInController.txt = Docs\Examples\AspNetMVC\UrlHelperInController.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultConfig", "{65BA974C-97F4-4643-BBF2-71CC3CF47F17}"
@@ -323,6 +326,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MomentJs", "MomentJs", "{7E31F4B7-C266-4F41-B467-2597B27F9134}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\MomentJs\FormatToString.txt = Docs\Examples\MomentJs\FormatToString.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StructureMap", "StructureMap", "{8D858705-59A2-4A7D-BCB7-55F179560CDD}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\StructureMap\GeneralNotes.txt = Docs\Examples\StructureMap\GeneralNotes.txt
 	EndProjectSection
 EndProject
 Global
@@ -503,6 +511,7 @@ Global
 		{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{79FB4D83-DC57-47C7-9F49-A037B4F8A9E8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{7E31F4B7-C266-4F41-B467-2597B27F9134} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{8D858705-59A2-4A7D-BCB7-55F179560CDD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

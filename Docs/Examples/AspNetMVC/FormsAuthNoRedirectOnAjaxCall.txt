@@ -1,0 +1,71 @@
+this way you can catch an error in jquery / client side and do a redirect there.
+Otherwise, if you throw a 401...then forms authentication mechanism will do an automatic redirect. You won't be able to catch and redirect in jquery bc the app will redirect already
+
+//in the authorize filter, supress the redirect
+ filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+
+ //example
+ public class AuthorizeMyApp : AuthorizeAttribute
+    {
+
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (!(httpContext.User?.Identity?.IsAuthenticated ?? false))
+            {
+                return false;
+            }
+
+            var userData = ObjectFactory.GetInstance<IAuthenticationService>().GetLoggedInUser(httpContext);
+
+            if (userData == null)
+            {
+                return false;
+            }
+
+            return userData.UserType == AuthenticatedUserType;
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())
+            {
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+
+				//ajax redirect is just a json action filter
+                filterContext.Result = new AjaxRedirectResult(new UrlHelper(filterContext.RequestContext).Action("Index", "Home"));
+            }
+            else
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+        }
+
+    }
+
+	 public class AjaxRedirectResult : JsonResult
+    {
+        public AjaxRedirectResult(string redirectUrl)
+        {
+            this.Data = new { Redirect = redirectUrl };
+            this.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+        }
+    }
+
+	////// then in javascript ////////
+
+	$(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+    if (jqxhr.status == 400) {
+        $('#errorFound').text(JSON.parse(jqxhr.responseText));
+        $('#errorBanner').show();
+    }
+    else if (jqxhr.status == 403) {
+        window.location.href = JSON.parse(jqxhr.responseText).Redirect;
+    }
+    else if (jqxhr.status == 401) {
+        window.location.href = JSON.parse(jqxhr.responseText).Redirect;
+    }
+    else {
+        $('#globalErrorBanner').fadeIn();
+    }
+});
