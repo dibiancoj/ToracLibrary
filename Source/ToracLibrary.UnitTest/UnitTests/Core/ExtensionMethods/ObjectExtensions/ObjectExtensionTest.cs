@@ -16,8 +16,6 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     public class ObjectExtensionTest
     {
 
-        #region As Unit Tests
-
         #region Framework
 
         public abstract class MyObject
@@ -35,6 +33,8 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         }
 
         #endregion
+
+        #region As Unit Tests
 
         /// <summary>
         /// Try to convert a class to something else
@@ -56,6 +56,28 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             var ObjectToTest = DummyObject.CreateDummyRecord();
 
             Assert.Null(ObjectToTest.As<MyObject>()?.MyValueGetter);
+        }
+
+        #endregion
+
+        #region Is Unit Tests
+
+        /// <summary>
+        /// Try to convert a class to something else and see what "Is" returns
+        /// </summary>
+        [Fact]
+        public void ObjectIsTest1()
+        {
+            Assert.True(new MyDerivedObject().Is<MyObject>());
+        }
+
+        /// <summary>
+        /// Try to convert a class to something that isn't castable
+        /// </summary>
+        [Fact]
+        public void ObjectIsToNullTest1()
+        {
+            Assert.False(DummyObject.CreateDummyRecord().Is<MyObject>());
         }
 
         #endregion

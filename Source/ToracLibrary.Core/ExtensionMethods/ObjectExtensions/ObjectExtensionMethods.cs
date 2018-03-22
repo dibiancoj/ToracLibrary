@@ -14,7 +14,7 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
     public static class ObjectExtensionMethods
     {
 
-        #region Casting
+        #region Casting - Type Checking
 
         /// <summary>
         /// Generic way to run object as...T. This way you don't need parenthesis when you need to cast it. Just a shorter sytnax instead of (myobject as T).Field. 
@@ -27,6 +27,12 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
             where TTo : class
         {
             return ObjectToConvert as TTo;
+        }
+
+        public static bool Is<TIsCheck>(this object ObjectToEvaluate)
+            where TIsCheck : class
+        {
+            return ObjectToEvaluate is TIsCheck;
         }
 
         #endregion
