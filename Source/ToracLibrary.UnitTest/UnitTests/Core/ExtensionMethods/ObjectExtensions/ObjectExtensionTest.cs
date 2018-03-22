@@ -63,7 +63,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         #region Is Unit Tests
 
         /// <summary>
-        /// Try to convert a class to something else and see what "Is" returns
+        /// Try to convert a class that is derived from another. Should return true
         /// </summary>
         [Fact]
         public void ObjectIsTest1()
@@ -72,7 +72,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         }
 
         /// <summary>
-        /// Try to convert a class to something that isn't castable
+        /// Try to check a class that isn't castable. Should return false since it's not the same or derived type
         /// </summary>
         [Fact]
         public void ObjectIsToNullTest1()
