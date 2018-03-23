@@ -314,6 +314,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DefaultConfig", "DefaultCon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VueJs", "VueJs", "{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\VueJs\CommandToRunOnNextUIUpdate.txt = Docs\Examples\VueJs\CommandToRunOnNextUIUpdate.txt
 		Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt = Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt
 		Docs\Examples\VueJs\WatchNestedObject.txt = Docs\Examples\VueJs\WatchNestedObject.txt
 	EndProjectSection

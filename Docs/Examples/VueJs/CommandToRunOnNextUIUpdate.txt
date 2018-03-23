@@ -1,0 +1,21 @@
+Vue.nextTick(function () {
+
+                // DOM has updated..go trigger the resize now
+
+                $(window).trigger('resize');
+
+            })                 
+
+
+Go run this method after the ui completes.
+Just add this anywhere in your code
+
+I basically had something where i needed to repaint the screen after i set a variable so 
+I had the following:
+
+this.SetVariable = true; //this triggers a UI updated
+
+Vue.nextTick(function(){
+ //DOM has updated..go trigger the resize now
+ $(window).trigger('resize');
+});
