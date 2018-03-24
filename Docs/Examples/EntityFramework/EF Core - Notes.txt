@@ -1,0 +1,15 @@
+
+--to build a model from a database. NugetPackage manager
+Scaffold-DbContext "Server=MyDbServer;Database=MyDbName;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities
+
+
+
+--add this constructor to the context so we pull in the settings. Easier to work with
+  public MyDbContext(DbContextOptions<MyDbContext> context)
+         : base(context)
+        {
+        }
+		
+
+--register this in the di container
+services.AddDbContext<PortalTestContext>(options => options.UseSqlServer(configuration.GetConnectionString("PortalDatabaseServer")));

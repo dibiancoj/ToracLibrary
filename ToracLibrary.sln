@@ -127,6 +127,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFr
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\EntityFramework\Code First Migration Commands.txt = Docs\Examples\EntityFramework\Code First Migration Commands.txt
 		Docs\Examples\EntityFramework\Database Initalization Strategies.txt = Docs\Examples\EntityFramework\Database Initalization Strategies.txt
+		Docs\Examples\EntityFramework\EF Core - Notes.txt = Docs\Examples\EntityFramework\EF Core - Notes.txt
 		Docs\Examples\EntityFramework\FluentApi.txt = Docs\Examples\EntityFramework\FluentApi.txt
 	EndProjectSection
 EndProject
