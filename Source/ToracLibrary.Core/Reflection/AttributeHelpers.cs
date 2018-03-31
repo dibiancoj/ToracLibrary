@@ -63,7 +63,7 @@ namespace ToracLibrary.Core.ReflectionDynamic
         public static T FindAttribute<T>(FieldInfo FieldInfoToGetAttributeOffOf) where T : Attribute
         {
             //use the overload Field Info and Property Info Derive From Member Info
-            return FindAttribute<T>((MemberInfo)FieldInfoToGetAttributeOffOf);
+            return FindAttribute<T>(FieldInfoToGetAttributeOffOf.Cast<MemberInfo>());
         }
 
         /// <summary>
