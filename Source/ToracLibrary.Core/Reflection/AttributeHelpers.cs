@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 
 namespace ToracLibrary.Core.ReflectionDynamic
 {
@@ -36,7 +37,7 @@ namespace ToracLibrary.Core.ReflectionDynamic
             }
 
             //we have the property, use the helper method to find the itme
-            return FindAttribute<T>((MemberInfo)PropertyWeWereLookingFor);
+            return FindAttribute<T>(PropertyWeWereLookingFor.Cast<MemberInfo>());
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace ToracLibrary.Core.ReflectionDynamic
         public static T FindAttribute<T>(PropertyInfo ItemsPropertyInfo) where T : Attribute
         {
             //use the overload Field Info and Property Info Derive From Member Info
-            return FindAttribute<T>((MemberInfo)ItemsPropertyInfo);
+            return FindAttribute<T>(ItemsPropertyInfo.Cast<MemberInfo>());
         }
 
         /// <summary>
