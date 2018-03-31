@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 {
@@ -209,8 +207,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <typeparam name="T">Type Of The IEnumerable. Don't Need To Pass In</typeparam>
         /// <param name="CollectionToProcess">This IEnumerable To Run The Action On</param>
         /// <param name="MethodToRunOnEachElement">Method to run on each element.</param>
-        /// <remarks>.Net Framework Has For Each Only On List (Ext. Method). This is for anything of IEnumerable. there is a generic constraint because if you pass in a list of string or int's, it won't change it because its a value type</remarks>
-        public static void ForEach<T>(this IEnumerable<T> CollectionToProcess, Action<T> MethodToRunOnEachElement) where T : class
+        /// <remarks>.Net Framework Has For Each Only On List (Ext. Method). This is for anything of IEnumerable.</remarks>
+        public static void ForEach<T>(this IEnumerable<T> CollectionToProcess, Action<T> MethodToRunOnEachElement)
         {
             //there is a generic constraint because if you pass in a list of int's, it won't change it because its a value type
 
