@@ -34,6 +34,32 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
+        #region Cast Unit Tests
+
+        /// <summary>
+        /// Try to convert a class to something else
+        /// </summary>
+        [Fact]
+        public void ObjectCastTest1()
+        {
+            var ObjectToTest = new MyDerivedObject();
+
+            Assert.Equal(MyObject.MyValue, ObjectToTest.Cast<MyObject>().MyValueGetter);
+        }
+
+        /// <summary>
+        /// Try to convert a class to something that isn't castable
+        /// </summary>
+        [Fact]
+        public void ObjectCastToNullTest1()
+        {
+            var ObjectToTest = DummyObject.CreateDummyRecord();
+
+            Assert.Throws<InvalidCastException>(() => ObjectToTest.Cast<MyObject>());
+        }
+
+        #endregion
+
         #region As Unit Tests
 
         /// <summary>

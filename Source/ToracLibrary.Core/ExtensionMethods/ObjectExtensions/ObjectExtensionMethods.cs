@@ -17,6 +17,19 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         #region Casting - Type Checking
 
         /// <summary>
+        /// Generic way to cast an object to T. This way you don't need parenthesis when you need to cast it. Just a shorter sytnax instead of ((T)myobject).Field. 
+        /// </summary>
+        /// <typeparam name="TTo">Object type to convert to</typeparam>
+        /// <param name="ObjectToConvert">Object to convert</param>
+        /// <returns>TTo or throws an InvalidCastException if it can't cast it</returns>
+        /// <exception cref="InvalidCastException">InvalidCastException if it the conversion is not successful</exception>
+        public static TTo Cast<TTo>(this object ObjectToConvert)
+            where TTo : class
+        {
+            return (TTo)ObjectToConvert;
+        }
+
+        /// <summary>
         /// Generic way to run object as...T. This way you don't need parenthesis when you need to cast it. Just a shorter sytnax instead of (myobject as T).Field. 
         /// </summary>
         /// <typeparam name="TTo">Object type to convert to</typeparam>
