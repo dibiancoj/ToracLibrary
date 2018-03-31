@@ -41,14 +41,13 @@ namespace ToracLibrary.Caching
         public static DateTimeOffset CalculateAbsoluteExpirationDate(TimeSpan? ExpirationLength)
         {
             //first check to make sure we have expiration length field that is not null
-            if (ExpirationLength.HasValue)
-            {
-                //we have a value...so calculate it from now
-                return DateTime.Now.Add(ExpirationLength.Value);
-            }
+            return ExpirationLength.HasValue ?
 
-            //we don't have an expiration, return the max value
-            return ObjectCache.InfiniteAbsoluteExpiration;
+                //we have a value...so calculate it from now
+                DateTime.Now.Add(ExpirationLength.Value) :
+
+                //we don't have an expiration, return the max value
+                ObjectCache.InfiniteAbsoluteExpiration;
         }
 
     }
