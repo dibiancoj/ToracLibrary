@@ -79,7 +79,7 @@ the best way i've found is the following:
 
 1. git checkout feature1 (make changes)
 2. git rebase origin/development
-3. git push --force origin feature1
+3. git push --force origin feature1 (This helps with merge commits after a rebase. Again, best way I've found so far. Forcing isn't great if you share this branch with others. If we find better ways then update this.)
 
 ----------------------------- Git Ignore -------------------------
 If you add a git ignore but those files you are ignoring are already checked in then you will run into issues.
