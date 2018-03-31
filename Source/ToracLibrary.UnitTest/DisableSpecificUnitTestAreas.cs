@@ -14,6 +14,11 @@ namespace ToracLibrary.UnitTest
     {
 
         /// <summary>
+        /// Holds the reason to disable dynamic run time because it takes a good amount of time to run (5 seconds). I don't use this much (or at all) so no need to run it and slow down the tests
+        /// </summary>
+        internal const string DynamicRuntimeUnitTestFlag = "OnlyRunWhenNeededToSpeedUpUnitTests";
+
+        /// <summary>
         /// Holds the reason for not running the redis tests. Flip this to a blank string to run all the tests. This way you don't have to modify each attribute
         /// </summary>
         //internal const string DatabaseAvailableForUnitTestFlag = "DatabaseNotAvailable";

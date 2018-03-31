@@ -25,13 +25,13 @@ namespace ToracLibrary.UnitTest.Core
             DateTime Now = DateTime.Now;
 
             //spin until then
-            DiagnosticUtilities.SpinWaitUntilTimespan(new TimeSpan(0, 0, 3));
+            DiagnosticUtilities.SpinWaitUntilTimespan(new TimeSpan(0, 0, 2));
 
             //grab the current time
             var TimeNow = DateTime.Now.Subtract(Now).Seconds;
 
             //give a little bit of a buffer to finish..so check 3 to 3.75 seconds
-            Assert.True(TimeNow >= 3 && TimeNow < 3.75);
+            Assert.True(TimeNow >= 2 && TimeNow < 2.75);
         }
 
         #endregion  
