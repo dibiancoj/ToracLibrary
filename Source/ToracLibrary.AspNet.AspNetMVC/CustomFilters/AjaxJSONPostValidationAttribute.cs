@@ -135,7 +135,7 @@ namespace ToracLibrary.AspNet.AspNetMVC.CustomFilters
                     {
                         HasValidationErrors = true,
                         ErrorLookup = (from MyKey in ModelStateOfMethod.Keys
-                                       where ModelStateOfMethod[MyKey].Errors.Count > 0
+                                       where ModelStateOfMethod[MyKey].Errors.Any()
                                        select new
                                        {
                                            Key = MyKey,
