@@ -117,7 +117,7 @@ namespace ToracLibrary.Core.DataTableHelpers
         private static IEnumerable<PropertyInfo> PropertiesToBuildOffOf<T>()
         {
             //grab just PrimitiveTypes we care about. (no collections or anything like that)
-            IEnumerable<Type> PrimativeTypesToBuild = PrimitiveTypes.PrimitiveTypesSelect();
+            var PrimativeTypesToBuild = PrimitiveTypes.PrimitiveTypesSelect();
 
             //grab just PrimitiveTypes we care about. No collections or anything like that and return the result
             return typeof(T).GetProperties().Where(x => PrimativeTypesToBuild.Contains(x.PropertyType));
