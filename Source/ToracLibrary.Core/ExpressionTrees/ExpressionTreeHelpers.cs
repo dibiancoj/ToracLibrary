@@ -171,14 +171,14 @@ namespace ToracLibrary.Core.ExpressionTrees
                 }).FindMethodToInvoke();
 
             //let's go grab the sort predicate
-            Expression SortPredicate = (Expression)SortFuncGenericBuilder.Invoke(null, new object[] { PropertiesInTree });
+            Expression SortPredicate = SortFuncGenericBuilder.Invoke(null, new object[] { PropertiesInTree }).As<Expression>();
 
             // use reflection to get and call your own generic method that composes
             // the orderby into the query.
             MethodInfo Method = typeof(ExpressionTreeHelpers).GetMethod(nameof(ExpressionTreeHelpers.OrderByProperty), BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(typeof(T), LastPropertyInTree.PropertyType);
 
             //go invoke the order by property generically
-            return (IOrderedQueryable<T>)Method.Invoke(null, new object[] { QueryToModify, SortPredicate, OrderByAscending, IQueryableIsNotSortedYet });
+            return Method.Invoke(null, new object[] { QueryToModify, SortPredicate, OrderByAscending, IQueryableIsNotSortedYet }).Cast<IOrderedQueryable<T>>();
         }
 
         /// <summary>
@@ -203,22 +203,22 @@ namespace ToracLibrary.Core.ExpressionTrees
                 if (IQueryableIsNotSortedYet)
                 {
                     //order by ascending
-                    return QueryToModify.OrderBy((Expression<Func<T, TKey>>)SortPredicate);
+                    return QueryToModify.OrderBy(SortPredicate.Cast<Expression<Func<T, TKey>>>());
                 }
 
                 //tack on the additional "then by"
-                return ((IOrderedQueryable<T>)QueryToModify).ThenBy((Expression<Func<T, TKey>>)SortPredicate);
+                return QueryToModify.As<IOrderedQueryable<T>>().ThenBy(SortPredicate.Cast<Expression<Func<T, TKey>>>());
             }
 
             //is this an additional sort?
             if (IQueryableIsNotSortedYet)
             {
                 //order by descending
-                return QueryToModify.OrderByDescending((Expression<Func<T, TKey>>)SortPredicate);
+                return QueryToModify.OrderByDescending(SortPredicate.Cast<Expression<Func<T, TKey>>>());
             }
 
-            //tack on the additional "then by"
-            return ((IOrderedQueryable<T>)QueryToModify).ThenByDescending((Expression<Func<T, TKey>>)SortPredicate);
+            //tack on the additional "then by" (using As instead cast because i have a cast method and so does iqueryable. Easier to avoid the conflict)
+            return QueryToModify.As<IOrderedQueryable<T>>().ThenByDescending(SortPredicate.Cast<Expression<Func<T, TKey>>>());
         }
 
         #endregion
