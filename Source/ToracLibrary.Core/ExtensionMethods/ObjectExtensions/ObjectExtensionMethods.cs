@@ -19,7 +19,6 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         /// <summary>
         /// Generic way to cast an object to T. This way you don't need parenthesis when you need to cast it. Just a shorter sytnax instead of ((T)myobject).Field. 
         /// </summary>
-        /// <typeparam name="ToFrom">Object type to convert From</typeparam>
         /// <typeparam name="TTo">Object type to convert to</typeparam>
         /// <param name="ObjectToConvert">Object to convert</param>
         /// <returns>TTo or throws an InvalidCastException if it can't cast it</returns>
