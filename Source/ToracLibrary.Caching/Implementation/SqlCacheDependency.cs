@@ -105,18 +105,18 @@ namespace ToracLibrary.Caching
         /// <summary>
         /// Example. dbo. You must set dbo.TableName in your sql. So this will validate that it's there. Otherwise the event won't get raised
         /// </summary>
-        public string DatabaseSchema { get; }
+        private string DatabaseSchema { get; }
 
         /// <summary>
         /// Connection String Which Connect To The Database
         /// </summary>
-        public string ConnectionString { get; }
+        private string ConnectionString { get; }
 
         /// <summary>
         /// Sql To Run To Check For The Updated Data
         /// </summary>
         /// <remarks>Table name must include schema. ie dbo.TableName. Can't use Select *. Use a specific query select Field1, Field2, etc.</remarks>
-        public string SqlToRun { get; }
+        private string SqlToRun { get; }
 
         #endregion
 
