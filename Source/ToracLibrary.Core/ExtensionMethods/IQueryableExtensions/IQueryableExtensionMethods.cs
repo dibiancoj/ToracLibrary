@@ -8,6 +8,7 @@ using ToracLibrary.Core.ExpressionTrees;
 using ToracLibrary.Core.ExpressionTrees.API.ReMappers;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.Core.ExtensionMethods.IOrderedQueryableExtensions;
+using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.Core.ToracAttributes.ExpressionTreeAttributes;
 
 namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
@@ -157,7 +158,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
         #region Inject Another Binding Into A Select Statement
 
         /// <summary>
-        /// Let's say i have an IQueryable. Essentially a ef query. I want to tack on a field to my select. My select looks like x => new Record { Id = x.Id};. I want to tack on { Txt = x.Txt} inside the new Record call.
+        /// Let's say i have an IQueryable. Essentially an ef query. I want to tack on a field to my select. My select looks like x => new Record { Id = x.Id};. I want to tack on { Txt = x.Txt} inside the new Record call.
         /// </summary>
         /// <typeparam name="T">Queryable Record Type</typeparam>
         /// <param name="QueryToModify">Query to modify</param>
@@ -184,7 +185,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IQueryableExtensions
             var NewQuery = MergeQueryBuilder.Visit(QueryToModify.Expression);
 
             //go create the new IQueryable
-            return QueryToModify.Provider.CreateQuery(NewQuery) as IQueryable<T>;
+            return QueryToModify.Provider.CreateQuery(NewQuery).As<IQueryable<T>>();
         }
 
         #endregion
