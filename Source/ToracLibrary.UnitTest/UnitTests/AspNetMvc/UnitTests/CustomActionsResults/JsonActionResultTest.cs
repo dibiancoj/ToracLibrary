@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using ToracLibrary.AspNet.AspNetMVC.CustomActionsResults;
 using ToracLibrary.AspNet.AspNetMVC.Mocking;
+using ToracLibrary.Core.ExtensionMethods.ObjectExtensions;
 using ToracLibrary.DIContainer;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
@@ -124,7 +122,7 @@ namespace ToracLibrary.UnitTest.AspNet.AspNetMVC.CustomActionResults
             TestController.JsonNetResult().ExecuteResult(TestController.ControllerContext);
 
             //let's check the result now
-            Assert.Equal("{\"JsonId\":5,\"JsonDescription\":\"Description5\",\"CreatedDate\":\"2015-09-01T00:00:00\"}", ((MockHttpResponse)TestController.Response).HtmlOutput.ToString());
+            Assert.Equal("{\"JsonId\":5,\"JsonDescription\":\"Description5\",\"CreatedDate\":\"2015-09-01T00:00:00\"}", TestController.Response.Cast<MockHttpResponse>().HtmlOutput.ToString());
         }
 
         #endregion
