@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ToracLibrary.Core.DataProviders.SqlBuilder;
 
 namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Logger
@@ -36,7 +33,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Logger
         /// <summary>
         /// Do you want to log each time a connection is opened
         /// </summary>
-        public bool LogConnectionOpened { get; set; }
+        private bool LogConnectionOpened { get; set; }
 
         #endregion
 
@@ -88,19 +85,19 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Logger
         private static string UpdateSqlWithParameterValues(DbCommand Command)
         {
             //grab the sql from the command text
-            StringBuilder SqlToReturn = new StringBuilder(Command.CommandText);
+            var SqlToReturn = new StringBuilder(Command.CommandText);
 
             //loop through the parameters and replace the value with the actual value in the sql
-            foreach (DbParameter thisParameter in Command.Parameters)
+            foreach (DbParameter SqlDbParameter in Command.Parameters)
             {
                 //grab the parameter name with the @
-                string thisParameterName = string.Format("@{0}", thisParameter.ParameterName);
+                string thisParameterName = string.Format("@{0}", SqlDbParameter.ParameterName);
 
                 //holds the format which we need for anything that needs a quote
                 string thisReplaceFormat;
 
                 //is this something that we need a quote on?
-                if (SharedSqlHelpers.DataTypeNeedsQuoteInSql(thisParameter.DbType))
+                if (SharedSqlHelpers.DataTypeNeedsQuoteInSql(SqlDbParameter.DbType))
                 {
                     //it needs a quote
                     thisReplaceFormat = "'{0}'";
@@ -112,7 +109,7 @@ namespace ToracLibrary.Core.DataProviders.EntityFrameworkDP.Logger
                 }
 
                 //go replace the parameter
-                SqlToReturn = SqlToReturn.Replace(thisParameterName, string.Format(thisReplaceFormat, (thisParameter.Value == null ? null : thisParameter.Value.ToString())));
+                SqlToReturn = SqlToReturn.Replace(thisParameterName, string.Format(thisReplaceFormat, (SqlDbParameter.Value == null ? null : SqlDbParameter.Value.ToString())));
             }
 
             //return the sql
