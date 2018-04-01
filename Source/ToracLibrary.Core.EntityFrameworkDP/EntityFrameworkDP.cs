@@ -7,7 +7,6 @@ using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using ToracLibrary.Core.DataProviders.ADO;
