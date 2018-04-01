@@ -74,6 +74,15 @@ If you ever want to restore from JUST the .git folder.
 ----------------------------- Rebase -----------------------------
 git rebase origin/master --> this moves all new changes in master into your working branch. This way you have the latest set of changes and you don't have a merge commit.
 ie: branch a new dev...then before merging back to master you can move any new changes from master into your branch and put your new changes at the top. 
+
+the best way i've found is the following:
+
+1. git checkout feature1 (make changes)
+2. git rebase origin/development
+3. git push --force origin feature1 (This helps with merge commits after a rebase. Again, best way I've found so far. Forcing isn't great if you share this branch with others. If we find better ways then update this.)
+
+Don't rebase public or branches where other members can see / change. ie: rebase local branches. The solution above isn't great. Again, just rebase local branches. If you have pushed your local branch to remote then don't rebase
+
 ----------------------------- Git Ignore -------------------------
 If you add a git ignore but those files you are ignoring are already checked in then you will run into issues.
 run the following to fix

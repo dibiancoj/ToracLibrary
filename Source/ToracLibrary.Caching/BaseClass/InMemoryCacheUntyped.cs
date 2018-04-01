@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToracLibrary.Caching
 {
@@ -25,7 +22,7 @@ namespace ToracLibrary.Caching
             //an implementation to get it that way too
 
             //loop through the cache items
-            foreach (KeyValuePair<string, object> ItemInCache in MemoryCache.Default)
+            foreach (var ItemInCache in MemoryCache.Default)
             {
                 //use yield result so we don't have to throw this guy in a list before returning it
                 yield return ItemInCache;
@@ -41,14 +38,13 @@ namespace ToracLibrary.Caching
         public static DateTimeOffset CalculateAbsoluteExpirationDate(TimeSpan? ExpirationLength)
         {
             //first check to make sure we have expiration length field that is not null
-            if (ExpirationLength.HasValue)
-            {
-                //we have a value...so calculate it from now
-                return DateTime.Now.Add(ExpirationLength.Value);
-            }
+            return ExpirationLength.HasValue ?
 
-            //we don't have an expiration, return the max value
-            return ObjectCache.InfiniteAbsoluteExpiration;
+                //we have a value...so calculate it from now
+                DateTime.Now.Add(ExpirationLength.Value) :
+
+                //we don't have an expiration, return the max value
+                ObjectCache.InfiniteAbsoluteExpiration;
         }
 
     }
