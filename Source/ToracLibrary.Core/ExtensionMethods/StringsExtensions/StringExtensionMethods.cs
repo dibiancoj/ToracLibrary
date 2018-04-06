@@ -451,20 +451,10 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <returns>String with the value at the beg and end of it</returns>
         public static string SurroundWith(this string StringToQuote, string StringToAddAtBegAndEnd)
         {
+            //benchmarkdot net showed that a string builder or ${}... was slower and used more memory then just appending 3 items. 
+            //i assume since its only 3 string that is the reason
             //string builder to build it up
-            return new StringBuilder()
-
-                //first string value
-                .Append(StringToAddAtBegAndEnd)
-
-                //actual string value to surround with now
-                .Append(StringToQuote)
-
-                //end string value
-                .Append(StringToAddAtBegAndEnd)
-
-                //return the string
-                .ToString();
+            return StringToAddAtBegAndEnd + StringToQuote + StringToAddAtBegAndEnd;
         }
 
         #endregion
