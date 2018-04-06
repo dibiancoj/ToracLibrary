@@ -330,6 +330,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StructureMap", "StructureMa
 		Docs\Examples\StructureMap\GeneralNotes.txt = Docs\Examples\StructureMap\GeneralNotes.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Performance", "Source\ToracLibrary.Performance\ToracLibrary.Performance.csproj", "{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -436,6 +440,10 @@ Global
 		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F42CB80-4775-4B00-9872-550B79F69F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -508,6 +516,8 @@ Global
 		{79FB4D83-DC57-47C7-9F49-A037B4F8A9E8} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{7E31F4B7-C266-4F41-B467-2597B27F9134} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{8D858705-59A2-4A7D-BCB7-55F179560CDD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
+		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD} = {7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
