@@ -46,3 +46,10 @@ just make sure the csproj ingnores this folder... Then we include those files on
 --------------------------------------------------------------
 Change to use full framework:
 <TargetFramework>Net461</TargetFramework>
+
+To target multiple frameworks:
+ <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp1.1;net46</TargetFrameworks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
