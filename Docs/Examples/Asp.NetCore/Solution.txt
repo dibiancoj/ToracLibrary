@@ -42,3 +42,7 @@ just make sure the csproj ingnores this folder... Then we include those files on
  <PropertyGroup>
   <RuntimeIdentifiers>win7-x64;win81-x64</RuntimeIdentifiers>
 </PropertyGroup>
+
+--------------------------------------------------------------
+Change to use full framework:
+<TargetFramework>Net461</TargetFramework>
