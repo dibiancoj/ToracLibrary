@@ -1,0 +1,16 @@
+
+//import bootstrap so the border-radius mixin is happy
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+//pull in this mix-in which is what we want
+@import "../../../node_modules/bootstrap/scss/mixins/border-radius";
+
+.nav-item {
+
+    > a:hover {
+        background-color: $themeColor-Dark;
+		
+		//add this mix which will make this item "round" which is pulled in from the bootstrap sass
+        @include border-radius;
+    }
+}

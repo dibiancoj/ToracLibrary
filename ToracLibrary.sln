@@ -334,6 +334,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Performance", "Source\ToracLibrary.Performance\ToracLibrary.Performance.csproj", "{719E873D-E5CF-491B-B370-6A0E3B1BEBBD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sass", "Sass", "{0912AAC6-AA5A-46F1-BF2D-3C64F3C62BFA}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Sass\ImportFromBootstrap.txt = Docs\Examples\Sass\ImportFromBootstrap.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -518,6 +523,7 @@ Global
 		{8D858705-59A2-4A7D-BCB7-55F179560CDD} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD} = {7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8}
+		{0912AAC6-AA5A-46F1-BF2D-3C64F3C62BFA} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
