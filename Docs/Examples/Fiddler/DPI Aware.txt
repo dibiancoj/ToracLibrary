@@ -5,3 +5,6 @@ To fix:
 C:\Users\dibiancj\AppData\Local\Programs\Fiddler\Fiddler.exe -dpiAware
 
 ..essentially just change fiddler to run with the -dpiAware command
+
+
+4/11/2018 - it looks like Telerik fixed this issue with a new release. I don't believe you need this anymore.
