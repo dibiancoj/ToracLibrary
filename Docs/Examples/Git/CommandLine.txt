@@ -54,6 +54,9 @@ You can also open "gitk" which is the simple gui for git. The gui is not the gre
 6. To delete local branch (if you want to delete) --> "git branch -d <BranchName>" <-- Branch name to delete
 7. To delete the branch on the server "git push origin :<BranchName>" <-- Branch name is the name of the branch you want to delete on the server
 
+Experience: If you want to see the branch history then use the following:
+git merge --no-ff myfeature  --> "--no-ff". This shows in the git graph with the number of changes you made in the feature branch. Otherwise, it gets merged into a straight line with development.
+
 ----------------------------- Stashing (like tfs shelving) -----------------------------
 1. Make your changes
 2. To 'shelve or stash them' use "git stash"
