@@ -24,7 +24,6 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         /// <returns>TTo or throws an InvalidCastException if it can't cast it</returns>
         /// <exception cref="InvalidCastException">InvalidCastException if it the conversion is not successful</exception>
         public static TTo Cast<TTo>(this object ObjectToConvert)
-            where TTo : class
         {
             return (TTo)ObjectToConvert;
         }
@@ -48,7 +47,6 @@ namespace ToracLibrary.Core.ExtensionMethods.ObjectExtensions
         /// <param name="ObjectToEvaluate">Object to run a is against with the TIsCheckType</param>
         /// <returns>If the object passed in is derived or is the actual object type</returns>
         public static bool Is<TIsCheck>(this object ObjectToEvaluate)
-            where TIsCheck : class
         {
             return ObjectToEvaluate is TIsCheck;
         }

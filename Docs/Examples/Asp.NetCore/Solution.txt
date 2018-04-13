@@ -37,12 +37,24 @@ just make sure the csproj ingnores this folder... Then we include those files on
   </Target>
 
 -------------------------------------------------------------
+ 
+ --to publish brining your own framework (google RuntimeIdentifiers for the complete list of tags)
 
-  --to publish brining your own framework (google RuntimeIdentifiers for the complete list of tags)
+ //in csproj
  <PropertyGroup>
   <RuntimeIdentifiers>win7-x64;win81-x64</RuntimeIdentifiers>
 </PropertyGroup>
 
+in FolderProfile.pubxml (or whatever publish settings you are using)
+<RuntimeIdentifier>win81-x64</RuntimeIdentifier>
+
 --------------------------------------------------------------
 Change to use full framework:
 <TargetFramework>Net461</TargetFramework>
+
+To target multiple frameworks:
+ <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp1.1;net46</TargetFrameworks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
