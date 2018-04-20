@@ -1,5 +1,9 @@
 Import the following on the top of you sass file
+note: dont ever import bootstrap.scss or the other raw files
+bc it will inject the bootstrap styling in your file.
+just use the importa i used below
 
+(~ means look in node_module folder)
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
