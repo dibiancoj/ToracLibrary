@@ -1,0 +1,48 @@
+Import the following on the top of you sass file
+note: dont ever import bootstrap.scss or the other raw files
+bc it will inject the bootstrap styling in your file.
+just use the importa i used below
+
+(~ means look in node_module folder)
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+--then in can include the mix in's or variable. the border-radius is part of bootstrap below
+
+.navbar-nav > .nav-item {
+
+    > a:hover {
+        background-color: $themeColor-Dark;
+        @include border-radius;
+    }
+}
+
+
+
+----------
+
+
+or 
+
+@import '~bootstrap/scss/variables';
+
+.validation-summary-errors {
+    @extend %validation-errors-shared;
+    /*this is from the bootstrap variable. This is the total of left and right that is why we divide by 2*/
+    padding-left: $grid-gutter-width / 2;
+}
+
+
+
+--------------
+
+or
+
+/*scale the logo when we get down to a smaller size*/
+@include media-breakpoint-down(md) {
+    // Smaller than sm 768px
+    #Logo {
+        width: 200px !important;
+    }
+}
