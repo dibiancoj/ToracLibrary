@@ -487,7 +487,6 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
             //go run the test method
             return MemoryStreamToUse;
-
         }
 
         #endregion
