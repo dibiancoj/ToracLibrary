@@ -9,6 +9,9 @@ Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
 
 you can get a config value or a service in startup by calling "var serviceProvider = services.BuildServiceProvider();"
 
+App Settings In A Singleton
+Inject IOptionsMonitor<LocalizationSettings> if you need to have it reload on file change when injected into a singleon.
+
 ------------------------------------------------------------------------------------------------------------------------
 
 *** Json Serialization To Regular Case ***
