@@ -1,0 +1,59 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //add packages:
+            //<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+            //<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
+            //<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.1" />
+            //<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.1" />
+
+            //note: console logger is "information or higher" by default. Also the log writes async so the log to the console won't output right away. the console readline forces is
+
+            //to make it output debug 
+            //.AddConsole(LogLevel.Debug)
+            //.AddDebug(LogLevel.Debug))
+
+            //setup our DI
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton<IFooService, FooService>()
+                .AddSingleton(new LoggerFactory()
+                    .AddConsole()
+                    .AddDebug())
+                .BuildServiceProvider();
+
+            var logger = serviceProvider.GetService<ILoggerFactory>()
+                 .CreateLogger<Program>();
+
+            logger.LogInformation("Starting application");
+
+            //do the actual work here
+            var foo = serviceProvider.GetService<IFooService>();
+
+            var result = foo.DoThing(24);
+
+            logger.LogInformation(result.ToString());
+
+            Console.ReadLine();
+        }
+    }
+
+    public interface IFooService
+    {
+        int DoThing(int number);
+    }
+
+    public class FooService : IFooService
+    {
+        public int DoThing(int number)
+        {
+            return number + 100;
+        }
+    }
+}
