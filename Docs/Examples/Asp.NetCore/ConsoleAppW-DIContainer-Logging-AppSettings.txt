@@ -20,7 +20,7 @@ namespace ConsoleApp1
 
             //configuration
             //Microsoft.Extensions.Configuration
-            //Microsoft.Extensions.Configuration.EnvironmentVariables
+            //Microsoft.Extensions.Configuration.EnvironmentVariables (only if you want to pull in env variables example is below)
             //Microsoft.Extensions.Configuration.FileExtensions
             //Microsoft.Extensions.Configuration.Json
             //Microsoft.Extensions.Options.ConfigurationExtensions
