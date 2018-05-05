@@ -1,11 +1,15 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using static ConsoleApp1.Program;
 
 namespace ConsoleApp1
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             //add packages:
@@ -14,14 +18,37 @@ namespace ConsoleApp1
             //<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.1" />
             //<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.1" />
 
+            //configuration
+            //Microsoft.Extensions.Configuration
+            //Microsoft.Extensions.Configuration.EnvironmentVariables
+            //Microsoft.Extensions.Configuration.FileExtensions
+            //Microsoft.Extensions.Configuration.Json
+            //Microsoft.Extensions.Options.ConfigurationExtensions
+
+            //add appsetting.json --> set to copy to output directory - on this file property 
+
             //note: console logger is "information or higher" by default. Also the log writes async so the log to the console won't output right away. the console readline forces is
 
             //to make it output debug 
             //.AddConsole(LogLevel.Debug)
             //.AddDebug(LogLevel.Debug))
 
+            //var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json", false, false);
+            //.AddJsonFile($"appsettings.{environmentName}.json", true, true)
+            //.AddEnvironmentVariables();
+
+            var configuration = builder.Build();
+
+            //var myAppSettings = configuration.GetSection("Jason");
+            // var myConnString = configuration.GetConnectionString("SQLConn");
+
             //setup our DI
             var serviceProvider = new ServiceCollection()
+                .AddOptions()
+                .Configure<MyAppSettings>(configuration.GetSection("Jason"))
                 .AddSingleton<IFooService, FooService>()
                 .AddSingleton(new LoggerFactory()
                     .AddConsole()
@@ -44,16 +71,28 @@ namespace ConsoleApp1
         }
     }
 
+    public class MyAppSettings
+    {
+        public string id { get; set; }
+    }
+
     public interface IFooService
     {
-        int DoThing(int number);
+        string DoThing(int number);
     }
 
     public class FooService : IFooService
     {
-        public int DoThing(int number)
+        public FooService(IOptions<MyAppSettings> settings)
         {
-            return number + 100;
+            Settings = settings;
+        }
+
+        private IOptions<MyAppSettings> Settings { get; }
+
+        public string DoThing(int number)
+        {
+            return Settings.Value.id + " " + number.ToString();
         }
     }
 }
