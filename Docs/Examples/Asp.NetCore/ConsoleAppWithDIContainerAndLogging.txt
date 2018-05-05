@@ -99,7 +99,7 @@ namespace ConsoleApp1
 
 -----------------------------------------------------------
 
-//an example with ef core and what i have for some apps
+//an example with ef core and what i have for some apps (essentially a condensed version)
 static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
