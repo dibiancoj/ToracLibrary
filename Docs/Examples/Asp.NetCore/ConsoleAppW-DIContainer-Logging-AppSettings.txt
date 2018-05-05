@@ -1,0 +1,123 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
+using static ConsoleApp1.Program;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            //add packages:
+            //<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+            //<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
+            //<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.1" />
+            //<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.1" />
+
+            //configuration
+            //Microsoft.Extensions.Configuration
+            //Microsoft.Extensions.Configuration.EnvironmentVariables
+            //Microsoft.Extensions.Configuration.FileExtensions
+            //Microsoft.Extensions.Configuration.Json
+            //Microsoft.Extensions.Options.ConfigurationExtensions
+
+            //add appsetting.json --> set to copy to output directory - on this file property 
+
+            //note: console logger is "information or higher" by default. Also the log writes async so the log to the console won't output right away. the console readline forces is
+
+            //to make it output debug 
+            //.AddConsole(LogLevel.Debug)
+            //.AddDebug(LogLevel.Debug))
+
+            //var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json", false, false);
+            //.AddJsonFile($"appsettings.{environmentName}.json", true, true)
+            //.AddEnvironmentVariables();
+
+            var configuration = builder.Build();
+
+            //var myAppSettings = configuration.GetSection("Jason");
+            // var myConnString = configuration.GetConnectionString("SQLConn");
+
+            //setup our DI
+            var serviceProvider = new ServiceCollection()
+                .AddOptions()
+                .Configure<MyAppSettings>(configuration.GetSection("Jason"))
+                .AddSingleton<IFooService, FooService>()
+                .AddSingleton(new LoggerFactory()
+                    .AddConsole()
+                    .AddDebug())
+                .BuildServiceProvider();
+
+            var logger = serviceProvider.GetService<ILoggerFactory>()
+                 .CreateLogger<Program>();
+
+            logger.LogInformation("Starting application");
+
+            //do the actual work here
+            var foo = serviceProvider.GetService<IFooService>();
+
+            var result = foo.DoThing(24);
+
+            logger.LogInformation(result.ToString());
+
+            Console.ReadLine();
+        }
+    }
+
+    public class MyAppSettings
+    {
+        public string id { get; set; }
+    }
+
+    public interface IFooService
+    {
+        string DoThing(int number);
+    }
+
+    public class FooService : IFooService
+    {
+        public FooService(IOptions<MyAppSettings> settings)
+        {
+            Settings = settings;
+        }
+
+        private IOptions<MyAppSettings> Settings { get; }
+
+        public string DoThing(int number)
+        {
+            return Settings.Value.id + " " + number.ToString();
+        }
+    }
+}
+
+-----------------------------------------------------------
+
+//an example with ef core and what i have for some apps (essentially a condensed version)
+static void Main(string[] args)
+        {
+            var builder = new ConfigurationBuilder()
+                    .AddJsonFile($"appsettings.json", false, false);
+
+            var configuration = builder.Build();
+
+            var serviceProvider = new ServiceCollection()
+               .AddOptions()
+               .Configure<UsersToAdjustAppSettings>(configuration.GetSection("UsersToAdjust"))
+               .AddDbContext<DMSKTEFORMSContext>(options => options.UseSqlServer(configuration.GetConnectionString("TestServer")))
+               .AddDbContext<PortalTestContext>(options => options.UseSqlServer(configuration.GetConnectionString("PortalDatabaseServer")))
+               .AddSingleton<IPatientInfoRepository, PatientInfoService>()
+               .AddSingleton<UpdatePatientTask>()
+               .AddSingleton(new LoggerFactory()
+                   .AddConsole()
+                   .AddDebug())
+               .BuildServiceProvider();
+
+            Console.WriteLine("Patients Updated: " + serviceProvider.GetRequiredService<UpdatePatientTask>().Run().ToString());
+        }
