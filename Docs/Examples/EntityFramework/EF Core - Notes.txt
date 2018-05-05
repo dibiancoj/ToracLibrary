@@ -13,3 +13,15 @@ Scaffold-DbContext "Server=MyDbServer;Database=MyDbName;Trusted_Connection=True;
 
 --register this in the di container
 services.AddDbContext<PortalTestContext>(options => options.UseSqlServer(configuration.GetConnectionString("PortalDatabaseServer")));
+
+
+-in a core console app with no di container:
+ static void Main(string[] args)
+        {
+            var builderPortal = new DbContextOptionsBuilder<PortalTestContext>();
+            builderPortal.UseSqlServer("Server=VSMSKQSQLPORTAL,50669;Database=PortalTest;Trusted_Connection=True;");
+
+            var patientRepository = new PatientInfoService(new PortalTestContext(builderPortal.Options));
+
+            var portalPatient = patientRepository.SearchPortalByUserIdAsync("portaluser1").GetAwaiter().GetResult();
+        }
