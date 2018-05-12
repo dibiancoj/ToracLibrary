@@ -17,9 +17,9 @@ namespace ToracLibrary.HtmlParsing
 
         //i got an error when i added this to the project. the calling project might need to add this
         //  <dependentAssembly>
-      //  <assemblyIdentity name = "HtmlAgilityPack" publicKeyToken="bd319b19eaf3b43a" culture="neutral" />
-      //  <bindingRedirect oldVersion = "0.0.0.0-1.4.9.0" newVersion="1.4.9.0" />
-      //</dependentAssembly>
+        //  <assemblyIdentity name = "HtmlAgilityPack" publicKeyToken="bd319b19eaf3b43a" culture="neutral" />
+        //  <bindingRedirect oldVersion = "0.0.0.0-1.4.9.0" newVersion="1.4.9.0" />
+        //</dependentAssembly>
 
         #region Constructor
 
@@ -66,6 +66,15 @@ namespace ToracLibrary.HtmlParsing
 
         //to set the inner text
         //element.SetTextElement("<span>jason</span>")
+
+        /// <summary>
+        /// Get the full html document from the html doc.
+        /// </summary>
+        /// <returns>Html string output</returns>
+        public string ToHtml()
+        {
+            return HtmlDoc.DocumentNode.OuterHtml;
+        }
 
         #endregion
 

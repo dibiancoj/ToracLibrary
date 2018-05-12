@@ -340,6 +340,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sass", "Sass", "{CB0DA6E1-6
 		Docs\Examples\Sass\Import Bootstrap Stuff Into App Sass Files.txt = Docs\Examples\Sass\Import Bootstrap Stuff Into App Sass Files.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HtmlAgilityPack", "HtmlAgilityPack", "{AC3B22D6-03B0-409A-8602-FF9095070820}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\HtmlAgilityPack\HtmlParsingInsteadOfXElement.txt = Docs\Examples\HtmlAgilityPack\HtmlParsingInsteadOfXElement.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -525,6 +530,7 @@ Global
 		{7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8} = {1A2E3556-C4CC-448F-A73B-4BB5772C7C6A}
 		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD} = {7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8}
 		{CB0DA6E1-6B65-44CA-9D2E-2D4851D1E608} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{AC3B22D6-03B0-409A-8602-FF9095070820} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
