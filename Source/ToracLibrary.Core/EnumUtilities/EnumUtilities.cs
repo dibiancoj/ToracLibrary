@@ -22,8 +22,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// </summary>
         /// <typeparam name="T">Type Of The Enum</typeparam>
         /// <returns>IEnumerable of your enum's</returns>
-        /// <remarks>Usage = var values = EnumUtil.GetValues &lt;Foos&lt;();</remarks>
-        public static IEnumerable<T> GetValuesLazy<T>() where T : struct
+        public static IEnumerable<T> GetValuesLazy<T>() where T : Enum
         {
             //loop through the types
             foreach (var EnumType in Enum.GetValues(typeof(T)))
@@ -43,7 +42,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <typeparam name="T">Type Of Enum To Cast Too</typeparam>
         /// <param name="InputToConvertToEnum">String Value To Convert To The Enum</param>
         /// <returns>NullableType Of Your Enum</returns>
-        public static T? TryParseToNullable<T>(string InputToConvertToEnum) where T : struct
+        public static T? TryParseToNullable<T>(string InputToConvertToEnum) where T : struct, Enum
         {
             //use the overload
             return TryParseToNullable<T>(InputToConvertToEnum, false);
@@ -56,16 +55,13 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="InputToConvertToEnum">String Value To Convert To The Enum</param>
         /// <param name="IgnoreCase">Ignore case when trying to convert</param>
         /// <returns>NullableType Of Your Enum</returns>
-        public static T? TryParseToNullable<T>(string InputToConvertToEnum, bool IgnoreCase) where T : struct
+        public static T? TryParseToNullable<T>(string InputToConvertToEnum, bool IgnoreCase) where T : struct, Enum
         {
-            //validate that this is an enum
-            ValidateEnum<T>(false);
-
             //make sure the input value is filled out
             if (InputToConvertToEnum.HasValue())
             {
                 //go try to parse the enum value...(true means it was converted, false means it failed)
-                if (Enum.TryParse(InputToConvertToEnum, IgnoreCase, out T ConvertedEnum))
+                if (Enum.TryParse<T>(InputToConvertToEnum, IgnoreCase, out T ConvertedEnum))
                 {
                     //conversion completed succesfully...return the enum
                     return ConvertedEnum;
@@ -126,22 +122,14 @@ namespace ToracLibrary.Core.EnumUtilities
         #region Validate Method
 
         /// <summary>
-        /// Validates T to ensure it's an enum. If ValidateIfEnumIsBitMaskFlag is set it will check to see if it's a bit mask. ie flags attribute it set
+        /// Validate the enum has a bit mask flag
         /// </summary>
         /// <typeparam name="T">type of t or enum to check in</typeparam>
-        /// <param name="ValidateIfEnumIsBitMaskFlag">If ValidateIfEnumIsBitMaskFlag is set it will check to see if it's a bit mask. ie flags attribute it set</param>
         /// <remarks>will raise an error if it fails</remarks>
-        private static void ValidateEnum<T>(bool ValidateIfEnumIsBitMaskFlag) where T : struct
+        private static void ValidateIsBitMaskEnum<T>() where T : Enum
         {
-            //first make sure T is an enum
-            if (!typeof(T).IsEnum)
-            {
-                //throw the exception because we need an enum type
-                throw new ArgumentException($"Type '{typeof(T).FullName}' isn't an enum.");
-            }
-
             //now check to make sure it's a flag (bitmask flag)
-            if (ValidateIfEnumIsBitMaskFlag && !Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
+            if (!Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
             {
                 throw new ArgumentException($"Type '{typeof(T).FullName}' doesn't have the 'Flags' attribute");
             }
@@ -178,10 +166,10 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">The working enum. So the combination of all the enums that have been joined together</param>
         /// <param name="ValueToAdd">value to add to the working enum value</param>
         /// <returns>the new updated enum that the value to add and the working enum value have been merged into</returns>
-        public static T BitMaskAddItem<T>(T WorkingEnumValue, T ValueToAdd) where T : struct
+        public static T BitMaskAddItem<T>(T WorkingEnumValue, T ValueToAdd) where T : struct, Enum
         {
             //validate that this is an enum and a bit mask
-            ValidateEnum<T>(true);
+            ValidateIsBitMaskEnum<T>();
 
             //add the logical or's together then parse it and return it
             return BitMaskAddItemHelper(WorkingEnumValue, ValueToAdd);
@@ -194,10 +182,10 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">The working enum. So the combination of all the enums that have been joined together</param>
         /// <param name="ValuesToAdd">values to add to the working enum value</param>
         /// <returns>the new updated enum that the value to add and the working enum value have been merged into</returns>
-        public static T BitMaskAddItem<T>(T WorkingEnumValue, params T[] ValuesToAdd) where T : struct
+        public static T BitMaskAddItem<T>(T WorkingEnumValue, params T[] ValuesToAdd) where T : struct, Enum
         {
             //validate that this is an enum and a bit mask
-            ValidateEnum<T>(true);
+            ValidateIsBitMaskEnum<T>();
 
             //loop through all the values and keep adding them to the base item
             foreach (var EnumToAdd in ValuesToAdd)
@@ -221,7 +209,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">The working enum. So the combination of all the enums that have been joined together</param>
         /// <param name="ValueToAdd">value to add to the working enum value</param>
         /// <returns>the new updated enum that the value to add and the working enum value have been merged into</returns>
-        private static T BitMaskAddItemHelper<T>(T WorkingEnumValue, T ValueToAdd) where T : struct
+        private static T BitMaskAddItemHelper<T>(T WorkingEnumValue, T ValueToAdd) where T : struct, Enum
         {
             //add the logical or's together then parse it and return it
             return TryParseToNullable<T>((Convert.ToInt64(WorkingEnumValue) | Convert.ToInt64(ValueToAdd)).ToString()).Value;
@@ -240,10 +228,10 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">Working Enum Value To Look In For The ValueToCheckFor</param>
         /// <param name="ValueToCheckFor">Value To Check For In The Enum</param>
         /// <returns>True if it is in the enum. Ie is selected</returns>
-        public static bool BitMaskContainsValue<T>(T WorkingEnumValue, T ValueToCheckFor) where T : struct
+        public static bool BitMaskContainsValue<T>(T WorkingEnumValue, T ValueToCheckFor) where T : Enum
         {
             //validate that this is an enum and a bit mask
-            ValidateEnum<T>(true);
+            ValidateIsBitMaskEnum<T>();
 
             //go use the helper and return the result
             return BitMaskContainsValueHelper(WorkingEnumValue, ValueToCheckFor);
@@ -256,10 +244,10 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">Working Enum Value To Look In For The ValueToCheckFor</param>
         /// <param name="EnumValueToCheckFor">Array of Values To Check For In The Enum</param>
         /// <returns>True 1 of the enum values you are checking for is found. Ie is selected</returns>
-        public static bool BitMaskContainsValue<T>(T WorkingEnumValue, params T[] EnumValueToCheckFor) where T : struct
+        public static bool BitMaskContainsValue<T>(T WorkingEnumValue, params T[] EnumValueToCheckFor) where T : Enum
         {
             //validate that this is an enum and a bit mask
-            ValidateEnum<T>(true);
+            ValidateIsBitMaskEnum<T>();
 
             //let's loop through all the params items and build up my enum to check
             foreach (var thisEnumValueToCheck in EnumValueToCheckFor)
@@ -284,10 +272,10 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <typeparam name="T">Type of the enum</typeparam>
         /// <param name="WorkingEnumValue">Working enum value to look in</param>
         /// <returns>list of flags that are selected. Uses yield to chain. Use ToArray() to send the values to an array</returns>
-        public static IEnumerable<T> BitMaskSelectedItemsLazy<T>(T WorkingEnumValue) where T : struct
+        public static IEnumerable<T> BitMaskSelectedItemsLazy<T>(T WorkingEnumValue) where T : Enum
         {
             //validate that this is an enum and a bit mask
-            ValidateEnum<T>(true);
+            ValidateIsBitMaskEnum<T>();
 
             //go call the local iterator function
             return Iterator();
@@ -305,7 +293,7 @@ namespace ToracLibrary.Core.EnumUtilities
                         yield return thisEnumValue;
                     }
                 }
-            }    
+            }
         }
 
         #endregion
@@ -320,7 +308,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="WorkingEnumValue">Working Enum Value To Look In For The ValueToCheckFor</param>
         /// <param name="ValueToCheckFor">Value To Check For In The Enum</param>
         /// <returns>True if it is in the enum. Ie is selected</returns>
-        private static bool BitMaskContainsValueHelper<T>(T WorkingEnumValue, T ValueToCheckFor) where T : struct
+        private static bool BitMaskContainsValueHelper<T>(T WorkingEnumValue, T ValueToCheckFor) where T : Enum
         {
             //check to see if the value to check for is in the working enum value
             return (Convert.ToInt64(WorkingEnumValue) & Convert.ToInt64(ValueToCheckFor)) == Convert.ToInt64(ValueToCheckFor);
