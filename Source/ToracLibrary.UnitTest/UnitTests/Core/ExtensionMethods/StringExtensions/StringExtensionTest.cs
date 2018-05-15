@@ -374,7 +374,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
-        #region Surround With
+        #region To Base 64 Decode
 
         /// <summary>
         /// Test to make sure the Base 64 Encoding Works works
