@@ -1,0 +1,362 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+--adjust based on your solution
+@include media-breakpoint-down(md) {
+    .records-per-page {
+        text-align: left !important;
+        margin-top: 5px;
+    }
+}
+
+.vue-grid-top-menu {
+    margin-bottom: 5px;
+}
+
+.sortable {
+    cursor: pointer;
+}
+
+.vue-grid-sort-icons {
+    float: right;
+}
+
+.vue-grid-pagination-menu {
+    margin-bottom: 0;
+}
+
+.records-per-page {
+    text-align: right;
+}
+
+
+--------------------------------------
+grid.vue
+
+<!--const sharedColumnConfig = [
+    {
+        key: 'star',
+        headerText: '',
+        dataPath: '',
+        sortable: false,
+        renderer: (rowObject) => "<a href='#'>Test</a>"
+    },
+    {
+        key: 'subject',
+        headerText: 'Subject',
+        dataPath: 'subject'
+    },
+    {
+        key: 'fromName',
+        headerText: 'From',
+        dataPath: 'fromName'
+    },
+    {
+        key: 'createdDate',
+        headerText: 'Sent Date',
+        dataPath: 'createdDate',
+        formatter: 'shortdate' (maybe add custom func later on)
+    }
+]-->
+<!--<dataGrid-component v-if="!loading"
+                    @@on-select="onGridClick" //on select it will bubble the event back to the parent component
+                    :save-and-load-from-storage-id="'message-inbox-grid'" //if you want the grid to automatically save the state of the grid ie: page, sort order, etc. into local session
+                    :page="1" //what page the grid is on
+                    :filter-text="'test message'" //inline filter text
+                    :data="starMessages" //array of records
+                    :column-config="gridConfig.columns" //column configuration - see above
+                    :sort-column-key="'createdDate'" //sort column (this is the key value in the column configuration)
+                    :sort-direction="'desc'"> //sort direction (asc vs desc)
+</dataGrid-component>-->
+
+<template>
+    <div>
+
+        <div class="vue-grid-top-menu row no-gutters form-inline d-flex">
+            <div class="col-sm-12 col-md-6 mr-auto">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Search</span>
+                    </div>
+                    <input type="text" v-model="inlineFilterCriteria" class="form-control" placeholder="Search" />
+                </div>
+            </div>
+            <div class="records-per-page col-sm-12 col-md-3 d-inline">
+                Show:
+                <select v-model.number="recordsPerPage" class="form-control">
+                    <option v-for="opt in recordsPerPageOptions">{{ opt }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th :class="{ sortable: columnIsSortable(column) }" scope="col" v-for="(column, index) in columnConfig" @click="columnIsSortable(column) ? sortBy(column.key): null">
+                            {{ column.headerText }}
+
+                            <div class="vue-grid-sort-icons" v-show="currentSortColumn == column.key && currentSortDirection=='asc'">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="vue-grid-sort-icons" v-show="currentSortColumn == column.key && currentSortDirection=='desc'">
+                                <i class="fas fa-chevron-up"></i>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in pagedData">
+                        <td v-for="column in columnConfig">
+                            <span @click="onCellClick(row,column.key)" v-if="column.renderer" v-html="column.renderer(row)">
+                            </span>
+                            <span @click="onCellClick(row,column.key)" v-else>
+                                {{ formatCellOutput(row, column) }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row no-gutters d-flex align-items-center h-100">
+
+            <div class="col">
+                <span>{{ recordCountLabel }}</span>
+            </div>
+
+            <div class="col">
+                <nav v-show="totalNumberOfPagesInGrid > 0" aria-label="navigation">
+                    <ul class="vue-grid-pagination-menu pagination">
+                        <li class="page-item" :class="{ disabled: currentPageIndex == 1}"><a class="page-link" href="#" @click="goToPage(currentPageIndex-1, $event)">Previous</a></li>
+
+                        <li v-for="pageToOutput in pagerNavOptions" class="page-item" v-bind:class="{ active: currentPageIndex == pageToOutput}">
+                            <a class="page-link" href="#" @click="goToPage(pageToOutput, $event)">{{ pageToOutput }}</a>
+                        </li>
+
+                        <li class="page-item" :class="{ disabled: currentPageIndex == totalNumberOfPagesInGrid}"><a class="page-link" href="#" @click="goToPage(currentPageIndex+1, $event)">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+
+    import jlinq from '../../SharedServices/linq.javascript.service.js'; //JLinq
+    import './vuedatagrid.scss';
+    import fontawesome from '@fortawesome/fontawesome';
+    import { freeRegular } from '@fortawesome/fontawesome-free-regular';
+    import { freeSolid } from '@fortawesome/fontawesome-free-solid';
+    import { formatDateTimeToDate } from '../../sharedservices/formatting.service';
+
+    export default {
+        name: 'grid',
+        props: [
+            'columnConfig',
+            'sortColumnKey',
+            'sortDirection',
+            'data',
+            'page',
+            'filterText',
+            'formatter',
+            'saveAndLoadFromStorageId'
+        ],
+        data: function () {
+            return {
+                loading: true,
+                currentPageIndex: this.page,
+                recordsPerPage: 10,
+                inlineFilterCriteria: this.filterText,
+                currentSortColumn: this.sortColumnKey,
+                currentSortDirection: this.sortDirection,
+                recordsPerPageOptions: [10, 20, 50, 100]
+            }
+        },
+        created: function () {
+
+            if (this.saveAndLoadFromStorageId) {
+                let rawValueFromStorage = sessionStorage[this.saveAndLoadFromStorageId];
+
+                if (rawValueFromStorage) {
+                    let getFromStorageModel = JSON.parse(sessionStorage[this.saveAndLoadFromStorageId]);
+         
+                    this.currentPageIndex = getFromStorageModel.CurrentPageIndex;
+                    this.recordsPerPage = getFromStorageModel.RecordsPerPage;
+                    this.inlineFilterCriteria = getFromStorageModel.InlineFilterCriteria;
+                    this.currentSortColumn = getFromStorageModel.CurrentSortColumn;
+                    this.currentSortDirection = getFromStorageModel.CurrentSortDirection;
+                }
+            }
+        },
+        mounted: function () {
+            this.loading = false;
+        },
+        watch: {
+            recordsPerPage: function () {
+                if (!this.loading) {
+                    this.currentPageIndex = 1;
+                }
+            },
+            inlineFilterCriteria: function () {
+                if (!this.loading) {
+                    this.currentPageIndex = 1;
+                }
+            },
+            totalNumberOfPagesInGrid: function () {
+                //star has 2 pages..your on second page. Remove 1 and you only have 1 total pages now. need to redirect user to first page
+                if (this.totalNumberOfPagesInGrid == 0) {
+                    return;
+                }
+
+                if (this.currentPageIndex > this.totalNumberOfPagesInGrid) {
+                    this.currentPageIndex = this.totalNumberOfPagesInGrid;
+                }
+            }
+        },
+        computed: {
+
+            totalNumberOfPagesInGrid: function () {
+                return Math.ceil(this.filteredData.Count() / this.recordsPerPage);
+            },
+
+            pagerNavOptions: function () {
+                let totalNumberOfPages = this.totalNumberOfPagesInGrid;
+                let startIndex = this.currentPageIndex - 2;
+
+                if (this.currentPageIndex == 1 || startIndex < 1) {
+                    startIndex = 1;
+                }
+
+                let optionsToReturn = [];
+
+                for (var i = startIndex; i < startIndex + 5; i++) {
+                    optionsToReturn.push(i);
+                }
+
+                return optionsToReturn.Where(x => x <= totalNumberOfPages).ToArray();
+            },
+
+            recordCountLabel: function () {
+
+                let startRecord = ((this.currentPageIndex - 1) * this.recordsPerPage) + 1;
+                let toRecordOnPage = this.currentPageIndex * this.recordsPerPage;
+                let totalRawRecords = this.data.length;
+                let totalFilteredData = this.filteredData.Count();
+
+                let filteredCountOutput = '';
+
+                if (totalFilteredData != totalRawRecords) {
+                    filteredCountOutput = ` (filtered from ${totalRawRecords} total entries)`;
+                }
+
+                if (toRecordOnPage > totalFilteredData) {
+                    toRecordOnPage = totalFilteredData;
+                }
+
+                if (totalFilteredData == 0) {
+                    startRecord = 0;
+                }
+
+                return `Showing ${startRecord.toLocaleString()} to ${toRecordOnPage.toLocaleString()} of ${totalFilteredData.toLocaleString()} entries${filteredCountOutput.toLocaleString()}`;
+            },
+
+            filteredData: function () {
+
+                let tempDataSetQuery = this.data.AsQueryable();
+
+                if (this.inlineFilterCriteria) {
+
+                    let lowerCaseFilter = this.inlineFilterCriteria.toLowerCase();
+                    let columnsWithData = this.columnConfig.Where(x => x.dataPath).ToArray();
+
+                    tempDataSetQuery = tempDataSetQuery.Where(x => {
+                        let foundValue = false;
+
+                        for (var i = 0; i < columnsWithData.length; i++) {
+                            let tempValue = this.formatCellOutput(x, columnsWithData[i]);
+
+                            if (tempValue != null && tempValue.toLowerCase().indexOf(lowerCaseFilter) > -1) {
+                                foundValue = true;
+                                break;
+                            }
+                        }
+
+                        return foundValue;
+                    });
+                }
+
+                if (this.currentSortDirection == 'asc') {
+                    tempDataSetQuery = tempDataSetQuery.OrderBy(x => x[this.currentSortColumn]);
+                }
+                else {
+                    tempDataSetQuery = tempDataSetQuery.OrderByDescending(x => x[this.currentSortColumn]);
+                }
+
+                this.emitGridStatusChange();
+
+                return tempDataSetQuery;
+            },
+
+            pagedData: function () {
+                return this.filteredData.Paginate(this.currentPageIndex, this.recordsPerPage).ToArray();
+            }
+        },
+        methods: {
+            sortBy: function (key) {
+                if (this.currentSortColumn == key) {
+                    this.currentSortDirection = this.currentSortDirection == 'asc' ?
+                        'desc' :
+                        'asc';
+                }
+                else {
+                    this.currentSortColumn = key;
+                    this.currentSortDirection = 'asc';
+                }
+            },
+            goToPage: function (nextPageIndex, event) {
+                event.preventDefault();
+                this.currentPageIndex = nextPageIndex;
+            },
+            onCellClick: function (rowObject, columnKey) {
+                this.$emit('on-select', rowObject, columnKey, this);
+            },
+            emitGridStatusChange: function () {
+                let model =
+                    {
+                        CurrentPageIndex: this.currentPageIndex,
+                        RecordsPerPage: this.recordsPerPage,
+                        InlineFilterCriteria: this.inlineFilterCriteria,
+                        CurrentSortColumn: this.currentSortColumn,
+                        CurrentSortDirection: this.currentSortDirection
+                    };
+
+                this.$emit('on-grid-status-change', this, model);
+       
+                if (!this.loading && this.saveAndLoadFromStorageId) {
+                    sessionStorage.setItem(this.saveAndLoadFromStorageId, JSON.stringify(model));
+                }
+            },
+            columnIsSortable: function (column) {
+                return column.sortable == null || column.sortable;
+            },
+            formatCellOutput: function (row, column) {
+
+                let rawCellValue = row[column.dataPath];
+
+                if (column.formatter == null) {
+                    return rawCellValue;
+                }
+
+                if (column.formatter == 'shortdate') {
+                    return formatDateTimeToDate(rawCellValue);
+                }
+
+                return rawCellValue;
+            }
+        }
+    }
+
+</script>
