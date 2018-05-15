@@ -1,0 +1,100 @@
+--named slots
+
+--primary template
+  <div class="tab-pane fade" v-bind:class="{'active show' : activeTab=='inbox'}" role="tabpanel">
+                            <dataGrid-component v-if="!loading"
+                                                @@on-select="onGridClick"
+                                                @@on-show-advanced-filter="onShowAdvancedFilter"
+                                                :save-and-load-from-storage-id="'message-inbox-grid'"
+                                                :page="1"
+                                                :data="inboxMessages"
+                                                :column-config="gridConfig.columns"
+                                                :sort-column-key="gridConfig.defaultSortColumn"
+                                                :sort-direction="gridConfig.defaultSortColumnDirection">
+                                <div slot="advanced-search-menu">
+                                    Please ask your manager before requesting hardware.
+                                </div>
+                            </dataGrid-component>
+                        </div>
+
+
+then in child compoennt
+  <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button">Advanced</button>
+
+                        <div class="collapse.show">
+                            <div class="card card-body">
+                                <slot name="advanced-search-menu"></slot>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+
+
+----------  slots with passing data back and forth  -------------------------------------------------
+
+parent component (note the slot)
+
+add property called criteria
+  <div class="collapse advanced-search-container" v-bind:class="{ show: showAdvancedSearch }">
+                    <div class="card card-body">
+                        <slot name="advanced-search-menu">
+
+                        </slot>
+
+                        <br />
+                        {{criteria}}
+                    </div>
+                </div>
+				
+		
+in my index where i render the 	parent and child components	
+(not the div slot...and the :criteria="criteria"
+    <dataGrid-component v-if="!loading"
+                                                @@on-select="onGridClick"
+                                                :save-and-load-from-storage-id="'message-inbox-grid'"
+                                                :page="1"
+                                                :data="inboxMessages"
+                                                :column-config="gridConfig.columns"
+                                                :sort-column-key="gridConfig.defaultSortColumn"
+                                                :sort-direction="gridConfig.defaultSortColumnDirection"
+                                                :criteria="criteria">
+
+
+                                <div slot="advanced-search-menu">
+                                    <advanced-search-menu :criteria="criteria">
+                                    </advanced-search-menu>
+                                </div>
+
+                            </dataGrid-component>				
+							
+child component:
+
+Vue.component('advanced-search-menu', {
+    props:['criteria'],
+    template: ` <div>  
+                        <div class="col-xs-12 col-sm-6"> 
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Subject</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" placeholder="Subject" v-model="criteria.subject">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">From</label>
+                                    <div class="col-sm-10">
+                                      <input type="text" class="form-control" placeholder="From">
+                                    </div>
+                                </div>
+
+                             <div class="form-group row">
+                                 <button type="button" class="btn btn-primary">
+                                        Save
+                                </button>
+                             </div>
+                        </div>
+               </div>`
+})	
