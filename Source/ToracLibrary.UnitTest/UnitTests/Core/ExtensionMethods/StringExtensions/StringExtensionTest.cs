@@ -267,26 +267,50 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
         #endregion
 
-        #region String To Byte Array
+        #region String To Byte Array - Ascii
 
         /// <summary>
         /// Test to make sure a string to a byte array is correct
         /// </summary>
         [Fact]
-        public void StringToByteArrayTest1()
+        public void StringToByteArrayAsciiTest1()
         {
             //loop through the elements to test using the helper method for this
-            Assert.Equal(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToByteArray());
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToAsciiByteArray());
         }
 
         /// <summary>
         /// Test to make sure a string to a byte array is correct
         /// </summary>
         [Fact]
-        public void StringToByteArrayTest2()
+        public void StringToByteArrayAsciiTest2()
         {
             //loop through the elements to test using the helper method for this
-            Assert.Equal(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToByteArray());
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToAsciiByteArray());
+        }
+
+        #endregion
+
+        #region String To Byte Array - Utf-8
+
+        /// <summary>
+        /// Test to make sure a string to a byte array is correct
+        /// </summary>
+        [Fact]
+        public void StringToByteArrayUtf8Test1()
+        {
+            //loop through the elements to test using the helper method for this
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110 }, "jason".ToUtf8ByteArray());
+        }
+
+        /// <summary>
+        /// Test to make sure a string to a byte array is correct
+        /// </summary>
+        [Fact]
+        public void StringToByteArrayUtf8Test2()
+        {
+            //loop through the elements to test using the helper method for this
+            Assert.Equal(new byte[] { 106, 97, 115, 111, 110, 50 }, "jason2".ToUtf8ByteArray());
         }
 
         #endregion

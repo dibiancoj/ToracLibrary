@@ -327,7 +327,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
         #endregion
 
-        #region String To Byte Array
+        #region String To Byte Array - Ascii
 
         /// <summary>
         /// Converts a string to a byte array
@@ -335,10 +335,26 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// <param name="StringToConvertToByteArray">String to convert</param>
         /// <returns>byte array</returns>
         /// <remarks>Used in the past, if i have a string which is sql, i convert it to a file (byte array), then send it for download on the web server without saving it to a temporary file</remarks>
-        public static byte[] ToByteArray(this string StringToConvertToByteArray)
+        public static byte[] ToAsciiByteArray(this string StringToConvertToByteArray)
         {
             //convert it to ascii and return the bytes
             return Encoding.ASCII.GetBytes(StringToConvertToByteArray);
+        }
+
+        #endregion
+
+        #region String To Byte Array (Utf-8)
+
+        /// <summary>
+        /// Converts a string to a byte array
+        /// </summary>
+        /// <param name="StringToConvertToByteArray">String to convert</param>
+        /// <returns>byte array</returns>
+        /// <remarks>Used in the past, if i have a string which is sql, i convert it to a file (byte array), then send it for download on the web server without saving it to a temporary file</remarks>
+        public static byte[] ToUtf8ByteArray(this string StringToConvertToByteArray)
+        {
+            //convert it to ascii and return the bytes
+            return Encoding.UTF8.GetBytes(StringToConvertToByteArray);
         }
 
         #endregion
