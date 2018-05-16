@@ -34,6 +34,9 @@ then in child compoennt
 
 ----------  slots with passing data back and forth  -------------------------------------------------
 
+** the example below the main screen js entry point has a property called criteria. Then we just pass it in to the comp and the slot.
+They both have access and the slot can modify the data
+
 parent component (note the slot)
 
 add property called criteria
