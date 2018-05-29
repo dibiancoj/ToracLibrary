@@ -1,5 +1,24 @@
 Vue - add 2 way data binding to a custom component
 
+all you really need is the following. Detail version is below
+
+in your component. emit to the output
+  this.$emit('input', { fileName: fileNameToUse, bytes: reader.result });
+
+then in the html when creating the template <.... v-model="mymodel.prop"
+
+
+
+
+
+
+
+
+
+
+
+--- detail version ---
+
 UI (take note of the v-model - <select2-component :options="dropDown.cohortItems" v-model="model.CohortId" :value="model.CohortId" :width="'450px'"></select2-component>
 
 
