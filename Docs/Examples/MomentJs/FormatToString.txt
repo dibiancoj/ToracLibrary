@@ -2,3 +2,9 @@
 var myDate = new Date();
 
  moment(myDate).format('MM/DD/YYYY h:MM A') 
+ 
+ -----
+ 
+ if you have a utc date in javascript
+ 
+ return rawValue == null ? null : moment.utc(rawValue).format('MM/DD/YYYY h:MM A');
