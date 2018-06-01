@@ -19,7 +19,7 @@ services.AddDbContext<PortalTestContext>(options => options.UseSqlServer(configu
  static void Main(string[] args)
         {
             var builderPortal = new DbContextOptionsBuilder<PortalTestContext>();
-            builderPortal.UseSqlServer("Server=VSMSKQSQLPORTAL,50669;Database=PortalTest;Trusted_Connection=True;");
+            builderPortal.UseSqlServer("Server=MyDbServer,50669;Database=PortalDb;Trusted_Connection=True;");
 
             var patientRepository = new PatientInfoService(new PortalTestContext(builderPortal.Options));
 
