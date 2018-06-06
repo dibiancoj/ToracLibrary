@@ -1,3 +1,51 @@
+
+This is the best example. The ones below are more advanced. This is the basic and will get you going
+---------  slots with passing data back and forth  -------------------------------------------------
+
+
+
+ 
+ child component (pager-component): 
+ 
+ 
+ <div v-if="fullDataSet" v-for="record in pagedData">
+
+            <slot name="record" :item="record">
+            </slot>
+
+        </div>
+		
+	
+parent component	
+		
+		 <pager-component :full-data-set="getFullActiveDataSet"
+                                                 :sort-column="'createdDate'"
+                                                 :sort-direction="'desc'"
+                                                 :records-per-page="10"
+                                                 :records-per-page-choices="[10,20,50,100]"
+                                                 :current-page="1">
+
+                                   <template slot="record" slot-scope="props">
+                                       
+                                       
+                                       {{ props.item.msgId }}
+                                       
+                                    </template>
+
+                                </pager-component>
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
 --named slots
 
 --primary template
