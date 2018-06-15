@@ -1,0 +1,5 @@
+Open web.config in directory where the app is published
+
+set stdoutLogEnabled="true" ...to true
+
+!! you need to create the folder. framework won't create it for you !!. So add the logs folder in the same directory of the web.config (if the config says stdoutLogFile=".\logs\stdout"
