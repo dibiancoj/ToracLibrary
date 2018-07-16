@@ -9,8 +9,13 @@ Configuration.GetSection("AuthenticatedUsers").Get<SecuritySettings>().Users
 
 you can get a config value or a service in startup by calling "var serviceProvider = services.BuildServiceProvider();"
 
+Inject IOptions<SecuritySettings>.
+
 App Settings In A Singleton
 Inject IOptionsMonitor<LocalizationSettings> if you need to have it reload on file change when injected into a singleon.
+
+You can just serialize what you need. ie: appsettings. { CacheExpirationTimeSpan: "1.02:03:04" }
+which is "1.02:03:04" is 1 day, 2 hours, 3 mins, 4 seconds. The model would be a timespan. Basically just serialize whatever you want to bind to.
 
 ------------------------------------------------------------------------------------------------------------------------
 
