@@ -28,7 +28,7 @@ UI (take note of the v-model - <select2-component :options="dropDown.cohortItems
 
 <template>
 
-    <select class="el" :value="value" @input="updateModel()" :style="widthCssOutput"></select>
+    <select class="el" @input="updateModel()" :style="widthCssOutput"></select>
 
 </template>
 
@@ -59,7 +59,9 @@ UI (take note of the v-model - <select2-component :options="dropDown.cohortItems
                 .trigger('change')
                 // emit event on change.
                 .on('select2:select', function (e) {
-                    _this.$emit('input', e.params.data.id);
+                    //e.params.data.id
+                    //need to handle multiple drop down id's so we just grab the element and set it
+                   _this.$emit('input', $(this.$el).val());
                 })
         },
         watch: {
