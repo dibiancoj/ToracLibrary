@@ -28,7 +28,7 @@ UI (take note of the v-model - <select2-component :options="dropDown.cohortItems
 
 <template>
 
-    <select class="el" @input="updateModel()" :style="widthCssOutput"></select>
+    <select class="el" :style="widthCssOutput"></select>
 
 </template>
 
