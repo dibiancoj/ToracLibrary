@@ -1,0 +1,8 @@
+'Have you had bloating of the abdomen (belly﻿)﻿?' --> switch notepad++ to ansi
+
+You will see the funny characters after belly.
+
+Using http://asciivalue.com/index.php you will see the funny characters are &#65279; 
+
+SELECT REPLACE(N'Have you had bloating of the abdomen (belly?)??' + NCHAR(65279) 
+COLLATE Latin1_General_BIN, NCHAR(65279) COLLATE Latin1_General_BIN, '')
