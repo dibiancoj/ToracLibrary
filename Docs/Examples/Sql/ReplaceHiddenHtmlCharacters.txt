@@ -6,3 +6,8 @@ Using http://asciivalue.com/index.php you will see the funny characters are &#65
 
 SELECT REPLACE(N'Have you had bloating of the abdomen (belly?)??' + NCHAR(65279) 
 COLLATE Latin1_General_BIN, NCHAR(65279) COLLATE Latin1_General_BIN, '')
+
+//to find them:
+select TextValue 
+from question 
+where TextValue collate LATIN1_GENERAL_BIN != cast(TextValue  as varchar(max)) COLLATE LATIN1_GENERAL_BIN
