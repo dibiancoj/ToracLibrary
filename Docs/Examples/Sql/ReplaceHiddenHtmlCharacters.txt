@@ -11,3 +11,21 @@ COLLATE Latin1_General_BIN, NCHAR(65279) COLLATE Latin1_General_BIN, '')
 select TextValue 
 from question 
 where TextValue collate LATIN1_GENERAL_BIN != cast(TextValue  as varchar(max)) COLLATE LATIN1_GENERAL_BIN
+
+----------------------------------------------------------
+
+
+//if you test this with a raw string make sure you use the N'string value' so it uses the nvar vs the regular varchar
+
+declare @tbl table
+(
+	bla nvarchar(max)
+)
+
+insert into @tbl(bla) values (N'Have you had bloating of the abdomen (belly﻿)﻿?')
+
+update @tbl set bla = cast(REPLACE(bla + NCHAR(65279) COLLATE Latin1_General_BIN, NCHAR(65279) COLLATE Latin1_General_BIN, '') as varchar(200))
+ 
+
+select *
+from @tbl
