@@ -299,6 +299,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Javascript", "Javascript", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetMVC", "AspNetMVC", "{03E40FED-AE23-4A4C-B2F6-1699AAA9668D}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\AspNetMVC\BindAbstractOrInterface.txt = Docs\Examples\AspNetMVC\BindAbstractOrInterface.txt
 		Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt = Docs\Examples\AspNetMVC\DefaultDisplayForModel.txt
 		Docs\Examples\AspNetMVC\FormsAuthNoRedirectOnAjaxCall.txt = Docs\Examples\AspNetMVC\FormsAuthNoRedirectOnAjaxCall.txt
 		Docs\Examples\AspNetMVC\NestedLayouts.txt = Docs\Examples\AspNetMVC\NestedLayouts.txt

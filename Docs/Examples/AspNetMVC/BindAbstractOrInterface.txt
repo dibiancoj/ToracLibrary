@@ -1,0 +1,14 @@
+In web api (might be in dot net core)
+
+*** $type must be the first property ***
+
+ajaxParameters: {
+  $type: "PatientPortal.Models.MyClassName, PatientPortal.Models",   "PatientPortal.Models --> is the assembly name"
+  myValue: true
+}
+
+
+ .AddJsonOptions(opts =>
+            {
+                opts.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+            })
