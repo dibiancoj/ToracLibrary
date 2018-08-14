@@ -1,4 +1,6 @@
-In web api (might be in dot net core)
+In web api (might be in dot net core). 
+This causes some issues in dot net core with validation and bad model state responses. Converts properties to $values.
+Use a custom model binder if possible
 
 *** $type must be the first property ***
 
