@@ -1,5 +1,19 @@
 
 This is the best example. The ones below are more advanced. This is the basic and will get you going
+
+in the component (passing back whatever you need in attributes)
+  <slot name="record" :toggleQuestion="toggleQuestion" :isSelected="isSelected">
+        </slot>
+
+
+then in your view...set the name...then set the props
+<jason-component>
+ 	<template slot="record" slot-scope="props">
+ 		{{props.isSelected}}
+ 	</template>
+ </jason-component>
+
+
 ---------  slots with passing data back and forth  -------------------------------------------------
 
 
