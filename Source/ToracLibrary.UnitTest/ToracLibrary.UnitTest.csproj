@@ -217,6 +217,7 @@
     <Compile Include="UnitTests\Core\ExtensionMethods\IQueryableExtensions\IQueryableExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\ObjectExtensions\ObjectExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\StringExtensions\StringExtensionTest.cs" />
+    <Compile Include="UnitTests\Core\ExtensionMethods\TaskExtensions\TaskExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ExtensionMethods\XElementExtensions\XElementExtensionTest.cs" />
     <Compile Include="UnitTests\Core\ICSAppointments\ICSAppointmentCreatorTest.cs" />
     <Compile Include="UnitTests\Core\Mathematical\Forecasting\ForecastingTest.cs" />

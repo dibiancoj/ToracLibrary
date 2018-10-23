@@ -85,6 +85,7 @@
     <Compile Include="ExtensionMethods\IDictionaryExtensions\IDictionaryExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\IEnumerableExtensions\IEnumerableExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\StringsExtensions\StringExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\TaskExtensions\TaskExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\XElementExtensions\XElementExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ObjectExtensions\ObjectExtensionMethods.cs" />
     <Compile Include="DISK IO\FileReader.cs" />
