@@ -1,0 +1,13 @@
+Array.prototype.move = function (fromIndex, toIndex) {
+    this.splice(toIndex, 0, this.splice(fromIndex, 1)[0]);
+};
+
+Array.prototype.findRecordByIndex = function (funcSelector) {
+    for (var i = 0; i < this.length; i++) {
+        if (funcSelector(this[i])) {
+            return i;
+        }
+    }
+
+    return null;
+};
