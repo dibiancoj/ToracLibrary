@@ -16,7 +16,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         #region Contains
 
         /// <summary>
-        /// Extension Method For A String To See If It Contains A String And Let The User Use String Comparison
+        /// Extension Method For A String To See If It Contains A String And Let The User Use String Comparison. NOTE: **** In dot net core this a native extension method for this ****
         /// </summary>
         /// <param name="StringToLookForValueIn">String Variable</param>
         /// <param name="ValueToCheckTheStringFor">Value to check inside the string</param>
