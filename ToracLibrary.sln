@@ -294,6 +294,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JSON", "JSON", "{51324BBD-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Javascript", "Javascript", "{FC5055AE-E75B-4DFE-9CD9-D9A902C9201C}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Javascript\ArrayPrototypeMethods.txt = Docs\Examples\Javascript\ArrayPrototypeMethods.txt
 		Docs\Examples\Javascript\Es6Modules.txt = Docs\Examples\Javascript\Es6Modules.txt
 	EndProjectSection
 EndProject
