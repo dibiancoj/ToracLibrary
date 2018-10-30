@@ -1,0 +1,78 @@
+      public class JasonConsentFormModelBinderProvider : IModelBinderProvider
+    {
+        public IModelBinder GetBinder(ModelBinderProviderContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (context.Metadata.ModelType == typeof(IJasonConsentBaseFormModel))
+            {
+                return new BinderTypeModelBinder(typeof(JasonConsentFormModelBinder));
+            }
+
+            return null;
+        }
+    }
+  
+
+namespace CustomModelBinders.Jason
+{
+    public class JasonConsentFormModelBinder : IModelBinder
+    {
+
+        /// <summary>
+        /// From Body must be used. Will make more flexible if need be
+        /// </summary>
+        public Task BindModelAsync(ModelBindingContext bindingContext)
+        {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
+
+            var options = bindingContext.HttpContext.RequestServices.GetService<IOptionsSnapshot<MvcJsonOptions>>();
+
+            using (var sr = new StreamReader(bindingContext.HttpContext.Request.Body))
+            {
+                JObject json = JObject.Parse(sr.ReadToEnd());
+
+                IJasonConsentBaseFormModel model = null;
+
+                var formTypeId = json[nameof(IJasonConsentBaseFormModel.FormTypeId)]?.ToObject<JasonFormTypeId>();
+
+                if (formTypeId != null)
+                {
+                    if (formTypeId == JasonFormTypeId.NewYork)
+                    {
+                        model = DeserializeToObject<JasonConsentFormModelNewYork>(json.ToString(), options.Value);
+                    }
+                    else if (formTypeId == JasonFormTypeId.NewJersey)
+                    {
+                        model = DeserializeToObject<JasonConsentFormModelNewJersey>(json.ToString(), options.Value);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                if (model == null)
+                {
+                    throw new ArgumentNullException("Jason Can't Be Bound In " + nameof(JasonConsentFormModelBinder));
+                }
+
+                bindingContext.Result = ModelBindingResult.Success(model);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private T DeserializeToObject<T>(string json, MvcJsonOptions jsonOptions)
+        {
+            return JsonConvert.DeserializeObject<T>(json.ToString(), jsonOptions.SerializerSettings);
+        }
+
+    }
+}
