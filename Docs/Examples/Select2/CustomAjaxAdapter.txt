@@ -1,0 +1,67 @@
+    $.fn.select2.amd.define('select2/data/customAdapter', [
+        'select2/data/ajax',
+        'select2/utils'
+    ],
+        function (AjaxAdapter, Utils) {
+
+            function CustomDataAdapter($element, options) {
+                CustomDataAdapter.__super__.constructor.call(this, $element, options);
+            }
+
+            Utils.Extend(CustomDataAdapter, AjaxAdapter);
+
+            CustomDataAdapter.prototype.query = function (params, callback) {
+
+                //display this if we aren't up to the min length that they need to add (this is the default option list)
+                var ALL_OPTION = { id: 'ALL', text: 'All' };
+
+                if (params.term && params.term.length >= this.options.options.minimumInputLength) {
+                    this.ajaxOptions.transport(this.options.options.ajax.url + '?term=' + params.term).done(x => {
+                        callback(x);
+                    });
+
+                } else {
+                    callback({ results: [ALL_OPTION] });
+                }
+            }
+
+            return CustomDataAdapter;
+        }
+    );
+
+    var customAdapter = $.fn.select2.amd.require('select2/data/customAdapter');
+
+
+    $('#jason').select2({
+        dataAdapter: customAdapter,
+        minimumInputLength: 3,
+        ajax: {
+            url: '/home/jason',
+            dataType: 'json'
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        }
+    });
+
+---------------------------------------
+	
+	If you need to override the current...then something like this. The example below doesn't grab he text value correctly. This is just to show you the starting point.
+	
+    //        //CustomData.prototype.current = function (callback) {
+
+    //        //    var data = [];
+    //        //    var currentVal = this.$element.val();
+
+    //        //    if (!this.$element.prop('multiple')) {
+    //        //        currentVal = [currentVal];
+    //        //    }
+    //        //    debugger;
+    //        //    for (var v = 0; v < currentVal.length; v++) {
+    //        //        data.push({
+    //        //            id: currentVal[v] || '',
+    //        //            text: currentVal[v] || ''
+    //        //        });
+    //        //    }
+
+    //        //    // callback([{ id: '1', text: 'abc' }]);
+    //        //    callback(data);
+    //        //}
