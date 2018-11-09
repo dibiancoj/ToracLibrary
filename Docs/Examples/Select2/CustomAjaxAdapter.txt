@@ -32,7 +32,7 @@
     $('#jason').select2({
         dataAdapter: customAdapter,
         minimumInputLength: 3,
-	allOptions:  <-- put your drop down default options in here.
+	allOptions:  <-- put your drop down default options in here so we can grab it in the query method later on (handles multiple select 2 drop down instances in the page)
         ajax: {
             url: '/home/jason',
             dataType: 'json'
