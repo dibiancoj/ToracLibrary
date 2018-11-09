@@ -12,16 +12,13 @@
 
             CustomDataAdapter.prototype.query = function (params, callback) {
 
-                //display this if we aren't up to the min length that they need to add (this is the default option list)
-                var ALL_OPTION = { id: 'ALL', text: 'All' };
-
                 if (params.term && params.term.length >= this.options.options.minimumInputLength) {
                     this.ajaxOptions.transport(this.options.options.ajax.url + '?term=' + params.term).done(x => {
                      callback({ results: x });
                     });
 
                 } else {
-                    callback({ results: [ALL_OPTION] });
+                    callback({ results: this.options.options.allOptions });
                 }
             }
 
@@ -35,6 +32,7 @@
     $('#jason').select2({
         dataAdapter: customAdapter,
         minimumInputLength: 3,
+	allOptions:  <-- put your drop down default options in here.
         ajax: {
             url: '/home/jason',
             dataType: 'json'
