@@ -17,7 +17,7 @@
 
                 if (params.term && params.term.length >= this.options.options.minimumInputLength) {
                     this.ajaxOptions.transport(this.options.options.ajax.url + '?term=' + params.term).done(x => {
-                        callback(x);
+                     callback({ results: x });
                     });
 
                 } else {
