@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -96,7 +97,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         public static string ToUSAPhoneNumber(this string PhoneNumber)
         {
             //make sure the phone is not null Or the length is 10 characters
-            if (PhoneNumber.IsNullOrEmpty() || PhoneNumber.Length != 10)
+            if (PhoneNumber.IsNullOrEmpty() || PhoneNumber.Length != 10 || !PhoneNumber.All(char.IsDigit))
             {
                 //not 10 digits, just return whatever was passed in
                 return PhoneNumber;

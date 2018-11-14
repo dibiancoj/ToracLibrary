@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 using ToracLibrary.Core.ExtensionMethods.StringExtensions;
-using ToracLibrary.UnitTest.Framework;
 using Xunit;
 using static ToracLibrary.Core.ExtensionMethods.StringExtensions.StringExtensionMethods;
 
@@ -129,6 +127,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// </summary>
         [InlineData("9145552235", "(914) 555-2235")]
         [InlineData("914552", "914552")]
+        [InlineData("914555)235", "914555)235")]
         [Theory]
         public void FormatUSAPhoneNumberTest1(string ValueToTest, string ShouldBeValue)
         {
