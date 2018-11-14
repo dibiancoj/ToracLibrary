@@ -125,9 +125,13 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for formatting a string to a usa phone number
         /// </summary>
+        [InlineData(null, null)]
+        [InlineData("", "")]
         [InlineData("9145552235", "(914) 555-2235")]
         [InlineData("914552", "914552")]
         [InlineData("914555)235", "914555)235")]
+        [InlineData("(914) 555-7777", "(914) 555-7777")]
+        [InlineData("(914)5557777", "(914) 555-7777")]
         [Theory]
         public void FormatUSAPhoneNumberTest1(string ValueToTest, string ShouldBeValue)
         {

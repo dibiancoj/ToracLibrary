@@ -97,9 +97,18 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         public static string ToUSAPhoneNumber(this string PhoneNumber)
         {
             //make sure the phone is not null Or the length is 10 characters
-            if (PhoneNumber.IsNullOrEmpty() || PhoneNumber.Length != 10 || !PhoneNumber.All(char.IsDigit))
+            if (PhoneNumber.IsNullOrEmpty())
             {
                 //not 10 digits, just return whatever was passed in
+                return PhoneNumber;
+            }
+
+            //clense the string to just the digits
+            var JustDigits = new string(PhoneNumber.Where(char.IsDigit).ToArray());
+
+            //if we don't have 10 digits then we can't format it
+            if (JustDigits.Length != 10)
+            {
                 return PhoneNumber;
             }
 
@@ -108,17 +117,17 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
 
                     //set the area code
                     .Append("(")
-                    .Append(PhoneNumber.Substring(0, 3))
+                    .Append(JustDigits.Substring(0, 3))
                     .Append(") ")
 
                     //now lets set the first 3 digits of the regular #
-                    .Append(PhoneNumber.Substring(3, 3))
+                    .Append(JustDigits.Substring(3, 3))
 
                     //add the dash
                     .Append("-")
 
                     //add the last 4
-                    .Append(PhoneNumber.Substring(6, 4))
+                    .Append(JustDigits.Substring(6, 4))
 
                     //return the formatted string
                     .ToString();
