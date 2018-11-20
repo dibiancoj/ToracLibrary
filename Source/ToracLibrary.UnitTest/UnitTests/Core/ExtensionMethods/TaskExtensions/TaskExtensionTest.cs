@@ -25,6 +25,12 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             Assert.Equal("T", await AsyncStubMethod().Then(tsk => tsk.Substring(0, 1)));
         }
 
+        [Fact]
+        public async Task ThenResultWithConfigureAwaitTest()
+        {
+            Assert.Equal("T", await AsyncStubMethod().ConfigureAwait(false).Then(tsk => tsk.Substring(0, 1)));
+        }
+
     }
 
 }
