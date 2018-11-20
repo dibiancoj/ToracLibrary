@@ -12,23 +12,36 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     public class TaskExtensionTest
     {
 
-        private static async Task<string> AsyncStubMethod()
+        private static async Task<string> AsyncStub1Method()
         {
             await Task.Delay(50);
 
             return "Test 123";
         }
 
+        private static async Task<string> AsyncStub2Method()
+        {
+            await Task.Delay(50);
+
+            return "T1";
+        }
+
         [Fact]
         public async Task ThenResultTest()
         {
-            Assert.Equal("T", await AsyncStubMethod().Then(tsk => tsk.Substring(0, 1)));
+            Assert.Equal("T", await AsyncStub1Method().Then(tsk => tsk.Substring(0, 1)));
+        }
+
+        [Fact]
+        public async Task ThenResultAwaitContinuationTest()
+        {
+            Assert.Equal("T1", await AsyncStub1Method().Then(tsk => AsyncStub2Method()));
         }
 
         [Fact]
         public async Task ThenResultWithConfigureAwaitTest()
         {
-            Assert.Equal("T", await AsyncStubMethod().ConfigureAwait(false).Then(tsk => tsk.Substring(0, 1)));
+            Assert.Equal("T", await AsyncStub1Method().ConfigureAwait(false).Then(tsk => tsk.Substring(0, 1)));
         }
 
     }
