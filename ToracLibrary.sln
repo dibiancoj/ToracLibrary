@@ -354,6 +354,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HtmlAgilityPack", "HtmlAgil
 		Docs\Examples\HtmlAgilityPack\HtmlParsingInsteadOfXElement.txt = Docs\Examples\HtmlAgilityPack\HtmlParsingInsteadOfXElement.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Select2", "Select2", "{0D303B26-E4B5-4876-AD57-4B0D426C88F4}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Select2\CustomAjaxAdapter.txt = Docs\Examples\Select2\CustomAjaxAdapter.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -540,6 +545,7 @@ Global
 		{719E873D-E5CF-491B-B370-6A0E3B1BEBBD} = {7B33F3E4-72BA-4812-BEBA-D039FAC0C0E8}
 		{CB0DA6E1-6B65-44CA-9D2E-2D4851D1E608} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{AC3B22D6-03B0-409A-8602-FF9095070820} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{0D303B26-E4B5-4876-AD57-4B0D426C88F4} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
