@@ -29,7 +29,7 @@ namespace ToracLibrary.Core.ExtensionMethods.TaskExtensions
         }
 
         /// <summary>
-        /// Await the continuation func (inner continue)
+        /// Await the continuation func (inner continue). Note: this can be chained since this is an extension method
         /// </summary>
         /// <typeparam name="TTaskResult">Result type of the task</typeparam>
         /// <typeparam name="TMethodResult">Result of the method after the continuation</typeparam>
