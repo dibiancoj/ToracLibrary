@@ -104,7 +104,7 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         {
             //if you don't have a list you would just do item1 ?? item2 ?? item3 ?? item4...
             //using the Equals so we can handle structs instead of just checking for nulls
-            return Collection.FirstOrDefault(x => !Equals(x, default));
+            return Collection.FirstOrDefault(x => !Equals(x, default(T)));
         }
 
         #endregion
