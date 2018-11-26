@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes.Jobs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using ToracLibrary.Core.ExtensionMethods.StringExtensions;
 namespace ToracLibrary.Performance
 {
 
+    //[ShortRunJob] - if you want to run a quick test. Not as accurate but faster.
     [MemoryDiagnoser]
     public class PerformanceTest
     {
