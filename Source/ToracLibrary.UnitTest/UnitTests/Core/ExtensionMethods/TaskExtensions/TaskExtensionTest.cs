@@ -12,6 +12,8 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
     public class TaskExtensionTest
     {
 
+        #region Framework
+
         private static async Task<string> AsyncStub1Method()
         {
             await Task.Delay(50);
@@ -25,6 +27,10 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
 
             return "T1";
         }
+
+        #endregion
+
+        #region Unit Tests
 
         [Fact]
         public async Task ThenResultTest()
@@ -43,6 +49,14 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         {
             Assert.Equal("T", await AsyncStub1Method().ConfigureAwait(false).Then(tsk => tsk.Substring(0, 1)));
         }
+
+        [Fact]
+        public async Task ConfigureAwaitThenResultWithConfigureAwaitTest()
+        {
+            Assert.Equal("T1", await AsyncStub1Method().ConfigureAwait(false).Then(tsk => AsyncStub2Method().ConfigureAwait(false)));
+        }
+
+        #endregion
 
     }
 

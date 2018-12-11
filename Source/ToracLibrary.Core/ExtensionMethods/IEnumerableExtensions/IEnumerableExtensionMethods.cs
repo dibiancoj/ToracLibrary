@@ -171,11 +171,8 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
         /// <returns>Last Index. Returns Null If Nothing Is Found</returns>
         public static int? LastIndexOfElement<T>(this IEnumerable<T> Collection, Func<T, bool> Predicate)
         {
-            //let's check if this is ICollection so we can just use the index and reverse the array so we don't have to loop through the entire collection. (we can exit the first item found)
-            var CollectionCastAttempt = Collection as IList<T>;
-
             //is it a collection with indexers?
-            if (CollectionCastAttempt == null)
+            if (!(Collection is IList<T> CollectionCastAttempt))
             {
                 //we either need to call .Count() and then loop through it backwards subtracting the index we are up to - Count(). I have no idea if this is faster or just pushing it to an array and then using the logic below.
                 //this would only really  matter if the array is huge
@@ -340,7 +337,6 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
             //output the single item last
             yield return ItemToAddToList;
-
         }
 
         #endregion
