@@ -245,6 +245,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", 
 		Docs\Examples\Asp.NetCore\ModelValidationMethod.txt = Docs\Examples\Asp.NetCore\ModelValidationMethod.txt
 		Docs\Examples\Asp.NetCore\MultiEnvOnSameServer.txt = Docs\Examples\Asp.NetCore\MultiEnvOnSameServer.txt
 		Docs\Examples\Asp.NetCore\NavMenuSetActiveClass.txt = Docs\Examples\Asp.NetCore\NavMenuSetActiveClass.txt
+		Docs\Examples\Asp.NetCore\Publish-Bat.txt = Docs\Examples\Asp.NetCore\Publish-Bat.txt
 		Docs\Examples\Asp.NetCore\Security.txt = Docs\Examples\Asp.NetCore\Security.txt
 		Docs\Examples\Asp.NetCore\Solution.txt = Docs\Examples\Asp.NetCore\Solution.txt
 	EndProjectSection

@@ -1,0 +1,24 @@
+
+xcopy "app_offline.htm" "\\server\e$\WebUI\Source"
+xcopy "app_offline.htm" "\\server\e$\Api\Source"
+
+@ECHO OFF
+
+setlocal
+
+cd ..
+cd ..
+cd src
+
+cd Torac.ApiHttpService.Unity
+dotnet publish Torac.ApiHttpService.Unity.csproj -c Release /p:PublishProfile=TestServer --self-contained -r win-x64 --output "\\Server\e$\project\Api\Source"
+
+cd..
+cd WebUISource
+
+dotnet publish Torac.csproj -c Release /p:PublishProfile=TestServer --self-contained -r win-x64 --output "\\Server\e$\project\WebUI\Source"
+
+del "\\Server\e$\project\UnityApi\Source\app_offline.htm"
+del "\\Server\e$\project\WebUI\Source\app_offline.htm"
+
+start http://server:8096/Home/HealthChecks
