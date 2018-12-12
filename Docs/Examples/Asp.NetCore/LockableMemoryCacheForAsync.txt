@@ -1,4 +1,4 @@
- public static class MemoryCacheExtensions
+ public static class MemoryCacheExtensionMethods
     {
 
         /// <summary>
@@ -12,27 +12,31 @@
         /// <returns>Data from either the cache or the data source</returns>
         public static async Task<TItem> GetOrCreateExclusiveAsync<TItem>(this IMemoryCache cache, object key, Func<ICacheEntry, Task<TItem>> factory)
         {
-            //try to grab it from the cache first
-            return await cache.GetOrCreateAsync(key, async x =>
+            //try to eagerly grab the cache item without taking a lock
+            if (cache.TryGetValue<TItem>(key, out var tryToGetItem))
             {
-                //couldn't grab it...we need to set the lock
-                var asyncLockToUse = AcquireLock(key);
+                //we have it in our cache...return it
+                return tryToGetItem;
+            }
 
-                //go lock and wait for the data source to come back. (lock other consumers)
-                await asyncLockToUse.WaitAsync();
+            //so we couldn't find it on our first shot. we need to take a lock now
+            //couldn't grab it...we need to set the lock
+            var asyncLockToUse = AcquireLock(key);
 
-                try
-                {
-                    //go fetch the data
-                    return await factory(x);
-                }
-                finally
-                {
-                    //When the task is ready, release the semaphore. It is vital to ALWAYS release the semaphore when we are ready, or else we will end up with a Semaphore that is forever locked.
-                    //This is why it is important to do the Release within a try...finally clause; program execution may crash or take a different path, this way you are guaranteed execution
-                    asyncLockToUse.Release();
-                }
-            });
+            //take the lock
+            await asyncLockToUse.WaitAsync();
+
+            try
+            {
+                //try to grab it from the cache first
+                return await cache.GetOrCreateAsync(key, factory);
+            }
+            finally
+            {
+                //When the task is ready, release the semaphore. It is vital to ALWAYS release the semaphore when we are ready, or else we will end up with a Semaphore that is forever locked.
+                //This is why it is important to do the Release within a try...finally clause; program execution may crash or take a different path, this way you are guaranteed execution
+                asyncLockToUse.Release();
+            }
         }
 
         private static SemaphoreSlim AcquireLock(object key)
@@ -53,8 +57,6 @@
             //return the lock
             return lockAttempt;
         }
-
-    }
 	
 	---------------------
 	Unit Test
