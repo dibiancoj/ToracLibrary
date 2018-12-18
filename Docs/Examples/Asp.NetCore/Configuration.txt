@@ -1,6 +1,23 @@
 
 *** Configuration Binding ***
 
+     services.AddOptions<MySettingsClass>().Bind(configuration.GetSection("MySettingsNodeName")).ValidateDataAnnotations();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //configure a section in the config to a c# class. Registers for di container IOptions<SecuritySettings>
 services.Configure<SecuritySettings>(Configuration.GetSection("AuthenticatedUsers"));
 
