@@ -363,7 +363,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         }
 
         /// <summary>
-        /// Unit test the chunk list items, when we don't have an even aount
+        /// Unit test the chunk list items when we have an even count
         /// </summary>
         [Fact]
         public void ChunkUpListTest2()
