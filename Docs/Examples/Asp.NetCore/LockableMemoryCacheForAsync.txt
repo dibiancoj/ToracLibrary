@@ -1,0 +1,137 @@
+ public static class MemoryCacheExtensionMethods
+    {
+
+        /// <summary>
+        /// Holds a lookup for all the cache locks. You can't lock an async method so we use Semaphore. 
+        /// </summary>
+        private static ConcurrentDictionary<object, SemaphoreSlim> CacheLocksLookup { get; } = new ConcurrentDictionary<object, SemaphoreSlim>();
+
+        /// <summary>
+        /// Holds a lock when we go back to the data source so other callers don't all go back to the data source.
+        /// </summary>
+        /// <returns>Data from either the cache or the data source</returns>
+        public static async Task<TItem> GetOrCreateExclusiveAsync<TItem>(this IMemoryCache cache, object key, Func<ICacheEntry, Task<TItem>> factory)
+        {
+            //try to eagerly grab the cache item without taking a lock
+            if (cache.TryGetValue<TItem>(key, out var tryToGetItem))
+            {
+                //we have it in our cache...return it
+                return tryToGetItem;
+            }
+
+            //so we couldn't find it on our first shot. we need to take a lock now
+            //couldn't grab it...we need to set the lock
+            var asyncLockToUse = AcquireLock(key);
+
+            //take the lock
+            await asyncLockToUse.WaitAsync();
+
+            try
+            {
+                //try to grab it from the cache first
+                return await cache.GetOrCreateAsync(key, factory);
+            }
+            finally
+            {
+                //When the task is ready, release the semaphore. It is vital to ALWAYS release the semaphore when we are ready, or else we will end up with a Semaphore that is forever locked.
+                //This is why it is important to do the Release within a try...finally clause; program execution may crash or take a different path, this way you are guaranteed execution
+                asyncLockToUse.Release();
+            }
+        }
+
+        private static SemaphoreSlim AcquireLock(object key)
+        {
+            //try to grab the lock
+            if (CacheLocksLookup.TryGetValue(key, out var lockAttempt))
+            {
+                //found it in the dictionary
+                return lockAttempt;
+            }
+
+            //create the new lock
+            lockAttempt = new SemaphoreSlim(1, 1);
+
+            //add it to the dictionary
+            CacheLocksLookup.TryAdd(key, lockAttempt);
+
+            //return the lock
+            return lockAttempt;
+        }
+	
+	---------------------
+	Unit Test
+	---------------------
+	
+	
+	using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
+using MskPatientPortal.Library.AspNet.ExtensionMethods.Caching;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace MskPatientPortal.Library.AspNet.UnitTests.ExtensionMethods.Caching
+{
+    public class MemoryCacheTest
+    {
+
+        [Fact]
+        public async Task GetOrCreateExclusiveAsyncTest()
+        {
+            int backToDataSource = 0;
+
+            var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
+
+            var result = await memoryCache.GetOrCreateExclusiveAsync<IEnumerable<string>>("Test", async x =>
+            {
+                backToDataSource++;
+
+                return await Task.FromResult(new string[] { "item1", "item2" });
+            });
+
+            //should have went to the data source
+            Assert.Equal(1, backToDataSource);
+            Assert.Equal(2, result.Count());
+
+            //should be pulled from the cache
+            var result2 = await memoryCache.GetOrCreateExclusiveAsync<IEnumerable<string>>("Test", x =>
+            {
+                backToDataSource++;
+
+                throw new Exception("Shouldn't Go Go Source");
+            });
+
+            Assert.Equal(1, backToDataSource);
+            Assert.Equal(2, result2.Count());
+        }
+
+        [Fact]
+        public async Task GetOrCreateExclusiveAsyncShouldThrowErrorButLockIsCleared()
+        {
+            int backToDataSource = 0;
+
+            var memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
+
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await memoryCache.GetOrCreateExclusiveAsync<IEnumerable<string>>("Test", x =>
+                {
+                    throw new Exception("Shouldn't Go Go Source");
+                });
+            });
+
+            var result = await memoryCache.GetOrCreateExclusiveAsync<string>("Test", async x =>
+            {
+                backToDataSource++;
+
+                return await Task.FromResult("Test123");
+            });
+
+            Assert.Equal(1, backToDataSource);
+            Assert.Equal("Test123", result);
+        }
+
+    }
+}
