@@ -176,15 +176,8 @@ namespace ToracLibrary.Core.AccountingPeriods
             //always add the year
             AccountingPeriodFormat.Append(Year);
 
-            //if we have a 1 digit month then we need to add a 0
-            if (Month < 10)
-            {
-                //we have a 1 digit month, so we need to a month
-                AccountingPeriodFormat.Append("0");
-            }
-
             //always add the month now
-            AccountingPeriodFormat.Append(Month);
+            AccountingPeriodFormat.Append(Month.ToString("D2"));
 
             //push the string builder to a string, convert it to an int, then return it
             return Convert.ToInt32(AccountingPeriodFormat.ToString());
