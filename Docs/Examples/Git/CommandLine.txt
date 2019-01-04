@@ -101,3 +101,6 @@ Also, use something like the following in your ignore file
 
 ----------------------------- Git UI -------------------------
 Source Tree is a pretty gui tool for git
+
+---------------- git remove branches that were removed on origin -------------------
+git remote prune origin
