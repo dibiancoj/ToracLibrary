@@ -1,0 +1,68 @@
+Good guide - https://docs.docker.com/get-started
+
+----- Container Layer ---------
+
+Sample docker file that dot net core creates:
+
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1803 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM microsoft/dotnet:2.2-sdk-nanoserver-1803 AS build
+WORKDIR /src
+COPY ["WebApplication10/WebApplication10.csproj", "WebApplication10/"]
+RUN dotnet restore "WebApplication10/WebApplication10.csproj"
+COPY . .
+WORKDIR "/src/WebApplication10"
+RUN dotnet build "WebApplication10.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "WebApplication10.csproj" -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "WebApplication10.dll"]
+
+------------------------------------------------------------
+
+Docker (dockertest is the path to doctor file bc we are in the solution folder which has a dockertest folder then the csproj) - "docker build -t myappname -f dockertest/dockerfile ."
+
+docker run -e ASPNETCORE_ENVIRONMENT=Test -p 8000:80 webapplication10 --> webapplication10 is my app name. You can also set the aspnet core env in the docker file too
+
+
+browser - http://localhost:8000/
+
+If local host doesn't work then use your computer's ip address. Had to use this when i was just using the console and not running in visual studio
+
+
+docker ps --> gets all the running containers
+docker stop {{container id}} 
+
+
+
+--pushing docker stuff
+docker login
+docker tag image username/repository:tag --> docker tag so you can give it a friendly name ....command would be "docker tag webapplication10 amtrac24/jasontest:test1"
+
+docker image ls --> should show the new image
+
+upload the image to the central repository
+docker push username/repository:tag --> "docker push amtrac24/jasontest:test1"
+
+at this point the image should be in the docker repo online	(https://hub.docker.com/u/amtrac24)
+
+
+------------------
+
+Then you can pull it on another computer or what not - Pull and run the image from the remote repository
+
+docker run -e ASPNETCORE_ENVIRONMENT=Test -p 8000:80 webapplication10
+docker run -p 4000:80 username/repository:tag --> "docker run -p 8000:80 amtrac24/jasontest:test1"
+
+
+----- Services ---------

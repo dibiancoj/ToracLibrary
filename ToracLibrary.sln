@@ -361,6 +361,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Select2", "Select2", "{0D30
 		Docs\Examples\Select2\CustomAjaxAdapter.txt = Docs\Examples\Select2\CustomAjaxAdapter.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{D8F49C5B-451E-4BE6-B5AA-F3DC11202E9A}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Docker\Docker.txt = Docs\Examples\Docker\Docker.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -548,6 +553,7 @@ Global
 		{CB0DA6E1-6B65-44CA-9D2E-2D4851D1E608} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{AC3B22D6-03B0-409A-8602-FF9095070820} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{0D303B26-E4B5-4876-AD57-4B0D426C88F4} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{D8F49C5B-451E-4BE6-B5AA-F3DC11202E9A} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
