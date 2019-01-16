@@ -1,0 +1,77 @@
+In startup.cs
+ConfigureServices -  services.RegisterSwaggerForApi();    
+Configure - if (!env.IsProduction())
+            {
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+                // specifying the Swagger JSON endpoint.
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", Title Of My Service V1");
+                });
+            }
+
+
+
+
+
+using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
+    public static IServiceCollection RegisterSwaggerForApi(this IServiceCollection services)
+        {
+            services.AddHttpClient("Swagger");
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Title Of My Service", Version = "v1" });
+
+                c.DocumentFilter<SecurityRequirementsDocumentFilter>();
+
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "SsoPortal token. Example: \"<b>bearer</b> token\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
+                c.AddSecurityDefinition("Field1", new ApiKeyScheme
+                {
+                    Description = "Set current ......  Example: \"1234\" <br/>(.....;)",
+                    Name = "Field1",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
+                c.AddSecurityDefinition("Field2", new ApiKeyScheme
+                {
+                    Description = "Set current ......  Example: \"1234\" <br/>(.....;)",
+                    Name = "Field2",
+                    In = "header",
+                    Type = "apiKey"
+                });
+            });
+
+            return services;
+        }
+    }
+
+    public class SecurityRequirementsDocumentFilter : IDocumentFilter
+    {
+        public void Apply(SwaggerDocument document, DocumentFilterContext context)
+        {
+            document.Security = new List<IDictionary<string, IEnumerable<string>>>()
+            {
+                new Dictionary<string, IEnumerable<string>>()
+                {
+                    { "Bearer", new string[]{}},
+                    { "Field1", new string[]{}},
+                    { "Field2", new string[]{}}
+                }
+            };
+        }
+    }
