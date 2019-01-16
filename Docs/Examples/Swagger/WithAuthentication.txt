@@ -33,7 +33,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
                 c.AddSecurityDefinition("Bearer", new ApiKeyScheme
                 {
-                    Description = "SsoPortal token. Example: \"<b>bearer</b> token\"",
+                    Description = "token. Example: \"<b>bearer</b> token\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
