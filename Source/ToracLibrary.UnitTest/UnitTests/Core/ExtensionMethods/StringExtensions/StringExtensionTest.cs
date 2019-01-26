@@ -330,7 +330,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             string TestLookThroughString = "<html><img src='relative/test.jpg' /><img src='www.google.com' /></html>";
 
             //go run the method
-            var Results = TestLookThroughString.IndexesOfAllLazy("src='").ToArray();
+            var Results = TestLookThroughString.IndexesOfAllLazy("src='", StringComparison.OrdinalIgnoreCase).ToArray();
 
             //test this value
             Assert.Equal(2, Results.Count());
@@ -338,6 +338,16 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             //test the indexes
             Assert.Contains(Results, x => x == 11);
             Assert.Contains(Results, x => x == 42);
+        }
+
+        [Fact]
+        public void IndexesOfAllLazyTestWithNoMatches()
+        {
+            //test string to look through
+            string TestLookThroughString = "Test 123";
+
+            //go run the method
+            Assert.Empty(TestLookThroughString.IndexesOfAllLazy("Fact", StringComparison.OrdinalIgnoreCase));
         }
 
         #endregion

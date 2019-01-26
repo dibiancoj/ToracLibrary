@@ -376,8 +376,9 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         /// </summary>
         /// <param name="StringToLookThrough">The string to look through for the specific characters</param>
         /// <param name="StringValueToLookFor">String value to find in the StringToLookThrough</param>
+        /// <param name="StringComparisonToUse">Comparison operator to use</param>
         /// <returns>List of all the index of the StringValueToLookFor.</returns>
-        public static IEnumerable<int> IndexesOfAllLazy(this string StringToLookThrough, string StringValueToLookFor)
+        public static IEnumerable<int> IndexesOfAllLazy(this string StringToLookThrough, string StringValueToLookFor, StringComparison StringComparisonToUse)
         {
             //make sure the string value is not null
             if (StringValueToLookFor.IsNullOrEmpty())
@@ -388,31 +389,23 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             //return the local function
             return Iterator();
 
+            int GetIndexLogic(int? IndexToStart)
+            {
+                return IndexToStart.HasValue ?
+                        StringToLookThrough.IndexOf(StringValueToLookFor, IndexToStart.Value, StringComparisonToUse) :
+                        StringToLookThrough.IndexOf(StringValueToLookFor, StringComparisonToUse);
+            }
+
             //declare the iterator to run through the results
             IEnumerable<int> Iterator()
             {
-                //working index that we found the item with
-                int? WorkingIndex = null;
+                int MinIndex = GetIndexLogic(null);
 
-                //loop through the string until we are done
-                while (WorkingIndex >= 0 || !WorkingIndex.HasValue)
+                while (MinIndex != -1)
                 {
-                    //if this is the first element search at 0
-                    if (!WorkingIndex.HasValue)
-                    {
-                        //Set it to 0
-                        WorkingIndex = 0;
-                    }
+                    yield return MinIndex;
 
-                    //grab the index of for this value
-                    WorkingIndex = StringToLookThrough.IndexOf(StringValueToLookFor, WorkingIndex.Value + 1);
-
-                    //if we have a match the return it
-                    if (WorkingIndex > 0)
-                    {
-                        //return this record
-                        yield return WorkingIndex.Value;
-                    }
+                    MinIndex = GetIndexLogic(MinIndex + 1);
                 }
             }
         }
