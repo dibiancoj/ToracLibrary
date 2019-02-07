@@ -1,2 +1,14 @@
 
 /p:VisualStudioVersion=12.0 /p:DeployOnBuild=true /p:PublishProfile="WebUIDev";TransformConfigFiles=true;WebProjectOutputDir=\\ServerName\PathToDeploy /p:UseWPP_CopyWebApplication=true /p:PipelineDependsOnBuild=false
+
+
+
+
+For releases to take it offline and spin and wait so app offline can take it off line. (lag needed for asp.net core
+
+Powershell command - (use a line break for each command)
+Copy-Item -Path \\Server\e$\portal3_0\WebUI\App_Offline\app_offline.htm -Destination \\Server\e$\portal3_0\WebUI\Source\app_offline.htm
+
+Copy-Item -Path \\Server\e$\portal3_0\WebUI\App_Offline\app_offline.htm -Destination \\Server\e$\portal3_0\WebUI\Source\app_offline.htm
+
+start-sleep -seconds 60)
