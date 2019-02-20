@@ -330,7 +330,7 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
             string TestLookThroughString = "<html><img src='relative/test.jpg' /><img src='www.google.com' /></html>";
 
             //go run the method
-            var Results = TestLookThroughString.IndexesOfAllLazy("src='", StringComparison.OrdinalIgnoreCase).ToArray();
+            var Results = TestLookThroughString.IndexesOfAllLazy("src='", StringComparison.OrdinalIgnoreCase);
 
             //test this value
             Assert.Equal(2, Results.Count());

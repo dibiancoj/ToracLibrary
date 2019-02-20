@@ -1,6 +1,108 @@
 Good guide - https://docs.docker.com/get-started
 
------ Container Layer ---------
+--Project Name = TestDocker
+--App Name = jasondockerapp
+
+--------- Container Layer ---------
+
+Build the docker image --> {testdocker is the folder where the docker file exists. The working directory is the solution folder so we need to path into the docker file}
+"docker build -t jasondockerapp -f testdocker/dockerfile ."
+
+Run the docker image
+"docker run -e ASPNETCORE_ENVIRONMENT=Test -p 8000:80 jasondockerapp"
+
+browser - http://localhost:8000/ --> If local host doesn't work then use your computer's ip address. Had to use this when i was just using the console and not running in visual studio
+
+
+docker ps --> gets all the running containers in a list
+docker stop {{container id}} 
+
+
+
+--pushing an image to the docker public repo. this is used so you can share it with another machine
+docker login
+
+Syntax: docker tag {appname} username/repository:tag
+Example: "docker tag jasondockerapp amtrac24/testrepo:dev"
+
+Show the new image you just tagged
+docker image ls
+
+upload the image to the central repository
+Syntax: docker push username/repository:tag
+Example: docker push amtrac24/testrepo:dev
+
+
+at this point the image should be in the docker repo online	(https://hub.docker.com/u/amtrac24)
+
+
+------------------
+
+Then you can pull it on another computer or what not - This will check latest version. will pull it not latest or you have never loaded on that machine
+Syntax: docker run -p 8000:80 username/repository:tag
+Example: docker run -p 8000:80 amtrac24/testrepo:dev
+
+
+----- Service Layer -----
+
+
+You can add more instances of our app [load balance]. This section will get you a load balance on the docker cluser. The next section will split it across docker servers
+
+Add a docker-compose.yml file (add container orch file in visual studio)
+
+version: '3.4'
+
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: amtrac24/testrepo:dev
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+networks:
+  webnet:
+
+Notes: webnet --> Instruct web’s containers to share port 80 via a load-balanced network called webnet. (Internally, the containers themselves publish to web’s port 80 at an ephemeral port.) Define the webnet network with the default settings (which is a load-balanced overlay network).
+
+* the 5 is how many instances you want running. Note this is on the same docker server so the next step will show you how to add it to a cluster.
+
+
+To add the machine to the swarm
+"docker swarm init"
+
+start the services
+Syntax: docker stack deploy -c docker-compose.yml AppName
+Example: docker stack deploy -c docker-compose.yml jasondockerapp
+  
+see the services "docker service ls"
+
+
+
+
+
+
+
+
+---- Sql Server ----
+sudo docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=<YourStrong!Passw0rd>' -p 1401:1433 --name sql1 -d mcr.microsoft.com/mssql/server:2017-latest
+
+--if port 1433 is in use (you have sql on your system) then map it to a different port such as 1401. Just make sure you map 1401:1433 [1433 is the default sql port]
+If you don't have 1433 then sql man. studio doesn't work.
+
+Then connect with sql management studio localhost,1401 - sa, <YourStrong!Passw0rd>
+---- end of sql server --
+
+
+---- Sample Docker File For Aspnet Core ----
 
 Sample docker file that dot net core creates:
 
@@ -29,40 +131,3 @@ COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "WebApplication10.dll"]
 
 ------------------------------------------------------------
-
-Docker (dockertest is the path to doctor file bc we are in the solution folder which has a dockertest folder then the csproj) - "docker build -t myappname -f dockertest/dockerfile ."
-
-docker run -e ASPNETCORE_ENVIRONMENT=Test -p 8000:80 webapplication10 --> webapplication10 is my app name. You can also set the aspnet core env in the docker file too
-
-
-browser - http://localhost:8000/
-
-If local host doesn't work then use your computer's ip address. Had to use this when i was just using the console and not running in visual studio
-
-
-docker ps --> gets all the running containers
-docker stop {{container id}} 
-
-
-
---pushing docker stuff
-docker login
-docker tag image username/repository:tag --> docker tag so you can give it a friendly name ....command would be "docker tag webapplication10 amtrac24/jasontest:test1"
-
-docker image ls --> should show the new image
-
-upload the image to the central repository
-docker push username/repository:tag --> "docker push amtrac24/jasontest:test1"
-
-at this point the image should be in the docker repo online	(https://hub.docker.com/u/amtrac24)
-
-
-------------------
-
-Then you can pull it on another computer or what not - Pull and run the image from the remote repository
-
-docker run -e ASPNETCORE_ENVIRONMENT=Test -p 8000:80 webapplication10
-docker run -p 4000:80 username/repository:tag --> "docker run -p 8000:80 amtrac24/jasontest:test1"
-
-
------ Services ---------
