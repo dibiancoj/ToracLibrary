@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,13 +94,13 @@ namespace ToracLibrary.UnitTest.Serialization
         public void JasonSerializeArrayObjectTest1()
         {
             //go build the data to set test
-            var SingleObjectToTest = JasonSerializerTestObject.BuildObjects(2).ToArray();
+            var ArrayToTest = JasonSerializerTestObject.BuildObjects(2).ToArray();
 
             //go render this in json.net...we will test my json serializer against the value in json.net
-            var JsonNetResult = JsonNetSerializer.Serialize(SingleObjectToTest);
+            var JsonNetResult = JsonNetSerializer.Serialize(ArrayToTest);
 
             //go render my object now
-            var JasonResult = new JasonSerializerContainer().SerializeJson(SingleObjectToTest);
+            var JasonResult = new JasonSerializerContainer().SerializeJson(ArrayToTest);
 
             //make sure they are equal
             Assert.Equal(JsonNetResult, JasonResult);

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Buffers;
 using System.IO;
 using System.Text;
 
@@ -54,6 +55,23 @@ namespace ToracLibrary.Serialization.Json
             return JsonConvert.SerializeObject(SerializeThisObject, FormattingType, SerializerSettings);
         }
 
+        public static string SerializeWithArrayPool<T>(T SerializeThisObject, ArrayPool<char> ArrayPoolToUse)
+        {
+            using (var WriterToUse = new StringWriter())
+            {
+                using (var JsonWriter = new JsonTextWriter(WriterToUse))
+                {
+                    JsonWriter.ArrayPool = new JsonNetArrayPool<char>(ArrayPoolToUse);
+                    JsonWriter.CloseOutput = true;
+                    JsonWriter.AutoCompleteOnClose = true;
+
+                    JsonSerializer.Create().Serialize(JsonWriter, SerializeThisObject);
+
+                    return WriterToUse.ToString();
+                }
+            }
+        }
+
         #endregion
 
         #endregion
@@ -93,14 +111,32 @@ namespace ToracLibrary.Serialization.Json
         /// <returns>the deserialized object</returns>
         public static T DeserializeFromStream<T>(Stream StreamToReadFrom)
         {
+            return DeserializeFromStreamWithArrayPool<T>(StreamToReadFrom, null);
+        }
+
+        /// <summary>
+        /// Deserializes an item from a stream to an object. This is a little faster based on documentation because we don't need to load the entire string into memory. We can just read from the stream. This is great when we make web request calls
+        /// </summary>
+        /// <typeparam name="T">Type to deserialize</typeparam>
+        /// <param name="StreamToReadFrom">Stream to read from</param>
+        /// <param name="ArrayPoolToUse">Array pool to use. Pass in ArrayPool<char>.Shared</param>
+        /// <returns>the deserialized object</returns>
+        public static T DeserializeFromStreamWithArrayPool<T>(Stream StreamToReadFrom, ArrayPool<char> ArrayPoolToUse)
+        {
             //this is great if you make a web request and you get a stream back.
             using (StreamReader StreamReaderToUse = new StreamReader(StreamToReadFrom))
             {
-                using (JsonReader JsonReaderToUse = new JsonTextReader(StreamReaderToUse))
+                using (var JsonReaderToUse = new JsonTextReader(StreamReaderToUse))
                 {
+                    //set the array pool (handle the overload)
+                    if (ArrayPoolToUse != null)
+                    {
+                        JsonReaderToUse.ArrayPool = new JsonNetArrayPool<char>(ArrayPoolToUse);
+                    }
+
                     //create the json.net engine
                     var SerializerEngine = new JsonSerializer();
-                    
+
                     //read the json from a stream - json size doesn't matter because only a small piece is read at a time from the HTTP request
                     return SerializerEngine.Deserialize<T>(JsonReaderToUse);
                 }

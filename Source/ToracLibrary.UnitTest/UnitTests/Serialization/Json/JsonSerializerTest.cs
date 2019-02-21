@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,28 @@ namespace ToracLibrary.UnitTest.Serialization
             Assert.Equal(RecordToTest.Description, DeserializedStringObject.Description);
         }
 
+        [Fact]
+        public void JsonSerializeWithArrayPool()
+        {
+            //create the dummy record
+            var RecordToTest = DummyObject.CreateDummyRecord();
+
+            //let's serialize it into a json string
+            var SerializedJsonString = JsonNetSerializer.SerializeWithArrayPool(RecordToTest, ArrayPool<char>.Shared);
+
+            //let's de-serialize it back
+            var DeserializedStringObject = JsonNetSerializer.Deserialize<DummyObject>(SerializedJsonString);
+
+            //let's test the data
+            Assert.NotNull(DeserializedStringObject);
+
+            //check the properties. check the id
+            Assert.Equal(RecordToTest.Id, DeserializedStringObject.Id);
+
+            //check the description
+            Assert.Equal(RecordToTest.Description, DeserializedStringObject.Description);
+        }
+
         #endregion
 
         #region Deserialization From Stream
@@ -58,6 +81,32 @@ namespace ToracLibrary.UnitTest.Serialization
 
             //let's de-serialize it back from the stream
             var DeserializedStringObject = JsonNetSerializer.DeserializeFromStream<DummyObject>(JsonInStream);
+
+            //let's test the data
+            Assert.NotNull(DeserializedStringObject);
+
+            //check the properties. check the id
+            Assert.Equal(RecordToTest.Id, DeserializedStringObject.Id);
+
+            //check the description
+            Assert.Equal(RecordToTest.Description, DeserializedStringObject.Description);
+        }
+
+        #endregion
+
+        #region Deserialization From Stream With Array Pool
+
+        [Fact]
+        public void JsonDeserializationFromStreamWithArrayPoolTest1()
+        {
+            //create the dummy record
+            var RecordToTest = DummyObject.CreateDummyRecord();
+
+            //let's serialize it into a json string
+            var JsonInStream = JsonNetSerializer.Serialize(RecordToTest).ToStream();
+
+            //let's de-serialize it back from the stream
+            var DeserializedStringObject = JsonNetSerializer.DeserializeFromStreamWithArrayPool<DummyObject>(JsonInStream, ArrayPool<char>.Shared);
 
             //let's test the data
             Assert.NotNull(DeserializedStringObject);
