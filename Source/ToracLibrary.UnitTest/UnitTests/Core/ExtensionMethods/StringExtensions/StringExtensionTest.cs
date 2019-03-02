@@ -145,10 +145,12 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         /// <summary>
         /// Unit test for formatting a string to a usa zip code
         /// </summary>
+        [InlineData(null, null)]
         [InlineData("", "")]
         [InlineData("10583", "10583")]
         [InlineData("1058322", "1058322")]
         [InlineData("105832233", "10583-2233")]
+        [InlineData("12345678-", "12345678-")] //not valid should return whatever we passed in
         [Theory]
         public void FormatUSAZipCodeTest1(string ValueToTest, string ShouldBeValue)
         {
@@ -438,6 +440,34 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
         public void RemoveSpaces(string ValueToTest, string ExpectedValue)
         {
             Assert.Equal(ExpectedValue, ValueToTest.RemoveSpaces());
+        }
+
+        #endregion
+
+        #region Digits
+
+        [InlineData("", 0)]
+        [InlineData("abc", 0)]
+        [InlineData("1abc", 1)]
+        [InlineData("1abc2", 2)]
+        [InlineData("(914)-552-2205", 10)]
+        [InlineData("123456789", 9)]
+        [Theory]
+        public void HowManyDigitsInString(string stringToTest, int expectedInstancesOfADigit)
+        {
+            Assert.Equal(expectedInstancesOfADigit, stringToTest.NumberOfDigitsInTheString());
+        }
+
+        [InlineData("", "")]
+        [InlineData("abc", "")]
+        [InlineData("1abc", "1")]
+        [InlineData("1abc2", "12")]
+        [InlineData("(914)-552-2205", "9145522205")]
+        [InlineData("123456789", "123456789")]
+        [Theory]
+        public void PullDigitsFromString(string StringToTest, string ExpectedResult)
+        {
+            Assert.Equal(ExpectedResult, StringToTest.PullDigitsFromString());
         }
 
         #endregion

@@ -104,7 +104,7 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             }
 
             //clense the string to just the digits
-            var JustDigits = new string(PhoneNumber.Where(char.IsDigit).ToArray());
+            var JustDigits = PhoneNumber.PullDigitsFromString();
 
             //if we don't have 10 digits then we can't format it
             if (JustDigits.Length != 10)
@@ -152,13 +152,16 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
                 return ZipCode;
             }
 
-            if (ZipCode.Length == 5)
+            //grab just the digits
+            var JustDigitsInSpan = ZipCode.PullDigitsFromString();
+
+            if (JustDigitsInSpan.Length == 5)
             {
                 //if its just the 5 character version, then return just the item passed in
                 return ZipCode;
             }
 
-            if (ZipCode.Length != 9)
+            if (JustDigitsInSpan.Length != 9)
             {
                 //if the length is not 9 then return it...we need 9 characters
                 return ZipCode;
@@ -168,13 +171,13 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
             return new StringBuilder()
 
                 //Add the first 5 characters
-                .Append(ZipCode.Substring(0, 5))
+                .Append(JustDigitsInSpan.Substring(0, 5))
 
                 //add the dash
                 .Append("-")
 
                 //return the last 4 digits
-                .Append(ZipCode.Substring(5, 4))
+                .Append(JustDigitsInSpan.Substring(5, 4))
 
                 //return the formatted zip code
                 .ToString();
@@ -544,6 +547,46 @@ namespace ToracLibrary.Core.ExtensionMethods.StringExtensions
         public static string RemoveSpaces(this string StringToRemoveSpacesFrom)
         {
             return Regex.Replace(StringToRemoveSpacesFrom, @"\s+", string.Empty);
+        }
+
+        #endregion
+
+        #region Digits
+
+        public static int NumberOfDigitsInTheString(this string StringToLookThrough)
+        {
+            //faster then regex, string reader, etc. Leaving this for speed (HowManyDigitsTest.cs in perf project)
+            int i = 0;
+
+            foreach (var CharacterToTest in StringToLookThrough)
+            {
+                if (char.IsDigit(CharacterToTest))
+                {
+                    i++;
+                }
+            }
+
+            return i;
+        }
+
+        /// <summary>
+        /// Grabs all the digits in the string and returns a span
+        /// </summary>
+        /// <returns>string with only the digits</returns>
+        public static string PullDigitsFromString(this string StringToLookThrough)
+        {
+            //this is here for performance reasons. Much faster and uses less memory then new string(phoneNumber.Where(char.IsDigit).ToArray()).AsSpan(); --> StringNumberToStringTest.cs in the perf project
+            var Builder = new StringBuilder();
+
+            foreach (var CharacterToTest in StringToLookThrough)
+            {
+                if (char.IsDigit(CharacterToTest))
+                {
+                    Builder.Append(CharacterToTest);
+                }
+            }
+
+            return Builder.ToString();
         }
 
         #endregion
