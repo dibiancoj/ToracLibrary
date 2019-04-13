@@ -56,24 +56,19 @@ namespace ToracLibrary.Core.DateTimeHelpers
         /// <returns>What is the current age of the person</returns>
         public static int CalculateAge(DateTime DateOfBirth)
         {
-            //grab the date today
+            // Save today's date. 
             var Today = DateTime.Today;
 
-            //grab the date of birth date
-            var WorkingDateOfBirth = DateOfBirth.Date;
+            // Calculate the age. 
+            var Age = Today.Year - DateOfBirth.Year;
 
-            //subtract the 2 years
-            int AgeInYears = Today.Year - WorkingDateOfBirth.Year;
-
-            //if today is less then the current year, then subtract 1 year because it isn't there birth date yet
-            if (Today < WorkingDateOfBirth.AddYears(AgeInYears))
+            // Go back to the year the person was born in case of a leap year 
+            if (DateOfBirth > Today.AddYears(-Age))
             {
-                //subtract 1 year
-                AgeInYears--;
+                Age--;
             }
 
-            //return the age
-            return AgeInYears;
+            return Age;
         }
 
     }

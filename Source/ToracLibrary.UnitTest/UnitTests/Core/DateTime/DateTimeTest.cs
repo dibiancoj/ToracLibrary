@@ -200,19 +200,19 @@ namespace ToracLibrary.UnitTest.Core
         public void AgeTest1()
         {
             //should be exactly 10
-            Assert.Equal(10, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10)));
+            Assert.Equal(10, DateTimeCalculations.CalculateAge(DateTime.Today.AddYears(-10)));
 
             //not there birthday yet for the current year..subtract 1
-            Assert.Equal(9, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10).AddDays(1)));
+            Assert.Equal(9, DateTimeCalculations.CalculateAge(DateTime.Today.AddYears(-10).AddDays(1)));
 
             //birthday passed for the current year
-            Assert.Equal(10, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-10).AddDays(-1)));
+            Assert.Equal(10, DateTimeCalculations.CalculateAge(DateTime.Today.AddYears(-10).AddDays(-1)));
 
             //birthday passed for the current year
-            Assert.Equal(20, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-20).AddDays(-1)));
+            Assert.Equal(20, DateTimeCalculations.CalculateAge(DateTime.Today.AddYears(-20).AddDays(-1)));
 
             //birthday passed for the current year
-            Assert.Equal(25, DateTimeCalculations.CalculateAge(DateTime.Now.AddYears(-25).AddDays(-1)));
+            Assert.Equal(25, DateTimeCalculations.CalculateAge(DateTime.Today.AddYears(-25).AddDays(-1)));
         }
 
         #endregion
