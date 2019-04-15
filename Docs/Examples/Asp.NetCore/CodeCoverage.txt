@@ -5,9 +5,9 @@
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
     <UseSourceLink>true</UseSourceLink>
     <CoverletOutputFormat>cobertura</CoverletOutputFormat>
-    <Include>[MskPatientPortal]*</Include>
+    <Include>[Library.AspNet]*</Include>
     <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
-    <!--<Exclude>[xunit.*]*,[MskPatientPortal.Models]*,[MskPatientPortal.Services.Http]*,[MskPatientPortal.Library.Rtf]*,[MskPatientPortal.Library.PdfConversion]*,[MskPatientPortal.Library.*]*</Exclude>-->
+    <!--<Exclude>[xunit.*]*,[Models]*,[Services.Http]*,[Library.Rtf]*,[Library.PdfConversion]*,[Library.*]*</Exclude>-->
     <CoverletOutput>$(MSBuildThisFileDirectory)/CoverageTest/</CoverletOutput>
     <CollectCoverage Condition="'$(TF_BUILD)' == 'true'">true</CollectCoverage>
   </PropertyGroup>
@@ -21,4 +21,15 @@
 To Run:
 *Run from your unit test directory
 1. dotnet test /p:CollectCoverage=true
-2. reportgenerator "-reports:CoverageTest/coverage.cobertura.xml" "-targetdir:C:\Portal3_0\CodeCoverageReport" 
+2. reportgenerator "-reports:CoverageTest/coverage.cobertura.xml" "-targetdir:C:\Portal\CodeCoverageReport" 
+
+For the report if you have 1 unit test per project you can do:
+reportgenerator "-reports:ApiHttpService.Unity.UnitTests/CoverageTest/coverage.cobertura.xml;Library.UnitTests/CoverageTest/coverage.cobertura.xml;" "-targetdir:C:\Portal\CodeCoverageReport"
+
+
+
+Code Coverage Calc Web Site
+https://github.com/tonerdo/coverlet
+
+Report Documentation Web Site
+https://danielpalme.github.io/ReportGenerator/usage.html
