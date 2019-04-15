@@ -234,6 +234,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", 
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\Asp.NetCore\AntiforgeryToken.txt = Docs\Examples\Asp.NetCore\AntiforgeryToken.txt
 		Docs\Examples\Asp.NetCore\BuildUrlAndParse.txt = Docs\Examples\Asp.NetCore\BuildUrlAndParse.txt
+		Docs\Examples\Asp.NetCore\CodeCoverage.txt = Docs\Examples\Asp.NetCore\CodeCoverage.txt
 		Docs\Examples\Asp.NetCore\Configuration.txt = Docs\Examples\Asp.NetCore\Configuration.txt
 		Docs\Examples\Asp.NetCore\ConsoleAppW-DIContainer-Logging-AppSettings.txt = Docs\Examples\Asp.NetCore\ConsoleAppW-DIContainer-Logging-AppSettings.txt
 		Docs\Examples\Asp.NetCore\CustomModelBindingWithDeserialize.txt = Docs\Examples\Asp.NetCore\CustomModelBindingWithDeserialize.txt
