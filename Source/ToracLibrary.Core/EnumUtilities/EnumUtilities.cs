@@ -42,6 +42,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <typeparam name="T">Type Of Enum To Cast Too</typeparam>
         /// <param name="InputToConvertToEnum">String Value To Convert To The Enum</param>
         /// <returns>NullableType Of Your Enum</returns>
+        [Obsolete("Since we have out var parameters just call Enum.TryPase")]
         public static T? TryParseToNullable<T>(string InputToConvertToEnum) where T : struct, Enum
         {
             //use the overload
@@ -55,6 +56,7 @@ namespace ToracLibrary.Core.EnumUtilities
         /// <param name="InputToConvertToEnum">String Value To Convert To The Enum</param>
         /// <param name="IgnoreCase">Ignore case when trying to convert</param>
         /// <returns>NullableType Of Your Enum</returns>
+        [Obsolete("Since we have out var parameters just call Enum.TryPase")]
         public static T? TryParseToNullable<T>(string InputToConvertToEnum, bool IgnoreCase) where T : struct, Enum
         {
             //make sure the input value is filled out
