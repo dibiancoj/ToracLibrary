@@ -1,0 +1,2 @@
+Powershell
+Test-Connection -ComputerName myservername.jason.com -Port 80 
