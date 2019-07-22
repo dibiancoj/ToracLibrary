@@ -55,3 +55,25 @@ SELECT Number, Customer, Date, Quantity
         Customer varchar(200),
         Quantity int
  ) AS OrdersArray
+
+ --more complex example...json is an array within an array. [ { id: 80, Questions: [{id: 1, text: 'question1'},{id: 2, text: 'question2'}}] 
+select  t.Id,
+		QuestionList.Text as QuestionText
+
+from dbo.UserItemList as t
+ CROSS APPLY  
+ 
+ OPENJSON(t.ItemText)
+    WITH
+        (
+            Id   varchar(200)   '$.Id',  
+            Questions  nvarchar(MAX)  AS JSON  
+        ) AS parent
+CROSS APPLY
+    OPENJSON(parent.Questions)
+    WITH
+        (
+            Id   varchar(200)   '$.Id',  
+            Text  varchar(300)  '$.Text'
+        ) AS QuestionList
+where t.Type = 'CheckList' and parent.id = 80 and t.PatId = 'Z12345678'
