@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToracLibrary.Core.ToracAttributes;
 
 namespace ToracLibrary.Core.ICSAppointments
 {
@@ -17,23 +16,24 @@ namespace ToracLibrary.Core.ICSAppointments
         #region Constants
 
         /// <summary>
-        /// Format to use when we just want a full day.
-        /// </summary>
-        /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
-        [UnitTestUsedAtRunTime]
-        private const string FormatDate = "yyyyMMdd";
-
-        /// <summary>
-        /// Format to use when we just want a full day.
-        /// </summary>
-        /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
-        [UnitTestUsedAtRunTime]
-        private const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
-
-        /// <summary>
         /// Mime type for the ics file
         /// </summary>
         public const string ICSMimeType = "text/calendar";
+
+        /// <summary>
+        /// Format to use when outputting a date
+        /// </summary>
+        /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
+        private const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
+
+        #endregion
+
+        #region Enum
+
+        public enum IcsTimeZoneEnum
+        {
+            NewYork
+        }
 
         #endregion
 
@@ -42,25 +42,30 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <summary>
         /// Creates an .ics file which creates an event in outlook, google calendar, etc.
         /// </summary>
-        /// <param name="IsFullDayAppointment">Is this a full day appointment. IE: 9/10/2015 to 9/11/2015. Or will the date time include the hours and minutes</param>
-        /// <param name="StartDateTimeOfAppointment">Start date or time of appointment</param>
-        /// <param name="EndDateTimeOfAppointment">End date or time of appointment</param>
-        /// <param name="SummaryOfAppointment">Summary description of the appointment</param>
-        /// <param name="LocationOfAppointment">Location of the appointment</param>
-        /// <param name="BodyOfReminder">Body of the reminder. This is the full description</param>
+        /// <param name="icsTimeZone">Time zone of appointment</param>
+        /// <param name="startDateTimeOfAppointment">Start date or time of appointment</param>
+        /// <param name="endDateTimeOfAppointment">End date or time of appointment</param>
+        /// <param name="summaryOfAppointment">Summary description of the appointment</param>
+        /// <param name="locationOfAppointment">Location of the appointment</param>
+        /// <param name="bodyOfReminder">The body text of the reminder</param>
         /// <returns>A String. Either call  System.IO.File.WriteAllText("test.ics", result) to write it to disk. Or Encoding.ASCII.GetBytes(result) to get it into a byte array for download</returns>
-        public static string CreateICSAppointment(bool IsFullDayAppointment, DateTime StartDateTimeOfAppointment, DateTime EndDateTimeOfAppointment, string SummaryOfAppointment, string LocationOfAppointment, string BodyOfReminder)
+        public static string CreateICSAppointment(IcsTimeZoneEnum icsTimeZone,
+                                                  DateTime startDateTimeOfAppointment,
+                                                  DateTime endDateTimeOfAppointment,
+                                                  string summaryOfAppointment,
+                                                  string locationOfAppointment,
+                                                  string bodyOfReminder)
         {
             /*Syntax should be something like this
              *BEGIN:VCALENDAR
              *VERSION:2.0
              *PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+             * {{the time zone definition data}}
              *BEGIN:VEVENT
-             *DTSTART: UTC Time  ==> if this is a full date use DTSTART;VALUE=DATE:20150930
-             *DTEND: (Same as DTStart)
+             *DTSTART;TZID=America/New_York:20140606T180000
+             *DTEND:;TZID=America/New_York:20140606T180000
              *SUMMARY: bla bla
              *LOCATION: New York
-             *DESCRIPTION: Bla Bla Bla
              *END:VEVENT
              *END:VCALENDAR
              *
@@ -74,118 +79,68 @@ namespace ToracLibrary.Core.ICSAppointments
 
             //For line breaks use "\\n"
 
+            //grab the time zone factory
+            var timeZoneFactoryToUse = BaseTimeZoneFactory.CreateTimeZone(icsTimeZone);
+
             //we will use a string builder to write everything
-            var ICSWriter = new StringBuilder();
+            var icsWriter = new StringBuilder();
 
             //there are basically 5 fields tht we need to fill in...start date, end date, summary, location, and the body.
 
             //let's add the first couple of lines that are static and won't change
-            ICSWriter.AppendLine("BEGIN:VCALENDAR");
-            ICSWriter.AppendLine("VERSION:2.0");
-            ICSWriter.AppendLine("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");
-            ICSWriter.AppendLine("BEGIN:VEVENT");
+            icsWriter.AppendLine("BEGIN:VCALENDAR");
+            icsWriter.AppendLine("VERSION:2.0");
+            icsWriter.AppendLine("PRODID:-//hacksw/handcal//NONSGML v1.0//EN");
 
-            //date lables we are going to use *the date field will start with these labels)
-            const string StartDateLabel = "DTSTART";
-            const string EndDateLabel = "DTEND";
+            //add the time zone definition
+            icsWriter.AppendLine(timeZoneFactoryToUse.TimeZoneDefinitionOutput);
 
-            //is this a full day?
-            if (IsFullDayAppointment)
-            {
-                //full date format seperator (should go after the label)
-                const string FullDateSeperator = ";";
+            icsWriter.AppendLine("BEGIN:VEVENT");
 
-                //full date format
-                const string FullDateFormat = "VALUE=DATE:";
+            //We basically need: 
+            //"DTSTART:Date:TheFormattedDateNow"
+            //"DTEND:Date:TheFormattedDateNow"
 
-                //We basically need: 
-                //"DTSTART;Value=Date:TheFormattedDateNow"
-                //"DTEND;Value=Date:TheFormattedDateNow"
+            //add the start date time value in the format we need
+            icsWriter.Append($"DTSTART;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(startDateTimeOfAppointment)}").Append(Environment.NewLine);
 
-                Action<string, DateTime> AddDateField = (string LabelToUse, DateTime DateToUse) =>
-                  {
-                      ICSWriter.Append(LabelToUse);
-                      ICSWriter.Append(FullDateSeperator);
-                      ICSWriter.Append(FullDateFormat);
-                      ICSWriter.Append(GetFormattedDate(DateToUse.Date));
-                      ICSWriter.Append(Environment.NewLine);
-                  };
-
-                //add the start date
-                AddDateField(StartDateLabel, StartDateTimeOfAppointment);
-
-                //add the end date
-                AddDateField(EndDateLabel, EndDateTimeOfAppointment);
-            }
-            else
-            {
-                //We basically need: 
-                //"DTSTART:Date:TheFormattedDateNow"
-                //"DTEND:Date:TheFormattedDateNow"
-
-                //date time seperator (should go after the label)
-                const string SpecificDateTimeSeperator = ":";
-
-                Action<string, DateTime> AddDateField = (string LabelToUse, DateTime DateToUse) =>
-                {
-                    ICSWriter.Append(LabelToUse);
-                    ICSWriter.Append(SpecificDateTimeSeperator);
-                    ICSWriter.Append(GetFormattedDateTime(DateToUse));
-                    ICSWriter.Append(Environment.NewLine);
-                };
-
-                //add the start date
-                AddDateField(StartDateLabel, StartDateTimeOfAppointment);
-
-                //add the end date
-                AddDateField(EndDateLabel, EndDateTimeOfAppointment);
-            }
+            //add the end date time value in the format we need
+            icsWriter.Append($"DTEND;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(endDateTimeOfAppointment)}").Append(Environment.NewLine);
 
             //add the summary
-            ICSWriter.Append("SUMMARY:").Append(SummaryOfAppointment).Append(Environment.NewLine);
+            icsWriter.Append($"SUMMARY:{summaryOfAppointment}").Append(Environment.NewLine);
 
             //add the location
-            ICSWriter.Append("LOCATION:").Append(LocationOfAppointment).Append(Environment.NewLine);
+            icsWriter.Append($"LOCATION:{locationOfAppointment}").Append(Environment.NewLine);
 
-            //add the description / body of appointment
-            ICSWriter.Append("DESCRIPTION:").Append(BodyOfReminder).Append(Environment.NewLine);
+            //add the description
+            icsWriter.Append($"DESCRIPTION:{bodyOfReminder}").Append(Environment.NewLine);
 
             //add the closing brackets
-            ICSWriter.AppendLine("END:VEVENT");
+            icsWriter.AppendLine("END:VEVENT");
 
             //add the end calendar
-            ICSWriter.AppendLine("END:VCALENDAR");
+            icsWriter.AppendLine("END:VCALENDAR");
 
             //let's go return the results
-            return ICSWriter.ToString();
+            return icsWriter.ToString();
         }
 
         #endregion
 
-        #region Private Methods
-
-        /// <summary>
-        /// return the formatted date that the ics file expects
-        /// </summary>
-        /// <param name="DateToBuild">Date to build up</param>
-        /// <returns>the formatted time in a string</returns>
-        private static string GetFormattedDate(DateTime DateToBuild)
-        {
-            //add them all together now
-            return DateToBuild.ToString(FormatDate);
-        }
+        #region Internal Methods
 
         /// <summary>
         /// Return the formatted time that an ics file expects
         /// </summary>
-        /// <param name="DateToBuild">Date to build up</param>
+        /// <param name="dateToBuild">Date to build up</param>
         /// <returns>the formatted time in a string</returns>
-        private static string GetFormattedDateTime(DateTime DateToBuild)
+        private static string GetFormattedDateTime(DateTime dateToBuild)
         {
             //just make sure if number is 1 digit, then we make it ie 09.
 
             //return it in the format they want. Don't use z at the end because we want it local time
-            return DateToBuild.ToString(FormatSpecificDateTime);
+            return dateToBuild.ToString(FormatSpecificDateTime);
         }
 
         #endregion
