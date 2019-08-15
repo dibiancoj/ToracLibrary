@@ -1,0 +1,12 @@
+[eventbus.js]
+import Vue from 'vue'
+export default new Vue()
+
+[Some component]
+import EventBus from './message.event.bus';
+EventBus.$emit('SubScreenDoneButtonPushed', payload);
+ 
+[Some component]
+   EventBus.$on('SubScreenDoneButtonPushed', (payload) => {
+                this.mode = 'Entry';
+            })
