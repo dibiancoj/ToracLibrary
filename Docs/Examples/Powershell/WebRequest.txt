@@ -1,0 +1,6 @@
+Then to make a web request with tls
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri https://www.jason.org/test
+
+Or if you have a later version you can use curl
+curl https://www.jason.org/test
