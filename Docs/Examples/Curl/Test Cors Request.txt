@@ -1,0 +1,11 @@
+curl -H "Origin: http://www.jason.com" --verbose \  https://localhost:44357/
+
+
+curl -H "Origin: http://www.jason.com" \
+  -H "Access-Control-Request-Method: POST" \
+  -H "Access-Control-Request-Headers: X-Requested-With" \
+  -X OPTIONS --verbose \
+  https://localhost:44357/
+  
+  
+  --if successful should see Access-Control-Allow-Origin, Access-Control-Allow-Methods, and Access-Control-Allow-Headers
