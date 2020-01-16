@@ -1,5 +1,6 @@
 Test window shows "Unknown Project" in the list of unit tests.
 
-solutionfolder*\.vs\
+Close VS:
 
+Go to "solutionfolder*\.vs\"
 Delete all *.testlog files
