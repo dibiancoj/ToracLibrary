@@ -1,0 +1,5 @@
+Test window shows "Unknown Project" in the list of unit tests.
+
+solutionfolder*\.vs\
+
+Delete all *.testlog files
