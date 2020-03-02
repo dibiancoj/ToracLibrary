@@ -382,6 +382,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networking", "Networking", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Powershell", "Powershell", "{562A9C48-23EC-4789-B2CB-D4F9DAB17D45}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Powershell\Remove Files With Exclude.txt = Docs\Examples\Powershell\Remove Files With Exclude.txt
 		Docs\Examples\Powershell\WebRequest.txt = Docs\Examples\Powershell\WebRequest.txt
 	EndProjectSection
 EndProject
