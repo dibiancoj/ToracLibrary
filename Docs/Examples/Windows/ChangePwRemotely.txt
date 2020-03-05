@@ -1,0 +1,4 @@
+Download https://docs.microsoft.com/en-us/sysinternals/downloads/pspasswd
+
+cmd
+pspasswd \\myservername localusername passwordtochangeto
