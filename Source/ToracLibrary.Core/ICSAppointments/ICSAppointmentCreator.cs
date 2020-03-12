@@ -26,6 +26,11 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <remarks>Unit test uses reflection to grab these fields so we can validate the data</remarks>
         private const string FormatSpecificDateTime = "yyyyMMddTHHmmss";
 
+        /// <summary>
+        /// Format the date when it's a full day appt
+        /// </summary>
+        private const string FormatSpecificDateTimeForFullDayAppointment = "yyyyMMdd";
+
         #endregion
 
         #region Enum
@@ -48,13 +53,15 @@ namespace ToracLibrary.Core.ICSAppointments
         /// <param name="summaryOfAppointment">Summary description of the appointment</param>
         /// <param name="locationOfAppointment">Location of the appointment</param>
         /// <param name="bodyOfReminder">The body text of the reminder</param>
+        /// <param name="isFullDayAppointment">Is it a full day appointment</param>
         /// <returns>A String. Either call  System.IO.File.WriteAllText("test.ics", result) to write it to disk. Or Encoding.ASCII.GetBytes(result) to get it into a byte array for download</returns>
         public static string CreateICSAppointment(IcsTimeZoneEnum icsTimeZone,
                                                   DateTime startDateTimeOfAppointment,
                                                   DateTime endDateTimeOfAppointment,
                                                   string summaryOfAppointment,
                                                   string locationOfAppointment,
-                                                  string bodyOfReminder)
+                                                  string bodyOfReminder,
+                                                  bool isFullDayAppointment)
         {
             /*Syntax should be something like this
              *BEGIN:VCALENDAR
@@ -101,11 +108,26 @@ namespace ToracLibrary.Core.ICSAppointments
             //"DTSTART:Date:TheFormattedDateNow"
             //"DTEND:Date:TheFormattedDateNow"
 
-            //add the start date time value in the format we need
-            icsWriter.Append($"DTSTART;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(startDateTimeOfAppointment)}").Append(Environment.NewLine);
+            //else if full day appointment
+            //"DTSTART;Value=Date:TheFormattedDateNow"
+            //"DTEND;Value=Date:TheFormattedDateNow"
 
-            //add the end date time value in the format we need
-            icsWriter.Append($"DTEND;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(endDateTimeOfAppointment)}").Append(Environment.NewLine);
+            if (isFullDayAppointment)
+            {
+                //add the start date time value in the format we need
+                icsWriter.Append($"DTSTART;VALUE=DATE:{startDateTimeOfAppointment.ToString(FormatSpecificDateTimeForFullDayAppointment)}").Append(Environment.NewLine);
+
+                ////add the end date time value in the format we need
+                icsWriter.Append($"DTEND;VALUE=DATE:{endDateTimeOfAppointment.ToString(FormatSpecificDateTimeForFullDayAppointment)}").Append(Environment.NewLine);
+            }
+            else
+            {
+                //add the start date time value in the format we need
+                icsWriter.Append($"DTSTART;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(startDateTimeOfAppointment)}").Append(Environment.NewLine);
+
+                //add the end date time value in the format we need
+                icsWriter.Append($"DTEND;TZID={timeZoneFactoryToUse.TimeZoneDateOutput}:{GetFormattedDateTime(endDateTimeOfAppointment)}").Append(Environment.NewLine);
+            }
 
             //add the summary
             icsWriter.Append($"SUMMARY:{summaryOfAppointment}").Append(Environment.NewLine);
