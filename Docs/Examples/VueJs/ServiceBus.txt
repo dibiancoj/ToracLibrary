@@ -1,0 +1,19 @@
+[eventbus.js]
+import Vue from 'vue'
+export default new Vue()
+
+[Some component]
+import EventBus from './message.event.bus';
+EventBus.$emit('SubScreenDoneButtonPushed', payload);
+ 
+[Some component]
+   mounted: function () {
+            //starts on the compose.message.index.vue --> tells us when the sub screen (specific template mobile screen "done" button is pressed)
+            EventBus.$on('SubScreenDoneButtonPushed', (payload) => {
+                this.mode = 'Entry';
+            });
+        },
+        destroyed: function () {
+            EventBus.$off('SubScreenDoneButtonPushed');
+        },
+

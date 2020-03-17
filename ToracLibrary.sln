@@ -85,6 +85,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IIS", "IIS", "{80C20C8B-3333-4DB3-BA5F-00AF094740E3}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt = Docs\Examples\IIS\Bind Multiple SSL Sites To 1 IP.txt
+		Docs\Examples\IIS\IISRequestMonitor.png = Docs\Examples\IIS\IISRequestMonitor.png
 		Docs\Examples\IIS\LogParser.txt = Docs\Examples\IIS\LogParser.txt
 	EndProjectSection
 EndProject
@@ -322,6 +323,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VueJs", "VueJs", "{CD2FE6F1-73BB-4D63-AA93-7CCAF2753EEA}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\VueJs\CommandToRunOnNextUIUpdate.txt = Docs\Examples\VueJs\CommandToRunOnNextUIUpdate.txt
+		Docs\Examples\VueJs\ServiceBus.txt = Docs\Examples\VueJs\ServiceBus.txt
 		Docs\Examples\VueJs\Slots.txt = Docs\Examples\VueJs\Slots.txt
 		Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt = Docs\Examples\VueJs\Vue2WayBindingOnCustomComponent.txt
 		Docs\Examples\VueJs\VueJasonGrid.txt = Docs\Examples\VueJs\VueJasonGrid.txt
@@ -380,6 +382,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Curl", "Curl", "{1CB1AA5B-8DE0-421E-A190-196FC31DBD8C}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\Examples\Curl\Test Cors Request.txt = Docs\Examples\Curl\Test Cors Request.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Powershell", "Powershell", "{562A9C48-23EC-4789-B2CB-D4F9DAB17D45}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Powershell\WebRequest.txt = Docs\Examples\Powershell\WebRequest.txt
 	EndProjectSection
 EndProject
 Global
@@ -572,6 +579,7 @@ Global
 		{D8F49C5B-451E-4BE6-B5AA-F3DC11202E9A} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{DA686D26-BD6A-497E-B52F-31961573F811} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{D6C89AA8-3080-495E-9051-684D89E015F5} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{562A9C48-23EC-4789-B2CB-D4F9DAB17D45} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{1CB1AA5B-8DE0-421E-A190-196FC31DBD8C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
