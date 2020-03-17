@@ -1,0 +1,12 @@
+public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var environment = File.ReadAllText(Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.FullName, "Environment.txt")).Trim();
+
+            System.Environment.SetEnvironmentVariable("CORECLR_ENABLE_PROFILING", "1");
+
+            return WebHost.CreateDefaultBuilder(args)
+             .UseEnvironment(environment)
+             .SerilogRegistration()
+             .UseStartup<Startup>();
+        }
+

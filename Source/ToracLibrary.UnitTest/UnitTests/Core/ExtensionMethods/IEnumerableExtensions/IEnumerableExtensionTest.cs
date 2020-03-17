@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions;
 using ToracLibrary.UnitTest.Framework;
 using Xunit;
@@ -489,6 +491,60 @@ namespace ToracLibrary.UnitTest.ExtensionMethods.Core
                 //test the description
                 Assert.Equal(ShouldBeResult[i].Description, Result[i].Description);
             }
+        }
+
+        #endregion
+
+        #region Parallel For Each Async
+
+        [Fact]
+        public async Task ParallelForEachAsyncTest1()
+        {
+            var TestSource = Enumerable.Range(0, 5).Select(x => x);
+            var Bag = new ConcurrentBag<int>();
+
+            async Task MockedAsyncMethod(int i)
+            {
+                await Task.Delay(10);
+
+                var Calc = i + 100;
+
+                Bag.Add(Calc);
+            }
+
+            await TestSource.ParallelForEachAsync(MockedAsyncMethod);
+
+            Assert.Equal(5, Bag.Count);
+            Assert.Contains(100, Bag);
+            Assert.Contains(101, Bag);
+            Assert.Contains(102, Bag);
+            Assert.Contains(103, Bag);
+            Assert.Contains(104, Bag);
+        }
+
+        [Fact]
+        public async Task ParallelForEachAsyncWithMaxDegreeTest1()
+        {
+            var TestSource = Enumerable.Range(0, 5).Select(x => x);
+            var Bag = new ConcurrentBag<int>();
+
+            async Task MockedAsyncMethod(int i)
+            {
+                await Task.Delay(10);
+
+                var Calc = i + 100;
+
+                Bag.Add(Calc);
+            }
+
+            await TestSource.ParallelForEachAsync(MockedAsyncMethod, 20);
+
+            Assert.Equal(5, Bag.Count);
+            Assert.Contains(100, Bag);
+            Assert.Contains(101, Bag);
+            Assert.Contains(102, Bag);
+            Assert.Contains(103, Bag);
+            Assert.Contains(104, Bag);
         }
 
         #endregion

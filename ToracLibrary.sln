@@ -239,6 +239,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCore", "AspNetCore", 
 		Docs\Examples\Asp.NetCore\Configuration.txt = Docs\Examples\Asp.NetCore\Configuration.txt
 		Docs\Examples\Asp.NetCore\ConsoleAppW-DIContainer-Logging-AppSettings.txt = Docs\Examples\Asp.NetCore\ConsoleAppW-DIContainer-Logging-AppSettings.txt
 		Docs\Examples\Asp.NetCore\CustomModelBindingWithDeserialize.txt = Docs\Examples\Asp.NetCore\CustomModelBindingWithDeserialize.txt
+		Docs\Examples\Asp.NetCore\EnvVariablesInCode.txt = Docs\Examples\Asp.NetCore\EnvVariablesInCode.txt
 		Docs\Examples\Asp.NetCore\HotModuleReloading.txt = Docs\Examples\Asp.NetCore\HotModuleReloading.txt
 		Docs\Examples\Asp.NetCore\IgnoreBadCert.txt = Docs\Examples\Asp.NetCore\IgnoreBadCert.txt
 		Docs\Examples\Asp.NetCore\LockableMemoryCacheForAsync.txt = Docs\Examples\Asp.NetCore\LockableMemoryCacheForAsync.txt
@@ -386,7 +387,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Curl", "Curl", "{1CB1AA5B-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Powershell", "Powershell", "{562A9C48-23EC-4789-B2CB-D4F9DAB17D45}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Powershell\Remove Files With Exclude.txt = Docs\Examples\Powershell\Remove Files With Exclude.txt
 		Docs\Examples\Powershell\WebRequest.txt = Docs\Examples\Powershell\WebRequest.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{E94E50E1-EC2A-45CB-BA0F-A7C68AB631F0}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Windows\ChangePwRemotely.txt = Docs\Examples\Windows\ChangePwRemotely.txt
 	EndProjectSection
 EndProject
 Global
@@ -581,6 +588,7 @@ Global
 		{D6C89AA8-3080-495E-9051-684D89E015F5} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{562A9C48-23EC-4789-B2CB-D4F9DAB17D45} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{1CB1AA5B-8DE0-421E-A190-196FC31DBD8C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{E94E50E1-EC2A-45CB-BA0F-A7C68AB631F0} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}

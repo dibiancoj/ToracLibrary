@@ -1,0 +1,9 @@
+Remove-Item -recurse C:\Users\MyUser\Desktop\test* -exclude app_offline.htm
+
+--removes everything include sub directories except for the app_offline.htm (which is leaves it in there)
+
+
+
+
+then if you want to remove the app_offline
+Remove-Item e:\MyApp\Source\app_offline.htm

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 {
@@ -337,6 +339,51 @@ namespace ToracLibrary.Core.ExtensionMethods.IEnumerableExtensions
 
             //output the single item last
             yield return ItemToAddToList;
+        }
+
+        #endregion
+
+        #region Parallel For Each Async
+
+        /// <summary>
+        /// ParallelForEach doesn't handle async methods. This will handle that
+        /// </summary>
+        /// <typeparam name="T">Type of the source record</typeparam>
+        /// <param name="Source">Enumerable to run over</param>
+        /// <param name="FuncBody">Body of the func to take an action on. Should return the task that was returned</param>
+        /// <returns>Task to be awaited</returns>
+        public static Task ParallelForEachAsync<T>(this IEnumerable<T> Source, Func<T, Task> FuncBody)
+        {
+            return ParallelForEachAsync(Source, FuncBody, Environment.ProcessorCount);
+        }
+
+        /// <summary>
+        /// ParallelForEach doesn't handle async methods. This will handle that
+        /// </summary>
+        /// <typeparam name="T">Type of the source record</typeparam>
+        /// <param name="Source">Enumerable to run over</param>
+        /// <param name="FuncBody">Body of the func to take an action on. Should return the task that was returned</param>
+        /// <param name="MaxDegreeOfParallism">Max Degree Of Parallism. Environment.ProcessorCount</param>
+        /// <returns>Task to be awaited</returns>
+        public static Task ParallelForEachAsync<T>(this IEnumerable<T> Source, Func<T, Task> FuncBody, int MaxDegreeOfParallism)
+        {
+            async Task AwaitPartition(IEnumerator<T> PartitionToIterateOver)
+            {
+                using (PartitionToIterateOver)
+                {
+                    while (PartitionToIterateOver.MoveNext())
+                    {
+                        await FuncBody(PartitionToIterateOver.Current);
+                    }
+                }
+            }
+
+            return Task.WhenAll(
+                Partitioner
+                    .Create(Source)
+                    .GetPartitions(MaxDegreeOfParallism)
+                    .AsParallel()
+                    .Select(p => AwaitPartition(p)));
         }
 
         #endregion
