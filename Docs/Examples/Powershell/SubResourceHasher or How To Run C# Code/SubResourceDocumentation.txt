@@ -1,0 +1,30 @@
+Essentially, it's just this code (below). I wanted whoever needs this to just run this powershell script.
+So they can double click it. Not sure what is easier.
+
+Either way
+
+1. Right click on GetSubResourceHash.ps1
+2. Run powershell
+3. Enter http://www.google.com
+4. The hash is outputed so you can copy it to the clipbaord
+
+---------- Basic c# code ----------
+
+
+void Main()
+{
+	GetHash("http://www.google.com").Dump();
+}
+
+
+private static string GetHash(string url){
+	var client = new System.Net.Http.HttpClient();
+	
+	var txt = client.GetStringAsync(url).Result;
+	
+	 		using (var sha512Hasher = System.Security.Cryptography.SHA512Managed.Create())  
+            {  
+			    var result = sha512Hasher.ComputeHash(Encoding.UTF8.GetBytes(txt));
+			    return "sha512-" + Convert.ToBase64String(result);
+            }  
+}

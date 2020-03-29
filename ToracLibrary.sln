@@ -396,6 +396,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{E94E
 		Docs\Examples\Windows\ChangePwRemotely.txt = Docs\Examples\Windows\ChangePwRemotely.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SubResourceHasher or How To Run CSharp Code", "SubResourceHasher or How To Run CSharp Code", "{E1956FF0-1946-47EB-86A6-7E38A48F2179}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Powershell\SubResourceHasher or How To Run C# Code\ComputeHash.ps1 = Docs\Examples\Powershell\SubResourceHasher or How To Run C# Code\ComputeHash.ps1
+		Docs\Examples\Powershell\SubResourceHasher or How To Run C# Code\SubResourceDocumentation.txt = Docs\Examples\Powershell\SubResourceHasher or How To Run C# Code\SubResourceDocumentation.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -586,9 +592,10 @@ Global
 		{D8F49C5B-451E-4BE6-B5AA-F3DC11202E9A} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{DA686D26-BD6A-497E-B52F-31961573F811} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{D6C89AA8-3080-495E-9051-684D89E015F5} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
-		{562A9C48-23EC-4789-B2CB-D4F9DAB17D45} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{1CB1AA5B-8DE0-421E-A190-196FC31DBD8C} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{562A9C48-23EC-4789-B2CB-D4F9DAB17D45} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
 		{E94E50E1-EC2A-45CB-BA0F-A7C68AB631F0} = {E698BD42-EBEF-4D81-AE43-42D430A39932}
+		{E1956FF0-1946-47EB-86A6-7E38A48F2179} = {562A9C48-23EC-4789-B2CB-D4F9DAB17D45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A04EF571-0601-4235-8D8D-E6FC159D747D}
