@@ -1,0 +1,60 @@
+ 
+        This was used when we have 4 servers behind a load balancer.
+        Then the admin page when they click on invalidate cache it goes to each server.
+        But each server doesn't have a specific dns to each server.
+
+        So we say i wan't to make a web request https://torac24.com/api/Cache/RefreshCaches but we want it to go to Server1 specifically.
+        So to do that we want to set the host header so IIS picks up that request.
+
+        So request to Server1 with a host header of torac24.com
+ 
+
+
+        /// <param name="serverName">myserver1</param>
+        /// <param name="fullUrlCall">https://torac24.com/api/Cache/RefreshCaches</param>
+        /// <param name="dnsName">torac24.com</param>
+        /// <param name="hookHeaderName">Id</param>
+        /// <param name="hookSecret">Test</param>
+        /// <returns>response found</returns>
+        private static async Task<string> InvalidateSpecificServerCacheAsync(string serverName, string fullUrlCall, string dnsName, string hookHeaderName, string hookSecret)
+        {
+            using var client = new TcpClient();
+
+            client.Connect(serverName, 443);
+
+            using var sslStream = new SslStream(client.GetStream(), false, ((sender, certificate, chain, errors) => true));
+
+            sslStream.AuthenticateAsClient($"www.{dnsName}");// "www.torac24com");
+
+            string headers = $"POST {fullUrlCall} HTTP/1.1\r\nHost: {dnsName}\r\n{hookHeaderName}: {hookSecret}\r\nContent-Length: 0\r\n\r\n";
+            byte[] payload = Encoding.UTF8.GetBytes(headers);
+            await sslStream.WriteAsync(payload);
+
+            byte[] buffer = new byte[1024];
+            await sslStream.ReadAsync(buffer);
+
+            return Encoding.UTF8.GetString(buffer);
+        }
+		
+		
+		----------------------
+		
+		
+		If you need to read the entire body
+		
+		
+		    byte[] buffer = new byte[10];
+            var builder = new StringBuilder();
+
+            int t;
+
+            do
+            {
+                t = await sslStream.ReadAsync(buffer);
+
+                builder.Append(Encoding.UTF8.GetString(buffer));
+				
+				//you can do a AsyncIterator and return the buffer on each loop item. Then have the consumer read.
+				//ideally a channel pattern if you need a complete example
+
+            } while (t > 0 && t == 10); <-- 10 is the buffer size
