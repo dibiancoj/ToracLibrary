@@ -12,6 +12,8 @@ using var listener = new EventSourceListener("Microsoft-System-Net-Http"); <-- t
 
 --------this is the logger i will use------------
 
+(this version is a non-di version)
+
  sealed class EventSourceListener : EventListener
         {
             private readonly string _eventSourceName;
@@ -52,3 +54,51 @@ using var listener = new EventSourceListener("Microsoft-System-Net-Http"); <-- t
                 Console.WriteLine(message);
             }
         }
+
+
+--if you want a DI version--
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+ 
+    ServiceProvider provider = services.BuildServiceProvider();
+
+    //create it and let it hang out.
+    var simpleEventListener = new SimpleEventListener(provider.GetRequiredService<ILogger<SimpleEventListener>>());
+}
+
+public class SimpleEventListener : EventListener
+{
+    private readonly ILogger<SimpleEventListener> _logger;
+ 
+    public SimpleEventListener(ILogger<SimpleEventListener> logger)
+    {
+        _logger = logger;
+    }
+ 
+    // Called whenever an EventSource is created.
+    protected override void OnEventSourceCreated(EventSource eventSource)
+    {
+        // Watch for the .NET runtime EventSource and enable all of its events.
+        if (eventSource.Name.Equals("Microsoft-Windows-DotNETRuntime"))
+        {
+            EnableEvents(eventSource, EventLevel.Verbose, (EventKeywords)(-1));
+        }
+    }
+ 
+    // Called whenever an event is written.
+    protected override void OnEventWritten(EventWrittenEventArgs eventData)
+    {
+        // Write the contents of the event to the console.
+        _logger.LogInformation($"ThreadID = {eventData.OSThreadId} ID = {eventData.EventId} Name = {eventData.EventName}");
+ 
+        for (var i = 0; i < eventData.Payload.Count; i++)
+        {
+            string payloadString = eventData.Payload[i] != null ? eventData.Payload[i].ToString() : string.Empty;
+            _logger.LogInformation($"\tName = \"{eventData.PayloadNames[i]}\" Value = \"{payloadString}\"");
+        }
+ 
+        _logger.LogInformation("\n");
+    }
+}
