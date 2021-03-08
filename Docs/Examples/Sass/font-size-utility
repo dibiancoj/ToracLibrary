@@ -1,0 +1,6 @@
+//adds a utility to allow you to do fs-20 for font-size = 20
+@for $i from 10 through 50 {
+    .fs-#{$i} {
+        font-size: #{$i}px;
+    }
+}
