@@ -4,3 +4,12 @@
         font-size: #{$i}px;
     }
 }
+
+..will output
+.fs-10{
+    font-size: 10px;
+}
+
+.fs-11{
+    font-size: 11px;
+ }

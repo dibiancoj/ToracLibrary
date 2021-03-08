@@ -354,6 +354,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToracLibrary.Performance", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sass", "Sass", "{CB0DA6E1-6B65-44CA-9D2E-2D4851D1E608}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Examples\Sass\font-size-utility.txt = Docs\Examples\Sass\font-size-utility.txt
 		Docs\Examples\Sass\Import Bootstrap Stuff Into App Sass Files.txt = Docs\Examples\Sass\Import Bootstrap Stuff Into App Sass Files.txt
 	EndProjectSection
 EndProject
